@@ -1,0 +1,32 @@
+{
+  // Editor settings for better folding
+  "editor.folding": true,
+  "editor.foldingStrategy": "indentation", // or "auto"
+  "editor.foldingHighlight": true,
+  "editor.showFoldingControls": "always",
+  "editor.foldingImportsByDefault": true,
+  
+  // Dart/Flutter specific
+  "dart.previewFlutterUiGuides": true,
+  "dart.previewFlutterUiGuidesCustomTracking": true,
+  
+  // Show folded code preview
+  "editor.showUnused": true,
+//   "editor.occurrencesHighlight": true,
+  
+  // Bracket pairing for folded code
+  // "editor.guides.bracketPairs": true,
+  "editor.guides.bracketPairsHorizontal": "active",
+  "editor.guides.indentation": true,
+  "editor.guides.highlightActiveIndentation": true,
+  
+  // Show ending bracket/brace when folded
+  "editor.showFoldedBlockOutline": true,
+  
+  // Custom folding ranges
+//   "[dart]": {
+//     // "editor.defaultFoldingRangeProvider": true,
+//     "editor.foldingMaximumRegions": 5000,
+//     "editor.codeLens": true
+//   }
+}

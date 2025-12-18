@@ -1,0 +1,618 @@
+{
+  "@@locale": "ar",
+  "appTitle": "الرعاية الصحية",
+  "loginTitle": "مرحبًا بعودتك",
+  "phoneNumber": "رقم الهاتف",
+  "password": "كلمة المرور",
+  "passwordConfirmation": "تاكيد كلمة المرور",
+  "login": "تسجيل الدخول",
+  "forgotPassword": "نسيت كلمة المرور؟",
+  "biometricAuth": "المصادقة البيومترية",
+  "useFingerprint": "استخدام بصمة الإصبع",
+  "loginSuccess": "تم تسجيل الدخول بنجاح!",
+  "loginFailed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+  "invalidCredentials": "رقم الهاتف أو كلمة المرور غير صحيحة",
+  "welcome": "مرحبًا، {name}",
+  "medicalHistory": "السجل الطبي",
+  "todaysMedicine": "أدوية اليوم",
+  "upcomingVisits": "زيارات الطبيب القادمة",
+  "viewAll": "عرض الكل",
+  "takeMedicine": "تناول الدواء",
+  "medicineTaken": "تم تناول الدواء",
+  "confirmVisit": "تأكيد الزيارة",
+  "scheduledFor": "مجدولة لـ {time}",
+  "loading": "جاري التحميل...",
+  "retry": "إعادة المحاولة",
+  "cancel": "إلغاء",
+  "confirm": "تأكيد",
+  "save": "حفظ",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "settings": "الإعدادات",
+  "logout": "تسجيل الخروج",
+  "noMedicalHistory": "لا يوجد سجل طبي متاح",
+  "noMedicineScheduled": "لا توجد أدوية مجدولة لهذا اليوم",
+  "noUpcomingVisits": "لا توجد زيارات طبيب قادمة",
+  "name": "الاسم",
+  "register": "تسجيل",
+  "createAccount": "انشاء حساب",
+  "userType": "نوع المستخدم",
+  "@userType": {
+    "description": "تسمية لقائمة نوع المستخدم"
+  },
+  "selectUserType": "اختر نوع المستخدم",
+  "@selectUserType": {
+    "description": "نص تلميح لقائمة نوع المستخدم"
+  },
+  "patient": "مريض",
+  "@patient": {
+    "description": "خيار نوع المستخدم للمرضى"
+  },
+  "pharmacist": "صيدلي",
+  "@pharmacist": {
+    "description": "خيار نوع المستخدم للصيادلة"
+  },
+  "doctor": "طبيب",
+  "@doctor": {
+    "description": "خيار نوع المستخدم للأطباء"
+  },
+  "admin": "مدير",
+  "@admin": {
+    "description": "خيار نوع المستخدم للمديرين"
+  },
+  "@phoneNumber": {
+    "description": "تسمية لحقل رقم الهاتف"
+  },
+  "@password": {
+    "description": "تسمية لحقل كلمة المرور"
+  },
+  "@login": {
+    "description": "نص زر تسجيل الدخول"
+  },
+  "idCardNumber": "رقم الهويه",
+  "personalInformation": "المعلومات الشخصية",
+  "medicalInformation": "المعلومات الطبية",
+  "additionalNotes": "ملاحظات إضافية",
+  "gender": "الجنس",
+  "male": "ذكر",
+  "female": "أنثى",
+  "dateOfBirth": "تاريخ الميلاد",
+  "bloodType": "فصيلة الدم",
+  "height": "الطول",
+  "weight": "الوزن",
+  "bmi": "مؤشر كتلة الجسم",
+  "allergies": "الحساسيات",
+  "allergiesHint": "اذكر أي حساسيات (مثل البنسلين، الفول السوداني)",
+  "currentMedications": "الأدوية الحالية",
+  "medicationsHint": "اذكر الأدوية الحالية والجرعات",
+  "chronicDiseases": "الأمراض المزمنة",
+  "chronicDiseasesHint": "اذكر الأمراض المزمنة (مثل السكري، ارتفاع الضغط)",
+  "previousSurgeries": "العمليات الجراحية السابقة",
+  "surgeriesHint": "اذكر العمليات الجراحية السابقة",
+  "familyHistory": "التاريخ العائلي",
+  "familyHistoryHint": "التاريخ الطبي العائلي المهم",
+  "notes": "ملاحظات إضافية",
+  "additionalNotesHint": "أي معلومات طبية أخرى ذات صلة",
+  "lastUpdated": "آخر تحديث",
+  "invalidHeight": "الرجاء إدخال طول صحيح (1-300 سم)",
+  "invalidWeight": "الرجاء إدخال وزن صحيح (1-500 كجم)",
+  "viewMedicalHistory": "عرض التاريخ الطبي",
+  "editMedicalHistory": "تعديل التاريخ الطبي",
+  "requiredField": "هذا الحقل مطلوب",
+  "contactInformation": "معلومات الاتصال",
+  "emergencyContact": "جهة الاتصال في حالات الطوارئ",
+  "vitalStatistics": "الإحصائيات الحيوية",
+  "lifestyle": "نمط الحياة",
+  "additionalInformation": "معلومات إضافية",
+  "familyMedicalHistory": "التاريخ الطبي العائلي",
+  "surgicalHistory": "التاريخ الجراحي",
+  "vaccinationHistory": "تاريخ التطعيم",
+  "mentalHealth": "الصحة النفسية",
+  "womensHealth": "صحة المرأة",
+  "patientName": "اسم المريض",
+  "other": "آخر",
+  "preferNotToSay": "أفضل عدم الإفصاح",
+  "age": "العمر",
+  "email": "البريد الإلكتروني",
+  "address": "العنوان",
+  "emergencyContactName": "اسم جهة الاتصال في حالات الطوارئ",
+  "emergencyContactPhone": "هاتف جهة الاتصال في حالات الطوارئ",
+  "emergencyContactRelationship": "العلاقة",
+  "heightUnit": "سم",
+  "weightUnit": "كجم",
+  "isSmoker": "مدخن",
+  "yes": "نعم",
+  "no": "لا",
+  "cigarettesPerDay": "عدد السجائر يومياً",
+  "isAlcoholConsumer": "يتناول الكحول",
+  "alcoholFrequency": "تكرار تناول الكحول",
+  "usesRecreationalDrugs": "يتناول مخدرات ترفيهية",
+  "recreationalDrugsDetails": "تفاصيل المخدرات الترفيهية",
+  "exerciseFrequency": "تكرار التمرين",
+  "dietaryPreferences": "التفضيلات الغذائية",
+  "chronicConditions": "الأمراض المزمنة",
+  "chronicConditionsHint": "أدخل الأمراض المزمنة (مفصولة بفاصلة)",
+  "currentMedicationsHint": "أدخل الأدوية الحالية (مفصولة بفاصلة)",
+  "pastMedications": "الأدوية السابقة",
+  "pastMedicationsHint": "أدخل الأدوية السابقة (مفصولة بفاصلة)",
+  "procedureName": "اسم الإجراء",
+  "surgeryDate": "التاريخ",
+  "hospitalName": "اسم المستشفى",
+  "surgeonName": "اسم الجراح",
+  "complications": "المضاعفات",
+  "admissionDate": "تاريخ الدخول",
+  "dischargeDate": "تاريخ الخروج",
+  "hospitalizationReason": "السبب",
+  "treatmentDetails": "تفاصيل العلاج",
+  "vaccineName": "اسم اللقاح",
+  "dateAdministered": "تاريخ التطعيم",
+  "expirationDate": "تاريخ الانتهاء",
+  "administeringFacility": "المنشأة المقدمة",
+  "lotNumber": "رقم الدفعة",
+  "lastMenstrualPeriod": "آخر دورة شهرية",
+  "isPregnant": "حامل",
+  "pregnancies": "عدد مرات الحمل",
+  "liveBirths": "الولادات الحية",
+  "mentalHealthConditions": "حالات الصحة النفسية",
+  "currentTherapist": "المعالج الحالي",
+  "createdAt": "تم الإنشاء في",
+  "saveMedicalHistory": "حفظ السجل الطبي",
+  "createMedicalHistory": "إنشاء سجل طبي",
+  "medicalHistorySaved": "تم حفظ السجل الطبي بنجاح",
+  "invalidPhone": "الرجاء إدخال رقم هاتف صحيح",
+  "surgery": "عملية جراحية",
+  "hospitalization": "الإقامة في المستشفى",
+  "vaccination": "تطعيم",
+  "addSurgery": "إضافة عملية جراحية",
+  "addHospitalization": "إضافة إقامة في المستشفى",
+  "addVaccination": "إضافة تطعيم",
+  "addCondition": "إضافة حالة",
+  "bloodTypeA": "A",
+  "@bloodTypeA": {
+    "description": "فصيلة الدم أ"
+  },
+  "bloodTypeB": "B",
+  "@bloodTypeB": {
+    "description": "فصيلة الدم ب"
+  },
+  "bloodTypeAB": "AB",
+  "@bloodTypeAB": {
+    "description": "فصيلة الدم AB"
+  },
+  "bloodTypeO": "O",
+  "@bloodTypeO": {
+    "description": "فصيلة الدم O"
+  },
+  "selectBloodType": "اختر فصيلة الدم",
+  "@selectBloodType": {
+    "description": "نص التلميح لقائمة فصيلة الدم"
+  },
+  
+  "home": "الرئيسية",
+  "@home": {
+    "description": "عنوان صفحة الرئيسية وقائمة التنقل"
+  },
+  
+  "patients": "المرضى",
+  "@patients": {
+    "description": "عنوان قسم المرضى وقائمة التنقل"
+  },
+  
+  "addPatient": "إضافة مريض",
+  "@addPatient": {
+    "description": "نص زر إضافة مريض جديد"
+  },
+  
+  "editPatient": "تعديل بيانات المريض",
+  "@editPatient": {
+    "description": "عنوان نافذة تعديل بيانات المريض"
+  },
+  
+  "patientDetails": "تفاصيل المريض",
+  "@patientDetails": {
+    "description": "عنوان نافذة عرض تفاصيل المريض"
+  },
+  
+  "searchPatients": "ابحث عن المرضى...",
+  "@searchPatients": {
+    "description": "نص تلميح حقل البحث عن المرضى"
+  },
+  
+  "noPatientsFound": "لم يتم العثور على مرضى",
+  "@noPatientsFound": {
+    "description": "رسالة تعرض عند عدم العثور على مرضى"
+  },
+  
+  "totalPatients": "إجمالي المرضى",
+  "@totalPatients": {
+    "description": "عنوان إحصائيات إجمالي عدد المرضى"
+  },
+  
+  "activePatients": "المرضى النشطين",
+  "@activePatients": {
+    "description": "عنوان إحصائيات المرضى النشطين"
+  },
+  
+  "inactivePatients": "المرضى غير النشطين",
+  "@inactivePatients": {
+    "description": "عنوان إحصائيات المرضى غير النشطين"
+  },
+  
+  "todayVisits": "زيارات اليوم",
+  "@todayVisits": {
+    "description": "عنوان قسم زيارات اليوم"
+  },
+  
+  "@patientName": {
+    "description": "تسمية حقل اسم المريض في النماذج والعرض"
+  },
+  
+  "nationalId": "رقم الهوية",
+  "@nationalId": {
+    "description": "تسمية حقل رقم الهوية الوطنية"
+  },
+  
+  "@emergencyContact": {
+    "description": "تسمية قسم جهة الاتصال في حالات الطوارئ"
+  },
+  
+  "status": "الحالة",
+  "@status": {
+    "description": "عنوان عمود الحالة في جداول المرضى"
+  },
+  
+  "active": "نشط",
+  "@active": {
+    "description": "قيمة الحالة النشطة للمريض"
+  },
+  
+  "inactive": "غير نشط",
+  "@inactive": {
+    "description": "قيمة الحالة غير النشطة للمريض"
+  },
+  
+  "actions": "الإجراءات",
+  "@actions": {
+    "description": "عنوان عمود الإجراءات في الجداول"
+  },
+  
+  "view": "عرض",
+  "@view": {
+    "description": "نص زر عرض التفاصيل"
+  },
+  
+  "@edit": {
+    "description": "نص زر التعديل"
+  },
+  
+  "@delete": {
+    "description": "نص زر الحذف"
+  },
+  
+  "confirmDelete": "تأكيد الحذف",
+  "@confirmDelete": {
+    "description": "عنوان نافذة تأكيد الحذف"
+  },
+  
+  "deletePatientMessage": "هل أنت متأكد من حذف هذا المريض؟",
+  "@deletePatientMessage": {
+    "description": "رسالة تأكيد قبل حذف المريض"
+  },
+  
+  "patientDeleted": "تم حذف المريض بنجاح",
+  "@patientDeleted": {
+    "description": "رسالة نجاح بعد حذف المريض"
+  },
+  
+  "patientAdded": "تم إضافة المريض بنجاح",
+  "@patientAdded": {
+    "description": "رسالة نجاح بعد إضافة مريض جديد"
+  },
+  
+  "patientUpdated": "تم تحديث بيانات المريض بنجاح",
+  "@patientUpdated": {
+    "description": "رسالة نجاح بعد تحديث بيانات المريض"
+  },
+  
+  "add": "إضافة",
+  "@add": {
+    "description": "نص زر الإضافة في النماذج"
+  },
+  
+  "update": "تحديث",
+  "@update": {
+    "description": "نص زر التحديث في النماذج"
+  },
+  
+  "@cancel": {
+    "description": "نص زر الإلغاء"
+  },
+  
+  "ok": "موافق",
+  "@ok": {
+    "description": "نص زر الموافقة"
+  },
+  
+  "selectGender": "اختر الجنس",
+  "@selectGender": {
+    "description": "نص تلميح لقائمة اختيار الجنس"
+  },
+  
+  "enterNotes": "أدخل الملاحظات...",
+  "@enterNotes": {
+    "description": "نص تلميح لحقل إدخال الملاحظات"
+  },
+  
+  "invalidNationalId": "الرجاء إدخال رقم هوية صحيح",
+  "@invalidNationalId": {
+    "description": "رسالة خطأ لرقم هوية غير صحيح"
+  },
+  
+  "invalidEmail": "الرجاء إدخال بريد إلكتروني صحيح",
+  "@invalidEmail": {
+    "description": "رسالة خطأ لبريد إلكتروني غير صحيح"
+  },
+  
+  "statistics": "الإحصائيات",
+  "@statistics": {
+    "description": "عنوان قسم الإحصائيات"
+  },
+  
+  "recentPatients": "المرضى الحديثين",
+  "@recentPatients": {
+    "description": "عنوان قسم المرضى المضافين حديثاً"
+  },
+  
+  "viewAllPatients": "عرض جميع المرضى",
+  "@viewAllPatients": {
+    "description": "نص زر عرض جميع المرضى"
+  },
+  
+  "quickActions": "إجراءات سريعة",
+  "@quickActions": {
+    "description": "عنوان قسم الإجراءات السريعة"
+  },
+  
+  "addNewPatient": "إضافة مريض جديد",
+  "@addNewPatient": {
+    "description": "نص زر الإجراء السريع لإضافة مريض"
+  },
+  
+  "@viewMedicalHistory": {
+    "description": "نص زر عرض السجل الطبي للمريض"
+  },
+  
+  "scheduleAppointment": "جدولة موعد",
+  "@scheduleAppointment": {
+    "description": "نص زر جدولة موعد للمريض"
+  },
+  
+  "prescribeMedication": "وصف دواء",
+  "@prescribeMedication": {
+    "description": "نص زر وصف دواء للمريض"
+  },
+  
+  "dashboard": "لوحة التحكم",
+  "@dashboard": {
+    "description": "عنوان قائمة التنقل للوحة التحكم"
+  },
+  
+  "appointments": "المواعيد",
+  "@appointments": {
+    "description": "عنوان قائمة التنقل للمواعيد"
+  },
+  
+  "medications": "الأدوية",
+  "@medications": {
+    "description": "عنوان قائمة التنقل للأدوية"
+  },
+  
+  "reports": "التقارير",
+  "@reports": {
+    "description": "عنوان قائمة التنقل للتقارير"
+  },
+  
+  "@settings": {
+    "description": "عنوان قائمة التنقل للإعدادات"
+  },
+  
+  "profile": "الملف الشخصي",
+  "@profile": {
+    "description": "عنوان قائمة التنقل للملف الشخصي"
+  },
+  
+  "@logout": {
+    "description": "نص زر تسجيل الخروج"
+  },
+  
+  "todaysSchedule": "جدول اليوم",
+  "@todaysSchedule": {
+    "description": "عنوان قسم جدول اليوم"
+  },
+  
+  "upcomingAppointments": "المواعيد القادمة",
+  "@upcomingAppointments": {
+    "description": "عنوان قسم المواعيد القادمة"
+  },
+  
+  "completed": "مكتمل",
+  "@completed": {
+    "description": "حالة الموعد المكتمل"
+  },
+  
+  "pending": "قيد الانتظار",
+  "@pending": {
+    "description": "حالة الموعد قيد الانتظار"
+  },
+  
+  "cancelled": "ملغى",
+  "@cancelled": {
+    "description": "حالة الموعد الملغى"
+  },
+  
+  "noMedicalHistoryFound": "لم يتم العثور على سجل طبي",
+  "@noMedicalHistoryFound": {
+    "description": "رسالة تعرض عند عدم وجود سجل طبي للمريض"
+  },
+  
+  "clearSearch": "مسح البحث",
+  "@clearSearch": {
+    "description": "نص زر مسح نص البحث"
+  },
+  
+  "refresh": "تحديث",
+  "@refresh": {
+    "description": "نص زر تحديث البيانات"
+  },
+  
+  "done": "تم",
+  "@done": {
+    "description": "نص زر الإكمال في النوافذ المنبثقة"
+  },
+  
+  "selectDate": "اختر تاريخ",
+  "@selectDate": {
+    "description": "نص تلميح لاختيار التاريخ"
+  },
+  
+  "patientId": "رقم المريض",
+  "@patientId": {
+    "description": "تسمية حقل رقم تعريف المريض"
+  },
+  
+  "registrationDate": "تاريخ التسجيل",
+  "@registrationDate": {
+    "description": "تسمية حقل تاريخ تسجيل المريض"
+  },
+  
+  "lastVisit": "آخر زيارة",
+  "@lastVisit": {
+    "description": "تسمية حقل تاريخ آخر زيارة"
+  },
+  
+  "medicalRecord": "السجل الطبي",
+  "@medicalRecord": {
+    "description": "تسمية للسجل الطبي للمريض"
+  },
+  
+  "prescriptions": "الوصفات",
+  "@prescriptions": {
+    "description": "تسمية قسم الوصفات الطبية"
+  },
+  
+  "labResults": "نتائج المختبر",
+  "@labResults": {
+    "description": "تسمية قسم نتائج المختبر"
+  },
+  
+  "insuranceInfo": "معلومات التأمين",
+  "@insuranceInfo": {
+    "description": "تسمية قسم معلومات التأمين"
+  },
+  
+  "attachments": "المرفقات",
+  "@attachments": {
+    "description": "تسمية قسم المرفقات والصور"
+  },
+  
+  "exportData": "تصدير البيانات",
+  "@exportData": {
+    "description": "نص زر تصدير بيانات المريض"
+  },
+  
+  "print": "طباعة",
+  "@print": {
+    "description": "نص زر الطباعة"
+  },
+  
+  "filter": "تصفية",
+  "@filter": {
+    "description": "نص زر التصفية"
+  },
+  
+  "sort": "ترتيب",
+  "@sort": {
+    "description": "نص زر الترتيب"
+  },
+  
+  "byName": "حسب الاسم",
+  "@byName": {
+    "description": "خيار الترتيب حسب الاسم"
+  },
+  
+  "byDate": "حسب التاريخ",
+  "@byDate": {
+    "description": "خيار الترتيب حسب التاريخ"
+  },
+  
+  "byStatus": "حسب الحالة",
+  "@byStatus": {
+    "description": "خيار الترتيب حسب الحالة"
+  },
+  
+  "ascending": "تصاعدي",
+  "@ascending": {
+    "description": "خيار الترتيب التصاعدي"
+  },
+  
+  "descending": "تنازلي",
+  "@descending": {
+    "description": "خيار الترتيب التنازلي"
+  },
+  
+  "allStatus": "جميع الحالات",
+  "@allStatus": {
+    "description": "خيار عرض جميع الحالات"
+  },
+  
+  "activeOnly": "النشطين فقط",
+  "@activeOnly": {
+    "description": "خيار عرض المرضى النشطين فقط"
+  },
+  
+  "inactiveOnly": "غير النشطين فقط",
+  "@inactiveOnly": {
+    "description": "خيار عرض المرضى غير النشطين فقط"
+  },
+  
+  "today": "اليوم",
+  "@today": {
+    "description": "خيار تاريخ اليوم"
+  },
+  
+  "thisWeek": "هذا الأسبوع",
+  "@thisWeek": {
+    "description": "خيار تاريخ هذا الأسبوع"
+  },
+  
+  "thisMonth": "هذا الشهر",
+  "@thisMonth": {
+    "description": "خيار تاريخ هذا الشهر"
+  },
+  
+  "customRange": "مدى مخصص",
+  "@customRange": {
+    "description": "خيار مدى تاريخ مخصص"
+  },
+  
+  "from": "من",
+  "@from": {
+    "description": "تسمية حقل التاريخ من"
+  },
+  
+  "to": "إلى",
+  "@to": {
+    "description": "تسمية حقل التاريخ إلى"
+  },
+  
+  "apply": "تطبيق",
+  "@apply": {
+    "description": "نص زر تطبيق التصفية"
+  },
+  
+  "reset": "إعادة تعيين",
+  "@reset": {
+    "description": "نص زر إعادة تعيين التصفية"
+  }
+
+}

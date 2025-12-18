@@ -1,0 +1,1135 @@
+{
+  "@@locale": "en",
+  "@@context": "General application strings",
+  "appTitle": "HealthCare Pro",
+  "@appTitle": {
+    "description": "Main application title displayed in app bar and splash screen"
+  },
+  
+  "loginTitle": "Welcome Back",
+  "@loginTitle": {
+    "description": "Title displayed on the login screen"
+  },
+  
+  "phoneNumber": "Phone Number",
+  "@phoneNumber": {
+    "description": "Label for phone number input field"
+  },
+  
+  "password": "Password",
+  "@password": {
+    "description": "Label for password input field"
+  },
+  
+  "passwordConfirmation": "Password Confirmation",
+  "@passwordConfirmation": {
+    "description": "Label for password confirmation input field during registration"
+  },
+  
+  "login": "Login",
+  "@login": {
+    "description": "Text for login button"
+  },
+  
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Link text for password recovery"
+  },
+  
+  "biometricAuth": "Biometric Authentication",
+  "@biometricAuth": {
+    "description": "Title for biometric authentication section"
+  },
+  
+  "useFingerprint": "Use Fingerprint",
+  "@useFingerprint": {
+    "description": "Label for fingerprint authentication toggle"
+  },
+  
+  "loginSuccess": "Login successful!",
+  "@loginSuccess": {
+    "description": "Success message shown after successful login"
+  },
+  
+  "loginFailed": "Login failed. Please try again.",
+  "@loginFailed": {
+    "description": "Error message shown when login fails"
+  },
+  
+  "invalidCredentials": "Invalid phone number or password",
+  "@invalidCredentials": {
+    "description": "Error message for incorrect login credentials"
+  },
+  
+  "welcome": "Welcome, {name}",
+  "@welcome": {
+    "description": "Welcome message on dashboard with user's name",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John Doe"
+      }
+    }
+  },
+  
+  "medicalHistory": "Medical History",
+  "@medicalHistory": {
+    "description": "Title for medical history section and page"
+  },
+  
+  "todaysMedicine": "Today's Medicine",
+  "@todaysMedicine": {
+    "description": "Title for today's medication schedule section"
+  },
+  
+  "upcomingVisits": "Upcoming Doctor Visits",
+  "@upcomingVisits": {
+    "description": "Title for upcoming appointments section"
+  },
+  
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Button text to view all items in a list"
+  },
+  
+  "takeMedicine": "Take Medicine",
+  "@takeMedicine": {
+    "description": "Button text to mark medicine as taken"
+  },
+  
+  "medicineTaken": "Medicine Taken",
+  "@medicineTaken": {
+    "description": "Confirmation message when medicine is taken"
+  },
+  
+  "confirmVisit": "Confirm Visit",
+  "@confirmVisit": {
+    "description": "Button text to confirm a doctor visit"
+  },
+  
+  "scheduledFor": "Scheduled for {time}",
+  "@scheduledFor": {
+    "description": "Text showing scheduled time for appointments",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "2:00 PM"
+      }
+    }
+  },
+  
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Text shown during data loading"
+  },
+  
+  "retry": "Retry",
+  "@retry": {
+    "description": "Button text to retry a failed operation"
+  },
+  
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Button text to cancel an action"
+  },
+  
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Button text to confirm an action"
+  },
+  
+  "save": "Save",
+  "@save": {
+    "description": "Button text to save changes"
+  },
+  
+  "edit": "Edit",
+  "@edit": {
+    "description": "Button text to edit information"
+  },
+  
+  "delete": "Delete",
+  "@delete": {
+    "description": "Button text to delete an item"
+  },
+  
+  "settings": "Settings",
+  "@settings": {
+    "description": "Title for settings page/menu"
+  },
+  
+  "logout": "Logout",
+  "@logout": {
+    "description": "Button text to logout from the app"
+  },
+  
+  "noMedicalHistory": "No medical history available",
+  "@noMedicalHistory": {
+    "description": "Message shown when no medical history exists"
+  },
+  
+  "noMedicineScheduled": "No medicine scheduled for today",
+  "@noMedicineScheduled": {
+    "description": "Message shown when no medication is scheduled"
+  },
+  
+  "noUpcomingVisits": "No upcoming doctor visits",
+  "@noUpcomingVisits": {
+    "description": "Message shown when no appointments are scheduled"
+  },
+  
+  "name": "Name",
+  "@name": {
+    "description": "Label for name input field"
+  },
+  
+  "register": "Register",
+  "@register": {
+    "description": "Button text for registration"
+  },
+  
+  "createAccount": "Create New Account",
+  "@createAccount": {
+    "description": "Title for account creation page"
+  },
+  
+  "userType": "User Type",
+  "@userType": {
+    "description": "Label for user type dropdown field"
+  },
+  
+  "selectUserType": "Select User Type",
+  "@selectUserType": {
+    "description": "Hint text for user type dropdown"
+  },
+  
+  "patient": "Patient",
+  "@patient": {
+    "description": "User type option for patients"
+  },
+  
+  "pharmacist": "Pharmacist",
+  "@pharmacist": {
+    "description": "User type option for pharmacists"
+  },
+  
+  "doctor": "Doctor",
+  "@doctor": {
+    "description": "User type option for doctors"
+  },
+  
+  "admin": "Administrator",
+  "@admin": {
+    "description": "User type option for administrators"
+  },
+  
+  "idCardNumber": "ID Card Number",
+  "@idCardNumber": {
+    "description": "Label for ID card number input field"
+  },
+  
+  "personalInformation": "Personal Information",
+  "@personalInformation": {
+    "description": "Section title for personal details in medical history"
+  },
+  
+  "medicalInformation": "Medical Information",
+  "@medicalInformation": {
+    "description": "Section title for medical details"
+  },
+  
+  "additionalNotes": "Additional Notes",
+  "@additionalNotes": {
+    "description": "Section title for extra notes"
+  },
+  
+  "contactInformation": "Contact Information",
+  "@contactInformation": {
+    "description": "Section title for contact details"
+  },
+  
+  "emergencyContact": "Emergency Contact",
+  "@emergencyContact": {
+    "description": "Section title for emergency contact information"
+  },
+  
+  "vitalStatistics": "Vital Statistics",
+  "@vitalStatistics": {
+    "description": "Section title for height, weight, BMI, etc."
+  },
+  
+  "lifestyle": "Lifestyle",
+  "@lifestyle": {
+    "description": "Section title for lifestyle information"
+  },
+  
+  "familyMedicalHistory": "Family Medical History",
+  "@familyMedicalHistory": {
+    "description": "Section title for family medical background"
+  },
+  
+  "surgicalHistory": "Surgical History",
+  "@surgicalHistory": {
+    "description": "Section title for past surgeries"
+  },
+  
+  "vaccinationHistory": "Vaccination History",
+  "@vaccinationHistory": {
+    "description": "Section title for immunization records"
+  },
+  
+  "mentalHealth": "Mental Health",
+  "@mentalHealth": {
+    "description": "Section title for mental health information"
+  },
+  
+  "womensHealth": "Women's Health",
+  "@womensHealth": {
+    "description": "Section title for women's specific health information"
+  },
+  
+  "patientName": "Patient Name",
+  "@patientName": {
+    "description": "Label for patient's full name field"
+  },
+  
+  "dateOfBirth": "Date of Birth",
+  "@dateOfBirth": {
+    "description": "Label for birth date field"
+  },
+  
+  "gender": "Gender",
+  "@gender": {
+    "description": "Label for gender selection field"
+  },
+  
+  "male": "Male",
+  "@male": {
+    "description": "Gender option for male"
+  },
+  
+  "female": "Female",
+  "@female": {
+    "description": "Gender option for female"
+  },
+  
+  "other": "Other",
+  "@other": {
+    "description": "Gender option for other/unspecified"
+  },
+  
+  "preferNotToSay": "Prefer not to say",
+  "@preferNotToSay": {
+    "description": "Gender option for preferring not to disclose"
+  },
+  
+  "age": "Age",
+  "@age": {
+    "description": "Label for calculated age field"
+  },
+  
+  "email": "Email",
+  "@email": {
+    "description": "Label for email address field"
+  },
+  
+  "address": "Address",
+  "@address": {
+    "description": "Label for residential address field"
+  },
+  
+  "emergencyContactName": "Emergency Contact Name",
+  "@emergencyContactName": {
+    "description": "Label for emergency contact person's name"
+  },
+  
+  "emergencyContactPhone": "Emergency Contact Phone",
+  "@emergencyContactPhone": {
+    "description": "Label for emergency contact phone number"
+  },
+  
+  "emergencyContactRelationship": "Relationship",
+  "@emergencyContactRelationship": {
+    "description": "Label for relationship to emergency contact"
+  },
+  
+  "height": "Height",
+  "@height": {
+    "description": "Label for height measurement field"
+  },
+  
+  "heightUnit": "cm",
+  "@heightUnit": {
+    "description": "Unit of measurement for height (centimeters)"
+  },
+  
+  "weight": "Weight",
+  "@weight": {
+    "description": "Label for weight measurement field"
+  },
+  
+  "weightUnit": "kg",
+  "@weightUnit": {
+    "description": "Unit of measurement for weight (kilograms)"
+  },
+  
+  "bloodType": "Blood Type",
+  "@bloodType": {
+    "description": "Label for blood type field"
+  },
+  
+  "bmi": "BMI",
+  "@bmi": {
+    "description": "Label for Body Mass Index field"
+  },
+  
+  "isSmoker": "Smoker",
+  "@isSmoker": {
+    "description": "Label for smoking status toggle"
+  },
+  
+  "yes": "Yes",
+  "@yes": {
+    "description": "Affirmative response option"
+  },
+  
+  "no": "No",
+  "@no": {
+    "description": "Negative response option"
+  },
+  
+  "cigarettesPerDay": "Cigarettes per day",
+  "@cigarettesPerDay": {
+    "description": "Label for daily cigarette consumption field"
+  },
+  
+  "isAlcoholConsumer": "Alcohol Consumer",
+  "@isAlcoholConsumer": {
+    "description": "Label for alcohol consumption status toggle"
+  },
+  
+  "alcoholFrequency": "Alcohol Frequency",
+  "@alcoholFrequency": {
+    "description": "Label for alcohol consumption frequency field"
+  },
+  
+  "usesRecreationalDrugs": "Uses Recreational Drugs",
+  "@usesRecreationalDrugs": {
+    "description": "Label for recreational drug use toggle"
+  },
+  
+  "recreationalDrugsDetails": "Recreational Drugs Details",
+  "@recreationalDrugsDetails": {
+    "description": "Label for recreational drugs details field"
+  },
+  
+  "exerciseFrequency": "Exercise Frequency",
+  "@exerciseFrequency": {
+    "description": "Label for exercise frequency field"
+  },
+  
+  "dietaryPreferences": "Dietary Preferences",
+  "@dietaryPreferences": {
+    "description": "Label for dietary preferences field"
+  },
+  
+  "chronicConditions": "Chronic Conditions",
+  "@chronicConditions": {
+    "description": "Label for chronic medical conditions field"
+  },
+  
+  "chronicConditionsHint": "Enter chronic conditions (comma separated)",
+  "@chronicConditionsHint": {
+    "description": "Hint text for chronic conditions input"
+  },
+  
+  "allergies": "Allergies",
+  "@allergies": {
+    "description": "Label for allergies field"
+  },
+  
+  "allergiesHint": "Enter allergies (comma separated)",
+  "@allergiesHint": {
+    "description": "Hint text for allergies input"
+  },
+  
+  "currentMedications": "Current Medications",
+  "@currentMedications": {
+    "description": "Label for current medications field"
+  },
+  
+  "currentMedicationsHint": "Enter current medications (comma separated)",
+  "@currentMedicationsHint": {
+    "description": "Hint text for current medications input"
+  },
+  
+  "pastMedications": "Past Medications",
+  "@pastMedications": {
+    "description": "Label for past medications field"
+  },
+  
+  "pastMedicationsHint": "Enter past medications (comma separated)",
+  "@pastMedicationsHint": {
+    "description": "Hint text for past medications input"
+  },
+  
+  "procedureName": "Procedure Name",
+  "@procedureName": {
+    "description": "Label for surgical procedure name field"
+  },
+  
+  "surgeryDate": "Date",
+  "@surgeryDate": {
+    "description": "Label for surgery date field"
+  },
+  
+  "hospitalName": "Hospital Name",
+  "@hospitalName": {
+    "description": "Label for hospital name field"
+  },
+  
+  "surgeonName": "Surgeon Name",
+  "@surgeonName": {
+    "description": "Label for surgeon's name field"
+  },
+  
+  "complications": "Complications",
+  "@complications": {
+    "description": "Label for surgery complications field"
+  },
+  
+  "admissionDate": "Admission Date",
+  "@admissionDate": {
+    "description": "Label for hospital admission date field"
+  },
+  
+  "dischargeDate": "Discharge Date",
+  "@dischargeDate": {
+    "description": "Label for hospital discharge date field"
+  },
+  
+  "hospitalizationReason": "Reason",
+  "@hospitalizationReason": {
+    "description": "Label for hospitalization reason field"
+  },
+  
+  "treatmentDetails": "Treatment Details",
+  "@treatmentDetails": {
+    "description": "Label for treatment details field"
+  },
+  
+  "vaccineName": "Vaccine Name",
+  "@vaccineName": {
+    "description": "Label for vaccine name field"
+  },
+  
+  "dateAdministered": "Date Administered",
+  "@dateAdministered": {
+    "description": "Label for vaccine administration date field"
+  },
+  
+  "expirationDate": "Expiration Date",
+  "@expirationDate": {
+    "description": "Label for vaccine expiration date field"
+  },
+  
+  "administeringFacility": "Administering Facility",
+  "@administeringFacility": {
+    "description": "Label for vaccine administering facility field"
+  },
+  
+  "lotNumber": "Lot Number",
+  "@lotNumber": {
+    "description": "Label for vaccine lot number field"
+  },
+  
+  "lastMenstrualPeriod": "Last Menstrual Period",
+  "@lastMenstrualPeriod": {
+    "description": "Label for last menstrual period date field"
+  },
+  
+  "isPregnant": "Pregnant",
+  "@isPregnant": {
+    "description": "Label for pregnancy status toggle"
+  },
+  
+  "pregnancies": "Pregnancies",
+  "@pregnancies": {
+    "description": "Label for number of pregnancies field"
+  },
+  
+  "liveBirths": "Live Births",
+  "@liveBirths": {
+    "description": "Label for number of live births field"
+  },
+  
+  "mentalHealthConditions": "Mental Health Conditions",
+  "@mentalHealthConditions": {
+    "description": "Label for mental health conditions field"
+  },
+  
+  "currentTherapist": "Current Therapist",
+  "@currentTherapist": {
+    "description": "Label for current therapist name field"
+  },
+  
+  "lastUpdated": "Last Updated",
+  "@lastUpdated": {
+    "description": "Label for last update timestamp"
+  },
+  
+  "createdAt": "Created At",
+  "@createdAt": {
+    "description": "Label for creation timestamp"
+  },
+  
+  "saveMedicalHistory": "Save Medical History",
+  "@saveMedicalHistory": {
+    "description": "Button text to save medical history form"
+  },
+  
+  "editMedicalHistory": "Edit Medical History",
+  "@editMedicalHistory": {
+    "description": "Button/text for editing medical history"
+  },
+  
+  "createMedicalHistory": "Create Medical History",
+  "@createMedicalHistory": {
+    "description": "Button text to create new medical history"
+  },
+  
+  "medicalHistorySaved": "Medical history saved successfully",
+  "@medicalHistorySaved": {
+    "description": "Success message after saving medical history"
+  },
+  
+  "noMedicalHistoryFound": "No medical history found",
+  "@noMedicalHistoryFound": {
+    "description": "Message when no medical history record exists"
+  },
+  
+  "requiredField": "This field is required",
+  "@requiredField": {
+    "description": "Validation error message for required fields"
+  },
+  
+  "invalidHeight": "Please enter a valid height (1-300 cm)",
+  "@invalidHeight": {
+    "description": "Validation error for invalid height input"
+  },
+  
+  "invalidWeight": "Please enter a valid weight (1-500 kg)",
+  "@invalidWeight": {
+    "description": "Validation error for invalid weight input"
+  },
+  
+  "invalidPhone": "Please enter a valid phone number",
+  "@invalidPhone": {
+    "description": "Validation error for invalid phone number"
+  },
+  
+  "surgery": "Surgery",
+  "@surgery": {
+    "description": "Generic label for surgery"
+  },
+  
+  "hospitalization": "Hospitalization",
+  "@hospitalization": {
+    "description": "Generic label for hospital stay"
+  },
+  
+  "vaccination": "Vaccination",
+  "@vaccination": {
+    "description": "Generic label for immunization"
+  },
+  
+  "addSurgery": "Add Surgery",
+  "@addSurgery": {
+    "description": "Button text to add new surgery record"
+  },
+  
+  "addHospitalization": "Add Hospitalization",
+  "@addHospitalization": {
+    "description": "Button text to add new hospitalization record"
+  },
+  
+  "addVaccination": "Add Vaccination",
+  "@addVaccination": {
+    "description": "Button text to add new vaccination record"
+  },
+  
+  "addCondition": "Add Condition",
+  "@addCondition": {
+    "description": "Button text to add new medical condition"
+  },
+  
+  "viewMedicalHistory": "View Medical History",
+  "@viewMedicalHistory": {
+    "description": "Button/text for viewing medical history"
+  },
+  
+  "chronicDiseases": "Chronic Diseases",
+  "@chronicDiseases": {
+    "description": "Alternative label for chronic conditions"
+  },
+  
+  "chronicDiseasesHint": "List chronic conditions (e.g., Diabetes, Hypertension)",
+  "@chronicDiseasesHint": {
+    "description": "Hint text for chronic diseases input"
+  },
+  
+  "previousSurgeries": "Previous Surgeries",
+  "@previousSurgeries": {
+    "description": "Alternative label for surgical history"
+  },
+  
+  "surgeriesHint": "List previous surgical procedures",
+  "@surgeriesHint": {
+    "description": "Hint text for surgeries input"
+  },
+  
+  "familyHistory": "Family History",
+  "@familyHistory": {
+    "description": "Alternative label for family medical history"
+  },
+  
+  "familyHistoryHint": "Notable family medical history",
+  "@familyHistoryHint": {
+    "description": "Hint text for family history input"
+  },
+  
+  "notes": "Additional Notes",
+  "@notes": {
+    "description": "Alternative label for additional notes"
+  },
+  
+  "additionalNotesHint": "Any other relevant medical information",
+  "@additionalNotesHint": {
+    "description": "Hint text for additional notes input"
+  },
+  
+  "medicationsHint": "List current medications and dosages",
+  "@medicationsHint": {
+    "description": "Hint text for medications input"
+  },
+  
+  "bloodTypeA": "A",
+  "@bloodTypeA": {
+    "description": "Blood type option A"
+  },
+  
+  "bloodTypeB": "B",
+  "@bloodTypeB": {
+    "description": "Blood type option B"
+  },
+  
+  "bloodTypeAB": "AB",
+  "@bloodTypeAB": {
+    "description": "Blood type option AB"
+  },
+  
+  "bloodTypeO": "O",
+  "@bloodTypeO": {
+    "description": "Blood type option O"
+  },
+  
+  "selectBloodType": "Select Blood Type",
+  "@selectBloodType": {
+    "description": "Hint text for blood type dropdown"
+  },
+  
+  "additionalInformation": "Additional Information",
+  "@additionalInformation": {
+    "description": "Section title for additional information in forms"
+  },
+  
+  "home": "Home",
+  "@home": {
+    "description": "Title for home page and navigation item"
+  },
+  
+  "patients": "Patients",
+  "@patients": {
+    "description": "Title for patients section and navigation item"
+  },
+  
+  "addPatient": "Add Patient",
+  "@addPatient": {
+    "description": "Button text to add new patient"
+  },
+  
+  "editPatient": "Edit Patient",
+  "@editPatient": {
+    "description": "Title for patient editing dialog"
+  },
+  
+  "patientDetails": "Patient Details",
+  "@patientDetails": {
+    "description": "Title for patient details view"
+  },
+  
+  "searchPatients": "Search patients...",
+  "@searchPatients": {
+    "description": "Hint text for patient search field"
+  },
+  
+  "noPatientsFound": "No patients found",
+  "@noPatientsFound": {
+    "description": "Message displayed when no patients match search"
+  },
+  
+  "totalPatients": "Total Patients",
+  "@totalPatients": {
+    "description": "Label for total patient count statistic"
+  },
+  
+  "activePatients": "Active Patients",
+  "@activePatients": {
+    "description": "Label for active patient count statistic"
+  },
+  
+  "inactivePatients": "Inactive Patients",
+  "@inactivePatients": {
+    "description": "Label for inactive patient count statistic"
+  },
+  
+  "todayVisits": "Today's Visits",
+  "@todayVisits": {
+    "description": "Title for today's patient visits section"
+  },
+  
+  "nationalId": "National ID",
+  "@nationalId": {
+    "description": "Label for national identification number field"
+  },
+  
+  "status": "Status",
+  "@status": {
+    "description": "Label for status field in patient lists"
+  },
+  
+  "active": "Active",
+  "@active": {
+    "description": "Status value for active patients"
+  },
+  
+  "inactive": "Inactive",
+  "@inactive": {
+    "description": "Status value for inactive patients"
+  },
+  
+  "actions": "Actions",
+  "@actions": {
+    "description": "Column header for action buttons in tables"
+  },
+  
+  "view": "View",
+  "@view": {
+    "description": "Button text to view details"
+  },
+  
+  "confirmDelete": "Confirm Delete",
+  "@confirmDelete": {
+    "description": "Title for delete confirmation dialog"
+  },
+  
+  "deletePatientMessage": "Are you sure you want to delete this patient?",
+  "@deletePatientMessage": {
+    "description": "Message in delete confirmation dialog"
+  },
+  
+  "patientDeleted": "Patient deleted successfully",
+  "@patientDeleted": {
+    "description": "Success message after deleting a patient"
+  },
+  
+  "patientAdded": "Patient added successfully",
+  "@patientAdded": {
+    "description": "Success message after adding a patient"
+  },
+  
+  "patientUpdated": "Patient updated successfully",
+  "@patientUpdated": {
+    "description": "Success message after updating a patient"
+  },
+  
+  "add": "Add",
+  "@add": {
+    "description": "Button text for adding items"
+  },
+  
+  "update": "Update",
+  "@update": {
+    "description": "Button text for updating items"
+  },
+  
+  "ok": "OK",
+  "@ok": {
+    "description": "Button text for confirmation"
+  },
+  
+  "selectGender": "Select Gender",
+  "@selectGender": {
+    "description": "Hint text for gender dropdown"
+  },
+  
+  "enterNotes": "Enter notes...",
+  "@enterNotes": {
+    "description": "Hint text for notes input field"
+  },
+  
+  "invalidNationalId": "Please enter a valid National ID",
+  "@invalidNationalId": {
+    "description": "Validation error for invalid national ID"
+  },
+  
+  "invalidEmail": "Please enter a valid email address",
+  "@invalidEmail": {
+    "description": "Validation error for invalid email"
+  },
+  
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Title for statistics section"
+  },
+  
+  "recentPatients": "Recent Patients",
+  "@recentPatients": {
+    "description": "Title for recent patients section"
+  },
+  
+  "viewAllPatients": "View All Patients",
+  "@viewAllPatients": {
+    "description": "Button text to view all patients"
+  },
+  
+  "quickActions": "Quick Actions",
+  "@quickActions": {
+    "description": "Title for quick actions section"
+  },
+  
+  "addNewPatient": "Add New Patient",
+  "@addNewPatient": {
+    "description": "Button text for quick add patient action"
+  },
+  
+  "scheduleAppointment": "Schedule Appointment",
+  "@scheduleAppointment": {
+    "description": "Button text to schedule appointment"
+  },
+  
+  "prescribeMedication": "Prescribe Medication",
+  "@prescribeMedication": {
+    "description": "Button text to prescribe medication"
+  },
+  
+  "dashboard": "Dashboard",
+  "@dashboard": {
+    "description": "Navigation item for dashboard"
+  },
+  
+  "appointments": "Appointments",
+  "@appointments": {
+    "description": "Navigation item for appointments"
+  },
+  
+  "medications": "Medications",
+  "@medications": {
+    "description": "Navigation item for medications"
+  },
+  
+  "reports": "Reports",
+  "@reports": {
+    "description": "Navigation item for reports"
+  },
+  
+  "profile": "Profile",
+  "@profile": {
+    "description": "Navigation item for user profile"
+  },
+  
+  "todaysSchedule": "Today's Schedule",
+  "@todaysSchedule": {
+    "description": "Title for today's schedule section"
+  },
+  
+  "upcomingAppointments": "Upcoming Appointments",
+  "@upcomingAppointments": {
+    "description": "Title for upcoming appointments section"
+  },
+  
+  "completed": "Completed",
+  "@completed": {
+    "description": "Status for completed appointments"
+  },
+  
+  "pending": "Pending",
+  "@pending": {
+    "description": "Status for pending appointments"
+  },
+  
+  "cancelled": "Cancelled",
+  "@cancelled": {
+    "description": "Status for cancelled appointments"
+  },
+  
+  "clearSearch": "Clear Search",
+  "@clearSearch": {
+    "description": "Button text to clear search input"
+  },
+  
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Button text to refresh data"
+  },
+  
+  "done": "Done",
+  "@done": {
+    "description": "Button text to complete an action"
+  },
+  
+  "selectDate": "Select Date",
+  "@selectDate": {
+    "description": "Hint text for date selection"
+  },
+  
+  "patientId": "Patient ID",
+  "@patientId": {
+    "description": "Label for patient identification number"
+  },
+  
+  "registrationDate": "Registration Date",
+  "@registrationDate": {
+    "description": "Label for patient registration date"
+  },
+  
+  "lastVisit": "Last Visit",
+  "@lastVisit": {
+    "description": "Label for patient's last visit date"
+  },
+  
+  "medicalRecord": "Medical Record",
+  "@medicalRecord": {
+    "description": "Label for medical record section"
+  },
+  
+  "prescriptions": "Prescriptions",
+  "@prescriptions": {
+    "description": "Label for prescriptions section"
+  },
+  
+  "labResults": "Lab Results",
+  "@labResults": {
+    "description": "Label for laboratory results section"
+  },
+  
+  "insuranceInfo": "Insurance Information",
+  "@insuranceInfo": {
+    "description": "Label for insurance information section"
+  },
+  
+  "attachments": "Attachments",
+  "@attachments": {
+    "description": "Label for attachments section"
+  },
+  
+  "exportData": "Export Data",
+  "@exportData": {
+    "description": "Button text to export patient data"
+  },
+  
+  "print": "Print",
+  "@print": {
+    "description": "Button text to print documents"
+  },
+  
+  "filter": "Filter",
+  "@filter": {
+    "description": "Button text to filter data"
+  },
+  
+  "sort": "Sort",
+  "@sort": {
+    "description": "Button text to sort data"
+  },
+  
+  "byName": "By Name",
+  "@byName": {
+    "description": "Sort option by name"
+  },
+  
+  "byDate": "By Date",
+  "@byDate": {
+    "description": "Sort option by date"
+  },
+  
+  "byStatus": "By Status",
+  "@byStatus": {
+    "description": "Sort option by status"
+  },
+  
+  "ascending": "Ascending",
+  "@ascending": {
+    "description": "Sort order ascending"
+  },
+  
+  "descending": "Descending",
+  "@descending": {
+    "description": "Sort order descending"
+  },
+  
+  "allStatus": "All Status",
+  "@allStatus": {
+    "description": "Filter option for all statuses"
+  },
+  
+  "activeOnly": "Active Only",
+  "@activeOnly": {
+    "description": "Filter option for active patients only"
+  },
+  
+  "inactiveOnly": "Inactive Only",
+  "@inactiveOnly": {
+    "description": "Filter option for inactive patients only"
+  },
+  
+  "today": "Today",
+  "@today": {
+    "description": "Date filter option for today"
+  },
+  
+  "thisWeek": "This Week",
+  "@thisWeek": {
+    "description": "Date filter option for this week"
+  },
+  
+  "thisMonth": "This Month",
+  "@thisMonth": {
+    "description": "Date filter option for this month"
+  },
+  
+  "customRange": "Custom Range",
+  "@customRange": {
+    "description": "Date filter option for custom date range"
+  },
+  
+  "from": "From",
+  "@from": {
+    "description": "Label for start date in date range"
+  },
+  
+  "to": "To",
+  "@to": {
+    "description": "Label for end date in date range"
+  },
+  
+  "apply": "Apply",
+  "@apply": {
+    "description": "Button text to apply filters"
+  },
+  
+  "reset": "Reset",
+  "@reset": {
+    "description": "Button text to reset filters"
+  }
+}
