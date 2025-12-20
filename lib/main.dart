@@ -4,9 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart' show appAuthProvider, di;
 import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/core/user/user.dart';
-import 'package:health_app/features/auth/presentation/pages/register_page.dart';
+import 'package:health_app/features/auth/data/usecases/login_usecase.dart'
+    show LoginUsecaseImpl;
+import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:health_app/features/auth/ui/pages/register_page.dart';
 import 'package:health_app/features/doctor/ui/home.dart';
-import 'package:health_app/features/home/presentation/pages/p.dart' as P;
+import 'package:health_app/features/home/ui/pages/p.dart' as P;
 // import 'package:health_app/features/home/presentation/pages/home_page.dart' as Home;
 import 'package:health_app/features/patients/ui/home.dart'
     show MedicalHistoryPage;
@@ -14,7 +17,7 @@ import 'package:health_app/l10n/app_localizations.dart';
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/theme/app_theme.dart';
-import 'features/auth/presentation/pages/login_page.dart';
+import 'features/auth/ui/pages/login_page.dart';
 // import 'features/home/presentation/pages/p.dart';
 
 void main() async {
@@ -39,17 +42,16 @@ class HealthCareApp extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(local.code),
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.login
-          ,
-          // initialRoute: AppRoutes.doctor,
+          initialRoute: AppRoutes.login,
 
+          // initialRoute: AppRoutes.doctor,
           routes: {
             AppRoutes.splash: (context) => const SplashPage(),
             AppRoutes.login: (context) => const LoginPage(),
             AppRoutes.register: (context) => const RegisterPage(),
-            // 
+            //
             AppRoutes.patientMHistory: (context) => const MedicalHistoryPage(),
-            AppRoutes.home: (context) => const P.HomePage(),
+            AppRoutes.patientHome: (context) => const P.HomePage(),
             AppRoutes.doctorHome: (context) => const DoctorHome(),
           },
         );
@@ -57,10 +59,6 @@ class HealthCareApp extends StatelessWidget {
     );
   }
 }
-
-
-
-
 
 class SplashPage extends ConsumerWidget {
   const SplashPage({super.key});
@@ -110,4 +108,6 @@ Future<void> init() async {
   di.registerSingletonAsync<SharedPreferences>(() async {
     return await SharedPreferences.getInstance();
   });
+
+  di.registerFactory<LoginUsecase>(() => LoginUsecaseImpl());
 }

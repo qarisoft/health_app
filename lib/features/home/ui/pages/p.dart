@@ -101,8 +101,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           CircleAvatar(
             radius: 22,
-            backgroundImage: NetworkImage(
-                'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'),
+            // backgroundImage: NetworkImage(
+            //     'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'),
           ),
           IconButton(
             icon: Icon(Icons.notifications_outlined,

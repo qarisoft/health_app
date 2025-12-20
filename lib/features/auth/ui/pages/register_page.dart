@@ -3,7 +3,7 @@ import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/constants/app_colors.dart' show AppColors;
 import 'package:health_app/core/constants/app_layout.dart';
 import 'package:health_app/core/router/app_routes.dart';
-import 'package:health_app/features/auth/presentation/widgets/register_form.dart';
+import 'package:health_app/features/auth/ui/widgets/register_form.dart';
 // import 'package:health_app/l10n/app_context.tr.dart' show AppLocalizations;
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/text_button.dart';

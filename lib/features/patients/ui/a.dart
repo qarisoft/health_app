@@ -400,231 +400,238 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
       ),
     );
   }
-  
-Widget _buildBloodTypeDropdown(BuildContext context) {
-  final localizations = context.tr;
-  final screenWidth = MediaQuery.of(context).size.width;
 
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 12.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            localizations.bloodType,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[700],
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () => _showSimpleCupertinoPicker(context),
-          child: Container(
-            width: screenWidth * 0.9,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            decoration: BoxDecoration(
-              color: Colors.grey[50],
-              borderRadius: BorderRadius.circular(8.0),
-              border: Border.all(
-                color: 
-                // _medicalHistory.bloodType == BloodType.unknown
-                    // ? 
-                    Colors.grey.shade300,
-                    // : Colors.blue,
-                width:  1.0,
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    _medicalHistory.bloodType == BloodType.unknown
-                        ? localizations.selectBloodType
-                        : _medicalHistory.bloodType.arabicSymbol,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: _medicalHistory.bloodType == BloodType.unknown
-                          ? Colors.grey[600]
-                          : Colors.black,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_drop_down,
-                  color: _medicalHistory.bloodType == BloodType.unknown
-                      ? Colors.grey[600]
-                      : Colors.blue,
-                  size: 24,
-                ),
-              ],
-            ),
-          ),
-        ),
-        if (_medicalHistory.bloodType == BloodType.unknown)
+  Widget _buildBloodTypeDropdown(BuildContext context) {
+    final localizations = context.tr;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Padding(
-            padding: const EdgeInsets.only(top: 4.0, left: 4.0),
+            padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              localizations.requiredField,
+              localizations.bloodType,
               style: TextStyle(
-                color: Colors.red,
-                fontSize: 12,
+                fontSize: 16,
+                color: Colors.grey[700],
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
-      ],
-    ),
-  );
-}
-
-void _showSimpleCupertinoPicker(BuildContext context) {
-  final screenHeight = MediaQuery.of(context).size.height;
-  final screenWidth = MediaQuery.of(context).size.width;
-
-  showModalBottomSheet(
-    context: context,
-    backgroundColor: Colors.transparent,
-    builder: (BuildContext context) {
-      return Container(
-        height: screenHeight * 0.4,
-        margin: EdgeInsets.only(
-          left: screenWidth * 0.05,
-          right: screenWidth * 0.05,
-        ),
-        child: Column(
-          children: [
-            // Top spacing
-            Expanded(
-              child: GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  color: Colors.transparent,
+          GestureDetector(
+            onTap: () => _showSimpleCupertinoPicker(context),
+            child: Container(
+              width: screenWidth * 0.9,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(
+                  color:
+                      // _medicalHistory.bloodType == BloodType.unknown
+                      // ?
+                      Colors.grey.shade300,
+                  // : Colors.blue,
+                  width: 1.0,
                 ),
               ),
-            ),
-            // Picker Container
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Picker
-                  SizedBox(
-                    height: 200,
-                    child: CupertinoPicker(
-                      backgroundColor: Colors.white,
-                      itemExtent: 44,
-                      scrollController: FixedExtentScrollController(
-                        initialItem: BloodType.values
-                            .where((type) => type != BloodType.unknown)
-                            .toList()
-                            .indexOf(_medicalHistory.bloodType == BloodType.unknown
-                                ? BloodType.aPositive
-                                : _medicalHistory.bloodType),
+                  Expanded(
+                    child: Text(
+                      _medicalHistory.bloodType == BloodType.unknown
+                          ? localizations.selectBloodType
+                          : _medicalHistory.bloodType.arabicSymbol,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: _medicalHistory.bloodType == BloodType.unknown
+                            ? Colors.grey[600]
+                            : Colors.black,
                       ),
-                      onSelectedItemChanged: (int index) {
-                        final types = BloodType.values.where((type) => type != BloodType.unknown).toList();
-                        final selectedType = types[index];
-                        setState(() {
-                          _medicalHistory = _medicalHistory.copyWith(bloodType: selectedType);
-                        });
-                      },
-                      children: BloodType.values.where((type) => type != BloodType.unknown).map((BloodType type) {
-                        return Center(
-                          child: Text(
-                            type.arabicSymbol,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  // Done Button
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(color: Colors.grey[200]!, width: 0.5),
-                      ),
-                    ),
-                    child: CupertinoButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        'Done',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    color: _medicalHistory.bloodType == BloodType.unknown
+                        ? Colors.grey[600]
+                        : Colors.blue,
+                    size: 24,
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-Widget _buildBloodTypeDropdown2(BuildContext context) {
-  final localizations = context.tr;
-
-  return Center(
-    child: SizedBox(
-      width: MediaQuery.widthOf(context) * 0.7,
-      child: DropdownButtonFormField<BloodType>(
-        initialValue: _medicalHistory.bloodType,
-        decoration: InputDecoration(
-          labelText: localizations.bloodType,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
-          filled: true,
-          fillColor: Colors.grey[50],
-          // contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        ),
-        items: BloodType.values.where((type) => type != BloodType.unknown).map((
-          BloodType type,
-        ) {
-          return DropdownMenuItem<BloodType>(
-            value: type,
-            child: Text(
-              type.arabicSymbol,
-              overflow: TextOverflow.ellipsis,
+          ),
+          if (_medicalHistory.bloodType == BloodType.unknown)
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0, left: 4.0),
+              child: Text(
+                localizations.requiredField,
+                style: TextStyle(color: Colors.red, fontSize: 12),
+              ),
             ),
-          );
-        }).toList(),
-        onChanged: (BloodType? value) {
-          setState(() {
-            _medicalHistory = _medicalHistory.copyWith(
-              bloodType: value ?? BloodType.unknown,
-            );
-          });
-        },
-        validator: (value) {
-          if (value == null || value == BloodType.unknown) {
-            return localizations.requiredField;
-          }
-          return null;
-        },
-        hint: Text(localizations.selectBloodType),
-        // isExpanded: true,
+        ],
       ),
-    ),
-  );
-}
+    );
+  }
+
+  void _showSimpleCupertinoPicker(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          height: screenHeight * 0.4,
+          margin: EdgeInsets.only(
+            left: screenWidth * 0.05,
+            right: screenWidth * 0.05,
+          ),
+          child: Column(
+            children: [
+              // Top spacing
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(color: Colors.transparent),
+                ),
+              ),
+              // Picker Container
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Picker
+                    SizedBox(
+                      height: 200,
+                      child: CupertinoPicker(
+                        backgroundColor: Colors.white,
+                        itemExtent: 44,
+                        scrollController: FixedExtentScrollController(
+                          initialItem: BloodType.values
+                              .where((type) => type != BloodType.unknown)
+                              .toList()
+                              .indexOf(
+                                _medicalHistory.bloodType == BloodType.unknown
+                                    ? BloodType.aPositive
+                                    : _medicalHistory.bloodType,
+                              ),
+                        ),
+                        onSelectedItemChanged: (int index) {
+                          final types = BloodType.values
+                              .where((type) => type != BloodType.unknown)
+                              .toList();
+                          final selectedType = types[index];
+                          setState(() {
+                            _medicalHistory = _medicalHistory.copyWith(
+                              bloodType: selectedType,
+                            );
+                          });
+                        },
+                        children: BloodType.values
+                            .where((type) => type != BloodType.unknown)
+                            .map((BloodType type) {
+                              return Center(
+                                child: Text(
+                                  type.arabicSymbol,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              );
+                            })
+                            .toList(),
+                      ),
+                    ),
+                    // Done Button
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(color: Colors.grey[200]!, width: 0.5),
+                        ),
+                      ),
+                      child: CupertinoButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          'Done',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBloodTypeDropdown2(BuildContext context) {
+    final localizations = context.tr;
+
+    return Center(
+      child: SizedBox(
+        width: MediaQuery.widthOf(context) * 0.7,
+        child: DropdownButtonFormField<BloodType>(
+          initialValue: _medicalHistory.bloodType,
+          decoration: InputDecoration(
+            labelText: localizations.bloodType,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            filled: true,
+            fillColor: Colors.grey[50],
+            // contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          ),
+          items: BloodType.values
+              .where((type) => type != BloodType.unknown)
+              .map((BloodType type) {
+                return DropdownMenuItem<BloodType>(
+                  value: type,
+                  child: Text(
+                    type.arabicSymbol,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
+              })
+              .toList(),
+          onChanged: (BloodType? value) {
+            setState(() {
+              _medicalHistory = _medicalHistory.copyWith(
+                bloodType: value ?? BloodType.unknown,
+              );
+            });
+          },
+          validator: (value) {
+            if (value == null || value == BloodType.unknown) {
+              return localizations.requiredField;
+            }
+            return null;
+          },
+          hint: Text(localizations.selectBloodType),
+          // isExpanded: true,
+        ),
+      ),
+    );
+  }
 
   Widget _buildSectionHeader(String title) {
     return Padding(

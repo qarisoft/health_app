@@ -7,6 +7,8 @@ import 'package:health_app/core/constants/app_colors.dart' show AppColors;
 import 'package:health_app/core/constants/app_layout.dart';
 import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/core/user/user.dart';
+// import 'package:health_app/core/user/user.dart' hide UserType;
+import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/l10n/app_localizations.dart' show AppLocalizations;
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/text_button.dart';
@@ -37,38 +39,68 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
-  void goHome() {
-    context.toNamed('/home');
+  void goHome(AppAuthState auth) {
+    auth.whenOrNull(patient: (a) {
+      context.toNamed(AppRoutes.patientHome);
+    });
+
   }
 
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
-      await Future.delayed(const Duration(seconds: 2));
-      final sh = di<SharedPreferences>();
-      await sh.setString(AUTH_TYPE_KEY, _userTypeController.text);
-      final authType = _userTypeController.text;
-      Map<String, dynamic>? auth;
-
-      if (authType == DOCTOR_KEY) {
-        auth = DoctorEntity().toJson();
-      }
-
-      if (authType == ADMIN_KEY) {
-        auth = DoctorEntity().toJson();
-      }
-
-      if (authType == PHARMACIST_KEY) {
-        auth = DoctorEntity().toJson();
-      }
-
-      if (authType == PATIENT_KEY) {
-        auth = PatientEntity().toJson();
-      }
-
-      sh.setString(AUTH_KEY, jsonEncode(auth));
-
+      final auth = await di<LoginUsecase>().login(
+        LoginParams(
+          userType: UserType.fromString(_userTypeController.text),
+          phoneNumber: _phoneController.text,
+          password: _passwordController.text,
+        ),
+      );
       setState(() => _isLoading = false);
+
+      auth.when(
+        succes: (succes) {
+          xlog(succes.toString());
+          goHome(succes);
+        },
+        error: (e) {
+          // TODO implement error case
+        },
+      );
+      // goHome(auth);
+      // switch (auth) {
+      //   case PatientAuth _:
+      //     // context.toNamed(routeName)
+      //     break;
+      //   default:
+      // }
+      // auth.when((user, token) {
+
+      // },);
+
+      // await Future.delayed(const Duration(seconds: 2));
+      // final sh = di<SharedPreferences>();
+      // await sh.setString(AUTH_TYPE_KEY, _userTypeController.text);
+      // final authType = _userTypeController.text;
+      // Map<String, dynamic>? auth;
+
+      // if (authType == DOCTOR_KEY) {
+      //   auth = DoctorEntity().toJson();
+      // }
+
+      // if (authType == ADMIN_KEY) {
+      //   auth = DoctorEntity().toJson();
+      // }
+
+      // if (authType == PHARMACIST_KEY) {
+      //   auth = DoctorEntity().toJson();
+      // }
+
+      // if (authType == PATIENT_KEY) {
+      //   auth = PatientEntity().toJson();
+      // }
+
+      // sh.setString(AUTH_KEY, jsonEncode(auth));
 
       // Navigate to home page
       // goHome();

@@ -282,293 +282,9 @@ as int,
 
 
 /// @nodoc
-mixin _$Authstate {
-
- UserEntity get user; String get token;
-/// Create a copy of Authstate
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$AuthstateCopyWith<Authstate> get copyWith => _$AuthstateCopyWithImpl<Authstate>(this as Authstate, _$identity);
-
-  /// Serializes this Authstate to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Authstate&&(identical(other.user, user) || other.user == user)&&(identical(other.token, token) || other.token == token));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,user,token);
-
-@override
-String toString() {
-  return 'Authstate(user: $user, token: $token)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $AuthstateCopyWith<$Res>  {
-  factory $AuthstateCopyWith(Authstate value, $Res Function(Authstate) _then) = _$AuthstateCopyWithImpl;
-@useResult
-$Res call({
- UserEntity user, String token
-});
-
-
-$UserEntityCopyWith<$Res> get user;
-
-}
-/// @nodoc
-class _$AuthstateCopyWithImpl<$Res>
-    implements $AuthstateCopyWith<$Res> {
-  _$AuthstateCopyWithImpl(this._self, this._then);
-
-  final Authstate _self;
-  final $Res Function(Authstate) _then;
-
-/// Create a copy of Authstate
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? user = null,Object? token = null,}) {
-  return _then(_self.copyWith(
-user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as UserEntity,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-/// Create a copy of Authstate
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$UserEntityCopyWith<$Res> get user {
-  
-  return $UserEntityCopyWith<$Res>(_self.user, (value) {
-    return _then(_self.copyWith(user: value));
-  });
-}
-}
-
-
-/// Adds pattern-matching-related methods to [Authstate].
-extension AuthstatePatterns on Authstate {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Authstate value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _Authstate() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Authstate value)  $default,){
-final _that = this;
-switch (_that) {
-case _Authstate():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Authstate value)?  $default,){
-final _that = this;
-switch (_that) {
-case _Authstate() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UserEntity user,  String token)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _Authstate() when $default != null:
-return $default(_that.user,_that.token);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UserEntity user,  String token)  $default,) {final _that = this;
-switch (_that) {
-case _Authstate():
-return $default(_that.user,_that.token);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UserEntity user,  String token)?  $default,) {final _that = this;
-switch (_that) {
-case _Authstate() when $default != null:
-return $default(_that.user,_that.token);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _Authstate implements Authstate {
-  const _Authstate({required this.user, required this.token});
-  factory _Authstate.fromJson(Map<String, dynamic> json) => _$AuthstateFromJson(json);
-
-@override final  UserEntity user;
-@override final  String token;
-
-/// Create a copy of Authstate
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$AuthstateCopyWith<_Authstate> get copyWith => __$AuthstateCopyWithImpl<_Authstate>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$AuthstateToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Authstate&&(identical(other.user, user) || other.user == user)&&(identical(other.token, token) || other.token == token));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,user,token);
-
-@override
-String toString() {
-  return 'Authstate(user: $user, token: $token)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$AuthstateCopyWith<$Res> implements $AuthstateCopyWith<$Res> {
-  factory _$AuthstateCopyWith(_Authstate value, $Res Function(_Authstate) _then) = __$AuthstateCopyWithImpl;
-@override @useResult
-$Res call({
- UserEntity user, String token
-});
-
-
-@override $UserEntityCopyWith<$Res> get user;
-
-}
-/// @nodoc
-class __$AuthstateCopyWithImpl<$Res>
-    implements _$AuthstateCopyWith<$Res> {
-  __$AuthstateCopyWithImpl(this._self, this._then);
-
-  final _Authstate _self;
-  final $Res Function(_Authstate) _then;
-
-/// Create a copy of Authstate
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? user = null,Object? token = null,}) {
-  return _then(_Authstate(
-user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as UserEntity,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-/// Create a copy of Authstate
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$UserEntityCopyWith<$Res> get user {
-  
-  return $UserEntityCopyWith<$Res>(_self.user, (value) {
-    return _then(_self.copyWith(user: value));
-  });
-}
-}
-
-
-/// @nodoc
 mixin _$DoctorEntity {
 
- bool get isActive;
+ bool get isActive; UserType get userType;
 /// Create a copy of DoctorEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -581,16 +297,16 @@ $DoctorEntityCopyWith<DoctorEntity> get copyWith => _$DoctorEntityCopyWithImpl<D
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoctorEntity&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoctorEntity&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,isActive);
+int get hashCode => Object.hash(runtimeType,isActive,userType);
 
 @override
 String toString() {
-  return 'DoctorEntity(isActive: $isActive)';
+  return 'DoctorEntity(isActive: $isActive, userType: $userType)';
 }
 
 
@@ -601,7 +317,7 @@ abstract mixin class $DoctorEntityCopyWith<$Res>  {
   factory $DoctorEntityCopyWith(DoctorEntity value, $Res Function(DoctorEntity) _then) = _$DoctorEntityCopyWithImpl;
 @useResult
 $Res call({
- bool isActive
+ bool isActive, UserType userType
 });
 
 
@@ -618,10 +334,11 @@ class _$DoctorEntityCopyWithImpl<$Res>
 
 /// Create a copy of DoctorEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isActive = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isActive = null,Object? userType = null,}) {
   return _then(_self.copyWith(
 isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,
   ));
 }
 
@@ -706,10 +423,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isActive)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isActive,  UserType userType)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DoctorEntity() when $default != null:
-return $default(_that.isActive);case _:
+return $default(_that.isActive,_that.userType);case _:
   return orElse();
 
 }
@@ -727,10 +444,10 @@ return $default(_that.isActive);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isActive)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isActive,  UserType userType)  $default,) {final _that = this;
 switch (_that) {
 case _DoctorEntity():
-return $default(_that.isActive);case _:
+return $default(_that.isActive,_that.userType);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -747,10 +464,10 @@ return $default(_that.isActive);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isActive)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isActive,  UserType userType)?  $default,) {final _that = this;
 switch (_that) {
 case _DoctorEntity() when $default != null:
-return $default(_that.isActive);case _:
+return $default(_that.isActive,_that.userType);case _:
   return null;
 
 }
@@ -762,10 +479,11 @@ return $default(_that.isActive);case _:
 @JsonSerializable()
 
 class _DoctorEntity implements DoctorEntity {
-  const _DoctorEntity({this.isActive = false});
+  const _DoctorEntity({this.isActive = false, this.userType = UserType.doctor});
   factory _DoctorEntity.fromJson(Map<String, dynamic> json) => _$DoctorEntityFromJson(json);
 
 @override@JsonKey() final  bool isActive;
+@override@JsonKey() final  UserType userType;
 
 /// Create a copy of DoctorEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -780,16 +498,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoctorEntity&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoctorEntity&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,isActive);
+int get hashCode => Object.hash(runtimeType,isActive,userType);
 
 @override
 String toString() {
-  return 'DoctorEntity(isActive: $isActive)';
+  return 'DoctorEntity(isActive: $isActive, userType: $userType)';
 }
 
 
@@ -800,7 +518,7 @@ abstract mixin class _$DoctorEntityCopyWith<$Res> implements $DoctorEntityCopyWi
   factory _$DoctorEntityCopyWith(_DoctorEntity value, $Res Function(_DoctorEntity) _then) = __$DoctorEntityCopyWithImpl;
 @override @useResult
 $Res call({
- bool isActive
+ bool isActive, UserType userType
 });
 
 
@@ -817,10 +535,11 @@ class __$DoctorEntityCopyWithImpl<$Res>
 
 /// Create a copy of DoctorEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isActive = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isActive = null,Object? userType = null,}) {
   return _then(_DoctorEntity(
 isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,
   ));
 }
 
@@ -831,7 +550,7 @@ as bool,
 /// @nodoc
 mixin _$PharmacistEntity {
 
- bool get isActive;
+ bool get isActive; UserType get userType;
 /// Create a copy of PharmacistEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -844,16 +563,16 @@ $PharmacistEntityCopyWith<PharmacistEntity> get copyWith => _$PharmacistEntityCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PharmacistEntity&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PharmacistEntity&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,isActive);
+int get hashCode => Object.hash(runtimeType,isActive,userType);
 
 @override
 String toString() {
-  return 'PharmacistEntity(isActive: $isActive)';
+  return 'PharmacistEntity(isActive: $isActive, userType: $userType)';
 }
 
 
@@ -864,7 +583,7 @@ abstract mixin class $PharmacistEntityCopyWith<$Res>  {
   factory $PharmacistEntityCopyWith(PharmacistEntity value, $Res Function(PharmacistEntity) _then) = _$PharmacistEntityCopyWithImpl;
 @useResult
 $Res call({
- bool isActive
+ bool isActive, UserType userType
 });
 
 
@@ -881,10 +600,11 @@ class _$PharmacistEntityCopyWithImpl<$Res>
 
 /// Create a copy of PharmacistEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isActive = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isActive = null,Object? userType = null,}) {
   return _then(_self.copyWith(
 isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,
   ));
 }
 
@@ -969,10 +689,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isActive)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isActive,  UserType userType)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PharmacistEntity() when $default != null:
-return $default(_that.isActive);case _:
+return $default(_that.isActive,_that.userType);case _:
   return orElse();
 
 }
@@ -990,10 +710,10 @@ return $default(_that.isActive);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isActive)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isActive,  UserType userType)  $default,) {final _that = this;
 switch (_that) {
 case _PharmacistEntity():
-return $default(_that.isActive);case _:
+return $default(_that.isActive,_that.userType);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1010,10 +730,10 @@ return $default(_that.isActive);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isActive)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isActive,  UserType userType)?  $default,) {final _that = this;
 switch (_that) {
 case _PharmacistEntity() when $default != null:
-return $default(_that.isActive);case _:
+return $default(_that.isActive,_that.userType);case _:
   return null;
 
 }
@@ -1025,10 +745,11 @@ return $default(_that.isActive);case _:
 @JsonSerializable()
 
 class _PharmacistEntity implements PharmacistEntity {
-  const _PharmacistEntity({this.isActive = false});
+  const _PharmacistEntity({this.isActive = false, this.userType = UserType.pharmacist});
   factory _PharmacistEntity.fromJson(Map<String, dynamic> json) => _$PharmacistEntityFromJson(json);
 
 @override@JsonKey() final  bool isActive;
+@override@JsonKey() final  UserType userType;
 
 /// Create a copy of PharmacistEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -1043,16 +764,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PharmacistEntity&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PharmacistEntity&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,isActive);
+int get hashCode => Object.hash(runtimeType,isActive,userType);
 
 @override
 String toString() {
-  return 'PharmacistEntity(isActive: $isActive)';
+  return 'PharmacistEntity(isActive: $isActive, userType: $userType)';
 }
 
 
@@ -1063,7 +784,7 @@ abstract mixin class _$PharmacistEntityCopyWith<$Res> implements $PharmacistEnti
   factory _$PharmacistEntityCopyWith(_PharmacistEntity value, $Res Function(_PharmacistEntity) _then) = __$PharmacistEntityCopyWithImpl;
 @override @useResult
 $Res call({
- bool isActive
+ bool isActive, UserType userType
 });
 
 
@@ -1080,10 +801,11 @@ class __$PharmacistEntityCopyWithImpl<$Res>
 
 /// Create a copy of PharmacistEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isActive = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isActive = null,Object? userType = null,}) {
   return _then(_PharmacistEntity(
 isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,
   ));
 }
 
@@ -1094,7 +816,7 @@ as bool,
 /// @nodoc
 mixin _$PatientEntity {
 
- String get name; String get phoneNumber; bool get isActive;
+ String get name; UserType get userType; String get phoneNumber; bool get isActive;
 /// Create a copy of PatientEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1107,16 +829,16 @@ $PatientEntityCopyWith<PatientEntity> get copyWith => _$PatientEntityCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatientEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatientEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.userType, userType) || other.userType == userType)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,phoneNumber,isActive);
+int get hashCode => Object.hash(runtimeType,name,userType,phoneNumber,isActive);
 
 @override
 String toString() {
-  return 'PatientEntity(name: $name, phoneNumber: $phoneNumber, isActive: $isActive)';
+  return 'PatientEntity(name: $name, userType: $userType, phoneNumber: $phoneNumber, isActive: $isActive)';
 }
 
 
@@ -1127,7 +849,7 @@ abstract mixin class $PatientEntityCopyWith<$Res>  {
   factory $PatientEntityCopyWith(PatientEntity value, $Res Function(PatientEntity) _then) = _$PatientEntityCopyWithImpl;
 @useResult
 $Res call({
- String name, String phoneNumber, bool isActive
+ String name, UserType userType, String phoneNumber, bool isActive
 });
 
 
@@ -1144,10 +866,11 @@ class _$PatientEntityCopyWithImpl<$Res>
 
 /// Create a copy of PatientEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? phoneNumber = null,Object? isActive = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? userType = null,Object? phoneNumber = null,Object? isActive = null,}) {
   return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -1234,10 +957,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String phoneNumber,  bool isActive)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  UserType userType,  String phoneNumber,  bool isActive)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PatientEntity() when $default != null:
-return $default(_that.name,_that.phoneNumber,_that.isActive);case _:
+return $default(_that.name,_that.userType,_that.phoneNumber,_that.isActive);case _:
   return orElse();
 
 }
@@ -1255,10 +978,10 @@ return $default(_that.name,_that.phoneNumber,_that.isActive);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String phoneNumber,  bool isActive)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  UserType userType,  String phoneNumber,  bool isActive)  $default,) {final _that = this;
 switch (_that) {
 case _PatientEntity():
-return $default(_that.name,_that.phoneNumber,_that.isActive);case _:
+return $default(_that.name,_that.userType,_that.phoneNumber,_that.isActive);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1275,10 +998,10 @@ return $default(_that.name,_that.phoneNumber,_that.isActive);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String phoneNumber,  bool isActive)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  UserType userType,  String phoneNumber,  bool isActive)?  $default,) {final _that = this;
 switch (_that) {
 case _PatientEntity() when $default != null:
-return $default(_that.name,_that.phoneNumber,_that.isActive);case _:
+return $default(_that.name,_that.userType,_that.phoneNumber,_that.isActive);case _:
   return null;
 
 }
@@ -1290,10 +1013,11 @@ return $default(_that.name,_that.phoneNumber,_that.isActive);case _:
 @JsonSerializable()
 
 class _PatientEntity implements PatientEntity {
-  const _PatientEntity({this.name = '', this.phoneNumber = '', this.isActive = false});
+  const _PatientEntity({this.name = '', this.userType = UserType.patient, this.phoneNumber = '', this.isActive = false});
   factory _PatientEntity.fromJson(Map<String, dynamic> json) => _$PatientEntityFromJson(json);
 
 @override@JsonKey() final  String name;
+@override@JsonKey() final  UserType userType;
 @override@JsonKey() final  String phoneNumber;
 @override@JsonKey() final  bool isActive;
 
@@ -1310,16 +1034,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatientEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatientEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.userType, userType) || other.userType == userType)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,phoneNumber,isActive);
+int get hashCode => Object.hash(runtimeType,name,userType,phoneNumber,isActive);
 
 @override
 String toString() {
-  return 'PatientEntity(name: $name, phoneNumber: $phoneNumber, isActive: $isActive)';
+  return 'PatientEntity(name: $name, userType: $userType, phoneNumber: $phoneNumber, isActive: $isActive)';
 }
 
 
@@ -1330,7 +1054,7 @@ abstract mixin class _$PatientEntityCopyWith<$Res> implements $PatientEntityCopy
   factory _$PatientEntityCopyWith(_PatientEntity value, $Res Function(_PatientEntity) _then) = __$PatientEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String phoneNumber, bool isActive
+ String name, UserType userType, String phoneNumber, bool isActive
 });
 
 
@@ -1347,10 +1071,11 @@ class __$PatientEntityCopyWithImpl<$Res>
 
 /// Create a copy of PatientEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? phoneNumber = null,Object? isActive = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? userType = null,Object? phoneNumber = null,Object? isActive = null,}) {
   return _then(_PatientEntity(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -1363,7 +1088,7 @@ as bool,
 /// @nodoc
 mixin _$AdminEntity {
 
- String get name;
+ String get name; UserType get userType;
 /// Create a copy of AdminEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1376,16 +1101,16 @@ $AdminEntityCopyWith<AdminEntity> get copyWith => _$AdminEntityCopyWithImpl<Admi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdminEntity&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdminEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name);
+int get hashCode => Object.hash(runtimeType,name,userType);
 
 @override
 String toString() {
-  return 'AdminEntity(name: $name)';
+  return 'AdminEntity(name: $name, userType: $userType)';
 }
 
 
@@ -1396,7 +1121,7 @@ abstract mixin class $AdminEntityCopyWith<$Res>  {
   factory $AdminEntityCopyWith(AdminEntity value, $Res Function(AdminEntity) _then) = _$AdminEntityCopyWithImpl;
 @useResult
 $Res call({
- String name
+ String name, UserType userType
 });
 
 
@@ -1413,10 +1138,11 @@ class _$AdminEntityCopyWithImpl<$Res>
 
 /// Create a copy of AdminEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? userType = null,}) {
   return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+as String,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,
   ));
 }
 
@@ -1501,10 +1227,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  UserType userType)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AdminEntity() when $default != null:
-return $default(_that.name);case _:
+return $default(_that.name,_that.userType);case _:
   return orElse();
 
 }
@@ -1522,10 +1248,10 @@ return $default(_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  UserType userType)  $default,) {final _that = this;
 switch (_that) {
 case _AdminEntity():
-return $default(_that.name);case _:
+return $default(_that.name,_that.userType);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1542,10 +1268,10 @@ return $default(_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  UserType userType)?  $default,) {final _that = this;
 switch (_that) {
 case _AdminEntity() when $default != null:
-return $default(_that.name);case _:
+return $default(_that.name,_that.userType);case _:
   return null;
 
 }
@@ -1557,10 +1283,11 @@ return $default(_that.name);case _:
 @JsonSerializable()
 
 class _AdminEntity implements AdminEntity {
-  const _AdminEntity({this.name = ''});
+  const _AdminEntity({this.name = '', this.userType = UserType.admin});
   factory _AdminEntity.fromJson(Map<String, dynamic> json) => _$AdminEntityFromJson(json);
 
 @override@JsonKey() final  String name;
+@override@JsonKey() final  UserType userType;
 
 /// Create a copy of AdminEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -1575,16 +1302,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdminEntity&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdminEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name);
+int get hashCode => Object.hash(runtimeType,name,userType);
 
 @override
 String toString() {
-  return 'AdminEntity(name: $name)';
+  return 'AdminEntity(name: $name, userType: $userType)';
 }
 
 
@@ -1595,7 +1322,7 @@ abstract mixin class _$AdminEntityCopyWith<$Res> implements $AdminEntityCopyWith
   factory _$AdminEntityCopyWith(_AdminEntity value, $Res Function(_AdminEntity) _then) = __$AdminEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String name
+ String name, UserType userType
 });
 
 
@@ -1612,10 +1339,11 @@ class __$AdminEntityCopyWithImpl<$Res>
 
 /// Create a copy of AdminEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? userType = null,}) {
   return _then(_AdminEntity(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+as String,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,
   ));
 }
 
@@ -1626,7 +1354,12 @@ as String,
 /// @nodoc
 mixin _$InitialAuthEntity {
 
-
+ UserType get userType;
+/// Create a copy of InitialAuthEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$InitialAuthEntityCopyWith<InitialAuthEntity> get copyWith => _$InitialAuthEntityCopyWithImpl<InitialAuthEntity>(this as InitialAuthEntity, _$identity);
 
   /// Serializes this InitialAuthEntity to a JSON map.
   Map<String, dynamic> toJson();
@@ -1634,24 +1367,50 @@ mixin _$InitialAuthEntity {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InitialAuthEntity);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InitialAuthEntity&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,userType);
 
 @override
 String toString() {
-  return 'InitialAuthEntity()';
+  return 'InitialAuthEntity(userType: $userType)';
 }
 
 
 }
 
 /// @nodoc
-class $InitialAuthEntityCopyWith<$Res>  {
-$InitialAuthEntityCopyWith(InitialAuthEntity _, $Res Function(InitialAuthEntity) __);
+abstract mixin class $InitialAuthEntityCopyWith<$Res>  {
+  factory $InitialAuthEntityCopyWith(InitialAuthEntity value, $Res Function(InitialAuthEntity) _then) = _$InitialAuthEntityCopyWithImpl;
+@useResult
+$Res call({
+ UserType userType
+});
+
+
+
+
+}
+/// @nodoc
+class _$InitialAuthEntityCopyWithImpl<$Res>
+    implements $InitialAuthEntityCopyWith<$Res> {
+  _$InitialAuthEntityCopyWithImpl(this._self, this._then);
+
+  final InitialAuthEntity _self;
+  final $Res Function(InitialAuthEntity) _then;
+
+/// Create a copy of InitialAuthEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? userType = null,}) {
+  return _then(_self.copyWith(
+userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,
+  ));
+}
+
 }
 
 
@@ -1733,10 +1492,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function()?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UserType userType)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _InitialAuthEntity() when $default != null:
-return $default();case _:
+return $default(_that.userType);case _:
   return orElse();
 
 }
@@ -1754,10 +1513,10 @@ return $default();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function()  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UserType userType)  $default,) {final _that = this;
 switch (_that) {
 case _InitialAuthEntity():
-return $default();case _:
+return $default(_that.userType);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1774,10 +1533,10 @@ return $default();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function()?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UserType userType)?  $default,) {final _that = this;
 switch (_that) {
 case _InitialAuthEntity() when $default != null:
-return $default();case _:
+return $default(_that.userType);case _:
   return null;
 
 }
@@ -1789,11 +1548,16 @@ return $default();case _:
 @JsonSerializable()
 
 class _InitialAuthEntity implements InitialAuthEntity {
-  const _InitialAuthEntity();
+  const _InitialAuthEntity({this.userType = UserType.initial});
   factory _InitialAuthEntity.fromJson(Map<String, dynamic> json) => _$InitialAuthEntityFromJson(json);
 
+@override@JsonKey() final  UserType userType;
 
-
+/// Create a copy of InitialAuthEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$InitialAuthEntityCopyWith<_InitialAuthEntity> get copyWith => __$InitialAuthEntityCopyWithImpl<_InitialAuthEntity>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
@@ -1802,23 +1566,52 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InitialAuthEntity);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InitialAuthEntity&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,userType);
 
 @override
 String toString() {
-  return 'InitialAuthEntity()';
+  return 'InitialAuthEntity(userType: $userType)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$InitialAuthEntityCopyWith<$Res> implements $InitialAuthEntityCopyWith<$Res> {
+  factory _$InitialAuthEntityCopyWith(_InitialAuthEntity value, $Res Function(_InitialAuthEntity) _then) = __$InitialAuthEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ UserType userType
+});
 
 
+
+
+}
+/// @nodoc
+class __$InitialAuthEntityCopyWithImpl<$Res>
+    implements _$InitialAuthEntityCopyWith<$Res> {
+  __$InitialAuthEntityCopyWithImpl(this._self, this._then);
+
+  final _InitialAuthEntity _self;
+  final $Res Function(_InitialAuthEntity) _then;
+
+/// Create a copy of InitialAuthEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? userType = null,}) {
+  return _then(_InitialAuthEntity(
+userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
+as UserType,
+  ));
+}
+
+
+}
 
 /// @nodoc
 mixin _$AppAuthState {
@@ -1898,10 +1691,7 @@ return initial(_that);case PatientAuth():
 return patient(_that);case DoctorAuth():
 return doctor(_that);case PharmacistAuth():
 return pharmacisit(_that);case AdminAuth():
-return admin(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return admin(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -1972,10 +1762,7 @@ return initial(_that.auth);case PatientAuth():
 return patient(_that.auth);case DoctorAuth():
 return doctor(_that.auth);case PharmacistAuth():
 return pharmacisit(_that.auth);case AdminAuth():
-return admin(_that.auth);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return admin(_that.auth);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -2377,6 +2164,269 @@ $AdminEntityCopyWith<$Res> get auth {
     return _then(_self.copyWith(auth: value));
   });
 }
+}
+
+
+/// @nodoc
+mixin _$Authstate {
+
+ String get token;
+/// Create a copy of Authstate
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AuthstateCopyWith<Authstate> get copyWith => _$AuthstateCopyWithImpl<Authstate>(this as Authstate, _$identity);
+
+  /// Serializes this Authstate to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Authstate&&(identical(other.token, token) || other.token == token));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,token);
+
+@override
+String toString() {
+  return 'Authstate(token: $token)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AuthstateCopyWith<$Res>  {
+  factory $AuthstateCopyWith(Authstate value, $Res Function(Authstate) _then) = _$AuthstateCopyWithImpl;
+@useResult
+$Res call({
+ String token
+});
+
+
+
+
+}
+/// @nodoc
+class _$AuthstateCopyWithImpl<$Res>
+    implements $AuthstateCopyWith<$Res> {
+  _$AuthstateCopyWithImpl(this._self, this._then);
+
+  final Authstate _self;
+  final $Res Function(Authstate) _then;
+
+/// Create a copy of Authstate
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? token = null,}) {
+  return _then(_self.copyWith(
+token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [Authstate].
+extension AuthstatePatterns on Authstate {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Authstate value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Authstate() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Authstate value)  $default,){
+final _that = this;
+switch (_that) {
+case _Authstate():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Authstate value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Authstate() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String token)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Authstate() when $default != null:
+return $default(_that.token);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String token)  $default,) {final _that = this;
+switch (_that) {
+case _Authstate():
+return $default(_that.token);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String token)?  $default,) {final _that = this;
+switch (_that) {
+case _Authstate() when $default != null:
+return $default(_that.token);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _Authstate implements Authstate {
+  const _Authstate({required this.token});
+  factory _Authstate.fromJson(Map<String, dynamic> json) => _$AuthstateFromJson(json);
+
+@override final  String token;
+
+/// Create a copy of Authstate
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AuthstateCopyWith<_Authstate> get copyWith => __$AuthstateCopyWithImpl<_Authstate>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AuthstateToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Authstate&&(identical(other.token, token) || other.token == token));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,token);
+
+@override
+String toString() {
+  return 'Authstate(token: $token)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AuthstateCopyWith<$Res> implements $AuthstateCopyWith<$Res> {
+  factory _$AuthstateCopyWith(_Authstate value, $Res Function(_Authstate) _then) = __$AuthstateCopyWithImpl;
+@override @useResult
+$Res call({
+ String token
+});
+
+
+
+
+}
+/// @nodoc
+class __$AuthstateCopyWithImpl<$Res>
+    implements _$AuthstateCopyWith<$Res> {
+  __$AuthstateCopyWithImpl(this._self, this._then);
+
+  final _Authstate _self;
+  final $Res Function(_Authstate) _then;
+
+/// Create a copy of Authstate
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? token = null,}) {
+  return _then(_Authstate(
+token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
 }
 
 // dart format on
