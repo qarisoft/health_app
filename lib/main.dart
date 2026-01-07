@@ -55,8 +55,8 @@ class HealthCareApp extends StatelessWidget {
 
           // initialRoute: AppRoutes.doctor,
           routes: {
-            AppRoutes.splash: (context) =>  P.MainPatientPage(),
-            // AppRoutes.splash: (context) => const SplashPage(),
+            // AppRoutes.splash: (context) =>  P.MainPatientPage(),
+            AppRoutes.splash: (context) => const SplashPage(),
             AppRoutes.login: (context) => const LoginPage(),
             AppRoutes.register: (context) => const RegisterPage(),
             //
@@ -81,10 +81,10 @@ class SplashPage extends ConsumerWidget {
     return auth.when(
       initial: () => LoginPage(),
       acount: (a) => a.when(
-        patient: (p)=>P.HomePage(),
-        doctor: (p)=>P.HomePage(),
-        pharmacist: (p)=>P.HomePage(),
-        admin: (p)=>P.HomePage(),
+        patient: (p) => P.HomePage(),
+        doctor: (p) => P.HomePage(),
+        pharmacist: (p) => P.HomePage(),
+        admin: (p) => P.HomePage(),
       ),
     );
     // .when(
