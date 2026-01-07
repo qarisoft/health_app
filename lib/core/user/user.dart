@@ -34,6 +34,7 @@ abstract class DoctorEntity with _$DoctorEntity {
 @freezed
 abstract class PharmacistEntity with _$PharmacistEntity {
   const factory PharmacistEntity({
+   @Default('') String idCardNumber,
     @Default(false) bool isActive,
     @Default(UserType.pharmacist) UserType userType,
   }) = _PharmacistEntity;
@@ -48,6 +49,7 @@ abstract class PatientEntity with _$PatientEntity {
     @Default('') String name,
     @Default(UserType.patient) UserType userType,
     @Default('') String phoneNumber,
+    @Default('') String idCardNumber,
     @Default(false) bool isActive,
   }) = _PatientEntity;
 
@@ -133,3 +135,6 @@ abstract class Authstate with _$Authstate {
 //   factory AuthReturnState.fromJson(Map<String, dynamic> json) => _$AuthReturnStateFromJson(json);
 //   Map<String, dynamic> toJson() => _$AuthReturnStateToJson(this);
 // }
+
+
+

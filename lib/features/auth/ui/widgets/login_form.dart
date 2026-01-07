@@ -19,7 +19,9 @@ class LoginForm extends StatelessWidget {
     required this.phoneController,
     required this.passwordController,
     required this.onLogin,
-    required this.isLoading, required this.selectedUserType, required this.onUserTypeChanged,
+    required this.isLoading,
+    required this.selectedUserType,
+    required this.onUserTypeChanged,
   });
 
   // static String patient ='patient';
@@ -30,57 +32,48 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = context.tr;
-        final userTypeItems = [
-      DropdownMenuItem(
-        value: PATIENT_KEY,
-        child: Text(localizations.patient),
-      ),
+    final userTypeItems = [
+      DropdownMenuItem(value: PATIENT_KEY, child: Text(localizations.patient)),
       DropdownMenuItem(
         value: PHARMACIST_KEY,
         child: Text(localizations.pharmacist),
       ),
-      DropdownMenuItem(
-        value: DOCTOR_KEY,
-        child: Text(localizations.doctor),
-      ),
-      DropdownMenuItem(
-        value: ADMIN_KEY,
-        child: Text(localizations.admin),
-      ),
+      DropdownMenuItem(value: DOCTOR_KEY, child: Text(localizations.doctor)),
+      DropdownMenuItem(value: ADMIN_KEY, child: Text(localizations.admin)),
     ];
 
     return Column(
       spacing: AppLayout.spacingMedium,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Center(
-          child: CustomDropdownField(
-            value: selectedUserType,
-            items: userTypeItems,
-            onChanged: onUserTypeChanged,
-            labelText: localizations.userType,
-            hintText: localizations.selectUserType,
-            prefixIcon: Icons.person,
-            validator: (value) {
-              // phoneController.
-              if (value == null || value.isEmpty) {
-                return 'Please select user type';
-              }
-              return null;
-            },
-          ),
-        ),
+        // Center(
+        //   child: CustomDropdownField(
+        //     value: selectedUserType,
+        //     items: userTypeItems,
+        //     onChanged: onUserTypeChanged,
+        //     labelText: localizations.userType,
+        //     hintText: localizations.selectUserType,
+        //     prefixIcon: Icons.person,
+        //     validator: (value) {
+        //       // phoneController.
+        //       if (value == null || value.isEmpty) {
+        //         return 'Please select user type';
+        //       }
+        //       return null;
+        //     },
+        //   ),
+        // ),
         CustomTextField(
           controller: phoneController,
-          labelText: localizations.phoneNumber,
+          labelText: localizations.idCardNumber,
           prefixIcon: Icons.phone,
           keyboardType: TextInputType.phone,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter phone number';
             }
-            if (!RegExp(r'^[0-9]{9}$').hasMatch(value)) {
-              return 'Please enter a valid 10-digit phone number';
+            if (!RegExp(r'^[0-9]{14}$').hasMatch(value)) {
+              return 'Please enter a valid 14-digit number';
             }
             return null;
           },
@@ -110,10 +103,6 @@ class LoginForm extends StatelessWidget {
   }
 }
 
-
-
-
-
 class CustomDropdownField extends StatelessWidget {
   final String? value;
   final List<DropdownMenuItem<String>> items;
@@ -142,10 +131,11 @@ class CustomDropdownField extends StatelessWidget {
         labelText: labelText,
         hintText: hintText,
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 16,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       ),
       items: items,
       onChanged: onChanged,

@@ -43,6 +43,7 @@ const _$UserTypeEnumMap = {
 
 _PharmacistEntity _$PharmacistEntityFromJson(Map<String, dynamic> json) =>
     _PharmacistEntity(
+      idCardNumber: json['idCardNumber'] as String? ?? '',
       isActive: json['isActive'] as bool? ?? false,
       userType:
           $enumDecodeNullable(_$UserTypeEnumMap, json['userType']) ??
@@ -51,6 +52,7 @@ _PharmacistEntity _$PharmacistEntityFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$PharmacistEntityToJson(_PharmacistEntity instance) =>
     <String, dynamic>{
+      'idCardNumber': instance.idCardNumber,
       'isActive': instance.isActive,
       'userType': _$UserTypeEnumMap[instance.userType]!,
     };
@@ -62,6 +64,7 @@ _PatientEntity _$PatientEntityFromJson(Map<String, dynamic> json) =>
           $enumDecodeNullable(_$UserTypeEnumMap, json['userType']) ??
           UserType.patient,
       phoneNumber: json['phoneNumber'] as String? ?? '',
+      idCardNumber: json['idCardNumber'] as String? ?? '',
       isActive: json['isActive'] as bool? ?? false,
     );
 
@@ -70,6 +73,7 @@ Map<String, dynamic> _$PatientEntityToJson(_PatientEntity instance) =>
       'name': instance.name,
       'userType': _$UserTypeEnumMap[instance.userType]!,
       'phoneNumber': instance.phoneNumber,
+      'idCardNumber': instance.idCardNumber,
       'isActive': instance.isActive,
     };
 

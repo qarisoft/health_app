@@ -55,11 +55,11 @@ extension ErrorOrPatterns<T> on ErrorOr<T> {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SuccessState<T> value)?  succes,TResult Function( ErrorState<T> value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SuccessState<T> value)?  success,TResult Function( ErrorState<T> value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case SuccessState() when succes != null:
-return succes(_that);case ErrorState() when error != null:
+case SuccessState() when success != null:
+return success(_that);case ErrorState() when error != null:
 return error(_that);case _:
   return orElse();
 
@@ -78,11 +78,11 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SuccessState<T> value)  succes,required TResult Function( ErrorState<T> value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SuccessState<T> value)  success,required TResult Function( ErrorState<T> value)  error,}){
 final _that = this;
 switch (_that) {
 case SuccessState():
-return succes(_that);case ErrorState():
+return success(_that);case ErrorState():
 return error(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -100,11 +100,11 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SuccessState<T> value)?  succes,TResult? Function( ErrorState<T> value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SuccessState<T> value)?  success,TResult? Function( ErrorState<T> value)?  error,}){
 final _that = this;
 switch (_that) {
-case SuccessState() when succes != null:
-return succes(_that);case ErrorState() when error != null:
+case SuccessState() when success != null:
+return success(_that);case ErrorState() when error != null:
 return error(_that);case _:
   return null;
 
@@ -122,10 +122,10 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T data)?  succes,TResult Function( AppError error)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T data)?  success,TResult Function( AppError error)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case SuccessState() when succes != null:
-return succes(_that.data);case ErrorState() when error != null:
+case SuccessState() when success != null:
+return success(_that.data);case ErrorState() when error != null:
 return error(_that.error);case _:
   return orElse();
 
@@ -144,10 +144,10 @@ return error(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T data)  succes,required TResult Function( AppError error)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T data)  success,required TResult Function( AppError error)  error,}) {final _that = this;
 switch (_that) {
 case SuccessState():
-return succes(_that.data);case ErrorState():
+return success(_that.data);case ErrorState():
 return error(_that.error);case _:
   throw StateError('Unexpected subclass');
 
@@ -165,10 +165,10 @@ return error(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T data)?  succes,TResult? Function( AppError error)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T data)?  success,TResult? Function( AppError error)?  error,}) {final _that = this;
 switch (_that) {
-case SuccessState() when succes != null:
-return succes(_that.data);case ErrorState() when error != null:
+case SuccessState() when success != null:
+return success(_that.data);case ErrorState() when error != null:
 return error(_that.error);case _:
   return null;
 
@@ -205,7 +205,7 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'ErrorOr<$T>.succes(data: $data)';
+  return 'ErrorOr<$T>.success(data: $data)';
 }
 
 

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
+import './profile.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-
-
-
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,25 +8,11 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
-// class HomePage extends StatefulWidget {
-//   const HomePage({super.key});
-
-//   @override
-//   State<HomePage> createState() => _HomePageState();
-// }
-
-// class _HomePageState extends State<HomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Placeholder();
-//   }
-// }
 
 class _HomePageState extends State<HomePage> {
   //  _HomePageState();
   int _selectedIndex = 0;
-  
-  // Sample health data
+  final PageController _pageController = PageController();
   Map<String, dynamic> healthData = {
     'steps': 8423,
     'calories': 420,
@@ -39,46 +22,25 @@ class _HomePageState extends State<HomePage> {
     'weight': 68.5,
   };
 
-  List<Map<String, dynamic>> recentActivities = [
-    {'time': '08:30 AM', 'activity': 'Morning Run', 'duration': '30 min'},
-    {'time': '12:00 PM', 'activity': 'Lunch Workout', 'duration': '20 min'},
-    {'time': '06:00 PM', 'activity': 'Evening Walk', 'duration': '45 min'},
-    {'time': '10:00 PM', 'activity': 'Meditation', 'duration': '15 min'},
-  ];
+  // Sample health data
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF8FAFD),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // App Bar
-              _buildAppBar(),
-              
-              // Greeting and Date
-              _buildGreeting(),
-              
-              // Health Stats Cards
-              _buildHealthStats(),
-              
-              // Recent Activities
-              _buildRecentActivities(),
-              
-              // Health Tips
-              _buildHealthTips(),
-              
-              SizedBox(height: 20),
-            ],
-          ),
-        ),
+      body: PageView(
+        controller: _pageController,
+        children: [MyHomePage(), MyHomePage(),MyHomePage(), ProfilePage()],
       ),
-      
+
       // Bottom Navigation Bar
       bottomNavigationBar: _buildBottomNavBar(),
-      
+
       // Floating Action Button for Quick Add
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -93,116 +55,215 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildAppBar() {
+  void _showAddDataDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Add Health Data'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildAddDataField('Steps', 'steps', Icons.directions_walk),
+                _buildAddDataField('Heart Rate', 'heartRate', Icons.favorite),
+                _buildAddDataField(
+                  'Sleep (hours)',
+                  'sleep',
+                  Icons.nightlight_round,
+                ),
+                _buildAddDataField('Water (L)', 'water', Icons.local_drink),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Save data logic here
+                Navigator.pop(context);
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildAddDataField(String label, String key, IconData icon) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CircleAvatar(
-            radius: 22,
-            // backgroundImage: NetworkImage(
-            //     'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'),
-          ),
-          IconButton(
-            icon: Icon(Icons.notifications_outlined,
-                color: Color(0xFF4A4A4A), size: 28),
-            onPressed: () {},
-          ),
-        ],
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        keyboardType: TextInputType.number,
+        onChanged: (value) {
+          if (value.isNotEmpty) {
+            setState(() {
+              healthData[key] = double.parse(value);
+            });
+          }
+        },
       ),
     );
   }
 
-  Widget _buildGreeting() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  Widget _buildBottomNavBar() {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      notchMargin: 8,
+      child: SizedBox(
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(Icons.home, 'Home', 0),
+            _buildNavItem(Icons.bar_chart, 'Stats', 1),
+            SizedBox(width: 40), // Space for FAB
+            _buildNavItem(Icons.fitness_center, 'Workout', 2),
+            _buildNavItem(Icons.person, 'Profile', 3),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+        _pageController.jumpToPage(index);
+      },
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            'Good Morning, Alex!',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF2D2D2D),
-            ),
+          Icon(
+            icon,
+            color: _selectedIndex == index
+                ? Color(0xFF4A6FFF)
+                : Color(0xFF8A8A8A),
+            size: 28,
           ),
           SizedBox(height: 4),
           Text(
-            '${DateTime.now().day} ${_getMonthName(DateTime.now().month)} ${DateTime.now().year}',
+            label,
             style: TextStyle(
-              fontSize: 14,
-              color: Color(0xFF8A8A8A),
+              fontSize: 12,
+              color: _selectedIndex == index
+                  ? Color(0xFF4A6FFF)
+                  : Color(0xFF8A8A8A),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildHealthStats() {
-    return Container(
-      margin: EdgeInsets.all(20),
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10,
-            offset: Offset(0, 4),
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<Map<String, dynamic>> recentActivities = [
+    {'time': '08:30 AM', 'activity': 'Morning Run', 'duration': '30 min'},
+    {'time': '12:00 PM', 'activity': 'Lunch Workout', 'duration': '20 min'},
+    {'time': '06:00 PM', 'activity': 'Evening Walk', 'duration': '45 min'},
+    {'time': '10:00 PM', 'activity': 'Meditation', 'duration': '15 min'},
+  ];
+  Map<String, dynamic> healthData = {
+    'steps': 8423,
+    'calories': 420,
+    'heartRate': 72,
+    'sleep': 7.2,
+    'water': 1.8,
+    'weight': 68.5,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // App Bar
+              _buildAppBar(),
+
+              // Greeting and Date
+              _buildGreeting(),
+
+              // Health Stats Cards
+              _buildHealthStats(),
+
+              // Recent Activities
+              _buildRecentActivities(),
+
+              // Health Tips
+              _buildHealthTips(),
+
+              SizedBox(height: 20),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          // Steps
-          _buildStatItem(
-            icon: Icons.directions_walk,
-            title: 'Steps',
-            value: '${healthData['steps']}',
-            target: 10000,
-            color: Color(0xFF4A6FFF),
-            unit: 'steps',
-          ),
-          SizedBox(height: 16),
-          
-          // Heart Rate
-          _buildStatItem(
-            icon: Icons.favorite,
-            title: 'Heart Rate',
-            value: '${healthData['heartRate']}',
-            target: 80,
-            color: Color(0xFFFF6B6B),
-            unit: 'bpm',
-          ),
-          SizedBox(height: 16),
-          
-          // Sleep
-          _buildStatItem(
-            icon: Icons.nightlight_round,
-            title: 'Sleep',
-            value: '${healthData['sleep']}',
-            target: 8,
-            color: Color(0xFF9B51E0),
-            unit: 'hours',
-          ),
-          SizedBox(height: 16),
-          
-          // Water
-          _buildStatItem(
-            icon: Icons.local_drink,
-            title: 'Water',
-            value: '${healthData['water']}',
-            target: 2.5,
-            color: Color(0xFF2D9CDB),
-            unit: 'L',
-          ),
-        ],
+        ),
       ),
     );
+  }
+
+  String _getMonthName(int month) {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    return months[month - 1];
+  }
+
+  // Helper functions
+  IconData _getActivityIcon(String activity) {
+    switch (activity) {
+      case 'Morning Run':
+        return Icons.directions_run;
+      case 'Lunch Workout':
+        return Icons.fitness_center;
+      case 'Evening Walk':
+        return Icons.directions_walk;
+      case 'Meditation':
+        return Icons.self_improvement;
+      default:
+        return Icons.sports;
+    }
   }
 
   Widget _buildStatItem({
@@ -233,10 +294,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text(
                 title,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF8A8A8A),
-                ),
+                style: TextStyle(fontSize: 14, color: Color(0xFF8A8A8A)),
               ),
               SizedBox(height: 4),
               Text(
@@ -309,11 +367,7 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6,
-            offset: Offset(0, 2),
-          ),
+          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 2)),
         ],
       ),
       child: Row(
@@ -346,10 +400,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 4),
                 Text(
                   activity['time'],
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF8A8A8A),
-                  ),
+                  style: TextStyle(fontSize: 14, color: Color(0xFF8A8A8A)),
                 ),
               ],
             ),
@@ -361,6 +412,118 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.w600,
               color: Color(0xFF4A6FFF),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CircleAvatar(
+            radius: 22,
+            // backgroundImage: NetworkImage(
+            //     'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.notifications_outlined,
+              color: Color(0xFF4A4A4A),
+              size: 28,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGreeting() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Good Morning, Alex!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF2D2D2D),
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            '${DateTime.now().day} ${_getMonthName(DateTime.now().month)} ${DateTime.now().year}',
+            style: TextStyle(fontSize: 14, color: Color(0xFF8A8A8A)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHealthStats() {
+    return Container(
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Steps
+          _buildStatItem(
+            icon: Icons.directions_walk,
+            title: 'Steps',
+            value: '${healthData['steps']}',
+            target: 10000,
+            color: Color(0xFF4A6FFF),
+            unit: 'steps',
+          ),
+          SizedBox(height: 16),
+
+          // Heart Rate
+          _buildStatItem(
+            icon: Icons.favorite,
+            title: 'Heart Rate',
+            value: '${healthData['heartRate']}',
+            target: 80,
+            color: Color(0xFFFF6B6B),
+            unit: 'bpm',
+          ),
+          SizedBox(height: 16),
+
+          // Sleep
+          _buildStatItem(
+            icon: Icons.nightlight_round,
+            title: 'Sleep',
+            value: '${healthData['sleep']}',
+            target: 8,
+            color: Color(0xFF9B51E0),
+            unit: 'hours',
+          ),
+          SizedBox(height: 16),
+
+          // Water
+          _buildStatItem(
+            icon: Icons.local_drink,
+            title: 'Water',
+            value: '${healthData['water']}',
+            target: 2.5,
+            color: Color(0xFF2D9CDB),
+            unit: 'L',
           ),
         ],
       ),
@@ -388,10 +551,7 @@ class _HomePageState extends State<HomePage> {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF4A6FFF),
-                  Color.fromARGB(255, 28, 15, 40),
-                ],
+                colors: [Color(0xFF4A6FFF), Color.fromARGB(255, 28, 15, 40)],
               ),
               borderRadius: BorderRadius.circular(20),
             ),
@@ -428,150 +588,12 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(40),
                   ),
-                  child: Icon(
-                    Icons.local_drink,
-                    color: Colors.white,
-                    size: 40,
-                  ),
+                  child: Icon(Icons.local_drink, color: Colors.white, size: 40),
                 ),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildBottomNavBar() {
-    return BottomAppBar(
-      shape: CircularNotchedRectangle(),
-      notchMargin: 8,
-      child: SizedBox(
-        height: 70,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.home, 'Home', 0),
-            _buildNavItem(Icons.bar_chart, 'Stats', 1),
-            SizedBox(width: 40), // Space for FAB
-            _buildNavItem(Icons.fitness_center, 'Workout', 2),
-            _buildNavItem(Icons.person, 'Profile', 3),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavItem(IconData icon, String label, int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            color: _selectedIndex == index
-                ? Color(0xFF4A6FFF)
-                : Color(0xFF8A8A8A),
-            size: 28,
-          ),
-          SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: _selectedIndex == index
-                  ? Color(0xFF4A6FFF)
-                  : Color(0xFF8A8A8A),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Helper functions
-  IconData _getActivityIcon(String activity) {
-    switch (activity) {
-      case 'Morning Run':
-        return Icons.directions_run;
-      case 'Lunch Workout':
-        return Icons.fitness_center;
-      case 'Evening Walk':
-        return Icons.directions_walk;
-      case 'Meditation':
-        return Icons.self_improvement;
-      default:
-        return Icons.sports;
-    }
-  }
-
-  String _getMonthName(int month) {
-    const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    return months[month - 1];
-  }
-
-  void _showAddDataDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Add Health Data'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildAddDataField('Steps', 'steps', Icons.directions_walk),
-                _buildAddDataField('Heart Rate', 'heartRate', Icons.favorite),
-                _buildAddDataField('Sleep (hours)', 'sleep', Icons.nightlight_round),
-                _buildAddDataField('Water (L)', 'water', Icons.local_drink),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Save data logic here
-                Navigator.pop(context);
-              },
-              child: Text('Save'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildAddDataField(String label, String key, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextField(
-        decoration: InputDecoration(
-          labelText: label,
-          prefixIcon: Icon(icon),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        keyboardType: TextInputType.number,
-        onChanged: (value) {
-          if (value.isNotEmpty) {
-            setState(() {
-              healthData[key] = double.parse(value);
-            });
-          }
-        },
       ),
     );
   }

@@ -1,0 +1,1001 @@
+ملفات ال Request body 
+لكل نقطة من ال EndPoint
+***************************
+https://localhost:7164/api/Auth/register/patient
+Request body :
+{
+  "nationalId": "string",
+  "password": "string",
+  "confirmPassword": "string",
+  "fullName": "string",
+  "dateOfBirth": "2025-12-16T19:31:36.871Z",
+  "phoneNumber": "string",
+  "email": "string"
+}
+
+Response body:
+{
+  "success": true,
+  "message": "Patient registered",
+  "data": {
+    "patientCode": "PM-37294128",
+    "userId": 106
+  }
+}
+******************************
+https://localhost:7164/api/Auth/register/doctor
+Request body:
+{
+  "nationalId": "string",
+  "password": "string",
+  "confirmPassword": "string",
+  "fullName": "string",
+  "email": "string",
+  "phoneNumber": "string",
+  "licenseNumber": "string",
+  "specialization": "string",
+  "hospital": "string"
+  "licenseDocumentUrl": "string",
+  
+}
+Response body:
+{
+  "success": true,
+  "message": "Doctor registration submitted (pending approval)",
+  "data": null
+}
+
+
+*********************************
+https://localhost:7164/api/Auth/register/pharmacist
+Request body:
+{
+  "nationalId": "string",
+  "password": "string",
+  "confirmPassword": "string",
+  "fullName": "string",
+  "email": "string",
+  "phoneNumber": "string",
+  "licenseNumber": "string",
+"pharmacyName": "string",
+  "licenseDocumentUrl": "string"
+  
+}
+Response body
+{
+  "success": true,
+  "message": "Pharmacist registration submitted (pending approval)",
+  "data": null
+}
+
+***********************************
+https://localhost:7164/api/Auth/login
+ملاحظه 
+  "identifier"تم استخدام هذا المعرف لانه يشمل 
+رقم الهوية و رقم الكود الخاص بالمريض
+ و تم استخدامه في ثلاثه مواضع عند الدخول و
+ عند البحث عن المريض في شاشة الطبيب و في شاشة الصيدلي
+Request body:
+{
+  "identifier": "string",
+  "password": "string",
+  "deviceToken": "string",
+  "devicePlatform": "string"
+}
+Response body:
+{
+  "success": true,
+  "accessToken": "return Tokenالتوكن الراجع من الداتا",
+  "role": "Patient",
+  "userId": 102
+}
+*****************************************
+https://localhost:7164/api/Auth/logout
+Request body: لا يوجد ركويست 
+Response body:
+{
+  "success": true,
+  "message": "Logged out"
+}
+******************************************
+https://localhost:7164/api/Auth/change-password
+Request body:
+{
+  "currentPassword": "string",
+  "newPassword": "string",
+  "confirmNewPassword": "string"
+}
+Response body:
+{
+  "success": false,
+  "message": "كلمة المرور الحالية غير صحيحة"
+}
+******************************************
+https://localhost:7164/api/Doctor/profile(Get)
+Request body:دالة عرض ملف الطبيب بحيث بعد تسجيل الدخول من قبل الطبيب يتم عرض ملفه و لا يوجد اي ريكويست
+Response body:
+{البيانات التى يتم ارجاعها و يتم عرضها في التطبيق
+  "success": true,
+  "message": "تم العثور على ملف الطبيب",
+  "doctor": {
+    "id": 0,
+    "userId": 0,
+    "fullName": "string",
+    "specialization": "string",
+    "licenseNumber": "string",
+    "hospital": "string",
+    "phoneNumber": "string",
+    "email": "string",
+    "createdAt": "2025-12-16T19:49:28.853Z",
+    "updatedAt": "2025-12-16T19:49:28.853Z"
+  }
+}
+******************************************
+https://localhost:7164/api/Doctor/profile(PUT)دالة تعديل ملف الطبيب
+Request body:
+{
+  "fullName": "string",
+  "specialization": "string",
+  "licenseNumber": "string",
+  "hospital": "string",
+  "phoneNumber": "string",
+  "email": "user@example.com"
+}
+Response body:
+{
+  "success": true,
+  "message": "تم العثور على ملف الطبيب",
+  "doctor": {
+    "id": 0,
+    "userId": 0,
+    "fullName": "string",
+    "specialization": "string",
+    "licenseNumber": "string",
+    "hospital": "string",
+    "phoneNumber": "string",
+    "email": "string",
+    "createdAt": "2025-12-16T19:52:21.197Z",
+    "updatedAt": "2025-12-16T19:52:21.197Z"
+  }
+}
+******************************************
+https://localhost:7164/api/Doctor/search-patient
+دالة البحث عن المريض
+ملاحظه 
+  "identifier":تم استخدام هذا المعرف لانه يشمل رقم الهوية و رقم الكود
+ الخاص بالمريض و تم استخدامه في ثلاثه مواضع عند الدخول
+ و عند البحث عن المريض في شاشة الطبيب و في شاشة الصيدلي
+
+Request body:
+{
+  "identifier": "string"
+}
+
+Response body:
+
+{
+  "success": true,
+  "message": "string",
+  "patient": {
+    "id": 0,
+    "fullName": "string",
+    "dateOfBirth": "2025-12-16T19:54:05.428Z",
+    "gender": 1,
+    "bloodType": 1,
+    "weight": 0,
+    "height": 0,
+    "emergencyContact": "string",
+    "emergencyPhone": "string",
+    "patientCode": "string",
+    "allergies": [
+      {
+        "id": 0,
+        "patientId": 0,
+        "allergenName": "string",
+        "reaction": "string",
+        "severity": "string",
+        "createdAt": "2025-12-16T19:54:05.428Z"
+      }
+    ],
+    "chronicDiseases": [
+      {
+        "id": 0,
+        "patientId": 0,
+        "diseaseName": "string",
+        "description": "string",
+        "diagnosisDate": "2025-12-16T19:54:05.428Z",
+        "createdAt": "2025-12-16T19:54:05.428Z"
+      }
+    ],
+    "surgeries": [
+      {
+        "id": 0,
+        "patientId": 0,
+        "surgeryName": "string",
+        "description": "string",
+        "surgeryDate": "2025-12-16T19:54:05.428Z",
+        "hospital": "string",
+        "surgeon": "string",
+        "createdAt": "2025-12-16T19:54:05.428Z"
+      }
+    ],
+    "medicalRecords": [
+      {
+        "id": 0,
+        "patientId": 0,
+        "doctorId": 0,
+        "diagnosis": "string",
+        "notes": "string",
+        "symptoms": "string",
+        "treatment": "string",
+        "recordDate": "2025-12-16T19:54:05.428Z",
+        "createdAt": "2025-12-16T19:54:05.428Z",
+        "doctorName": "string",
+        "patientName": "string"
+      }
+    ],
+    "prescriptions": [
+      {
+        "id": 0,
+        "patientId": 0,
+        "doctorId": 0,
+        "diagnosis": "string",
+        "notes": "string",
+        "status": 1,
+        "prescriptionDate": "2025-12-16T19:54:05.428Z",
+        "createdAt": "2025-12-16T19:54:05.429Z",
+        "doctorName": "string",
+        "patientName": "string",
+        "items": [
+          {
+            "id": 0,
+            "prescriptionId": 0,
+            "medicationName": "string",
+            "dosage": "string",
+            "frequency": "string",
+            "duration": "string",
+            "instructions": "string",
+            "quantity": 0,
+            "isDispensed": true,
+            "createdAt": "2025-12-16T19:54:05.429Z"
+          }
+        ]
+      }
+    ]
+  }
+}
+******************************************
+https://localhost:7164/api/Doctor/medical-record
+Request body:
+{
+  "patientId": 0,
+  "diagnosis": "string",
+  "notes": "string",
+  "symptoms": "string",
+  "treatment": "string",
+  "recordDate": "2025-12-16T19:55:31.730Z"
+}
+Response body:
+{
+  "success": true,
+  "message": "string",
+  "medicalRecord": {
+    "id": 0,
+    "patientId": 0,
+    "doctorId": 0,
+    "diagnosis": "string",
+    "notes": "string",
+    "symptoms": "string",
+    "treatment": "string",
+    "recordDate": "2025-12-16T19:55:41.580Z",
+    "createdAt": "2025-12-16T19:55:41.581Z",
+    "doctorName": "string",
+    "patientName": "string"
+  }
+}
+******************************************
+https://localhost:7164/api/Doctor/AddPrescription
+Request body:
+{
+  "patientId": 0,
+  "diagnosis": "string",
+  "notes": "string",
+  "items": [
+    {
+      "medicationName": "string",
+      "dosage": "string",
+      "frequency": "string",
+      "duration": "string",
+      "instructions": "string",
+      "quantity": 2147483647
+    }
+  ]
+}
+Response body:
+{
+  "success": true,
+  "message": "string",
+  "prescription": {
+    "id": 0,
+    "patientId": 0,
+    "doctorId": 0,
+    "diagnosis": "string",
+    "notes": "string",
+    "status": 1,
+    "prescriptionDate": "2025-12-16T19:56:52.156Z",
+    "createdAt": "2025-12-16T19:56:52.156Z",
+    "doctorName": "string",
+    "patientName": "string",
+    "items": [
+      {
+        "id": 0,
+        "prescriptionId": 0,
+        "medicationName": "string",
+        "dosage": "string",
+        "frequency": "string",
+        "duration": "string",
+        "instructions": "string",
+        "quantity": 0,
+        "isDispensed": true,
+        "createdAt": "2025-12-16T19:56:52.156Z"
+      }
+    ]
+  }
+}
+******************************************
+https://localhost:7164/api/Patient/initialize-profile
+Request body:دالة ادخال السجل الاولي للمريض عند تسجيل حساب جديد لاول مره
+{
+  "fullName": "string",
+  "dateOfBirth": "2025-12-16T19:58:21.412Z",
+  "gender": 1,
+  "phoneNumber": "string",
+  "email": "user@example.com",
+  "address": "string",
+  "bloodType": 1,
+  "weight": 0,
+  "height": 0,
+  "emergencyContact": "string",
+  "emergencyPhone": "string",
+  "allergies": [
+    {
+      "allergenName": "string",
+      "reaction": "string",
+      "severity": "string"
+    }
+  ],
+  "chronicDiseases": [
+    {
+      "diseaseName": "string",
+      "description": "string",
+      "diagnosisDate": "2025-12-16T19:58:21.412Z"
+    }
+  ],
+  "surgeries": [
+    {
+      "surgeryName": "string",
+      "description": "string",
+      "surgeryDate": "2025-12-16T19:58:21.412Z",
+      "hospital": "string",
+      "surgeon": "string"
+    }
+  ],
+  "currentMedications": [
+    {
+      "medicationName": "string",
+      "dosage": "string",
+      "frequency": "string",
+      "duration": "string",
+      "instructions": "string"
+    }
+  ],
+  "notes": "string"
+}
+Response body:
+{
+  "success": true,
+  "message": "string",
+  "patientId": 0
+}
+******************************************
+https://localhost:7164/api/Patient/profile(GET)
+دالة عرض بيانات المريض 
+Request body:
+لا يوجد اي ريكوسيت فقط يسجل دخول المريض
+Response body:
+{
+  "success": true,
+  "message": "تم جلب ملف المريض بنجاح",
+  "patient": {
+    "id": 102,
+    "userId": 102,
+    "fullName": "احمد محمد احمد محمد ",
+    "dateOfBirth": "2001-12-06T18:46:40.901",
+    "gender": 1,
+    "phoneNumber": "321321321",
+    "email": "Ahm_moh@example.com",
+    "address": "صنعاء",
+    "bloodType": 7,
+    "weight": 62,
+    "height": 156,
+    "emergencyContact": "صالح سعيد",
+    "emergencyPhone": "99663320",
+    "createdAt": "2025-12-06T18:44:20.506788",
+    "updatedAt": "2025-12-06T19:05:21.5390187"
+  }
+}
+
+
+******************************************
+https://localhost:7164/api/Patient/profile(PUT)
+دالة تعديل ملف المريض 
+Request body:
+{
+  "fullName": "string",
+  "dateOfBirth": "2025-12-16T20:02:59.983Z",
+  "gender": 1,
+  "phoneNumber": "string",
+  "email": "user@example.com",
+  "address": "string",
+  "bloodType": 1,
+  "weight": 500,
+  "height": 300,
+  "emergencyContact": "string",
+  "emergencyPhone": "string"
+}
+Response body:
+{
+  "success": true,
+  "message": "string",
+  "patient": {
+    "id": 0,
+    "userId": 0,
+    "fullName": "string",
+    "dateOfBirth": "2025-12-16T20:03:00.009Z",
+    "gender": 1,
+    "phoneNumber": "string",
+    "email": "string",
+    "address": "string",
+    "bloodType": 1,
+    "weight": 0,
+    "height": 0,
+    "emergencyContact": "string",
+    "emergencyPhone": "string",
+    "createdAt": "2025-12-16T20:03:00.009Z",
+    "updatedAt": "2025-12-16T20:03:00.009Z"
+  }
+}
+******************************************
+https://localhost:7164/api/Patient/generate-qr
+دالة توليد الكيو ار
+Request body: لا يوجد ريكويست فقط تسجيل الدخول من قبل المريض
+Response body:
+"success": true,
+  "message": "تم توليد رمز QR بنجاح",
+  "qrCodeUrl": "data:image/png;base64,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",
+  "token": "vhbCRj1QsQJutUFNm1HsvQ",
+  "expiresAt": "2025-12-16T20:15:02.2652513Z"
+}
+******************************************
+https://localhost:7164/api/Patient/emergency-screen
+دالة توليد شاشة الطوارئ
+Request body:لا يوجد ريكويست
+Response body:
+{
+  "success": true,
+  "message": "تم جلب معلومات الطوارئ بنجاح",
+  "emergencyInfo": {
+    "fullName": "احمد محمد احمد محمد ",
+    "bloodType": 7,
+    "allergies": [
+      "حساسية"
+    ],
+    "chronicDiseases": [
+      "القلب"
+    ],
+    "currentMedications": [
+      "اسبرين",
+      "باندول اكسترا"
+    ],
+    "emergencyContact": "صالح سعيد",
+    "emergencyPhone": "99663320",
+    "qrCodeUrl": "data:image/png;base64,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"
+  }
+}
+qrCodeUrlنستخدم هذا في التطبيق 
+ليتم توليد الكيو ار باستخدام داله معينه
+******************************************
+https://localhost:7164/api/Patient/medical-records
+دالة عرض السجل الطبي للمريض من لوحة التحكم الخاصة بالمريض
+Request body:لا يوجد
+Response body:
+[
+  {
+    "id": 4,
+    "patientId": 4,
+    "doctorId": 103,
+    "diagnosis": "صداع",
+    "notes": "يعاني من الصداع النصفي",
+    "symptoms": " التهاب في العيون",
+    "treatment": "استخدام علاج الصداع ",
+    "recordDate": "2025-12-06T19:17:09.772",
+    "createdAt": "2025-12-06T19:19:06.7211451",
+    "doctorName": "د سليم سرحان الطبيب",
+    "patientName": "احمد محمد احمد محمد "
+  },
+  {
+    "id": 3,
+    "patientId": 3,
+    "doctorId": 103,
+    "diagnosis": "Initial Medical Profile",
+    "notes": "string",
+    "symptoms": null,
+    "treatment": null,
+    "recordDate": "2025-12-06T19:05:29.9269084",
+    "createdAt": "2025-12-06T19:05:29.9500846",
+    "doctorName": "د سليم سرحان الطبيب",
+    "patientName": "احمد محمد احمد محمد "
+  }
+]
+******************************************
+https://localhost:7164/api/Patient/prescriptions
+دالة عرض الوصفه الطبيه
+Request body:لا يوجد
+Response body
+[
+  {
+    "id": 0,
+    "patientId": 0,
+    "doctorId": 0,
+    "diagnosis": "string",
+    "notes": "string",
+    "status": 1,
+    "prescriptionDate": "2025-12-16T20:15:29.843Z",
+    "createdAt": "2025-12-16T20:15:29.843Z",
+    "doctorName": "string",
+    "patientName": "string",
+    "items": [
+      {
+        "id": 0,
+        "prescriptionId": 0,
+        "medicationName": "string",
+        "dosage": "string",
+        "frequency": "string",
+        "duration": "string",
+        "instructions": "string",
+        "quantity": 0,
+        "isDispensed": true,
+        "createdAt": "2025-12-16T20:15:29.843Z"
+      }
+    ]
+  }
+]
+******************************************
+https://localhost:7164/api/Pharmacist/profile(GET)
+دالة عرض ملف الصيدلي 
+Request body:لايوجد
+Response body: في حالة نجح في جلب ملف الصيدلي يظهر التفاصيل و في حالة الفشل يضهر نل امام الصيدلي  
+في حالة الفشل
+{
+  "success": false,
+  "message": "لم يتم العثور على ملف الصيدلي",
+  "pharmacist": null
+}
+في حالة النجاح
+{
+  "success": true,
+  "message": "string",
+  "pharmacist": {
+    "id": 0,
+    "userId": 0,
+    "fullName": "string",
+    "licenseNumber": "string",
+    "pharmacyName": "string",
+    "phoneNumber": "string",
+    "email": "string",
+    "createdAt": "2025-12-16T20:17:25.204Z",
+    "updatedAt": "2025-12-16T20:17:25.204Z"
+  }
+}
+******************************************
+https://localhost:7164/api/Pharmacist/profile(PUT)
+دالة تعديل ملف الصيدلي
+Request body:
+{
+  "fullName": "string",
+  "licenseNumber": "string",
+  "pharmacyName": "string",
+  "phoneNumber": "string",
+  "email": "user@example.com"
+}
+Response body:
+في حالة الفشل
+{
+  "success": false,
+  "message": "لم يتم العثور على ملف الصيدلي",
+  "pharmacist": null
+}
+في حالة النجاح
+{
+  "success": true,
+  "message": "string",
+  "pharmacist": {
+    "id": 0,
+    "userId": 0,
+    "fullName": "string",
+    "licenseNumber": "string",
+    "pharmacyName": "string",
+    "phoneNumber": "string",
+    "email": "string",
+    "createdAt": "2025-12-16T20:20:36.045Z",
+    "updatedAt": "2025-12-16T20:20:36.045Z"
+  }
+}
+******************************************
+https://localhost:7164/api/Pharmacist/search-prescription
+دالة البحث عن وصفة المريض لدى الصيدلي
+  "identifier"تم استخدام هذا المعرف لانه يشمل رقم الهوية و رقم الكود
+ الخاص بالمريض و تم استخدامه في ثلاثه مواضع عند الدخول و 
+عند البحث عن المريض في شاشة الطبيب و في شاشة الصيدلي
+Request body:
+{
+  "identifier": "string"
+}
+Response body:
+في حالة الفشل
+{
+  "success": false,
+  "message": "لم يتم العثور على المريض",
+  "prescriptions": []
+}
+ في حالة النجاح
+{
+  "success": true,
+  "message": "string",
+  "prescriptions": [
+    {
+      "id": 0,
+      "patientId": 0,
+      "doctorId": 0,
+      "diagnosis": "string",
+      "notes": "string",
+      "status": 1,
+      "prescriptionDate": "2025-12-16T20:21:53.010Z",
+      "createdAt": "2025-12-16T20:21:53.010Z",
+      "doctorName": "string",
+      "patientName": "string",
+      "items": [
+        {
+          "id": 0,
+          "prescriptionId": 0,
+          "medicationName": "string",
+          "dosage": "string",
+          "frequency": "string",
+          "duration": "string",
+          "instructions": "string",
+          "quantity": 0,
+          "isDispensed": true,
+          "createdAt": "2025-12-16T20:21:53.010Z"
+        }
+      ]
+    }
+  ]
+}
+******************************************
+https://localhost:7164/api/Pharmacist/check-drug-interactions
+دالة فحص تفاعلات الادوية 
+Request body:
+{
+  "patientId": 0,
+  "medications": [
+    "string"اسم الدواء بحيث تتضمن هذه المصفوفة عدة اصناف
+  ]
+}
+Response body:
+في حالة لا يوجد تفاعلات
+{
+  "success": true,
+  "message": "لم يتم العثور على أي أدوية مسجلة للتحقق من التفاعلات",
+  "warnings": [],
+  "hasInteractions": false
+}
+
+في حالة وجود تفاعلات
+{
+  "success": true,
+  "message": "string",
+  "warnings": [
+    {
+      "medication1": "string",
+      "medication2": "string",
+      "severity": "string",
+      "description": "string",
+      "recommendation": "string"
+    }
+  ],
+  "hasInteractions": true
+}
+******************************************
+https://localhost:7164/api/Pharmacist/dispense-prescription
+دالة صرف الادوية
+Request body:
+{
+  "prescriptionId": 0,رقم الوصفة
+  "notes": "string",
+  "items": [
+    {
+      "prescriptionItemId": 0,رقم الدواء داخل الوصفة
+      "dispensed": true,
+      "notes": "string"
+    }
+  ]
+}
+Response body:
+{
+  "success": true,
+  "message": "string",
+  "dispense": {
+    "id": 0,
+    "prescriptionId": 0,
+    "pharmacistId": 0,
+    "notes": "string",
+    "dispenseDate": "2025-12-16T20:30:37.359Z",
+    "createdAt": "2025-12-16T20:30:37.359Z",
+    "pharmacistName": "string",
+    "items": [
+      {
+        "id": 0,
+        "prescriptionItemId": 0,
+        "medicationName": "string",
+        "dosage": "string",
+        "frequency": "string",
+        "duration": "string",
+        "instructions": "string",
+        "quantity": 0,
+        "isDispensed": true,
+        "dispenseNotes": "string"
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "medication1": "string",
+      "medication2": "string",
+      "severity": "string",
+      "description": "string",
+      "recommendation": "string"
+    }
+  ]
+}
+******************************************
+https://localhost:7164/api/Pharmacist/create
+دالة اضافة وصفة او دواء من قبل الصيدلي
+Request body:
+{
+  "patientId": 0,هذا الرقم الذي يرجع للمريض عند الدخول الى التطبيق باشعار حيث انه ليس رقم الهوية او رقم الكود الخاص بالمريض 
+  "doctorId": 0,
+  "diagnosis": "string",
+  "items": [
+    {
+      "drugId": 0,
+      "quantity": 0,
+      "dosage": "string",
+      "frequency": "string",
+      "duration": "string",
+      "instructions": "string"
+    }
+  ]
+}
+Response body:
+{
+  "success": true,
+  "message": "string",
+  "data": "string"
+}
+******************************************
+https://localhost:7164/api/Pharmacist/prescription-status
+دالة تعديل حال الوصفة الطبيه من قبل الصيدلي 
+Request body:
+{
+  "prescriptionId": 0,رقم الوصفة 
+  "status": 1,
+  "notes": "string"
+}
+Response body:
+{
+  "success": true,
+  "message": "string",
+  "newStatus": 1
+}
+******************************************
+https://localhost:7164/api/Admin/pending-registrations
+دالة عرض طلبات الاعتماد للاطباء و الصيادلة فقط عرض ليتم معرفة هوية مرسل الطلب
+Request body:لا يوجد يكتفي بتسجيل دخول الادمن في النظام
+Response body:
+[
+  {
+    "id": 107,
+    "nationalId": "string",
+    "role": 2,
+    "status": 1,
+    "doctorInfo": {
+      "fullName": "string",
+      "specialization": "string",
+      "licenseNumber": "string",
+      "email": "string",
+      "phoneNumber": "string",
+      "hospital": "string"
+    },
+ و هذه الدالة في حالة الصيدلي 
+    "pharmacistInfo": null
+  },
+  {
+    "id": 109,
+    "nationalId": "6369875241",
+    "role": 3,
+    "status": 1,
+    "doctorInfo": null,
+    "pharmacistInfo": {
+      "fullName": "string",
+      "licenseNumber": "string",
+      "email": "string",
+      "phoneNumber": "string",
+      "pharmacyName": "string"
+    }
+  }
+]
+******************************************
+https://localhost:7164/api/Admin/approve/107
+دالة اعتماد الطلب 
+Request body:رقم المستخدم "id": 107,
+Response body: 
+User approved successfully
+******************************************
+https://localhost:7164/api/Admin/reject/109
+دالة رفض الطلب 
+Request body:رقم المستخدم  "id": 109,
+Response body:
+User registration rejected
+******************************************
+https://localhost:7164/api/Admin/GetUsers
+دالة جلب المستخدمين حسب الرول او النوع
+
+Request body:
+{
+  "role": 1,
+  "status": 2,
+  "searchTerm": "5000000002",
+  "pageNumber": 1,
+  "pageSize": 10
+}
+Response body:
+{
+  "success": true,
+  "message": "تم جلب قائمة المستخدمين بنجاح",
+  "users": [
+    {
+      "id": 105,
+      "nationalId": "5000000002",
+      "role": 1,
+      "status": 2,
+      "fullName": null,
+      "phoneNumber": null,
+      "email": null,
+      "createdAt": "2025-12-06T22:10:32.7639365",
+      "lastLoginAt": null
+    }
+  ],
+  "totalCount": 1,
+  "pageNumber": 1,
+  "pageSize": 10,
+  "totalPages": 1
+}
+******************************************
+https://localhost:7164/api/Admin/user-status
+دالة تغيير حالة اعتماد المستخدم 
+
+Request body:
+{
+  "userId": 107,
+  "status": 1,
+  "reason": "string"
+}
+
+Response body:
+	
+{
+  "success": true,
+  "message": "تم تحديث حالة المستخدم بنجاح"
+}
+******************************************
+https://localhost:7164/api/Admin/audit-logs
+دالة عرض سجل الاحدات للمستخدم
+
+Request body:
+{
+  "userId": 102,
+  "action": "string",
+  "startDate": "2025-12-01T20:51:45.511Z",
+  "endDate": "2025-12-08T20:51:45.511Z",
+  "pageNumber": 1,
+  "pageSize": 10
+}
+
+Response body:
+{
+  "success": true,
+  "message": "تم جلب سجل التدقيق بنجاح",
+  "logs": [],
+  "totalCount": 0,
+  "pageNumber": 1,
+  "pageSize": 10,
+  "totalPages": 0
+}
+******************************************
+https://localhost:7164/api/Admin/statistics
+دالة عرض الاجماليات خاصة بالادمن
+Request body:لا يوجد 
+Response body:
+في حالة الخطاء
+{
+  "success": false,
+  "message": "حدث خطأ في الخادم",
+  "statistics": null
+}
+في حالة النجاح 
+{
+  "success": true,
+  "message": "string",
+  "statistics": {
+    "totalUsers": 0,
+    "totalPatients": 0,
+    "totalDoctors": 0,
+    "totalPharmacists": 0,
+    "totalMedicalRecords": 0,
+    "totalPrescriptions": 0,
+    "pendingApprovals": 0,
+    "activeUsers": 0,
+    "suspendedUsers": 0,
+    "monthlyStats": [
+      {
+        "month": "string",
+        "newUsers": 0,
+        "newMedicalRecords": 0,
+        "newPrescriptions": 0
+      }
+    ],
+    "roleStats": [
+      {
+        "role": 1,
+        "roleName": "string",
+        "count": 0,
+        "activeCount": 0,
+        "pendingCount": 0,
+        "suspendedCount": 0
+      }
+    ]
+  }
+}
+******************************************
+https://localhost:7164/api/Admin/send-notification
+دالة ارسال اشعارات 
+Request body:
+{
+  "userIds": [
+    103
+  ],
+  "subject": "ارسال اشعار",
+  "content": "يتم ارسال اشعار بواسطة احدى الطرق التالية",
+  "sendEmail": true,
+  "sendSMS": true,
+  "sendInApp": true
+}
+
+Response body:
+{
+  "success": true,
+  "message": "تم إرسال الإشعارات بنجاح",
+  "sentCount": 1,
+  "failedCount": 0
+}
+*****************************************************

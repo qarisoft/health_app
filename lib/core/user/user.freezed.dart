@@ -550,7 +550,7 @@ as UserType,
 /// @nodoc
 mixin _$PharmacistEntity {
 
- bool get isActive; UserType get userType;
+ String get idCardNumber; bool get isActive; UserType get userType;
 /// Create a copy of PharmacistEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -563,16 +563,16 @@ $PharmacistEntityCopyWith<PharmacistEntity> get copyWith => _$PharmacistEntityCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PharmacistEntity&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.userType, userType) || other.userType == userType));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PharmacistEntity&&(identical(other.idCardNumber, idCardNumber) || other.idCardNumber == idCardNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,isActive,userType);
+int get hashCode => Object.hash(runtimeType,idCardNumber,isActive,userType);
 
 @override
 String toString() {
-  return 'PharmacistEntity(isActive: $isActive, userType: $userType)';
+  return 'PharmacistEntity(idCardNumber: $idCardNumber, isActive: $isActive, userType: $userType)';
 }
 
 
@@ -583,7 +583,7 @@ abstract mixin class $PharmacistEntityCopyWith<$Res>  {
   factory $PharmacistEntityCopyWith(PharmacistEntity value, $Res Function(PharmacistEntity) _then) = _$PharmacistEntityCopyWithImpl;
 @useResult
 $Res call({
- bool isActive, UserType userType
+ String idCardNumber, bool isActive, UserType userType
 });
 
 
@@ -600,9 +600,10 @@ class _$PharmacistEntityCopyWithImpl<$Res>
 
 /// Create a copy of PharmacistEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isActive = null,Object? userType = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? idCardNumber = null,Object? isActive = null,Object? userType = null,}) {
   return _then(_self.copyWith(
-isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+idCardNumber: null == idCardNumber ? _self.idCardNumber : idCardNumber // ignore: cast_nullable_to_non_nullable
+as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
 as UserType,
   ));
@@ -689,10 +690,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isActive,  UserType userType)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String idCardNumber,  bool isActive,  UserType userType)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PharmacistEntity() when $default != null:
-return $default(_that.isActive,_that.userType);case _:
+return $default(_that.idCardNumber,_that.isActive,_that.userType);case _:
   return orElse();
 
 }
@@ -710,10 +711,10 @@ return $default(_that.isActive,_that.userType);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isActive,  UserType userType)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String idCardNumber,  bool isActive,  UserType userType)  $default,) {final _that = this;
 switch (_that) {
 case _PharmacistEntity():
-return $default(_that.isActive,_that.userType);case _:
+return $default(_that.idCardNumber,_that.isActive,_that.userType);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -730,10 +731,10 @@ return $default(_that.isActive,_that.userType);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isActive,  UserType userType)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String idCardNumber,  bool isActive,  UserType userType)?  $default,) {final _that = this;
 switch (_that) {
 case _PharmacistEntity() when $default != null:
-return $default(_that.isActive,_that.userType);case _:
+return $default(_that.idCardNumber,_that.isActive,_that.userType);case _:
   return null;
 
 }
@@ -745,9 +746,10 @@ return $default(_that.isActive,_that.userType);case _:
 @JsonSerializable()
 
 class _PharmacistEntity implements PharmacistEntity {
-  const _PharmacistEntity({this.isActive = false, this.userType = UserType.pharmacist});
+  const _PharmacistEntity({this.idCardNumber = '', this.isActive = false, this.userType = UserType.pharmacist});
   factory _PharmacistEntity.fromJson(Map<String, dynamic> json) => _$PharmacistEntityFromJson(json);
 
+@override@JsonKey() final  String idCardNumber;
 @override@JsonKey() final  bool isActive;
 @override@JsonKey() final  UserType userType;
 
@@ -764,16 +766,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PharmacistEntity&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.userType, userType) || other.userType == userType));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PharmacistEntity&&(identical(other.idCardNumber, idCardNumber) || other.idCardNumber == idCardNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.userType, userType) || other.userType == userType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,isActive,userType);
+int get hashCode => Object.hash(runtimeType,idCardNumber,isActive,userType);
 
 @override
 String toString() {
-  return 'PharmacistEntity(isActive: $isActive, userType: $userType)';
+  return 'PharmacistEntity(idCardNumber: $idCardNumber, isActive: $isActive, userType: $userType)';
 }
 
 
@@ -784,7 +786,7 @@ abstract mixin class _$PharmacistEntityCopyWith<$Res> implements $PharmacistEnti
   factory _$PharmacistEntityCopyWith(_PharmacistEntity value, $Res Function(_PharmacistEntity) _then) = __$PharmacistEntityCopyWithImpl;
 @override @useResult
 $Res call({
- bool isActive, UserType userType
+ String idCardNumber, bool isActive, UserType userType
 });
 
 
@@ -801,9 +803,10 @@ class __$PharmacistEntityCopyWithImpl<$Res>
 
 /// Create a copy of PharmacistEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isActive = null,Object? userType = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? idCardNumber = null,Object? isActive = null,Object? userType = null,}) {
   return _then(_PharmacistEntity(
-isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+idCardNumber: null == idCardNumber ? _self.idCardNumber : idCardNumber // ignore: cast_nullable_to_non_nullable
+as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
 as UserType,
   ));
@@ -816,7 +819,7 @@ as UserType,
 /// @nodoc
 mixin _$PatientEntity {
 
- String get name; UserType get userType; String get phoneNumber; bool get isActive;
+ String get name; UserType get userType; String get phoneNumber; String get idCardNumber; bool get isActive;
 /// Create a copy of PatientEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -829,16 +832,16 @@ $PatientEntityCopyWith<PatientEntity> get copyWith => _$PatientEntityCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatientEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.userType, userType) || other.userType == userType)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatientEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.userType, userType) || other.userType == userType)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.idCardNumber, idCardNumber) || other.idCardNumber == idCardNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,userType,phoneNumber,isActive);
+int get hashCode => Object.hash(runtimeType,name,userType,phoneNumber,idCardNumber,isActive);
 
 @override
 String toString() {
-  return 'PatientEntity(name: $name, userType: $userType, phoneNumber: $phoneNumber, isActive: $isActive)';
+  return 'PatientEntity(name: $name, userType: $userType, phoneNumber: $phoneNumber, idCardNumber: $idCardNumber, isActive: $isActive)';
 }
 
 
@@ -849,7 +852,7 @@ abstract mixin class $PatientEntityCopyWith<$Res>  {
   factory $PatientEntityCopyWith(PatientEntity value, $Res Function(PatientEntity) _then) = _$PatientEntityCopyWithImpl;
 @useResult
 $Res call({
- String name, UserType userType, String phoneNumber, bool isActive
+ String name, UserType userType, String phoneNumber, String idCardNumber, bool isActive
 });
 
 
@@ -866,11 +869,12 @@ class _$PatientEntityCopyWithImpl<$Res>
 
 /// Create a copy of PatientEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? userType = null,Object? phoneNumber = null,Object? isActive = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? userType = null,Object? phoneNumber = null,Object? idCardNumber = null,Object? isActive = null,}) {
   return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
 as UserType,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String,idCardNumber: null == idCardNumber ? _self.idCardNumber : idCardNumber // ignore: cast_nullable_to_non_nullable
 as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -957,10 +961,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  UserType userType,  String phoneNumber,  bool isActive)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  UserType userType,  String phoneNumber,  String idCardNumber,  bool isActive)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PatientEntity() when $default != null:
-return $default(_that.name,_that.userType,_that.phoneNumber,_that.isActive);case _:
+return $default(_that.name,_that.userType,_that.phoneNumber,_that.idCardNumber,_that.isActive);case _:
   return orElse();
 
 }
@@ -978,10 +982,10 @@ return $default(_that.name,_that.userType,_that.phoneNumber,_that.isActive);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  UserType userType,  String phoneNumber,  bool isActive)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  UserType userType,  String phoneNumber,  String idCardNumber,  bool isActive)  $default,) {final _that = this;
 switch (_that) {
 case _PatientEntity():
-return $default(_that.name,_that.userType,_that.phoneNumber,_that.isActive);case _:
+return $default(_that.name,_that.userType,_that.phoneNumber,_that.idCardNumber,_that.isActive);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -998,10 +1002,10 @@ return $default(_that.name,_that.userType,_that.phoneNumber,_that.isActive);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  UserType userType,  String phoneNumber,  bool isActive)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  UserType userType,  String phoneNumber,  String idCardNumber,  bool isActive)?  $default,) {final _that = this;
 switch (_that) {
 case _PatientEntity() when $default != null:
-return $default(_that.name,_that.userType,_that.phoneNumber,_that.isActive);case _:
+return $default(_that.name,_that.userType,_that.phoneNumber,_that.idCardNumber,_that.isActive);case _:
   return null;
 
 }
@@ -1013,12 +1017,13 @@ return $default(_that.name,_that.userType,_that.phoneNumber,_that.isActive);case
 @JsonSerializable()
 
 class _PatientEntity implements PatientEntity {
-  const _PatientEntity({this.name = '', this.userType = UserType.patient, this.phoneNumber = '', this.isActive = false});
+  const _PatientEntity({this.name = '', this.userType = UserType.patient, this.phoneNumber = '', this.idCardNumber = '', this.isActive = false});
   factory _PatientEntity.fromJson(Map<String, dynamic> json) => _$PatientEntityFromJson(json);
 
 @override@JsonKey() final  String name;
 @override@JsonKey() final  UserType userType;
 @override@JsonKey() final  String phoneNumber;
+@override@JsonKey() final  String idCardNumber;
 @override@JsonKey() final  bool isActive;
 
 /// Create a copy of PatientEntity
@@ -1034,16 +1039,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatientEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.userType, userType) || other.userType == userType)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatientEntity&&(identical(other.name, name) || other.name == name)&&(identical(other.userType, userType) || other.userType == userType)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.idCardNumber, idCardNumber) || other.idCardNumber == idCardNumber)&&(identical(other.isActive, isActive) || other.isActive == isActive));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,userType,phoneNumber,isActive);
+int get hashCode => Object.hash(runtimeType,name,userType,phoneNumber,idCardNumber,isActive);
 
 @override
 String toString() {
-  return 'PatientEntity(name: $name, userType: $userType, phoneNumber: $phoneNumber, isActive: $isActive)';
+  return 'PatientEntity(name: $name, userType: $userType, phoneNumber: $phoneNumber, idCardNumber: $idCardNumber, isActive: $isActive)';
 }
 
 
@@ -1054,7 +1059,7 @@ abstract mixin class _$PatientEntityCopyWith<$Res> implements $PatientEntityCopy
   factory _$PatientEntityCopyWith(_PatientEntity value, $Res Function(_PatientEntity) _then) = __$PatientEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String name, UserType userType, String phoneNumber, bool isActive
+ String name, UserType userType, String phoneNumber, String idCardNumber, bool isActive
 });
 
 
@@ -1071,11 +1076,12 @@ class __$PatientEntityCopyWithImpl<$Res>
 
 /// Create a copy of PatientEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? userType = null,Object? phoneNumber = null,Object? isActive = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? userType = null,Object? phoneNumber = null,Object? idCardNumber = null,Object? isActive = null,}) {
   return _then(_PatientEntity(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,userType: null == userType ? _self.userType : userType // ignore: cast_nullable_to_non_nullable
 as UserType,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String,idCardNumber: null == idCardNumber ? _self.idCardNumber : idCardNumber // ignore: cast_nullable_to_non_nullable
 as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,
   ));

@@ -1,20 +1,27 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:get_it/get_it.dart';
-import 'package:health_app/auth_state.dart' show appAuthProvider, di;
+import 'package:health_app/auth_state.dart'
+    show accountProvider, appAuthProvider, di;
 import 'package:health_app/core/router/app_routes.dart';
-import 'package:health_app/core/user/user.dart';
+import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/features/auth/data/usecases/login_usecase.dart'
     show LoginUsecaseImpl;
+import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/auth/ui/pages/register_page.dart';
-import 'package:health_app/features/doctor/ui/home.dart';
+import 'package:health_app/features/doctor/ui/home.dart' as doctorPages;
 import 'package:health_app/features/home/ui/pages/p.dart' as P;
-// import 'package:health_app/features/home/presentation/pages/home_page.dart' as Home;
 import 'package:health_app/features/patients/ui/home.dart'
     show MedicalHistoryPage;
 import 'package:health_app/l10n/app_localizations.dart';
+import 'package:health_app/shared/api/api_repositories.dart';
+import 'package:health_app/shared/api/api_service.dart';
+import 'package:health_app/shared/api/dio_factory.dart';
+import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/providers/local/local_provider.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/ui/pages/login_page.dart';
@@ -36,23 +43,25 @@ class HealthCareApp extends StatelessWidget {
       builder: (context, ref, child) {
         final LocalState local = ref.watch(localProvider);
         return MaterialApp(
+          navigatorKey: AppDialog.navigatorKey,
           // title: 'HealthCare Pro',
           theme: AppTheme.lightTheme,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(local.code),
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.login,
+          initialRoute: AppRoutes.splash,
 
           // initialRoute: AppRoutes.doctor,
           routes: {
+            // AppRoutes.splash: (context) => const ProfilePage(),
             AppRoutes.splash: (context) => const SplashPage(),
             AppRoutes.login: (context) => const LoginPage(),
             AppRoutes.register: (context) => const RegisterPage(),
             //
             AppRoutes.patientMHistory: (context) => const MedicalHistoryPage(),
             AppRoutes.patientHome: (context) => const P.HomePage(),
-            AppRoutes.doctorHome: (context) => const DoctorHome(),
+            AppRoutes.doctorHome: (context) => const doctorPages.HomePage(),
           },
         );
       },
@@ -65,14 +74,25 @@ class SplashPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.watch(appAuthProvider);
+    final auth = ref.watch(accountProvider);
+
+    auth.log('auth ');
     return auth.when(
-      initial: (_) => LoginPage(),
-      patient: (_) => P.HomePage(),
-      doctor: (_) => DoctorHomePage(),
-      pharmacisit: (_) => PharmacistHomePage(),
-      admin: (_) => AdminHomePage(),
+      initial: () => LoginPage(),
+      acount: (a) => a.when(
+        patient: (p)=>P.HomePage(),
+        doctor: (p)=>P.HomePage(),
+        pharmacist: (p)=>P.HomePage(),
+        admin: (p)=>P.HomePage(),
+      ),
     );
+    // .when(
+    // initial: (_) => LoginPage(),
+    // patient: (_) => P.HomePage(),
+    // doctor: (_) => DoctorHomePage(),
+    // pharmacisit: (_) => PharmacistHomePage(),
+    // admin: (_) => AdminHomePage(),
+    // );
   }
 }
 
@@ -105,9 +125,23 @@ class DoctorHomePage extends StatelessWidget {
 
 // final GetIt di = GetIt.instance;
 Future<void> init() async {
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+  di.registerLazySingleton<AppStorage>(() => AppStorage(sharedPreferences));
+
   di.registerSingletonAsync<SharedPreferences>(() async {
     return await SharedPreferences.getInstance();
   });
 
-  di.registerFactory<LoginUsecase>(() => LoginUsecaseImpl());
+  di.registerFactory<Dio>(() => DioFactory(di()).getDio());
+
+  di.registerLazySingleton<ApiService>(() => ApiService(dio: di()));
+  di.registerLazySingleton<AppRepositories>(
+    () => AppRepositories(api: di(), storage: di()),
+  );
+
+  di.registerFactory<LoginUsecase>(() => LoginUsecaseImpl(di()));
+  // di.registerFactory<RegisterUsecase>(
+  //   () => RegisterUsecaseImpl(dio: di(), storage: di()),
+  // );
 }

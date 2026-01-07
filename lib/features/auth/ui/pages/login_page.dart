@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/constants/k.dart';
@@ -7,12 +5,19 @@ import 'package:health_app/core/constants/app_colors.dart' show AppColors;
 import 'package:health_app/core/constants/app_layout.dart';
 import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/core/user/user.dart';
+import 'package:health_app/features/auth/domain/models/auth_state.dart';
 // import 'package:health_app/core/user/user.dart' hide UserType;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/l10n/app_localizations.dart' show AppLocalizations;
+import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
+// import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+// import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
+// import 'package:health_app/shared/widgets/dialog/dialog_manager.dart'
+// show DialogManager;
 import 'package:health_app/shared/widgets/text_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/login_form.dart';
 import '../widgets/biometric_button.dart';
 
@@ -30,8 +35,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _userTypeController = TextEditingController(
     text: PATIENT_KEY,
   );
-  final TextEditingController _phoneController = TextEditingController(
-    text: DEV_ENV ? '123456789' : null,
+  final TextEditingController _idCardNumberController = TextEditingController(
+    text: DEV_ENV ? '12345678912345' : null,
   );
   final TextEditingController _passwordController = TextEditingController(
     text: DEV_ENV ? '123456789' : null,
@@ -39,72 +44,56 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
-  void goHome(AppAuthState auth) {
-    auth.whenOrNull(patient: (a) {
-      context.toNamed(AppRoutes.patientHome);
-    });
+  void goHome(AuthRecord auth) {
+    // auth.whenOrNull(
+    //   (accessToken, role, userId) => ,
+    //   // patient: (a) {
+    //   //   context.toNamed(AppRoutes.patientHome);
+    //   // },
+    // );
+    switch (auth.role.toLowerCase()) {
+      case 'patient':
 
+        // initPatient();
+        context.toNamed(AppRoutes.patientHome);
+
+        break;
+      case 'doctor':
+        context.toNamed(AppRoutes.doctorHome);
+
+      default:
+    }
+    // switch(auth.role){
+    //   // 'patient'=>
+    //   case 'patient'=>
+    // }
   }
+
 
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
-      final auth = await di<LoginUsecase>().login(
-        LoginParams(
-          userType: UserType.fromString(_userTypeController.text),
-          phoneNumber: _phoneController.text,
-          password: _passwordController.text,
-        ),
+      AppDialog().loading(message: "login, please wait ...");
+   
+
+      final auth = await di<AppRepositories>().login(
+        identifier: _idCardNumberController.text,
+        password: _passwordController.text,
       );
-      setState(() => _isLoading = false);
+
+      AppDialog().dismiss();
 
       auth.when(
-        succes: (succes) {
+        success: (succes) {
           xlog(succes.toString());
           goHome(succes);
         },
         error: (e) {
-          // TODO implement error case
+          // AppDialog().info(title: 'Error', message: 'dsadsdsadsadsadsa');
+          AppDialog().show(title: 'Error', message: 'dsadsdsadsadsadsa');
+          // AppDialog().success(title: 'Error', message: 'dsadsdsadsadsadsa');
+          // AppDialog().toast(e.msg);
         },
       );
-      // goHome(auth);
-      // switch (auth) {
-      //   case PatientAuth _:
-      //     // context.toNamed(routeName)
-      //     break;
-      //   default:
-      // }
-      // auth.when((user, token) {
-
-      // },);
-
-      // await Future.delayed(const Duration(seconds: 2));
-      // final sh = di<SharedPreferences>();
-      // await sh.setString(AUTH_TYPE_KEY, _userTypeController.text);
-      // final authType = _userTypeController.text;
-      // Map<String, dynamic>? auth;
-
-      // if (authType == DOCTOR_KEY) {
-      //   auth = DoctorEntity().toJson();
-      // }
-
-      // if (authType == ADMIN_KEY) {
-      //   auth = DoctorEntity().toJson();
-      // }
-
-      // if (authType == PHARMACIST_KEY) {
-      //   auth = DoctorEntity().toJson();
-      // }
-
-      // if (authType == PATIENT_KEY) {
-      //   auth = PatientEntity().toJson();
-      // }
-
-      // sh.setString(AUTH_KEY, jsonEncode(auth));
-
-      // Navigate to home page
-      // goHome();
-      // Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
@@ -127,12 +116,13 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: AppLayout.paddingAllLarge,
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 40),
                 // Logo/Title
@@ -142,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 40),
                 // Login Form
                 LoginForm(
-                  phoneController: _phoneController,
+                  phoneController: _idCardNumberController,
                   passwordController: _passwordController,
                   onLogin: _handleLogin,
                   isLoading: _isLoading,
@@ -177,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    _phoneController.dispose();
+    _idCardNumberController.dispose();
     _passwordController.dispose();
     super.dispose();
   }

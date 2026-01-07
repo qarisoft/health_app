@@ -13,7 +13,7 @@ part of 'patient.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Patient implements DiagnosticableTreeMixin {
+mixin _$Patient {
 
  String get id; String get name; String get phoneNumber; String get nationalId; DateTime? get dateOfBirth; String? get email; String? get address; String? get emergencyContact; String? get bloodType; String? get gender; String? get notes; bool get isActive; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Patient
@@ -25,12 +25,6 @@ $PatientCopyWith<Patient> get copyWith => _$PatientCopyWithImpl<Patient>(this as
   /// Serializes this Patient to a JSON map.
   Map<String, dynamic> toJson();
 
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'Patient'))
-    ..add(DiagnosticsProperty('id', id))..add(DiagnosticsProperty('name', name))..add(DiagnosticsProperty('phoneNumber', phoneNumber))..add(DiagnosticsProperty('nationalId', nationalId))..add(DiagnosticsProperty('dateOfBirth', dateOfBirth))..add(DiagnosticsProperty('email', email))..add(DiagnosticsProperty('address', address))..add(DiagnosticsProperty('emergencyContact', emergencyContact))..add(DiagnosticsProperty('bloodType', bloodType))..add(DiagnosticsProperty('gender', gender))..add(DiagnosticsProperty('notes', notes))..add(DiagnosticsProperty('isActive', isActive))..add(DiagnosticsProperty('createdAt', createdAt))..add(DiagnosticsProperty('updatedAt', updatedAt));
-}
 
 @override
 bool operator ==(Object other) {
@@ -42,7 +36,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,id,name,phoneNumber,nationalId,dateOfBirth,email,address,emergencyContact,bloodType,gender,notes,isActive,createdAt,updatedAt);
 
 @override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+String toString() {
   return 'Patient(id: $id, name: $name, phoneNumber: $phoneNumber, nationalId: $nationalId, dateOfBirth: $dateOfBirth, email: $email, address: $address, emergencyContact: $emergencyContact, bloodType: $bloodType, gender: $gender, notes: $notes, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
@@ -227,7 +221,7 @@ return $default(_that.id,_that.name,_that.phoneNumber,_that.nationalId,_that.dat
 /// @nodoc
 @JsonSerializable()
 
-class _Patient with DiagnosticableTreeMixin implements Patient {
+class _Patient implements Patient {
   const _Patient({required this.id, required this.name, required this.phoneNumber, required this.nationalId, this.dateOfBirth, this.email, this.address, this.emergencyContact, this.bloodType, this.gender, this.notes, this.isActive = false, required this.createdAt, required this.updatedAt});
   factory _Patient.fromJson(Map<String, dynamic> json) => _$PatientFromJson(json);
 
@@ -256,12 +250,6 @@ _$PatientCopyWith<_Patient> get copyWith => __$PatientCopyWithImpl<_Patient>(thi
 Map<String, dynamic> toJson() {
   return _$PatientToJson(this, );
 }
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'Patient'))
-    ..add(DiagnosticsProperty('id', id))..add(DiagnosticsProperty('name', name))..add(DiagnosticsProperty('phoneNumber', phoneNumber))..add(DiagnosticsProperty('nationalId', nationalId))..add(DiagnosticsProperty('dateOfBirth', dateOfBirth))..add(DiagnosticsProperty('email', email))..add(DiagnosticsProperty('address', address))..add(DiagnosticsProperty('emergencyContact', emergencyContact))..add(DiagnosticsProperty('bloodType', bloodType))..add(DiagnosticsProperty('gender', gender))..add(DiagnosticsProperty('notes', notes))..add(DiagnosticsProperty('isActive', isActive))..add(DiagnosticsProperty('createdAt', createdAt))..add(DiagnosticsProperty('updatedAt', updatedAt));
-}
 
 @override
 bool operator ==(Object other) {
@@ -273,7 +261,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,id,name,phoneNumber,nationalId,dateOfBirth,email,address,emergencyContact,bloodType,gender,notes,isActive,createdAt,updatedAt);
 
 @override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+String toString() {
   return 'Patient(id: $id, name: $name, phoneNumber: $phoneNumber, nationalId: $nationalId, dateOfBirth: $dateOfBirth, email: $email, address: $address, emergencyContact: $emergencyContact, bloodType: $bloodType, gender: $gender, notes: $notes, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 

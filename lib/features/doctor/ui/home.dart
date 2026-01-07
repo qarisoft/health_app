@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:health_app/features/auth/domain/models/patient.dart'
+    show Doctor;
+import 'package:health_app/features/doctor/ui/profile.dart';
 import 'package:health_app/shared/ex.dart';
 import '../data/repositories/patient_repo.dart' show PatientRepository;
 import '../domain/patient.dart' show Patient;
@@ -404,7 +407,7 @@ class _DoctorHomeState extends State<DoctorHome> {
           const SizedBox(height: 4),
           Center(
             child: SizedBox(
-              width: MediaQuery.widthOf(context)/4,
+              width: MediaQuery.widthOf(context) / 4,
               child: Center(
                 child: Text(
                   title.replaceFirst('المرضى', ''),
@@ -532,6 +535,181 @@ class _DoctorHomeState extends State<DoctorHome> {
           localizations.addPatient,
           style: const TextStyle(color: Colors.white),
         ),
+      ),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  //  _HomePageState();
+  int _selectedIndex = 0;
+  final PageController _pageController = PageController();
+
+  // Sample health data
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFFF8FAFD),
+      body: PageView(
+        controller: _pageController,
+        children: [
+          DoctorHome(),
+          DoctorHome(),
+          DoctorHome(),
+          DoctorProfilePage(
+            doctor: Doctor(
+              email: 'dsadsa@dsads.sa',
+              fullName: 'dsadsdas',
+              id: 1,
+              licenseNumber: '432432423',
+              phoneNumber: '123456789',
+              hospital: 'dsadasdsa',
+              userId: 2,
+              specialization: 'dsadsadas',
+            ),
+          ),
+        ],
+      ),
+
+      // Bottom Navigation Bar
+      bottomNavigationBar: _buildBottomNavBar(),
+
+      // Floating Action Button for Quick Add
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // Add new health data
+      //     _showAddDataDialog(context);
+      //   },
+      // backgroundColor: Color(0xFF4A6FFF),
+      // shape: CircleBorder(),
+      // child: Icon(Icons.qr_code, color: Colors.white, size: 28),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  // void _showAddDataDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         title: Text('Add Health Data'),
+  //         content: SingleChildScrollView(
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               _buildAddDataField('Steps', 'steps', Icons.directions_walk),
+  //               _buildAddDataField('Heart Rate', 'heartRate', Icons.favorite),
+  //               _buildAddDataField(
+  //                 'Sleep (hours)',
+  //                 'sleep',
+  //                 Icons.nightlight_round,
+  //               ),
+  //               _buildAddDataField('Water (L)', 'water', Icons.local_drink),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.pop(context),
+  //             child: Text('Cancel'),
+  //           ),
+  //           ElevatedButton(
+  //             onPressed: () {
+  //               // Save data logic here
+  //               Navigator.pop(context);
+  //             },
+  //             child: Text('Save'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+
+  // Widget _buildAddDataField(String label, String key, IconData icon) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 8.0),
+  //     child: TextField(
+  //       decoration: InputDecoration(
+  //         labelText: label,
+  //         prefixIcon: Icon(icon),
+  //         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+  //       ),
+  //       keyboardType: TextInputType.number,
+  //       onChanged: (value) {
+  //         if (value.isNotEmpty) {
+  //           setState(() {
+  //             healthData[key] = double.parse(value);
+  //           });
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
+
+  Widget _buildBottomNavBar() {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      // notchMargin: 8,
+      child: SizedBox(
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(Icons.home, 'Home', 0),
+            _buildNavItem(Icons.bar_chart, 'Stats', 1),
+            // SizedBox(width: 40), // Space for FAB
+            _buildNavItem(Icons.fitness_center, 'Workout', 2),
+            _buildNavItem(Icons.person, 'Profile', 3),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+        _pageController.jumpToPage(index);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: _selectedIndex == index
+                ? Color(0xFF4A6FFF)
+                : Color(0xFF8A8A8A),
+            size: 28,
+          ),
+          SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: _selectedIndex == index
+                  ? Color(0xFF4A6FFF)
+                  : Color(0xFF8A8A8A),
+            ),
+          ),
+        ],
       ),
     );
   }
