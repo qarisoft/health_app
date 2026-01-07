@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/features/home/ui/pages/initialize_profile/p.dart';
+import 'package:health_app/features/home/ui/pages/initialize_profile/page.dart';
 import './profile.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
+class MainPatientPage extends ConsumerWidget {
+  const MainPatientPage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isInitialized = ref.watch(isInitializedProvider);
+    if (isInitialized) {
+      return HomePage();
+    }
+    return InitializeProfilePage();
+  }
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,7 +51,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Color(0xFFF8FAFD),
       body: PageView(
         controller: _pageController,
-        children: [MyHomePage(), MyHomePage(),MyHomePage(), ProfilePage()],
+        children: [MyHomePage(), MyHomePage(), MyHomePage(), ProfilePage()],
       ),
 
       // Bottom Navigation Bar

@@ -47,6 +47,18 @@ class AppStorage {
     return sharedPreferences.getString(k);
   }
 
+  Future<bool> setString(String k, String v) async {
+    return await sharedPreferences.setString(k, v);
+  }
+
+  Future<bool> setBool(String k, bool v) async {
+    return await sharedPreferences.setBool(k, v);
+  }
+
+  bool getBool(String k) {
+    return sharedPreferences.getBool(k) ?? false;
+  }
+
   Map<String, dynamic>? getJson(String k) {
     return sharedPreferences.getString(k).toJson();
   }
@@ -66,8 +78,11 @@ class AppStorage {
     return;
   }
 
-  Future<void> setAuthRecord(AuthRecord auth)async {
-    await sharedPreferences.setString(AUTH_RECORD_KEY, auth.toJson().jsencode());
+  Future<void> setAuthRecord(AuthRecord auth) async {
+    await sharedPreferences.setString(
+      AUTH_RECORD_KEY,
+      auth.toJson().jsencode(),
+    );
   }
 
   AuthRecord? getAuthRecord() {
