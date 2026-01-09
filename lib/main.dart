@@ -68,8 +68,22 @@ class HealthCareApp extends StatelessWidget {
       },
     );
   }
+
+
+
+
+
 }
 
+
+
+
+
+
+
+
+// njfdhjs84367467323hn98sd9s9mdsm8d9s79
+// "v=DMARC1; p=none; rua=mailto:dc1298f39eb34d1abd26d597b47c0a51@dmarc-reports.cloudflare.net"
 class SplashPage extends ConsumerWidget {
   const SplashPage({super.key});
 

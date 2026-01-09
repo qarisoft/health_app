@@ -41,7 +41,8 @@ enum UserType {
       }
     }
     // Throw an error for invalid values (recommended)
-    throw ArgumentError('Invalid UserType value: $s');
+    return UserType.patient;
+    // throw ArgumentError('Invalid UserType value: $s');
 
     // OR return a default value (less strict)
     // return UserType.patient;

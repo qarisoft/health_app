@@ -83,6 +83,7 @@ class LoginForm extends StatelessWidget {
           labelText: localizations.password,
           prefixIcon: Icons.lock,
           obscureText: true,
+          showPasswordToggle: true,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter password';

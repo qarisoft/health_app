@@ -41,7 +41,7 @@ final class PProfileProvider
   }
 }
 
-String _$pProfileHash() => r'c1b475af244770f8fdc1794d2e14d98e7a4be703';
+String _$pProfileHash() => r'cbb3aad6f8fc2e6ca29500d8ef5bdeb8945c7cb1';
 
 abstract class _$PProfile extends $Notifier<PatientProfileState> {
   PatientProfileState build();
@@ -146,8 +146,8 @@ String _$isLoadingHash() => r'85f3d95729f5885dc699df9ea174122fb59aa26b';
 const profileProvider = ProfileProvider._();
 
 final class ProfileProvider
-    extends $FunctionalProvider<dynamic, dynamic, dynamic>
-    with $Provider<dynamic> {
+    extends $FunctionalProvider<PatientProfile, PatientProfile, PatientProfile>
+    with $Provider<PatientProfile> {
   const ProfileProvider._()
     : super(
         from: null,
@@ -164,21 +164,21 @@ final class ProfileProvider
 
   @$internal
   @override
-  $ProviderElement<dynamic> $createElement($ProviderPointer pointer) =>
+  $ProviderElement<PatientProfile> $createElement($ProviderPointer pointer) =>
       $ProviderElement(pointer);
 
   @override
-  dynamic create(Ref ref) {
+  PatientProfile create(Ref ref) {
     return profile(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(dynamic value) {
+  Override overrideWithValue(PatientProfile value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<dynamic>(value),
+      providerOverride: $SyncValueProvider<PatientProfile>(value),
     );
   }
 }
 
-String _$profileHash() => r'a31e13b3e5ed35af61bb5b3d50067d139e8e3447';
+String _$profileHash() => r'e76e59f6c8b331c745baa7cc965d76ec74856075';

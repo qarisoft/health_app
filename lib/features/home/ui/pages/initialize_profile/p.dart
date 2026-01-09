@@ -22,6 +22,7 @@ abstract class PatientProfileState with _$PatientProfileState {
   }) = _PatientProfileState;
 }
 
+
 @riverpod
 class PProfile extends _$PProfile {
   // PatientProfileNotifier() : super(const PatientProfileState());

@@ -12,10 +12,43 @@ class RegisterForm extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final TextEditingController dateOfBirthController;
   final TextEditingController passwordConfirmController;
+  final TextEditingController licenseNumberController;
+  final TextEditingController licenseDocumentUrlController;
+  final TextEditingController pharmacyNameController;
+  final TextEditingController specializationController;
+  final TextEditingController hospitalController;
+    // final data = PharmacistRegisterRequest(
+    //   confirmPassword: passwordConfirmController.text,
+    //   nationalId: _idCardController.text,
+    //   password: _passwordController.text,
+    //   fullName: nameController.text,
+    //   dateOfBirth: _dateOfBirthController.text,
+    //   phoneNumber: _phoneController.text,
+    //   email: _emailController.text,
+    //   licenseNumber: licenseNumberController.text,
+    //   licenseDocumentUrl: licenseDocumentUrlController.text,
+    //   pharmacyName: pharmacyNameController.text,
+    // );
+
+    //   final data = DoctorRegisterRequest(
+    //   confirmPassword: passwordConfirmController.text,
+    //   nationalId: _idCardController.text,
+    //   password: _passwordController.text,
+    //   fullName: nameController.text,
+    //   dateOfBirth: _dateOfBirthController.text,
+    //   phoneNumber: _phoneController.text,
+    //   email: _emailController.text,
+    //   licenseNumber: licenseNumberController.text,
+    //   specialization: specializationController.text,
+    //   hospital: hospitalController.text,
+    //   licenseDocumentUrl: licenseDocumentUrlController.text,
+    // );
+  final UserType userType;
   final VoidCallback onLogin;
   final bool isLoading;
-    final String selectedUserType;
+  final String selectedUserType;
   // final Function(String s) onUserTypeChanged;
   final ValueChanged<String?> onUserTypeChanged;
 
@@ -27,7 +60,12 @@ class RegisterForm extends StatelessWidget {
     required this.isLoading,
     required this.nameController,
     required this.passwordConfirmController,
-    required this.idCardController, required this.selectedUserType, required this.onUserTypeChanged, required this.emailController,
+    required this.dateOfBirthController,
+    required this.idCardController,
+    required this.selectedUserType,
+    required this.onUserTypeChanged,
+    required this.emailController,
+    required this.userType, required this.licenseNumberController, required this.licenseDocumentUrlController, required this.pharmacyNameController, required this.specializationController, required this.hospitalController,
   });
   String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
@@ -45,7 +83,7 @@ class RegisterForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = context.tr;
-        final userTypeItems = [
+    final userTypeItems = [
       DropdownMenuItem(value: PATIENT_KEY, child: Text(localizations.patient)),
       DropdownMenuItem(
         value: PHARMACIST_KEY,
@@ -58,7 +96,7 @@ class RegisterForm extends StatelessWidget {
     return Column(
       spacing: AppLayout.spacingMedium,
       children: [
-                Center(
+        Center(
           child: CustomDropdownField(
             value: selectedUserType,
             items: userTypeItems,
@@ -87,7 +125,7 @@ class RegisterForm extends StatelessWidget {
             return null;
           },
         ),
-                CustomTextField(
+        CustomTextField(
           controller: emailController,
           labelText: context.tr.email,
           prefixIcon: Icons.email,
@@ -120,15 +158,6 @@ class RegisterForm extends StatelessWidget {
           labelText: localizations.idCardNumber,
           prefixIcon: Icons.cast_rounded,
           keyboardType: TextInputType.phone,
-          // validator: (value) {
-          //   if (value == null || value.isEmpty) {
-          //     return 'Please enter Id number';
-          //   }
-          //   if (!RegExp(r'^[0-9]{14}$').hasMatch(value)) {
-          //     return 'Please enter a valid 14-digit Id number';
-          //   }
-          //   return null;
-          // },
         ),
         CustomTextField(
           controller: passwordController,
@@ -143,6 +172,15 @@ class RegisterForm extends StatelessWidget {
           prefixIcon: Icons.lock,
           obscureText: true,
           validator: passwordValidator,
+        ),
+        CustomTextField(
+          controller: dateOfBirthController,
+          labelText: 'date of birth',
+          isDatePicker: true,
+          lastDate: DateTime.now(),
+          // prefixIcon: Icons.lock,
+          // obscureText: true,
+          // validator: passwordValidator,
         ),
         CustomButton(
           onPressed: onLogin,

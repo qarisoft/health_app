@@ -1,0 +1,25 @@
+v=DKIM1; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt37SBZD4fJFWhZACB4yPmSWjKPUpiiksu8M3IYcbQ+Qu4AS/LWShu/RvH4S+mVEElPup+KauQr3TohC3HFWRb2G2ec84dEZyUI8y6Mm4jdOSE9nY3rAgdnDFEIO2Qd/uuM6S2OSFMUlHv8d3ChrB1qyMQwqQlcr0/SeC+ZjKnyyvBMJKmRupYJPu/PDgIPUTaWXEeU00DlBal7mn1ceGHj0ecZemdPi0jbje/GaX+5ou78DAvKzF27PtCzYKQFCvatgiw7wpJzKskLSmhh9hdi/8dHJG88o26Nf9RkjmbXn40q3YrHENxsRoTSCOOOnjLo/QgiOIf+oYxq+3j2xSOwIDAQAB
+
+// njfdhjs84367467323hn98sd9s9mdsm8d9s79
+
+
+
+
+
+
+sudo ln -s /etc/letsencrypt/live/mail.weghetk.com/fullchain.pem /etc/ssl/certs/iRedMail.crt
+sudo ln -s /etc/letsencrypt/live/mail.weghetk.com/privkey.pem /etc/ssl/private/iRedMail.key\
+
+
+
+
+
+
+
+
+
+
+
+
+v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3OOpZigBjikntEFJTWyjN5WRK1R+i8su2YZCivuLwCzhqZoNB92n4UntysDS6VBxPUGcN3yfo3EDktjRz33lCvJsyq5Re/hW+GZU+5g72nnZ50N4QTCTV2HsTtpUDMWJYidfJzHetYjiie36wEODGM7mSKEPYUZyy8HSBHe5jMBTCgqsMC9U7c5gFFJNKDNG+a6y7zfBdc1UzxAjfQtQdpRgoVI4WtjpKgu6EbUw8z/e8xPCGABNw7Hl78yLQwZGOIuXrg5JogejM2fGpNNKnAow5Vpaqe0HME6nUlf9AalpBMZdChBGs5S+K38jARhiMEMNnOhDd1t+NGMhiycHzwIDAQAB
+bldp ajhp ektx jmmj

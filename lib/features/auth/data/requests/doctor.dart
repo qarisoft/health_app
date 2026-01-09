@@ -19,7 +19,7 @@ abstract class DoctorRegisterRequest with _$DoctorRegisterRequest {
     required String password,
     required String confirmPassword,
     required String fullName,
-    required String dateOfBirth,
+    required DateTime dateOfBirth,
     required String phoneNumber,
     required String email,
     required String licenseNumber,

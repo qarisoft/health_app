@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PatientRegisterRequest {
 
- String get nationalId; String get password; String get confirmPassword; String get fullName; String get dateOfBirth; String get phoneNumber; String get email;
+ String get nationalId; String get password; String get confirmPassword; String get fullName; DateTime get dateOfBirth; String get phoneNumber; String get email;
 /// Create a copy of PatientRegisterRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $PatientRegisterRequestCopyWith<$Res>  {
   factory $PatientRegisterRequestCopyWith(PatientRegisterRequest value, $Res Function(PatientRegisterRequest) _then) = _$PatientRegisterRequestCopyWithImpl;
 @useResult
 $Res call({
- String nationalId, String password, String confirmPassword, String fullName, String dateOfBirth, String phoneNumber, String email
+ String nationalId, String password, String confirmPassword, String fullName, DateTime dateOfBirth, String phoneNumber, String email
 });
 
 
@@ -72,7 +72,7 @@ as String,password: null == password ? _self.password : password // ignore: cast
 as String,confirmPassword: null == confirmPassword ? _self.confirmPassword : confirmPassword // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
 as String,dateOfBirth: null == dateOfBirth ? _self.dateOfBirth : dateOfBirth // ignore: cast_nullable_to_non_nullable
-as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as DateTime,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -159,7 +159,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String nationalId,  String password,  String confirmPassword,  String fullName,  String dateOfBirth,  String phoneNumber,  String email)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String nationalId,  String password,  String confirmPassword,  String fullName,  DateTime dateOfBirth,  String phoneNumber,  String email)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PatientRegisterRequest() when $default != null:
 return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.fullName,_that.dateOfBirth,_that.phoneNumber,_that.email);case _:
@@ -180,7 +180,7 @@ return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.full
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String nationalId,  String password,  String confirmPassword,  String fullName,  String dateOfBirth,  String phoneNumber,  String email)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String nationalId,  String password,  String confirmPassword,  String fullName,  DateTime dateOfBirth,  String phoneNumber,  String email)  $default,) {final _that = this;
 switch (_that) {
 case _PatientRegisterRequest():
 return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.fullName,_that.dateOfBirth,_that.phoneNumber,_that.email);case _:
@@ -200,7 +200,7 @@ return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.full
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String nationalId,  String password,  String confirmPassword,  String fullName,  String dateOfBirth,  String phoneNumber,  String email)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String nationalId,  String password,  String confirmPassword,  String fullName,  DateTime dateOfBirth,  String phoneNumber,  String email)?  $default,) {final _that = this;
 switch (_that) {
 case _PatientRegisterRequest() when $default != null:
 return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.fullName,_that.dateOfBirth,_that.phoneNumber,_that.email);case _:
@@ -222,7 +222,7 @@ class _PatientRegisterRequest implements PatientRegisterRequest {
 @override final  String password;
 @override final  String confirmPassword;
 @override final  String fullName;
-@override final  String dateOfBirth;
+@override final  DateTime dateOfBirth;
 @override final  String phoneNumber;
 @override final  String email;
 
@@ -259,7 +259,7 @@ abstract mixin class _$PatientRegisterRequestCopyWith<$Res> implements $PatientR
   factory _$PatientRegisterRequestCopyWith(_PatientRegisterRequest value, $Res Function(_PatientRegisterRequest) _then) = __$PatientRegisterRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String nationalId, String password, String confirmPassword, String fullName, String dateOfBirth, String phoneNumber, String email
+ String nationalId, String password, String confirmPassword, String fullName, DateTime dateOfBirth, String phoneNumber, String email
 });
 
 
@@ -283,7 +283,7 @@ as String,password: null == password ? _self.password : password // ignore: cast
 as String,confirmPassword: null == confirmPassword ? _self.confirmPassword : confirmPassword // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
 as String,dateOfBirth: null == dateOfBirth ? _self.dateOfBirth : dateOfBirth // ignore: cast_nullable_to_non_nullable
-as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as DateTime,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,
   ));

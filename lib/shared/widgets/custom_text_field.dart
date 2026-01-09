@@ -1,14 +1,17 @@
-// lib/shared/widgets/custom_text_field.dart
 import 'package:flutter/material.dart';
-import '../../core/constants/app_layout.dart';
+import 'package:intl/intl.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final String? hintText;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
   final bool obscureText;
+  final bool showPasswordToggle;
+  final bool isDatePicker;
+  final DateTime? firstDate;
+  final DateTime? lastDate;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
@@ -33,6 +36,10 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.obscureText = false,
+    this.showPasswordToggle = false,
+    this.isDatePicker = false,
+    this.firstDate,
+    this.lastDate,
     this.keyboardType = TextInputType.text,
     this.validator,
     this.onChanged,
@@ -51,97 +58,103 @@ class CustomTextField extends StatelessWidget {
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  late bool _isPasswordVisible;
+
+  @override
+  void initState() {
+    super.initState();
+    _isPasswordVisible = false;
+  }
+
+  Future<void> _handleDateSelection() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: widget.firstDate ?? DateTime(1900),
+      lastDate: widget.lastDate ?? DateTime(2100),
+    );
+
+    if (picked != null) {
+      // Formats date to YYYY-MM-DD
+      widget.controller.text = DateFormat('yyyy-MM-dd').format(picked);
+      if (widget.onChanged != null) {
+        widget.onChanged!(widget.controller.text);
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var inputDecoration = InputDecoration(
-        labelText: labelText,
-        hintText: hintText,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
-        suffix: suffix,
-        filled: fillColor != null,
-        fillColor: fillColor,
-        contentPadding: contentPadding ?? AppLayout.paddingAllMedium,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
+    final bool shouldShowPasswordToggle = widget.showPasswordToggle && widget.obscureText;
+
+    Widget? finalSuffixIcon;
+
+    // Handle Password Toggle Icon
+    if (shouldShowPasswordToggle) {
+      finalSuffixIcon = IconButton(
+        icon: Icon(
+          _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+          color: Colors.grey.shade600,
         ),
+        onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+        splashRadius: 20,
+      );
+    } 
+    // Handle Date Picker Icon
+    else if (widget.isDatePicker) {
+      finalSuffixIcon = const Icon(Icons.calendar_today, size: 20);
+    }
+    // Handle Standard Suffix Icon
+    else if (widget.suffixIcon != null) {
+      finalSuffixIcon = Icon(widget.suffixIcon);
+    }
+
+    return TextFormField(
+      controller: widget.controller,
+      // Logic: Password visibility state vs base obscure setting
+      obscureText: shouldShowPasswordToggle ? !_isPasswordVisible : widget.obscureText,
+      // Logic: If date picker, prevent keyboard from appearing
+      readOnly: widget.isDatePicker || widget.readOnly,
+      onTap: widget.isDatePicker ? _handleDateSelection : widget.onTap,
+      
+      keyboardType: widget.keyboardType,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      expands: widget.expands,
+      textInputAction: widget.textInputAction,
+      focusNode: widget.focusNode,
+      enabled: widget.enabled,
+      textCapitalization: widget.textCapitalization,
+      
+      decoration: InputDecoration(
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
+        suffixIcon: finalSuffixIcon,
+        suffix: widget.suffix,
+        filled: widget.fillColor != null,
+        fillColor: widget.fillColor,
+        contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: const BorderSide(color: Colors.red),
         ),
-        errorStyle: const TextStyle(
-          fontSize: 12.0,
-          height: 0.8,
-        ),
-      );
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      validator: validator,
-      onChanged: onChanged,
-      onTap: onTap,
-      readOnly: readOnly,
-      maxLines: maxLines,
-      minLines: minLines,
-      expands: expands,
-      textInputAction: textInputAction,
-      focusNode: focusNode,
-      enabled: enabled,
-      textCapitalization: textCapitalization,
-      decoration: inputDecoration,
+      ),
     );
   }
 }
-// import 'package:flutter/material.dart';
-// import '../../core/constants/app_layout.dart';
-
-// class CustomTextField extends StatelessWidget {
-//   final TextEditingController controller;
-//   final String labelText;
-//   final String? hintText;
-//   final IconData? prefixIcon;
-//   final IconData? suffixIcon;
-//   final bool obscureText;
-//   final TextInputType keyboardType;
-//   final String? Function(String?)? validator;
-//   final void Function(String)? onChanged;
-
-//   const CustomTextField({
-//     super.key,
-//     required this.controller,
-//     required this.labelText,
-//     this.hintText,
-//     this.prefixIcon,
-//     this.suffixIcon,
-//     this.obscureText = false,
-//     this.keyboardType = TextInputType.text,
-//     this.validator,
-//     this.onChanged,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextFormField(
-//       controller: controller,
-//       obscureText: obscureText,
-//       keyboardType: keyboardType,
-//       validator: validator,
-//       onChanged: onChanged,
-//       decoration: InputDecoration(
-//         labelText: labelText,
-//         hintText: hintText,
-//         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-//         suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
-//         contentPadding: AppLayout.paddingAllMedium,
-//       ),
-//     );
-//   }
-// }

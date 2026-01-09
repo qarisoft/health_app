@@ -16,6 +16,7 @@ import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:health_app/shared/widgets/text_button.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -58,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController hospitalController = TextEditingController(
     text: 'nephrologist'.dev,
   );
-    final TextEditingController pharmacyNameController = TextEditingController(
+  final TextEditingController pharmacyNameController = TextEditingController(
     text: 'nephrologist'.dev,
   );
   final TextEditingController licenseDocumentUrlController =
@@ -77,6 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
         AppDialog().loading(message: "Register, please wait ...");
 
         final UserType userType = UserType.fromString(_userTypeController.text);
+
         final authFn = switch (userType) {
           UserType.initial => _registerPatient,
 
@@ -125,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
       nationalId: _idCardController.text,
       password: _passwordController.text,
       fullName: nameController.text,
-      dateOfBirth: _dateOfBirthController.text,
+      dateOfBirth: DateTime.parse(_dateOfBirthController.text),
       phoneNumber: _phoneController.text,
       email: _emailController.text,
     );
@@ -133,13 +135,13 @@ class _RegisterPageState extends State<RegisterPage> {
     return await di<AppRepositories>().registerPatient(data.toJson());
   }
 
-   Future<ErrorOr<GeneralResponse>> _registerDoctor() async {
+  Future<ErrorOr<GeneralResponse>> _registerDoctor() async {
     final data = DoctorRegisterRequest(
       confirmPassword: passwordConfirmController.text,
       nationalId: _idCardController.text,
       password: _passwordController.text,
       fullName: nameController.text,
-      dateOfBirth: _dateOfBirthController.text,
+      dateOfBirth: DateTime.parse(_dateOfBirthController.text),
       phoneNumber: _phoneController.text,
       email: _emailController.text,
       licenseNumber: licenseNumberController.text,
@@ -150,18 +152,19 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return await di<AppRepositories>().registerDoctor(data.toJson());
   }
-     Future<ErrorOr<GeneralResponse>> _registerPharmacist() async {
+
+  Future<ErrorOr<GeneralResponse>> _registerPharmacist() async {
     final data = PharmacistRegisterRequest(
       confirmPassword: passwordConfirmController.text,
       nationalId: _idCardController.text,
       password: _passwordController.text,
       fullName: nameController.text,
-      dateOfBirth: _dateOfBirthController.text,
+      dateOfBirth: DateTime.parse(_dateOfBirthController.text),
       phoneNumber: _phoneController.text,
       email: _emailController.text,
       licenseNumber: licenseNumberController.text,
-      licenseDocumentUrl: licenseDocumentUrlController.text, 
-      pharmacyName:pharmacyNameController.text ,
+      licenseDocumentUrl: licenseDocumentUrlController.text,
+      pharmacyName: pharmacyNameController.text,
     );
 
     return await di<AppRepositories>().registerPharmacist(data.toJson());
@@ -192,6 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 40),
                 // Login Form
                 RegisterForm(
+                  dateOfBirthController: _dateOfBirthController,
                   emailController: _emailController,
                   phoneController: _phoneController,
                   passwordController: _passwordController,
@@ -201,6 +205,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   passwordConfirmController: passwordConfirmController,
                   idCardController: _idCardController,
                   selectedUserType: _userTypeController.text,
+                  userType: UserType.fromString(_userTypeController.text),
                   onUserTypeChanged: (String? value) {
                     if (value == null) {
                       return;
@@ -209,6 +214,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       _userTypeController.text = value;
                     });
                   },
+                  licenseNumberController: licenseNumberController,
+                  licenseDocumentUrlController: licenseDocumentUrlController,
+                  pharmacyNameController: pharmacyNameController,
+                  specializationController: specializationController,
+                  hospitalController: hospitalController,
                 ),
                 const SizedBox(height: AppLayout.spacingLarge),
                 Center(
