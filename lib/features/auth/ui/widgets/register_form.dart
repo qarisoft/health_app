@@ -19,32 +19,32 @@ class RegisterForm extends StatelessWidget {
   final TextEditingController pharmacyNameController;
   final TextEditingController specializationController;
   final TextEditingController hospitalController;
-    // final data = PharmacistRegisterRequest(
-    //   confirmPassword: passwordConfirmController.text,
-    //   nationalId: _idCardController.text,
-    //   password: _passwordController.text,
-    //   fullName: nameController.text,
-    //   dateOfBirth: _dateOfBirthController.text,
-    //   phoneNumber: _phoneController.text,
-    //   email: _emailController.text,
-    //   licenseNumber: licenseNumberController.text,
-    //   licenseDocumentUrl: licenseDocumentUrlController.text,
-    //   pharmacyName: pharmacyNameController.text,
-    // );
+  // final data = PharmacistRegisterRequest(
+  //   confirmPassword: passwordConfirmController.text,
+  //   nationalId: _idCardController.text,
+  //   password: _passwordController.text,
+  //   fullName: nameController.text,
+  //   dateOfBirth: _dateOfBirthController.text,
+  //   phoneNumber: _phoneController.text,
+  //   email: _emailController.text,
+  //   licenseNumber: licenseNumberController.text,
+  //   licenseDocumentUrl: licenseDocumentUrlController.text,
+  //   pharmacyName: pharmacyNameController.text,
+  // );
 
-    //   final data = DoctorRegisterRequest(
-    //   confirmPassword: passwordConfirmController.text,
-    //   nationalId: _idCardController.text,
-    //   password: _passwordController.text,
-    //   fullName: nameController.text,
-    //   dateOfBirth: _dateOfBirthController.text,
-    //   phoneNumber: _phoneController.text,
-    //   email: _emailController.text,
-    //   licenseNumber: licenseNumberController.text,
-    //   specialization: specializationController.text,
-    //   hospital: hospitalController.text,
-    //   licenseDocumentUrl: licenseDocumentUrlController.text,
-    // );
+  //   final data = DoctorRegisterRequest(
+  //   confirmPassword: passwordConfirmController.text,
+  //   nationalId: _idCardController.text,
+  //   password: _passwordController.text,
+  //   fullName: nameController.text,
+  //   dateOfBirth: _dateOfBirthController.text,
+  //   phoneNumber: _phoneController.text,
+  //   email: _emailController.text,
+  //   licenseNumber: licenseNumberController.text,
+  //   specialization: specializationController.text,
+  //   hospital: hospitalController.text,
+  //   licenseDocumentUrl: licenseDocumentUrlController.text,
+  // );
   final UserType userType;
   final VoidCallback onLogin;
   final bool isLoading;
@@ -65,7 +65,12 @@ class RegisterForm extends StatelessWidget {
     required this.selectedUserType,
     required this.onUserTypeChanged,
     required this.emailController,
-    required this.userType, required this.licenseNumberController, required this.licenseDocumentUrlController, required this.pharmacyNameController, required this.specializationController, required this.hospitalController,
+    required this.userType,
+    required this.licenseNumberController,
+    required this.licenseDocumentUrlController,
+    required this.pharmacyNameController,
+    required this.specializationController,
+    required this.hospitalController,
   });
   String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
@@ -90,7 +95,7 @@ class RegisterForm extends StatelessWidget {
         child: Text(localizations.pharmacist),
       ),
       DropdownMenuItem(value: DOCTOR_KEY, child: Text(localizations.doctor)),
-      DropdownMenuItem(value: ADMIN_KEY, child: Text(localizations.admin)),
+      // DropdownMenuItem(value: ADMIN_KEY, child: Text(localizations.admin)),
     ];
 
     return Column(
@@ -178,10 +183,33 @@ class RegisterForm extends StatelessWidget {
           labelText: 'date of birth',
           isDatePicker: true,
           lastDate: DateTime.now(),
-          // prefixIcon: Icons.lock,
-          // obscureText: true,
-          // validator: passwordValidator,
         ),
+
+        if (userType == UserType.doctor || userType == UserType.pharmacist)
+          CustomTextField(
+            controller: licenseNumberController,
+            labelText: 'Licens number',
+          ),
+        if (userType == UserType.doctor || userType == UserType.pharmacist)
+          CustomTextField(
+            controller: licenseDocumentUrlController,
+            labelText: 'Licens Document Url',
+          ),
+        if (userType == UserType.doctor)
+          CustomTextField(
+            controller: hospitalController,
+            labelText: 'hospital',
+          ),
+        if (userType == UserType.doctor)
+          CustomTextField(
+            controller: specializationController,
+            labelText: 'specialization',
+          ),
+                  if (userType == UserType.pharmacist)
+          CustomTextField(
+            controller: pharmacyNameController,
+            labelText: 'pharmacy name',
+          ),
         CustomButton(
           onPressed: onLogin,
           text: localizations.register,

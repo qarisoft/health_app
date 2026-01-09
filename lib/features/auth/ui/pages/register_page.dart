@@ -57,10 +57,10 @@ class _RegisterPageState extends State<RegisterPage> {
     text: 'nephrologist'.dev,
   );
   final TextEditingController hospitalController = TextEditingController(
-    text: 'nephrologist'.dev,
+    text: 'hospital name'.dev,
   );
   final TextEditingController pharmacyNameController = TextEditingController(
-    text: 'nephrologist'.dev,
+    text: 'pharmacy name'.dev,
   );
   final TextEditingController licenseDocumentUrlController =
       TextEditingController(text: 'https://google.com'.dev);
