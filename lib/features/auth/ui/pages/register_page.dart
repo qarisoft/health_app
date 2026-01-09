@@ -36,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
     text: '324432432'.dev,
   );
   final TextEditingController _dateOfBirthController = TextEditingController(
-    text: '2001-1-1'.dev,
+    text: '2006-01-08'.dev,
   );
   final TextEditingController _emailController = TextEditingController(
     text: 'email@e.e'.dev,

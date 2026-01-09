@@ -98,7 +98,8 @@ class AppRepositories {
   ) async {
     try {
       final res = await api.registerPharmacist(data);
-      return ErrorOr.success(data: res['success'] ?? false);
+
+      return ErrorOr.success(data: GeneralResponse.fromJson(res));
     } catch (e) {
       debugPrint('Pharmacist registration error: $e');
       return ErrorOr.error(error: ServerError(msg: 'Registration failed: $e'));

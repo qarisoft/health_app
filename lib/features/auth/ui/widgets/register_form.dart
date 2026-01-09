@@ -183,6 +183,16 @@ class RegisterForm extends StatelessWidget {
           labelText: 'date of birth',
           isDatePicker: true,
           lastDate: DateTime.now(),
+          validator: (a) {
+            if (a == null || a.isEmpty) {
+              return 'you must enter valid date';
+            }
+            try {
+              final aa = DateTime.tryParse(a);
+            } catch (e) {
+              return 'you must enter valid date';
+            }
+          },
         ),
 
         if (userType == UserType.doctor || userType == UserType.pharmacist)
@@ -205,7 +215,7 @@ class RegisterForm extends StatelessWidget {
             controller: specializationController,
             labelText: 'specialization',
           ),
-                  if (userType == UserType.pharmacist)
+        if (userType == UserType.pharmacist)
           CustomTextField(
             controller: pharmacyNameController,
             labelText: 'pharmacy name',
