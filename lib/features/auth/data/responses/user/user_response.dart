@@ -34,6 +34,8 @@ class LoginResponse extends BaseResponse {
     //   });
     return _$LoginResponseFromJson(js);
   }
+
+  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -44,6 +46,8 @@ class PatientRegisterResponse extends BaseResponse {
 
   factory PatientRegisterResponse.fromJson(Map<String, dynamic> json) =>
       _$PatientRegisterResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PatientRegisterResponseToJson(this);
 }
 
 // Used for: Logout, Change Password, Simple Updates
@@ -53,6 +57,9 @@ class GeneralResponse extends BaseResponse {
 
   factory GeneralResponse.fromJson(Map<String, dynamic> json) =>
       _$GeneralResponseFromJson(json);
+
+
+      
 }
 
 // ================= DOCTOR RESPONSES =================

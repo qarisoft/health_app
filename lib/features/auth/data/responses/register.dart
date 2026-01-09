@@ -1,7 +1,6 @@
 // import 'package:health_app/features/auth/domain/models/patient.dart'
 // show Patient;
 import 'package:health_app/features/auth/data/responses/base/base_response.dart';
-import 'package:health_app/features/doctor/domain/patient.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // part 'models.g.dart';

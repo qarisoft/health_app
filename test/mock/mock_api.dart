@@ -1,4 +1,6 @@
 // test/mocks/mock_api_service.dart
+// ignore_for_file: body_might_complete_normally_nullable
+
 import 'dart:ui';
 
 import 'package:health_app/core/user/user.dart';
@@ -7,7 +9,6 @@ import 'package:health_app/features/auth/domain/models/auth_state.dart';
 import 'package:health_app/shared/api/api_service.dart';
 import 'package:health_app/core/services/storage.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shared_preferences/src/shared_preferences_legacy.dart';
 
 class MockApiService extends Mock implements ApiService {}
 
