@@ -2,8 +2,10 @@
 const express = require('express');
 const router = express.Router();
 
+const {authRules,validate} = require('./validators')
+
 // 1. Register Patient
-router.post('/register/patient', (req, res) => {
+router.post('/register/patient',authRules.registerPatient, validate, (req, res) => {
     // هنا يتم وضع كود التخزين في قاعدة البيانات
     console.log('Patient Register Body:', req.body);
 
@@ -19,7 +21,7 @@ router.post('/register/patient', (req, res) => {
 });
 
 // 2. Register Doctor
-router.post('/register/doctor', (req, res) => {
+router.post('/register/doctor',authRules.registerDoctor, validate, (req, res) => {
     console.log('Doctor Register Body:', req.body);
     res.json({
         "success": true,
@@ -29,7 +31,7 @@ router.post('/register/doctor', (req, res) => {
 });
 
 // 3. Register Pharmacist
-router.post('/register/pharmacist', (req, res) => {
+router.post('/register/pharmacist', authRules.registerPharmacist, validate,(req, res) => {
     console.log('Pharmacist Register Body:', req.body);
     res.json({
         "success": true,
@@ -39,13 +41,13 @@ router.post('/register/pharmacist', (req, res) => {
 });
 
 // 4. Login
-router.post('/login', (req, res) => {
+router.post('/login',authRules.login, validate, (req, res) => {
     console.log('Login Body:', req.body);
     res.json({
         "success": true,
         "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mockToken",
-        // "role": "Doctor",
-        "role": "Patient",
+        "role": "Doctor",
+        // "role": "Patient",
         "userId": 102
     });
 });

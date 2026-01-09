@@ -2,6 +2,8 @@
 abstract class BaseResponse {
   final bool success;
   final String? message;
+  // final List<String>? errors;
+
 
   BaseResponse({this.success = false, this.message});
 }

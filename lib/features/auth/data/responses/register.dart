@@ -40,7 +40,7 @@ class DoctorResponse extends Profile {
   Map<String, dynamic> toJson() => _$DoctorResponseToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PatientResponse extends Profile {
   // final List<MedicalRecord>? medicalRecords;
   // final List<Prescription>? prescriptions;

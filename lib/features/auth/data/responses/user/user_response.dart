@@ -115,6 +115,9 @@ class PatientProfileResponse extends BaseResponse {
 
   factory PatientProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$PatientProfileResponseFromJson(json);
+
+
+      Map<String, dynamic> toJson()=>_$PatientProfileResponseToJson(this);
 }
 
 @JsonSerializable()

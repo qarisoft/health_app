@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart'
     show Doctor;
+import 'package:health_app/features/doctor/ui/medical_record.dart';
+import 'package:health_app/features/doctor/ui/prescreptions.dart';
 import 'package:health_app/features/doctor/ui/profile.dart';
 import 'package:health_app/shared/ex.dart';
 import '../data/repositories/patient_repo.dart' show PatientRepository;
@@ -567,8 +569,8 @@ class _HomePageState extends State<HomePage> {
         controller: _pageController,
         children: [
           DoctorHome(),
-          DoctorHome(),
-          DoctorHome(),
+          DoctorMedicalRecord(),
+          PrescreptionsPage(),
           DoctorProfilePage(
             doctor: Doctor(
               email: 'dsadsa@dsads.sa',
@@ -671,9 +673,9 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem(Icons.home, 'Home', 0),
-            _buildNavItem(Icons.bar_chart, 'Stats', 1),
+            _buildNavItem(Icons.bar_chart, 'records', 1),
             // SizedBox(width: 40), // Space for FAB
-            _buildNavItem(Icons.fitness_center, 'Workout', 2),
+            _buildNavItem(Icons.fitness_center, 'prescriptions', 2),
             _buildNavItem(Icons.person, 'Profile', 3),
           ],
         ),

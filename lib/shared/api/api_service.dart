@@ -18,7 +18,12 @@ class ApiService {
     if (response.statusCode! >= 200 && response.statusCode! < 300) {
       return response.data; // This returns the JSON Map
     } else {
-      throw Exception('Server Error: ${response.statusCode}');
+      return response.data; // This returns the JSON Map
+      // if () {
+        
+      // }
+      // xlog(response.data['']);
+      // throw Exception('Server Error: ${response.statusCode}');
     }
   }
 

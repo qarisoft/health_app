@@ -32,7 +32,7 @@ extension AppEx on BuildContext {
 }
 
 extension Loger on Object? {
-  void log([String s='']) {
+  void log([String s = '']) {
     if (this != null) {
       print('###: $s :=> ${toString()}');
     }
@@ -46,7 +46,7 @@ void xlog(Object o) {
 }
 
 extension ToJson on String? {
-  Map<String, dynamic> toJson() => jsonDecode(toString());
+  Map<String, dynamic> toJson() => this != null ? jsonDecode(toString()) : null;
 }
 
 extension JsEncoder on Map<String, dynamic> {

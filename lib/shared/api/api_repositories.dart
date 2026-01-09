@@ -65,6 +65,8 @@ class AppRepositories {
       }
     } catch (e) {
       debugPrint(e.toString());
+      xlog('error');
+      xlog(e);
       return ErrorOr.error(error: ServerError(msg: 'Login failed: $e'));
     }
   }
@@ -321,6 +323,7 @@ class AppRepositories {
 
   Future<ErrorOr<bool>> addMedicalRecord(Map<String, dynamic> data) async {
     try {
+      await Future.delayed(Duration(seconds: 2));
       final res = await api.addMedicalRecord(data);
       return ErrorOr.success(data: res['success'] ?? false);
     } catch (e) {

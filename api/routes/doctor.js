@@ -1,7 +1,11 @@
 // routes/doctor.js
 const express = require('express');
 const router = express.Router();
+const { body, param, query } = require('express-validator');
+const { validationResult } = require('express-validator');
+const {rules,validate} =  require('./validators') 
 
+// import { rules,validate } from './validators';
 // 1. Get Profile
 router.get('/profile', (req, res) => {
     res.json({
@@ -38,7 +42,7 @@ router.put('/profile', (req, res) => {
 });
 
 // 3. Search Patient
-router.post('/search-patient', (req, res) => {
+router.post('/search-patient', rules.updateDoctorProfile, validate,(req, res) => {
     console.log('Search Identifier:', req.body.identifier);
     res.json({
         "success": true,

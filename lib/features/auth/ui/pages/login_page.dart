@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         error: (e) {
           // AppDialog().info(title: 'Error', message: 'dsadsdsadsadsadsa');
-          AppDialog().show(title: 'Error', message: 'dsadsdsadsadsadsa');
+          AppDialog().show(title: 'Error', message: e.msg);
           // AppDialog().success(title: 'Error', message: 'dsadsdsadsadsadsa');
           // AppDialog().toast(e.msg);
         },
