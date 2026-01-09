@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:get_it/get_it.dart';
 import 'package:health_app/auth_state.dart'
-    show accountProvider, appAuthProvider, di;
+    show accountProvider, di;
 import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/features/auth/data/usecases/login_usecase.dart'
@@ -11,8 +11,8 @@ import 'package:health_app/features/auth/data/usecases/login_usecase.dart'
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/auth/ui/pages/register_page.dart';
-import 'package:health_app/features/doctor/ui/home.dart' as doctorPages;
-import 'package:health_app/features/home/ui/pages/initialize_profile/page.dart';
+import 'package:health_app/features/doctor/ui/home.dart' as doctor_pages;
+// import 'package:health_app/features/home/ui/pages/initialize_profile/page.dart';
 import 'package:health_app/features/home/ui/pages/p.dart' as P;
 import 'package:health_app/features/patients/ui/home.dart'
     show MedicalHistoryPage;
@@ -62,7 +62,7 @@ class HealthCareApp extends StatelessWidget {
             //
             AppRoutes.patientMHistory: (context) => const MedicalHistoryPage(),
             AppRoutes.patientHome: (context) => const P.MainPatientPage(),
-            AppRoutes.doctorHome: (context) => const doctorPages.HomePage(),
+            AppRoutes.doctorHome: (context) => const doctor_pages.HomePage(),
           },
         );
       },

@@ -7,7 +7,6 @@ import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/features/auth/data/requests/doctor.dart';
 import 'package:health_app/features/auth/data/requests/patient.dart';
 import 'package:health_app/features/auth/data/requests/pharmacist.dart';
-import 'package:health_app/features/auth/data/responses/register.dart';
 import 'package:health_app/features/auth/data/responses/user/user_response.dart';
 import 'package:health_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:health_app/features/auth/ui/widgets/register_form.dart';
@@ -16,7 +15,6 @@ import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:health_app/shared/widgets/text_button.dart';
-import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/shared/ex.dart';
 import '../../../../core/constants/app_layout.dart';
 import '../../../../shared/widgets/custom_button.dart';
@@ -32,15 +31,15 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = context.tr;
-    final userTypeItems = [
-      DropdownMenuItem(value: PATIENT_KEY, child: Text(localizations.patient)),
-      DropdownMenuItem(
-        value: PHARMACIST_KEY,
-        child: Text(localizations.pharmacist),
-      ),
-      DropdownMenuItem(value: DOCTOR_KEY, child: Text(localizations.doctor)),
-      DropdownMenuItem(value: ADMIN_KEY, child: Text(localizations.admin)),
-    ];
+    // final userTypeItems = [
+    //   DropdownMenuItem(value: PATIENT_KEY, child: Text(localizations.patient)),
+    //   DropdownMenuItem(
+    //     value: PHARMACIST_KEY,
+    //     child: Text(localizations.pharmacist),
+    //   ),
+    //   DropdownMenuItem(value: DOCTOR_KEY, child: Text(localizations.doctor)),
+    //   DropdownMenuItem(value: ADMIN_KEY, child: Text(localizations.admin)),
+    // ];
 
     return Column(
       spacing: AppLayout.spacingMedium,

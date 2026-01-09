@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:health_app/auth_state.dart';
@@ -6,7 +5,6 @@ import 'package:health_app/features/auth/domain/models/patient.dart'
     show Doctor;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
-import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 // import 'package:freezed_annotation/freezed_annotation.dart';
 // import 'package:health_app/features/auth/domain/models/patient.dart';

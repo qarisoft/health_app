@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, dead_code
+
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -15,7 +17,7 @@ class DioFactory {
     Dio dio = Dio();
 
     // 1. Fetch values from local storage
-    String language = _storage.getappLoale() ?? 'ar';
+    String language = _storage.getappLoale();
     String? token = _storage.getUserToken();
 
     // 2. Define Timeouts

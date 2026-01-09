@@ -21,7 +21,7 @@ class PatientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = context.tr;
-    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    // final isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

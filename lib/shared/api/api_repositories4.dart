@@ -8,13 +8,13 @@ import 'package:health_app/features/auth/data/responses/user/user_response.dart'
         DoctorProfileResponse,
         PharmacistProfileResponse;
 import 'package:health_app/features/auth/domain/models/account.dart'
-    show PatientAccount, DoctorAccount, PharmacistAccount, AdminAccount;
+    show PatientAccount, DoctorAccount, PharmacistAccount;
 import 'package:health_app/features/auth/domain/models/auth_state.dart'
     show AuthRecord;
 import 'package:health_app/features/auth/data/responses/user/user_response.dart';
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart'
-    show Patient, Doctor, Pharmacist, Admin;
+    show Patient, Doctor, Pharmacist;
 // import 'package:health_app/features/auth/domain/models/doctor.dart'
 //     show Doctor;
 // import 'package:health_app/features/auth/domain/models/pharmacist.dart'

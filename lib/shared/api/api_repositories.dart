@@ -1,21 +1,19 @@
-import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:health_app/core/error/app_error.dart' show ErrorOr, ServerError;
 import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/features/auth/data/responses/user/user_response.dart'
     show
-        AdminProfileResponse,
         DoctorProfileResponse,
         GeneralResponse,
         LoginResponse,
         PatientProfileResponse,
         PharmacistProfileResponse;
 import 'package:health_app/features/auth/domain/models/account.dart'
-    show PatientAccount, DoctorAccount, PharmacistAccount, AdminAccount;
+    show PatientAccount, DoctorAccount, PharmacistAccount;
 import 'package:health_app/features/auth/domain/models/auth_state.dart'
     show AuthRecord;
 import 'package:health_app/features/auth/domain/models/patient.dart'
-    show Patient, Doctor, Pharmacist, Admin;
+    show Patient, Doctor, Pharmacist;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/shared/api/api_service.dart' show ApiService;
 import 'package:health_app/shared/ex.dart';
@@ -161,7 +159,9 @@ class AppRepositories {
     try {
       final json = await api.getPatientProfile();
       // json.log('patient   dddd');
-      json.entries.forEach((s) => s.log('e'));
+      for (var s in json.entries) {
+        s.log('e');
+      }
 
       final res = PatientProfileResponse.fromJson(json);
 

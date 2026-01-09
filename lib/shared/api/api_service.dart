@@ -1,10 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 // import 'package:dio/io.dart';
-import 'package:health_app/auth_state.dart';
-import 'package:health_app/features/auth/data/responses/user/user_response.dart';
-import 'package:health_app/shared/api/dio_factory.dart';
-import 'package:health_app/shared/ex.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {

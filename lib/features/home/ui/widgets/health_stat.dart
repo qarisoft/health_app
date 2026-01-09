@@ -128,7 +128,7 @@ class _StatItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppLayout.paddingMedium),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.05),
+        color: color,
         borderRadius: BorderRadius.circular(AppLayout.borderRadiusMedium),
         border: Border.all(color: color.withOpacity(0.1)),
       ),
@@ -157,7 +157,7 @@ class _StatItem extends StatelessWidget {
           const SizedBox(height: 8),
           LinearProgressIndicator(
             value: progress,
-            backgroundColor: color.withOpacity(0.2),
+            backgroundColor: color,
             color: color,
             borderRadius: BorderRadius.circular(4),
             minHeight: 4,

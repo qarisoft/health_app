@@ -10,7 +10,6 @@ import 'package:health_app/core/user/user.dart'
         DoctorEntity,
         PatientEntity,
         PharmacistEntity;
-import 'package:health_app/features/auth/data/responses/register.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
 import 'package:health_app/shared/ex.dart';

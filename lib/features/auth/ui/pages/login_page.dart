@@ -4,7 +4,6 @@ import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/constants/app_colors.dart' show AppColors;
 import 'package:health_app/core/constants/app_layout.dart';
 import 'package:health_app/core/router/app_routes.dart';
-import 'package:health_app/core/user/user.dart';
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
 // import 'package:health_app/core/user/user.dart' hide UserType;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
