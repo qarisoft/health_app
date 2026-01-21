@@ -62,21 +62,23 @@ abstract class Doctor with _$Doctor {
 
 @freezed
 abstract class Pharmacist with _$Pharmacist {
+    //   "id": 0,
+    // "userId": 0,
+    // "fullName": "string",
+    // "licenseNumber": "string",
+    // "pharmacyName": "string",
+    // "phoneNumber": "string",
+    // "email": "string",
+    // "createdAt": "2025-12-16T20:17:25.204Z",
+    // "updatedAt": "2025-12-16T20:17:25.204Z"
   factory Pharmacist({
     @Default(0) int id,
     @Default(0) int userId,
     @Default('-') String fullName,
-    @Default('-') String dateOfBirth,
-    @Default(1) int gender,
     @Default('-') String phoneNumber,
     @Default('-') String email,
-    @Default('-') String address,
-    @Default(1) int bloodType,
-    @Default(1) int weight,
-    @Default(1) int height,
-    @Default('-') String emergencyContact,
-    @Default('-') String emergencyPhone,
     @Default('-') String pharmacyName,
+    @Default('-') String licenseNumber,
     @Default('-') String createdAt,
     @Default('-') String updatedAt,
   }) = _Pharmacist;

@@ -6,10 +6,10 @@ class EditProfilePage extends StatefulWidget {
   final VoidCallback onProfileUpdated;
 
   const EditProfilePage({
-    Key? key,
+    super.key,
     required this.isDarkMode,
     required this.onProfileUpdated,
-  }) : super(key: key);
+  });
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();

@@ -610,7 +610,7 @@ as String,
 /// @nodoc
 mixin _$Pharmacist {
 
- int get id; int get userId; String get fullName; String get dateOfBirth; int get gender; String get phoneNumber; String get email; String get address; int get bloodType; int get weight; int get height; String get emergencyContact; String get emergencyPhone; String get pharmacyName; String get createdAt; String get updatedAt;
+ int get id; int get userId; String get fullName; String get phoneNumber; String get email; String get pharmacyName; String get licenseNumber; String get createdAt; String get updatedAt;
 /// Create a copy of Pharmacist
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -623,16 +623,16 @@ $PharmacistCopyWith<Pharmacist> get copyWith => _$PharmacistCopyWithImpl<Pharmac
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Pharmacist&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.dateOfBirth, dateOfBirth) || other.dateOfBirth == dateOfBirth)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.email, email) || other.email == email)&&(identical(other.address, address) || other.address == address)&&(identical(other.bloodType, bloodType) || other.bloodType == bloodType)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.height, height) || other.height == height)&&(identical(other.emergencyContact, emergencyContact) || other.emergencyContact == emergencyContact)&&(identical(other.emergencyPhone, emergencyPhone) || other.emergencyPhone == emergencyPhone)&&(identical(other.pharmacyName, pharmacyName) || other.pharmacyName == pharmacyName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Pharmacist&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.email, email) || other.email == email)&&(identical(other.pharmacyName, pharmacyName) || other.pharmacyName == pharmacyName)&&(identical(other.licenseNumber, licenseNumber) || other.licenseNumber == licenseNumber)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,fullName,dateOfBirth,gender,phoneNumber,email,address,bloodType,weight,height,emergencyContact,emergencyPhone,pharmacyName,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,userId,fullName,phoneNumber,email,pharmacyName,licenseNumber,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Pharmacist(id: $id, userId: $userId, fullName: $fullName, dateOfBirth: $dateOfBirth, gender: $gender, phoneNumber: $phoneNumber, email: $email, address: $address, bloodType: $bloodType, weight: $weight, height: $height, emergencyContact: $emergencyContact, emergencyPhone: $emergencyPhone, pharmacyName: $pharmacyName, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Pharmacist(id: $id, userId: $userId, fullName: $fullName, phoneNumber: $phoneNumber, email: $email, pharmacyName: $pharmacyName, licenseNumber: $licenseNumber, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -643,7 +643,7 @@ abstract mixin class $PharmacistCopyWith<$Res>  {
   factory $PharmacistCopyWith(Pharmacist value, $Res Function(Pharmacist) _then) = _$PharmacistCopyWithImpl;
 @useResult
 $Res call({
- int id, int userId, String fullName, String dateOfBirth, int gender, String phoneNumber, String email, String address, int bloodType, int weight, int height, String emergencyContact, String emergencyPhone, String pharmacyName, String createdAt, String updatedAt
+ int id, int userId, String fullName, String phoneNumber, String email, String pharmacyName, String licenseNumber, String createdAt, String updatedAt
 });
 
 
@@ -660,22 +660,15 @@ class _$PharmacistCopyWithImpl<$Res>
 
 /// Create a copy of Pharmacist
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? fullName = null,Object? dateOfBirth = null,Object? gender = null,Object? phoneNumber = null,Object? email = null,Object? address = null,Object? bloodType = null,Object? weight = null,Object? height = null,Object? emergencyContact = null,Object? emergencyPhone = null,Object? pharmacyName = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? fullName = null,Object? phoneNumber = null,Object? email = null,Object? pharmacyName = null,Object? licenseNumber = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
-as String,dateOfBirth: null == dateOfBirth ? _self.dateOfBirth : dateOfBirth // ignore: cast_nullable_to_non_nullable
-as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
-as int,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String,bloodType: null == bloodType ? _self.bloodType : bloodType // ignore: cast_nullable_to_non_nullable
-as int,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
-as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
-as int,emergencyContact: null == emergencyContact ? _self.emergencyContact : emergencyContact // ignore: cast_nullable_to_non_nullable
-as String,emergencyPhone: null == emergencyPhone ? _self.emergencyPhone : emergencyPhone // ignore: cast_nullable_to_non_nullable
 as String,pharmacyName: null == pharmacyName ? _self.pharmacyName : pharmacyName // ignore: cast_nullable_to_non_nullable
+as String,licenseNumber: null == licenseNumber ? _self.licenseNumber : licenseNumber // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as String,
@@ -763,10 +756,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int userId,  String fullName,  String dateOfBirth,  int gender,  String phoneNumber,  String email,  String address,  int bloodType,  int weight,  int height,  String emergencyContact,  String emergencyPhone,  String pharmacyName,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int userId,  String fullName,  String phoneNumber,  String email,  String pharmacyName,  String licenseNumber,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Pharmacist() when $default != null:
-return $default(_that.id,_that.userId,_that.fullName,_that.dateOfBirth,_that.gender,_that.phoneNumber,_that.email,_that.address,_that.bloodType,_that.weight,_that.height,_that.emergencyContact,_that.emergencyPhone,_that.pharmacyName,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.userId,_that.fullName,_that.phoneNumber,_that.email,_that.pharmacyName,_that.licenseNumber,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -784,10 +777,10 @@ return $default(_that.id,_that.userId,_that.fullName,_that.dateOfBirth,_that.gen
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int userId,  String fullName,  String dateOfBirth,  int gender,  String phoneNumber,  String email,  String address,  int bloodType,  int weight,  int height,  String emergencyContact,  String emergencyPhone,  String pharmacyName,  String createdAt,  String updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int userId,  String fullName,  String phoneNumber,  String email,  String pharmacyName,  String licenseNumber,  String createdAt,  String updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Pharmacist():
-return $default(_that.id,_that.userId,_that.fullName,_that.dateOfBirth,_that.gender,_that.phoneNumber,_that.email,_that.address,_that.bloodType,_that.weight,_that.height,_that.emergencyContact,_that.emergencyPhone,_that.pharmacyName,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.userId,_that.fullName,_that.phoneNumber,_that.email,_that.pharmacyName,_that.licenseNumber,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -804,10 +797,10 @@ return $default(_that.id,_that.userId,_that.fullName,_that.dateOfBirth,_that.gen
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int userId,  String fullName,  String dateOfBirth,  int gender,  String phoneNumber,  String email,  String address,  int bloodType,  int weight,  int height,  String emergencyContact,  String emergencyPhone,  String pharmacyName,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int userId,  String fullName,  String phoneNumber,  String email,  String pharmacyName,  String licenseNumber,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Pharmacist() when $default != null:
-return $default(_that.id,_that.userId,_that.fullName,_that.dateOfBirth,_that.gender,_that.phoneNumber,_that.email,_that.address,_that.bloodType,_that.weight,_that.height,_that.emergencyContact,_that.emergencyPhone,_that.pharmacyName,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.userId,_that.fullName,_that.phoneNumber,_that.email,_that.pharmacyName,_that.licenseNumber,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -819,23 +812,16 @@ return $default(_that.id,_that.userId,_that.fullName,_that.dateOfBirth,_that.gen
 @JsonSerializable()
 
 class _Pharmacist implements Pharmacist {
-   _Pharmacist({this.id = 0, this.userId = 0, this.fullName = '-', this.dateOfBirth = '-', this.gender = 1, this.phoneNumber = '-', this.email = '-', this.address = '-', this.bloodType = 1, this.weight = 1, this.height = 1, this.emergencyContact = '-', this.emergencyPhone = '-', this.pharmacyName = '-', this.createdAt = '-', this.updatedAt = '-'});
+   _Pharmacist({this.id = 0, this.userId = 0, this.fullName = '-', this.phoneNumber = '-', this.email = '-', this.pharmacyName = '-', this.licenseNumber = '-', this.createdAt = '-', this.updatedAt = '-'});
   factory _Pharmacist.fromJson(Map<String, dynamic> json) => _$PharmacistFromJson(json);
 
 @override@JsonKey() final  int id;
 @override@JsonKey() final  int userId;
 @override@JsonKey() final  String fullName;
-@override@JsonKey() final  String dateOfBirth;
-@override@JsonKey() final  int gender;
 @override@JsonKey() final  String phoneNumber;
 @override@JsonKey() final  String email;
-@override@JsonKey() final  String address;
-@override@JsonKey() final  int bloodType;
-@override@JsonKey() final  int weight;
-@override@JsonKey() final  int height;
-@override@JsonKey() final  String emergencyContact;
-@override@JsonKey() final  String emergencyPhone;
 @override@JsonKey() final  String pharmacyName;
+@override@JsonKey() final  String licenseNumber;
 @override@JsonKey() final  String createdAt;
 @override@JsonKey() final  String updatedAt;
 
@@ -852,16 +838,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Pharmacist&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.dateOfBirth, dateOfBirth) || other.dateOfBirth == dateOfBirth)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.email, email) || other.email == email)&&(identical(other.address, address) || other.address == address)&&(identical(other.bloodType, bloodType) || other.bloodType == bloodType)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.height, height) || other.height == height)&&(identical(other.emergencyContact, emergencyContact) || other.emergencyContact == emergencyContact)&&(identical(other.emergencyPhone, emergencyPhone) || other.emergencyPhone == emergencyPhone)&&(identical(other.pharmacyName, pharmacyName) || other.pharmacyName == pharmacyName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Pharmacist&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.email, email) || other.email == email)&&(identical(other.pharmacyName, pharmacyName) || other.pharmacyName == pharmacyName)&&(identical(other.licenseNumber, licenseNumber) || other.licenseNumber == licenseNumber)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,fullName,dateOfBirth,gender,phoneNumber,email,address,bloodType,weight,height,emergencyContact,emergencyPhone,pharmacyName,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,userId,fullName,phoneNumber,email,pharmacyName,licenseNumber,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Pharmacist(id: $id, userId: $userId, fullName: $fullName, dateOfBirth: $dateOfBirth, gender: $gender, phoneNumber: $phoneNumber, email: $email, address: $address, bloodType: $bloodType, weight: $weight, height: $height, emergencyContact: $emergencyContact, emergencyPhone: $emergencyPhone, pharmacyName: $pharmacyName, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Pharmacist(id: $id, userId: $userId, fullName: $fullName, phoneNumber: $phoneNumber, email: $email, pharmacyName: $pharmacyName, licenseNumber: $licenseNumber, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -872,7 +858,7 @@ abstract mixin class _$PharmacistCopyWith<$Res> implements $PharmacistCopyWith<$
   factory _$PharmacistCopyWith(_Pharmacist value, $Res Function(_Pharmacist) _then) = __$PharmacistCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int userId, String fullName, String dateOfBirth, int gender, String phoneNumber, String email, String address, int bloodType, int weight, int height, String emergencyContact, String emergencyPhone, String pharmacyName, String createdAt, String updatedAt
+ int id, int userId, String fullName, String phoneNumber, String email, String pharmacyName, String licenseNumber, String createdAt, String updatedAt
 });
 
 
@@ -889,22 +875,15 @@ class __$PharmacistCopyWithImpl<$Res>
 
 /// Create a copy of Pharmacist
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? fullName = null,Object? dateOfBirth = null,Object? gender = null,Object? phoneNumber = null,Object? email = null,Object? address = null,Object? bloodType = null,Object? weight = null,Object? height = null,Object? emergencyContact = null,Object? emergencyPhone = null,Object? pharmacyName = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? fullName = null,Object? phoneNumber = null,Object? email = null,Object? pharmacyName = null,Object? licenseNumber = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_Pharmacist(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
-as String,dateOfBirth: null == dateOfBirth ? _self.dateOfBirth : dateOfBirth // ignore: cast_nullable_to_non_nullable
-as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
-as int,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String,bloodType: null == bloodType ? _self.bloodType : bloodType // ignore: cast_nullable_to_non_nullable
-as int,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
-as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
-as int,emergencyContact: null == emergencyContact ? _self.emergencyContact : emergencyContact // ignore: cast_nullable_to_non_nullable
-as String,emergencyPhone: null == emergencyPhone ? _self.emergencyPhone : emergencyPhone // ignore: cast_nullable_to_non_nullable
 as String,pharmacyName: null == pharmacyName ? _self.pharmacyName : pharmacyName // ignore: cast_nullable_to_non_nullable
+as String,licenseNumber: null == licenseNumber ? _self.licenseNumber : licenseNumber // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as String,

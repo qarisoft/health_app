@@ -1,32 +1,32 @@
-
 import 'package:flutter/material.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart'
-    show Doctor;
+    show Doctor, Pharmacist;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:health_app/features/pharmacist/data/requests/profile.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 // import 'package:freezed_annotation/freezed_annotation.dart';
 // import 'package:health_app/features/auth/domain/models/patient.dart';
 
-class DoctorProfilePage extends StatefulWidget {
-  final Doctor doctor;
+class PharmacistProfilePage extends StatefulWidget {
+  final Pharmacist pharmacist;
 
-  const DoctorProfilePage({super.key, required this.doctor});
+  const PharmacistProfilePage({super.key, required this.pharmacist});
 
   @override
-  State<DoctorProfilePage> createState() => _DoctorProfilePageState();
+  State<PharmacistProfilePage> createState() => _PharmacistProfilePageState();
 }
 
-class _DoctorProfilePageState extends State<DoctorProfilePage> {
+class _PharmacistProfilePageState extends State<PharmacistProfilePage> {
   bool _isEditing = false;
-  late Doctor _editedDoctor;
+  late Pharmacist _editedPharmacist;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    _editedDoctor = widget.doctor;
+    _editedPharmacist = widget.pharmacist;
   }
 
   @override
@@ -69,17 +69,17 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
             _buildInfoItem(
               icon: Icons.person,
               label: 'الاسم الكامل',
-              value: _editedDoctor.fullName,
+              value: _editedPharmacist.fullName,
             ),
             _buildInfoItem(
               icon: Icons.phone,
               label: 'رقم الهاتف',
-              value: _editedDoctor.phoneNumber,
+              value: _editedPharmacist.phoneNumber,
             ),
             _buildInfoItem(
               icon: Icons.email,
               label: 'البريد الإلكتروني',
-              value: _editedDoctor.email,
+              value: _editedPharmacist.email,
             ),
           ],
         ),
@@ -90,20 +90,20 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
         _buildSection(
           title: 'المعلومات المهنية',
           children: [
-            _buildInfoItem(
-              icon: Icons.medical_services,
-              label: 'التخصص',
-              value: _editedDoctor.specialization,
-            ),
+            // _buildInfoItem(
+            //   icon: Icons.medical_services,
+            //   label: 'التخصص',
+            //   value: _editedPharmacist.,
+            // ),
             _buildInfoItem(
               icon: Icons.badge,
               label: 'رقم الرخصة',
-              value: _editedDoctor.licenseNumber,
+              value: _editedPharmacist.licenseNumber,
             ),
             _buildInfoItem(
               icon: Icons.local_hospital,
-              label: 'المستشفى',
-              value: _editedDoctor.hospital,
+              label: 'الصيدلية',
+              value: _editedPharmacist.pharmacyName,
             ),
           ],
         ),
@@ -117,17 +117,17 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
             _buildInfoItem(
               icon: Icons.person_pin,
               label: 'رقم المستخدم',
-              value: _editedDoctor.userId.toString(),
+              value: _editedPharmacist.userId.toString(),
             ),
             _buildInfoItem(
               icon: Icons.calendar_today,
               label: 'تاريخ الإنشاء',
-              value: _formatDate(_editedDoctor.createdAt),
+              value: _formatDate(_editedPharmacist.createdAt),
             ),
             _buildInfoItem(
               icon: Icons.update,
               label: 'آخر تحديث',
-              value: _formatDate(_editedDoctor.updatedAt),
+              value: _formatDate(_editedPharmacist.updatedAt),
             ),
           ],
         ),
@@ -159,39 +159,39 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
               child: const Icon(Icons.person, size: 50, color: Colors.blue),
             ),
             const SizedBox(height: 16),
-    
+
             // Doctor Name
             Text(
-              _editedDoctor.fullName.isNotEmpty
-                  ? _editedDoctor.fullName
+              _editedPharmacist.fullName.isNotEmpty
+                  ? _editedPharmacist.fullName
                   : 'الدكتور',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-    
+
             const SizedBox(height: 8),
-    
-            // Specialization
-            if (_editedDoctor.specialization.isNotEmpty)
-              Text(
-                _editedDoctor.specialization,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-              ),
-    
-            const SizedBox(height: 8),
-    
-            // Hospital
-            if (_editedDoctor.hospital.isNotEmpty)
-              Text(
-                _editedDoctor.hospital,
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
+
+            // // Specialization
+            // if (_editedPharmacist.specialization.isNotEmpty)
+            //   Text(
+            //     _editedPharmacist.specialization,
+            //     style: TextStyle(
+            //       fontSize: 18,
+            //       color: Theme.of(context).primaryColor,
+            //       fontWeight: FontWeight.w500,
+            //     ),
+            //     textAlign: TextAlign.center,
+            //   ),
+
+            // const SizedBox(height: 8),
+
+            // // Hospital
+            // if (_editedPharmacist.hospital.isNotEmpty)
+            //   Text(
+            //     _editedPharmacist.hospital,
+            //     style: const TextStyle(fontSize: 16, color: Colors.grey),
+            //     textAlign: TextAlign.center,
+            //   ),
           ],
         ),
       ),
@@ -275,15 +275,14 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
       child: Column(
         spacing: 20,
         children: [
-
           // Full Name Field
           _buildTextField(
             label: 'الاسم الكامل',
-            value: _editedDoctor.fullName,
+            value: _editedPharmacist.fullName,
             icon: Icons.person,
             onChanged: (value) {
               setState(() {
-                _editedDoctor = _editedDoctor.copyWith(fullName: value);
+                _editedPharmacist = _editedPharmacist.copyWith(fullName: value);
               });
             },
             validator: (value) {
@@ -294,33 +293,35 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
             },
           ),
 
-          // Specialization Field
-          _buildTextField(
-            label: 'التخصص',
-            value: _editedDoctor.specialization,
-            icon: Icons.medical_services,
-            onChanged: (value) {
-              setState(() {
-                _editedDoctor = _editedDoctor.copyWith(specialization: value);
-              });
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'الرجاء إدخال التخصص';
-              }
-              return null;
-            },
-          ),
+          // // Specialization Field
+          // _buildTextField(
+          //   label: 'التخصص',
+          //   value: _editedPharmacist.specialization,
+          //   icon: Icons.medical_services,
+          //   onChanged: (value) {
+          //     setState(() {
+          //       _editedPharmacist = _editedPharmacist.copyWith(specialization: value);
+          //     });
+          //   },
+          //   validator: (value) {
+          //     if (value == null || value.isEmpty) {
+          //       return 'الرجاء إدخال التخصص';
+          //     }
+          //     return null;
+          //   },
+          // ),
 
           // Phone Number Field
           _buildTextField(
             label: 'رقم الهاتف',
-            value: _editedDoctor.phoneNumber,
+            value: _editedPharmacist.phoneNumber,
             icon: Icons.phone,
             keyboardType: TextInputType.phone,
             onChanged: (value) {
               setState(() {
-                _editedDoctor = _editedDoctor.copyWith(phoneNumber: value);
+                _editedPharmacist = _editedPharmacist.copyWith(
+                  phoneNumber: value,
+                );
               });
             },
             validator: (value) {
@@ -337,12 +338,12 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
           // Email Field
           _buildTextField(
             label: 'البريد الإلكتروني',
-            value: _editedDoctor.email,
+            value: _editedPharmacist.email,
             icon: Icons.email,
             keyboardType: TextInputType.emailAddress,
             onChanged: (value) {
               setState(() {
-                _editedDoctor = _editedDoctor.copyWith(email: value);
+                _editedPharmacist = _editedPharmacist.copyWith(email: value);
               });
             },
             validator: (value) {
@@ -359,11 +360,13 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
           // License Number Field
           _buildTextField(
             label: 'رقم الرخصة',
-            value: _editedDoctor.licenseNumber,
+            value: _editedPharmacist.licenseNumber,
             icon: Icons.badge,
             onChanged: (value) {
               setState(() {
-                _editedDoctor = _editedDoctor.copyWith(licenseNumber: value);
+                _editedPharmacist = _editedPharmacist.copyWith(
+                  licenseNumber: value,
+                );
               });
             },
             validator: (value) {
@@ -374,24 +377,25 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
             },
           ),
 
-          // Hospital Field
+          // Pharmaciy Field
           _buildTextField(
-            label: 'المستشفى',
-            value: _editedDoctor.hospital,
-            icon: Icons.local_hospital,
+            label: 'الصيدلية',
+            value: _editedPharmacist.pharmacyName,
+            icon: Icons.local_pharmacy,
             onChanged: (value) {
               setState(() {
-                _editedDoctor = _editedDoctor.copyWith(hospital: value);
+                _editedPharmacist = _editedPharmacist.copyWith(
+                  pharmacyName: value,
+                );
               });
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'الرجاء إدخال اسم المستشفى';
+                return 'الرجاء إدخال اسم الصيدلية';
               }
               return null;
             },
           ),
-
           const SizedBox(height: 16),
 
           // Action Buttons
@@ -422,7 +426,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   onPressed: () {
                     setState(() {
                       _isEditing = false;
-                      _editedDoctor = widget.doctor; // Reset changes
+                      _editedPharmacist = widget.pharmacist; // Reset changes
                     });
                   },
                   style: OutlinedButton.styleFrom(
@@ -476,22 +480,19 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
     }
   }
 
+  void _showSnak(SnackBar snak) {
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(snak);
+  }
+
   void _saveChanges() async {
-    // Show loading dialog
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   builder: (context) => const Center(
-    //     child: CircularProgressIndicator(),
-    //   ),
-    // );
-    AppDialog().loading(message: 'please wait, while updating your profile');
+    AppDialog().loading(message: 'جاري التعديل, الرجاء الانتضار');
 
     try {
       // Simulate API call
       await Future.delayed(const Duration(seconds: 1));
-      final a = await di<AppRepositories>().updateDoctorProfile(
-        _editedDoctor.toJson(),
+      final a = await di<AppRepositories>().updatePharmacistProfile(
+        PharmacistProfileRequestData.fromJson(_editedPharmacist.toJson()),
       );
 
       AppDialog().dismiss();
@@ -499,9 +500,14 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
       a.when(
         error: (error) {},
         success: (data) {
+          AppDialog().show(
+            title: 'Good',
+            message: "تم الحفض بنجاح!!",
+            type: DialogType.success,
+          );
           setState(() {
-            _editedDoctor = Doctor.fromJson(
-              data.doctor?.toJson() ?? _editedDoctor.toJson(),
+            _editedPharmacist = Pharmacist.fromJson(
+              data?.toJson() ?? _editedPharmacist.toJson(),
             );
           });
         },
@@ -512,8 +518,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
         _isEditing = false;
       });
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
+      _showSnak(
         const SnackBar(
           content: Text('تم حفظ التغييرات بنجاح'),
           backgroundColor: Colors.green,
@@ -521,7 +526,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
       );
     } catch (e) {
       // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
+      _showSnak(
         SnackBar(
           content: Text('فشل في حفظ التغييرات: $e'),
           backgroundColor: Colors.red,
@@ -533,37 +538,5 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
       //   Navigator.of(context, rootNavigator: true).pop();
       // }
     }
-  }
-}
-
-// Example usage in another file:
-class DoctorProfileScreen extends StatelessWidget {
-  final Doctor doctor = Doctor(
-    id: 1,
-    userId: 106,
-    fullName: 'د. أحمد محمد',
-    specialization: 'أمراض القلب',
-    phoneNumber: '0551234567',
-    email: 'ahmed.mohamed@example.com',
-    licenseNumber: 'MED-123456',
-    hospital: 'مستشفى الملك فهد',
-    createdAt: '2025-12-16T19:49:28.853Z',
-    updatedAt: '2025-12-16T19:52:21.197Z',
-  );
-
-  DoctorProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.blue,
-        fontFamily: 'Almarai', // Arabic font
-      ),
-      home: Directionality(
-        textDirection: TextDirection.rtl,
-        child: DoctorProfilePage(doctor: doctor),
-      ),
-    );
   }
 }

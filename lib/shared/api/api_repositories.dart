@@ -15,6 +15,9 @@ import 'package:health_app/features/auth/domain/models/auth_state.dart'
 import 'package:health_app/features/auth/domain/models/patient.dart'
     show Patient, Doctor, Pharmacist;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:health_app/features/pharmacist/data/requests/profile.dart';
+import 'package:health_app/features/pharmacist/data/responses/prescription.dart';
+import 'package:health_app/features/pharmacist/domain/models/prescription.dart';
 import 'package:health_app/shared/api/api_service.dart' show ApiService;
 import 'package:health_app/shared/ex.dart';
 
@@ -272,16 +275,20 @@ class AppRepositories {
     }
   }
 
-  Future<ErrorOr<bool>> updatePharmacistProfile(
-    Map<String, dynamic> data,
+  Future<ErrorOr<Pharmacist?>> updatePharmacistProfile(
+    PharmacistProfileRequestData data,
   ) async {
     try {
-      final res = await api.updatePharmacistProfile(data);
-      if (res['success'] == true) {
+      final json = await api.updatePharmacistProfile(data.toJson());
+      final response = PharmacistProfileResponse.fromJson(json);
+      if (response.success && response.pharmacist != null) {
         // Refresh profile after update
-        await _getPharmacistProfile();
+        // await _getPharmacistProfile();
+        return ErrorOr.success(
+          data: Pharmacist.fromJson(response.pharmacist!.toJson()),
+        );
       }
-      return ErrorOr.success(data: res['success'] ?? false);
+      throw 'Unable to get the pharmacist profile data';
     } catch (e) {
       debugPrint('Update pharmacist profile error: $e');
       return ErrorOr.error(error: ServerError(msg: 'Update failed: $e'));
@@ -402,10 +409,16 @@ class AppRepositories {
   // PHARMACIST FUNCTIONS
   // ===============================================================
 
-  Future<ErrorOr<dynamic>> searchPrescription(String identifier) async {
+  Future<ErrorOr<PrescriptionsResponse>> searchPrescription(
+    String identifier,
+  ) async {
     try {
-      final res = await api.searchPrescription(identifier);
-      return ErrorOr.success(data: res);
+      final json = await api.searchPrescription(identifier);
+      final res = PrescriptionsResponse.fromJson(json);
+      if (res.success) {
+        return ErrorOr.success(data: res);
+      }
+      throw 'un able to get the data, Converssion Error';
     } catch (e) {
       debugPrint('Search prescription error: $e');
       return ErrorOr.error(error: ServerError(msg: 'Search failed: $e'));

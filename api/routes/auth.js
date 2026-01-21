@@ -46,7 +46,7 @@ router.post('/login',authRules.login, validate, (req, res) => {
     res.json({
         "success": true,
         "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mockToken",
-        "role": "Doctor",
+        "role": "Pharmacist",
         // "role": "Patient",
         "userId": 102
     });

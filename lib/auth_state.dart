@@ -78,5 +78,5 @@ class Account extends _$Account {
     return AccountState.initial();
     }
 
-  getAccount(String s) {}
+  void getAccount(String s) {}
 }

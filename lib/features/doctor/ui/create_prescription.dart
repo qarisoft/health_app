@@ -207,8 +207,9 @@ class _CreatePrescriptionDialogState
       ElevatedButton(
         onPressed: _currentStep == 0
             ? () {
-                if (_formKeys[0].currentState!.validate())
+                if (_formKeys[0].currentState!.validate()) {
                   setState(() => _currentStep++);
+                }
               }
             : _submitPrescription,
         child: Text(_currentStep == 0 ? 'Next' : 'Submit Prescription'),

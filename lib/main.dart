@@ -12,8 +12,9 @@ import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/auth/ui/pages/register_page.dart';
 import 'package:health_app/features/doctor/ui/home.dart' as doctor_pages;
+import 'package:health_app/features/pharmacist/ui/home/page.dart' as pharmacist_page;
 // import 'package:health_app/features/home/ui/pages/initialize_profile/page.dart';
-import 'package:health_app/features/home/ui/pages/p.dart' as P;
+import 'package:health_app/features/home/ui/pages/p.dart' as patient;
 import 'package:health_app/features/patients/ui/home.dart'
     show MedicalHistoryPage;
 import 'package:health_app/l10n/app_localizations.dart';
@@ -61,8 +62,9 @@ class HealthCareApp extends StatelessWidget {
             AppRoutes.register: (context) => const RegisterPage(),
             //
             AppRoutes.patientMHistory: (context) => const MedicalHistoryPage(),
-            AppRoutes.patientHome: (context) => const P.MainPatientPage(),
+            AppRoutes.patientHome: (context) => const patient.MainPatientPage(),
             AppRoutes.doctorHome: (context) => const doctor_pages.HomePage(),
+            AppRoutes.pharmacistHome: (context) => const pharmacist_page.HomePage(),
           },
         );
       },
@@ -95,10 +97,10 @@ class SplashPage extends ConsumerWidget {
     return auth.when(
       initial: () => LoginPage(),
       acount: (a) => a.when(
-        patient: (p) => P.HomePage(),
-        doctor: (p) => P.HomePage(),
-        pharmacist: (p) => P.HomePage(),
-        admin: (p) => P.HomePage(),
+        patient: (p) => patient.HomePage(),
+        doctor: (p) => patient.HomePage(),
+        pharmacist: (p) => patient.HomePage(),
+        admin: (p) => patient.HomePage(),
       ),
     );
     // .when(

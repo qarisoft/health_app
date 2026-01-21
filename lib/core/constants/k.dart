@@ -58,10 +58,10 @@ enum UserType {
     return false;
   }
 }
-
+const api='192.168.1.106';
 class K {
   // TODO Change this Url
-  static const String baseUrl = "http://localhost:7164/api";
+  static const String baseUrl = "https://$api:7164/api";
 
 
   // 

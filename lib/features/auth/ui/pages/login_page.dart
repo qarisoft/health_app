@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
     text: DEV_ENV ? '123456789' : null,
   );
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   void goHome(AuthRecord auth) {
     // auth.whenOrNull(
@@ -50,29 +50,24 @@ class _LoginPageState extends State<LoginPage> {
     //   //   context.toNamed(AppRoutes.patientHome);
     //   // },
     // );
-    switch (auth.role.toLowerCase()) {
-      case 'patient':
-
-        // initPatient();
+    switch (UserType.fromString(auth.role.toLowerCase())) {
+      case UserType.patient:
         context.toNamed(AppRoutes.patientHome);
-
         break;
-      case 'doctor':
+      case UserType.doctor:
         context.toNamed(AppRoutes.doctorHome);
-
+        break;
+      case UserType.pharmacist:
+        context.toNamed(AppRoutes.pharmacistHome);
+        break;
       default:
     }
-    // switch(auth.role){
-    //   // 'patient'=>
-    //   case 'patient'=>
-    // }
   }
-
 
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       AppDialog().loading(message: "login, please wait ...");
-   
+      await Future.delayed(Duration(seconds: 2));
 
       final auth = await di<AppRepositories>().login(
         identifier: _idCardNumberController.text,

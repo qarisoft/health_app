@@ -64,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
       TextEditingController(text: 'https://google.com'.dev);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   void goHome() {
     context.toNamed(AppRoutes.home);
@@ -115,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  goBack() {
+  void goBack() {
     context.pop();
   }
 

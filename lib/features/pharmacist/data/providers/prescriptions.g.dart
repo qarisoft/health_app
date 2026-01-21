@@ -9,53 +9,52 @@ part of 'prescriptions.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(PrescriptionsStore)
-const prescriptionsStoreProvider = PrescriptionsStoreProvider._();
+@ProviderFor(Prescriptions)
+const prescriptionsProvider = PrescriptionsProvider._();
 
-final class PrescriptionsStoreProvider
-    extends $NotifierProvider<PrescriptionsStore, PrescriptionsList> {
-  const PrescriptionsStoreProvider._()
+final class PrescriptionsProvider
+    extends $NotifierProvider<Prescriptions, List<Prescription>> {
+  const PrescriptionsProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'prescriptionsStoreProvider',
+        name: r'prescriptionsProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$prescriptionsStoreHash();
+  String debugGetCreateSourceHash() => _$prescriptionsHash();
 
   @$internal
   @override
-  PrescriptionsStore create() => PrescriptionsStore();
+  Prescriptions create() => Prescriptions();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(PrescriptionsList value) {
+  Override overrideWithValue(List<Prescription> value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<PrescriptionsList>(value),
+      providerOverride: $SyncValueProvider<List<Prescription>>(value),
     );
   }
 }
 
-String _$prescriptionsStoreHash() =>
-    r'33e43ec07a8b0770590e856cfb118e24e46473cc';
+String _$prescriptionsHash() => r'43ae219fb43ea37062c0e43fc81d7ac6d6353b93';
 
-abstract class _$PrescriptionsStore extends $Notifier<PrescriptionsList> {
-  PrescriptionsList build();
+abstract class _$Prescriptions extends $Notifier<List<Prescription>> {
+  List<Prescription> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<PrescriptionsList, PrescriptionsList>;
+    final ref = this.ref as $Ref<List<Prescription>, List<Prescription>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<PrescriptionsList, PrescriptionsList>,
-              PrescriptionsList,
+              AnyNotifier<List<Prescription>, List<Prescription>>,
+              List<Prescription>,
               Object?,
               Object?
             >;

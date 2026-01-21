@@ -123,7 +123,7 @@ class _PatientRecordGroup extends StatelessWidget {
           ),
         ),
         // List of specific records for this patient
-        ...records.map((record) => _MedicalRecordCard(record: record)).toList(),
+        ...records.map((record) => _MedicalRecordCard(record: record)),
         const Divider(height: 32, thickness: 1),
       ],
     );

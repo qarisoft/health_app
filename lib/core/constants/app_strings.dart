@@ -10,7 +10,7 @@ abstract class AppStrings {
   static const String loginSuccess = 'loginSuccess';
   static const String loginFailed = 'loginFailed';
   static const String invalidCredentials = 'invalidCredentials';
-  
+
   // Home Page
   static const String welcome = 'welcome';
   static const String medicalHistory = 'medicalHistory';
@@ -21,7 +21,7 @@ abstract class AppStrings {
   static const String medicineTaken = 'medicineTaken';
   static const String confirmVisit = 'confirmVisit';
   static const String scheduledFor = 'scheduledFor';
-  
+
   // Common
   static const String loading = 'loading';
   static const String retry = 'retry';
@@ -32,4 +32,6 @@ abstract class AppStrings {
   static const String delete = 'delete';
   static const String settings = 'settings';
   static const String logout = 'logout';
+
+  static const String loadingMsg = 'جاري التعديل, الرجاء الانتضار';
 }

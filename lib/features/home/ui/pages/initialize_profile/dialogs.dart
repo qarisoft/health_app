@@ -65,7 +65,7 @@ class _AllergyDialogState extends ConsumerState<AllergyDialog> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
-                value: _allergy.severity.isNotEmpty ? _allergy.severity : null,
+                initialValue: _allergy.severity.isNotEmpty ? _allergy.severity : null,
                 decoration: const InputDecoration(
                   labelText: 'شدة الحساسية',
                   border: OutlineInputBorder(),

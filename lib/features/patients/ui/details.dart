@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:health_app/features/patients/data.dart';
 import 'package:health_app/features/patients/domain/models/medical_history.dart' show MedicalHistory, Gender;
 // import 'package:health_app/features/patients/domain/models/medical_history.dart' hide Gender;
 import 'package:health_app/l10n/app_localizations.dart';

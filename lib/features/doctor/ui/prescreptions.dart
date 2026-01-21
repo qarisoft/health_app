@@ -6,6 +6,7 @@ import 'package:health_app/features/doctor/data/providers/prescriptions.dart';
 // import 'package:health_app/features/doctor/data/models/prescription.dart';
 import 'package:health_app/features/doctor/data/requests/prescription.dart';
 import 'package:health_app/features/doctor/ui/create_prescription.dart';
+import 'package:health_app/features/doctor/ui/medical_record.dart';
 import 'package:health_app/features/doctor/ui/widgets/prescreption_card.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
@@ -19,15 +20,14 @@ class PrescreptionsPage extends ConsumerStatefulWidget {
 }
 
 class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
-  
   /// Opens the multi-step wizard to create a new prescription
   void _handleOnCreate(int patientId) async {
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => CreatePrescriptionDialog(patientId: patientId),
     );
-    
-    // If a prescription was added, the provider should auto-update 
+
+    // If a prescription was added, the provider should auto-update
     // via the notifier in your submit logic.
     if (result == true) {
       xlog("Prescription added for patient: $patientId");
@@ -127,7 +127,9 @@ class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.08),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.1)),
+            border: Border.all(
+              color: Theme.of(context).primaryColor.withOpacity(0.1),
+            ),
           ),
           child: Row(
             children: [
@@ -139,7 +141,10 @@ class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
               const SizedBox(width: 10),
               Text(
                 'Patient ID: $patientId',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
               ),
               const Spacer(),
               Chip(
@@ -161,47 +166,3 @@ class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
   }
 }
 
-/// The Search Input Dialog
-class SingleInputDialog extends StatefulWidget {
-  const SingleInputDialog({super.key});
-
-  @override
-  State<SingleInputDialog> createState() => _SingleInputDialogState();
-}
-
-class _SingleInputDialogState extends State<SingleInputDialog> {
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Find Patient'),
-      content: TextField(
-        controller: _controller,
-        autofocus: true,
-        decoration: InputDecoration(
-          labelText: 'ID or Patient Code',
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-        onSubmitted: (val) => Navigator.pop(context, val),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.pop(context, _controller.text),
-          child: const Text('Search'),
-        ),
-      ],
-    );
-  }
-}

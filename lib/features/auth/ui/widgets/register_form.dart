@@ -192,6 +192,7 @@ class RegisterForm extends StatelessWidget {
             } catch (e) {
               return 'you must enter valid date';
             }
+            return null;
           },
         ),
 
