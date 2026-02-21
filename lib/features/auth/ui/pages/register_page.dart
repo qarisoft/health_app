@@ -29,7 +29,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _userTypeController = TextEditingController(
-    text: PATIENT_KEY,
+    text: DOCTOR_KEY,
   );
   final TextEditingController nameController = TextEditingController(
     text: 'name'.dev,
@@ -47,13 +47,13 @@ class _RegisterPageState extends State<RegisterPage> {
     text: '123456789'.dev,
   );
   final TextEditingController _idCardController = TextEditingController(
-    text: '123456789'.dev,
+    text: '4342ghgh43432'.dev,
   );
   final TextEditingController _passwordController = TextEditingController(
-    text: 'password'.dev,
+    text: 'pa32543vssword'.dev,
   );
   final TextEditingController passwordConfirmController = TextEditingController(
-    text: 'password'.dev,
+    text: 'pa32543vssword'.dev,
   );
   final TextEditingController specializationController = TextEditingController(
     text: 'nephrologist'.dev,
@@ -186,7 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
       // licenseDocumentUrl: licenseDocumentUrlController.text,
     );
 
-    return await di<AppRepositories>().registerDoctor(data.toJson());
+    return await di<AppRepositories>().registerDoctor(data);
   }
 
   Future<ErrorOr<GeneralResponse>> _registerPharmacist() async {

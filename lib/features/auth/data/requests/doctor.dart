@@ -25,7 +25,7 @@ abstract class DoctorRegisterRequest with _$DoctorRegisterRequest {
     required String licenseNumber,
     required String specialization,
     required String hospital,
-    String? licenseDocumentUrl,
+    // String? licenseDocumentUrl,
   }) = _DoctorRegisterRequest;
 
   factory DoctorRegisterRequest.fromJson(Map<String, dynamic> json) =>

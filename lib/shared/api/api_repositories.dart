@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:health_app/core/error/app_error.dart' show ErrorOr, ServerError;
 import 'package:health_app/core/services/storage.dart';
+import 'package:health_app/features/auth/data/requests/doctor.dart';
 import 'package:health_app/features/auth/data/requests/pharmacist.dart';
 import 'package:health_app/features/auth/data/responses/user/user_response.dart'
     show
@@ -91,10 +92,22 @@ class AppRepositories {
   }
 
   Future<ErrorOr<GeneralResponse>> registerDoctor(
-    Map<String, dynamic> data,
+    DoctorRegisterRequest data,
   ) async {
+    final data2 = {
+      'nationalId': data.nationalId,
+      'password': data.password,
+      'confirmPassword': data.confirmPassword,
+      'fullName': data.fullName,
+      'phoneNumber': data.phoneNumber,
+      'email': data.email,
+      'licenseNumber': data.licenseNumber,
+      'specialization': data.specialization,
+      'hospital': data.hospital,
+    };
+    xlog(data2);
     try {
-      final res = await api.registerDoctor(data);
+      final res = await api.registerDoctor(data2);
       return ErrorOr.success(data: GeneralResponse.fromJson(res));
     } catch (e) {
       debugPrint('Doctor registration error: $e');

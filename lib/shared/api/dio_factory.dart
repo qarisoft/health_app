@@ -67,16 +67,16 @@ class DioFactory {
 
     // 5. Authentication Interceptor (Optional)
     // Useful for refreshing tokens automatically on 401 errors
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onError: (DioException e, handler) async {
-          if (e.response?.statusCode == 401) {
-            // Handle Token Refresh logic here...
-          }
-          return handler.next(e);
-        },
-      ),
-    );
+    //   dio.interceptors.add(
+    //     InterceptorsWrapper(
+    //       onError: (DioException e, handler) async {
+    //         if (e.response?.statusCode == 401) {
+    //           // Handle Token Refresh logic here...
+    //         }
+    //         return handler.next(e);
+    //       },
+    //     ),
+    //   );
 
     return dio;
   }

@@ -18,7 +18,6 @@ _DoctorRegisterRequest _$DoctorRegisterRequestFromJson(
   licenseNumber: json['licenseNumber'] as String,
   specialization: json['specialization'] as String,
   hospital: json['hospital'] as String,
-  licenseDocumentUrl: json['licenseDocumentUrl'] as String?,
 );
 
 Map<String, dynamic> _$DoctorRegisterRequestToJson(
@@ -33,5 +32,4 @@ Map<String, dynamic> _$DoctorRegisterRequestToJson(
   'licenseNumber': instance.licenseNumber,
   'specialization': instance.specialization,
   'hospital': instance.hospital,
-  'licenseDocumentUrl': instance.licenseDocumentUrl,
 };

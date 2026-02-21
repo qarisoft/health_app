@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/shared/api/dio_factory.dart';
 // import 'package:dio/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,7 +40,9 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> registerDoctor(Map<String, dynamic> data) async {
+    xlog(data.toString());
     final response = await _gDio.post('/Auth/register/doctor', data: data);
+
     return _handleResponse(response);
   }
 
