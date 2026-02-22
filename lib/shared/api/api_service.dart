@@ -39,7 +39,7 @@ class ApiService {
     return _handleResponse(response);
   }
 
-  Future<Map<String, dynamic>> registerDoctor(Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> registerDoctor(FormData data) async {
     xlog(data.toString());
     final response = await _gDio.post('/Auth/register/doctor', data: data);
 
@@ -154,6 +154,16 @@ class ApiService {
 
   Future<Map<String, dynamic>> getDoctorProfile() async {
     final response = await _dio.get('/Doctor/profile');
+    return _handleResponse(response);
+  }
+
+  Future<Map<String, dynamic>> activateDoctorAsPatientProfile() async {
+    final response = await _dio.post('/Doctor/activate-patient-profile');
+    return _handleResponse(response);
+  }
+
+  Future<Map<String, dynamic>> doctorStatistics() async {
+    final response = await _dio.get('/Doctordashboard/insights');
     return _handleResponse(response);
   }
 

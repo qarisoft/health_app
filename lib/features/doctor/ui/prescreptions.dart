@@ -5,12 +5,15 @@ import 'package:health_app/features/auth/data/responses/user/user_response.dart'
 import 'package:health_app/features/doctor/data/providers/prescriptions.dart';
 // import 'package:health_app/features/doctor/data/models/prescription.dart';
 import 'package:health_app/features/doctor/data/requests/prescription.dart';
+import 'package:health_app/features/doctor/data/responses/patient_response.dart'
+    show PatientResponse;
 import 'package:health_app/features/doctor/ui/create_prescription.dart';
 import 'package:health_app/features/doctor/ui/medical_record.dart';
 import 'package:health_app/features/doctor/ui/widgets/prescreption_card.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/auth_state.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
 class PrescreptionsPage extends ConsumerStatefulWidget {
   const PrescreptionsPage({super.key});
@@ -29,9 +32,9 @@ class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
 
     // If a prescription was added, the provider should auto-update
     // via the notifier in your submit logic.
-    if (result == true) {
-      xlog("Prescription added for patient: $patientId");
-    }
+    // if (result == true) {
+    //   xlog("Prescription added for patient: $patientId");
+    // }
   }
 
   /// Opens search dialog and finds patient by ID or Code
@@ -40,18 +43,24 @@ class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
       context: context,
       builder: (context) => const SingleInputDialog(),
     );
+    AppDialog().loading();
 
     if (identifier != null && identifier.isNotEmpty) {
       final res = await di<AppRepositories>().searchPatient(identifier);
       res.when(
         success: (json) {
-          final response = PatientProfileResponse.fromJson(json);
+          final response = PatientResponse.fromJson(json);
+          if (response.success) {
+            xlog(response);
+          }
+          // final response = PatientProfileResponse.fromJson(json);
           if (response.patient != null) {
-            _handleOnCreate(response.patient!.id);
+            _handleOnCreate(response.patient?.id ?? 1);
           }
         },
         error: (error) {
           xlog(error);
+          AppDialog().dismiss();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Patient not found: ${error.msg}')),
           );
@@ -165,4 +174,3 @@ class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
     );
   }
 }
-

@@ -24,6 +24,8 @@ final di = GetIt.instance;
 AppAuthState appAuth(Ref ref) {
   final authType = di<SharedPreferences>().getString(AUTH_TYPE_KEY);
   final authString = di<SharedPreferences>().getString(AUTH_KEY);
+  xlog(authType);
+  xlog('sssssssssssssss');
   if (authString != null) {
     final json = jsonDecode(authString);
 
@@ -63,20 +65,20 @@ class Account extends _$Account {
   AccountState build() {
     final authRecord = ref.watch(authRecordStateProvider);
     if (authRecord is TAuthRecordData) {
-        final p = switch (authRecord.record.role) {
-          'admin' => di<AppStorage>().getAdminAccount(),
-          'doctor' => di<AppStorage>().getDoctorAccount(),
-          'pharmacist' => di<AppStorage>().getPharmacistAccount(),
-          'patient' => di<AppStorage>().getPatientAccount(),
-          // de => di<AppStorage>().getPatientAccount(),
-          String() => di<AppStorage>().getPatientAccount(),
-        };
-        if (p != null) {
-          return AccountState.acount(account: p);
-        }
-        }
-    return AccountState.initial();
+      final p = switch (authRecord.record.role) {
+        'admin' => di<AppStorage>().getAdminAccount(),
+        'doctor' => di<AppStorage>().getDoctorAccount(),
+        'pharmacist' => di<AppStorage>().getPharmacistAccount(),
+        'patient' => di<AppStorage>().getPatientAccount(),
+        // de => di<AppStorage>().getPatientAccount(),
+        String() => di<AppStorage>().getPatientAccount(),
+      };
+      if (p != null) {
+        return AccountState.acount(account: p);
+      }
     }
+    return AccountState.initial();
+  }
 
   void getAccount(String s) {}
 }

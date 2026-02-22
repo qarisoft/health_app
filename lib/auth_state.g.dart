@@ -48,7 +48,7 @@ final class AppAuthProvider
   }
 }
 
-String _$appAuthHash() => r'13af55977ecd46230d4cf049e4f17770f6619e20';
+String _$appAuthHash() => r'874ae5a87b2a3ebe0f8306d8a7086760adda62e0';
 
 @ProviderFor(AuthRecordState)
 const authRecordStateProvider = AuthRecordStateProvider._();

@@ -20,12 +20,12 @@ abstract class DoctorRegisterRequest with _$DoctorRegisterRequest {
     required String confirmPassword,
     required String fullName,
     // required DateTime dateOfBirth,
-    required String phoneNumber,
     required String email,
+    required String phoneNumber,
     required String licenseNumber,
     required String specialization,
     required String hospital,
-    // String? licenseDocumentUrl,
+    String? licenseDocument,
   }) = _DoctorRegisterRequest;
 
   factory DoctorRegisterRequest.fromJson(Map<String, dynamic> json) =>

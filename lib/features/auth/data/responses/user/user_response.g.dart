@@ -24,6 +24,22 @@ Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
       'userId': instance.userId,
     };
 
+DoctorAsPatientResponse _$DoctorAsPatientResponseFromJson(
+  Map<String, dynamic> json,
+) => DoctorAsPatientResponse(
+  success: json['success'] as bool?,
+  message: json['message'] as String? ?? '',
+  token: json['token'] as String?,
+);
+
+Map<String, dynamic> _$DoctorAsPatientResponseToJson(
+  DoctorAsPatientResponse instance,
+) => <String, dynamic>{
+  'success': instance.success,
+  'message': instance.message,
+  'token': instance.token,
+};
+
 PatientRegisterResponse _$PatientRegisterResponseFromJson(
   Map<String, dynamic> json,
 ) => PatientRegisterResponse(

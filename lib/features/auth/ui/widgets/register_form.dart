@@ -214,6 +214,7 @@ class _RegisterFormState extends State<RegisterForm> {
           controller: widget.passwordController,
           labelText: localizations.password,
           prefixIcon: Icons.lock,
+          showPasswordToggle: true,
           obscureText: true,
           validator: passwordValidator,
         ),
@@ -222,6 +223,7 @@ class _RegisterFormState extends State<RegisterForm> {
           labelText: localizations.passwordConfirmation,
           prefixIcon: Icons.lock,
           obscureText: true,
+          showPasswordToggle: true,
           validator: passwordValidator,
         ),
         if (widget.userType == UserType.patient)
@@ -257,8 +259,10 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
 
         // License Document File Picker Section
-        if (widget.userType == UserType.doctor ||
-            widget.userType == UserType.pharmacist)
+        if (
+        // false
+        // widget.userType == UserType.doctor ||
+        widget.userType == UserType.pharmacist)
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

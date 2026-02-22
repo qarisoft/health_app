@@ -29,7 +29,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _userTypeController = TextEditingController(
-    text: DOCTOR_KEY,
+    text: PATIENT_KEY,
   );
   final TextEditingController nameController = TextEditingController(
     text: 'name'.dev,
@@ -41,13 +41,13 @@ class _RegisterPageState extends State<RegisterPage> {
     text: '2006-01-08'.dev,
   );
   final TextEditingController _emailController = TextEditingController(
-    text: 'email@e.e'.dev,
+    text: 'emaidsadsa@dsad.dsa'.dev,
   );
   final TextEditingController _phoneController = TextEditingController(
     text: '123456789'.dev,
   );
   final TextEditingController _idCardController = TextEditingController(
-    text: '4342ghgh43432'.dev,
+    text: '4342eghgh43432'.dev,
   );
   final TextEditingController _passwordController = TextEditingController(
     text: 'pa32543vssword'.dev,

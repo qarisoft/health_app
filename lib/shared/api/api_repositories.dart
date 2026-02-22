@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
+import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/error/app_error.dart' show ErrorOr, ServerError;
 import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/features/auth/data/requests/doctor.dart';
 import 'package:health_app/features/auth/data/requests/pharmacist.dart';
 import 'package:health_app/features/auth/data/responses/user/user_response.dart'
     show
+        DoctorAsPatientResponse,
         DoctorProfileResponse,
         GeneralResponse,
         LoginResponse,
@@ -20,6 +22,9 @@ import 'package:health_app/features/auth/domain/models/auth_state.dart'
 import 'package:health_app/features/auth/domain/models/patient.dart'
     show Patient, Doctor, Pharmacist;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:health_app/features/doctor/data/requests/home.dart'
+    show HomeResponse, RecentPatient;
+import 'package:health_app/features/doctor/data/responses/insights.dart';
 import 'package:health_app/features/pharmacist/data/requests/profile.dart';
 import 'package:health_app/features/pharmacist/data/responses/prescription.dart';
 import 'package:health_app/features/pharmacist/domain/models/prescription.dart';
@@ -30,6 +35,10 @@ class AppRepositories {
   final ApiService api;
   final AppStorage storage;
   AppRepositories({required this.api, required this.storage});
+
+  Dio getDio() {
+    return api.factory.getDio();
+  }
 
   // ===============================================================
   // AUTHENTICATION
@@ -82,9 +91,13 @@ class AppRepositories {
     Map<String, dynamic> data,
   ) async {
     try {
-      print(data);
-      final res = await api.registerPatient(data);
-      return ErrorOr.success(data: GeneralResponse.fromJson(res));
+      // print(data);
+      final json = await api.registerPatient(data);
+      final res = GeneralResponse.fromJson(json);
+      if (res.success.isN()) {
+        return ErrorOr.success(data: res);
+      }
+      return ErrorOr.error(error: ServerError(msg: res.message ?? 'faild'));
     } catch (e) {
       debugPrint('Patient registration error: $e');
       return ErrorOr.error(error: ServerError(msg: 'Registration failed: $e'));
@@ -94,21 +107,24 @@ class AppRepositories {
   Future<ErrorOr<GeneralResponse>> registerDoctor(
     DoctorRegisterRequest data,
   ) async {
-    final data2 = {
-      'nationalId': data.nationalId,
-      'password': data.password,
-      'confirmPassword': data.confirmPassword,
-      'fullName': data.fullName,
-      'phoneNumber': data.phoneNumber,
-      'email': data.email,
-      'licenseNumber': data.licenseNumber,
-      'specialization': data.specialization,
-      'hospital': data.hospital,
-    };
-    xlog(data2);
+    // FormData formData = FormData.fromMap({
+    //   "nationalId": data.nationalId,
+    //   "password": data.password,
+    //   "confirmPassword": data.confirmPassword,
+    //   "fullName": data.fullName,
+    //   // "dateOfBirth": 'data.dateOfBirth',
+    //   "phoneNumber": data.phoneNumber,
+    //   "email": data.email,
+    //   "licenseNumber": data.licenseNumber,
+    //   'hospital': data.hospital,
+    // });
     try {
-      final res = await api.registerDoctor(data2);
-      return ErrorOr.success(data: GeneralResponse.fromJson(res));
+      final res = await api.registerDoctor(FormData.fromMap(data.toJson()));
+      final res2 = GeneralResponse.fromJson(res);
+      if (res2.success.isN()) {
+        return ErrorOr.success(data: res2);
+      }
+      return ErrorOr.error(error: ServerError(msg: res2.message ?? 'faild'));
     } catch (e) {
       debugPrint('Doctor registration error: $e');
       return ErrorOr.error(error: ServerError(msg: 'Registration failed: $e'));
@@ -158,12 +174,46 @@ class AppRepositories {
   Future<ErrorOr<bool>> logout() async {
     try {
       final res = await api.logout();
+      // final
       await storage.clearAllAccounts();
       return ErrorOr.success(data: res['success'] ?? false);
     } catch (e) {
       debugPrint('Logout error: $e');
       await storage.clearAllAccounts();
       return ErrorOr.error(error: ServerError(msg: 'Logout failed: $e'));
+    }
+  }
+
+  Future<ErrorOr<List<RecentPatient>>> doctorGetRecent() async {
+    try {
+      final dio = getDio();
+      final res = await dio.get(K.doctorHomeUrl);
+      // final res2 = HomeResponse.fromJson(res.data);
+      final a = res.data.map((a) => RecentPatient.fromJson(a)).toList();
+      // xlog(res2);
+      // xlog('dddddddd$a');
+      // xlog(a);
+      // xlog(res2);
+
+      return ErrorOr.success(data: a);
+    } catch (e) {
+      return ErrorOr.error(error: ServerError(msg: 'Logout failed: $e'));
+    }
+  }
+
+  Future<ErrorOr<DoctorDashboardInsight>> doctorDashboardInsights() async {
+    try {
+      // final dio = getDio();
+      final json = await api.doctorStatistics();
+      // if (res!=null) {
+
+      // }
+      final res = DoctorDashboardInsight.fromJson(json);
+      // if(res)
+      return ErrorOr.success(data: res);
+    } catch (e) {
+      return ErrorOr.success(data: DoctorDashboardInsight());
+      // return ErrorOr.error(error: ServerError(msg: 'Logout failed: $e'));
     }
   }
 
@@ -208,9 +258,9 @@ class AppRepositories {
     try {
       final json = await api.getPatientProfile();
       // json.log('patient   dddd');
-      for (var s in json.entries) {
-        s.log('e');
-      }
+      // for (var s in json.entries) {
+      //   s.log('e');
+      // }
 
       final res = PatientProfileResponse.fromJson(json);
 
@@ -233,6 +283,16 @@ class AppRepositories {
   Future<ErrorOr<DoctorProfileResponse>> _getDoctorProfile() async {
     try {
       final json = await api.getDoctorProfile();
+      final json2 = await api.activateDoctorAsPatientProfile();
+      xlog(json2);
+      final res3 = DoctorAsPatientResponse.fromJson(json2);
+      if (res3.success.isN()) {
+        final token = res3.token;
+        if (token != null) {
+          await storage.setUserToken(token);
+        }
+      }
+
       final res = DoctorProfileResponse.fromJson(json);
 
       if (res.success.isN() && res.doctor != null) {

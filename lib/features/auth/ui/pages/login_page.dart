@@ -35,21 +35,17 @@ class _LoginPageState extends State<LoginPage> {
     text: PATIENT_KEY,
   );
   final TextEditingController _idCardNumberController = TextEditingController(
-    text: DEV_ENV ? '12345678912345' : null,
+    text: DEV_ENV ? '20000000010005' : null,
+    // text: DEV_ENV ? '1111111111' : null,
   );
   final TextEditingController _passwordController = TextEditingController(
-    text: DEV_ENV ? '123456789' : null,
+    text: DEV_ENV ? 'pa32543vssword' : null,
+    // text: DEV_ENV ? 'Admin@123' : null,
   );
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final bool _isLoading = false;
 
   void goHome(AuthRecord auth) {
-    // auth.whenOrNull(
-    //   (accessToken, role, userId) => ,
-    //   // patient: (a) {
-    //   //   context.toNamed(AppRoutes.patientHome);
-    //   // },
-    // );
     switch (UserType.fromString(auth.role.toLowerCase())) {
       case UserType.patient:
         context.toNamed(AppRoutes.patientHome);

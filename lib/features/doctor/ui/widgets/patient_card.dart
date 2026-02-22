@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:health_app/features/doctor/data/requests/home.dart';
 import 'package:health_app/shared/ex.dart';
-
-import '../../domain/patient.dart' show Patient;
+//
+// import '../../domain/patient.dart' show Patient;
 // import '../models/patient.dart';
 
 class PatientCard extends StatelessWidget {
-  final Patient patient;
+  final RecentPatient patient;
   final VoidCallback onView;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
@@ -40,7 +41,7 @@ class PatientCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        patient.name,
+                        patient.fullName,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -49,10 +50,10 @@ class PatientCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        patient.phoneNumber,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                      ),
+                      // Text(
+                      //   patient.phoneNumber,
+                      //   style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      // ),
                     ],
                   ),
                 ),
@@ -62,7 +63,7 @@ class PatientCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: patient.isActive
+                    color: patient.patientId == 1
                         ? Colors.green[50]
                         : Colors.grey[200],
                     borderRadius: BorderRadius.circular(20),
@@ -92,10 +93,11 @@ class PatientCard extends StatelessWidget {
                 Icon(Icons.badge, size: 16, color: Colors.grey[600]),
                 const SizedBox(width: 8),
                 Text(
-                  patient.nationalId,
+                  patient.patientCode,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const Spacer(),
+                // pm-ea3e5492
                 if (patient.gender != null)
                   Row(
                     children: [
@@ -136,19 +138,19 @@ class PatientCard extends StatelessWidget {
               ),
             ],
 
-            if (patient.dateOfBirth != null) ...[
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.cake, size: 16, color: Colors.grey[600]),
-                  const SizedBox(width: 8),
-                  Text(
-                    '${localizations.dateOfBirth}: ${patient.dateOfBirth!.day}/${patient.dateOfBirth!.month}/${patient.dateOfBirth!.year}',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                ],
-              ),
-            ],
+            // if (patient.dateOfBirth != null) ...[
+            //   const SizedBox(height: 8),
+            //   Row(
+            //     children: [
+            //       Icon(Icons.cake, size: 16, color: Colors.grey[600]),
+            //       const SizedBox(width: 8),
+            //       Text(
+            //         '${localizations.dateOfBirth}: ${patient.dateOfBirth!.day}/${patient.dateOfBirth!.month}/${patient.dateOfBirth!.year}',
+            //         style: TextStyle(color: Colors.grey[700]),
+            //       ),
+            //     ],
+            //   ),
+            // ],
 
             // Actions
             const SizedBox(height: 16),

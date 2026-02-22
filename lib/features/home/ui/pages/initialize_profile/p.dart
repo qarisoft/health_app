@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/services/storage.dart';
+import 'package:health_app/shared/api/api_repositories.dart';
+import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/models.dart';
@@ -21,7 +23,6 @@ abstract class PatientProfileState with _$PatientProfileState {
     @Default(false) bool isSubmitted,
   }) = _PatientProfileState;
 }
-
 
 @riverpod
 class PProfile extends _$PProfile {
@@ -210,9 +211,22 @@ class PProfile extends _$PProfile {
 
     try {
       // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
+      // await Future.delayed(const Duration(seconds: 2));
+      // final json = await di<AppRepositories>().initializePatientProfile(
+      //   state.profile.toJson(),
+      // );
+      final js = await di<AppRepositories>().api.initializePatientProfile(
+        state.profile.toJson(),
+      );
+      xlog(js);
+      // ║    {
+      // ║         "success": true,
+      // ║         "message": "تم تهيئة الملف الطبي بنجاح",
+      // ║         "patientId": 3131
+      // ║    }
+      // ║
 
-      await di<AppStorage>().setBool('isInitialized', true);
+      await di<AppStorage>().setBool('isInitialized2', true);
       ref.invalidate(isInitializedProvider);
 
       // Here you would make the actual API call

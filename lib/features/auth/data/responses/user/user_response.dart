@@ -26,13 +26,19 @@ class LoginResponse extends BaseResponse {
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     final js = json;
     js['role'] = json['role'].toString().toLowerCase();
-    //   .map((e) {
-    //     // if (e.key == 'role') {
-    //     //   return MapEntry(e.key, e.value.toString().toLowerCase());
-    //     // }
-    //     // return MapEntry(e.key, e.value);
-    //   });
+
     return _$LoginResponseFromJson(js);
+  }
+}
+
+@JsonSerializable()
+class DoctorAsPatientResponse extends BaseResponse {
+  final String? token;
+
+  DoctorAsPatientResponse({required super.success, super.message, this.token});
+
+  factory DoctorAsPatientResponse.fromJson(Map<String, dynamic> json) {
+    return _$DoctorAsPatientResponseFromJson(json);
   }
 }
 
@@ -56,6 +62,31 @@ class GeneralResponse extends BaseResponse {
 }
 
 // ================= DOCTOR RESPONSES =================
+
+// {
+// ║         "success": true,
+// ║         "message": "تم تفعيل ملفك الطبي بنجاح! يمكنك الآن التبديل إليه كـ مريض.",
+// ║         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8y
+// ║          MDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMxMjkiLCJqdGkiOiI3YjA0YWIzZC
+// ║          0wODZlLTRkZTEtODdkZi03NzY5NzNlMWUzZTIiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dz
+// ║          LzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiRG9jdG9yIiwiUGF0aWVudCJdLCJuYXRpb25hbE
+// ║          lkIjoiMTExMTExMTExMSIsImV4cCI6MTc3MTcyMDgxOCwiaXNzIjoiUGF0aWVudE1lZGljYWxSZWNvcmRz
+// ║          IiwiYXVkIjoiUGF0aWVudE1lZGljYWxSZWNvcmRzIn0.sKIY-uxVDysbDbJMhh0T7SgE0W7-syz2yFvNHX
+// ║          gvv7c"
+// ║         "role": null,
+// ║         "userId": null,
+// ║         "user": {
+// ║             "id": 3129,
+// ║             "nationalId": "1111111111",
+// ║             "role": 2,
+// ║             "status": 2,
+// ║             "fullName": null,
+// ║             "phoneNumber": null,
+// ║             "email": null,
+// ║             "createdAt": "0001-01-01T00:00:00",
+// ║             "lastLoginAt": null
+// ║        }
+// ║    }
 
 @JsonSerializable()
 class DoctorProfileResponse extends BaseResponse {
@@ -116,8 +147,7 @@ class PatientProfileResponse extends BaseResponse {
   factory PatientProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$PatientProfileResponseFromJson(json);
 
-
-      Map<String, dynamic> toJson()=>_$PatientProfileResponseToJson(this);
+  Map<String, dynamic> toJson() => _$PatientProfileResponseToJson(this);
 }
 
 @JsonSerializable()

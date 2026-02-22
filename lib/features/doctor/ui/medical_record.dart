@@ -10,13 +10,15 @@ import 'package:health_app/features/doctor/data/requests/medical_record.dart';
 import 'package:health_app/features/doctor/ui/create_medical_record.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:intl/intl.dart';
 
 class DoctorMedicalRecord extends ConsumerStatefulWidget {
   const DoctorMedicalRecord({super.key});
 
   @override
-  ConsumerState<DoctorMedicalRecord> createState() => _DoctorMedicalRecordState();
+  ConsumerState<DoctorMedicalRecord> createState() =>
+      _DoctorMedicalRecordState();
 }
 
 class _DoctorMedicalRecordState extends ConsumerState<DoctorMedicalRecord> {
@@ -30,6 +32,9 @@ class _DoctorMedicalRecordState extends ConsumerState<DoctorMedicalRecord> {
   }
 
   void handelOnPress() async {
+    // final dio = di<AppRepositories>().api.factory.getDio();
+    // dio.get('');
+
     final id = await showDialog<String>(
       context: context,
       builder: (context) => const SingleInputDialog(),
@@ -52,7 +57,7 @@ class _DoctorMedicalRecordState extends ConsumerState<DoctorMedicalRecord> {
   @override
   Widget build(BuildContext context) {
     final dataState = ref.watch(medicalRecordsStoreProvider);
-    
+
     // --- Grouping Logic ---
     // Convert List<MedicalRecordRequest> to Map<int, List<MedicalRecordRequest>>
     final Map<int, List<MedicalRecordRequest>> groupedRecords = {};
@@ -150,7 +155,9 @@ class _MedicalRecordCard extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          DateFormat('yyyy-MM-dd – kk:mm').format(record.recordDate ?? DateTime.now()),
+          DateFormat(
+            'yyyy-MM-dd – kk:mm',
+          ).format(record.recordDate ?? DateTime.now()),
           style: const TextStyle(fontSize: 12),
         ),
         children: [
@@ -205,7 +212,9 @@ class SingleInputDialog extends StatefulWidget {
 }
 
 class _SingleInputDialogState extends State<SingleInputDialog> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController(
+    text: 'pm-47866d88',
+  );
 
   @override
   void dispose() {

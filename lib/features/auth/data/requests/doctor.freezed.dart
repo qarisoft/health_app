@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$DoctorRegisterRequest {
 
  String get nationalId; String get password; String get confirmPassword; String get fullName;// required DateTime dateOfBirth,
- String get phoneNumber; String get email; String get licenseNumber; String get specialization; String get hospital;
+ String get email; String get phoneNumber; String get licenseNumber; String get specialization; String get hospital; String? get licenseDocument;
 /// Create a copy of DoctorRegisterRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $DoctorRegisterRequestCopyWith<DoctorRegisterRequest> get copyWith => _$DoctorRe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoctorRegisterRequest&&(identical(other.nationalId, nationalId) || other.nationalId == nationalId)&&(identical(other.password, password) || other.password == password)&&(identical(other.confirmPassword, confirmPassword) || other.confirmPassword == confirmPassword)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.email, email) || other.email == email)&&(identical(other.licenseNumber, licenseNumber) || other.licenseNumber == licenseNumber)&&(identical(other.specialization, specialization) || other.specialization == specialization)&&(identical(other.hospital, hospital) || other.hospital == hospital));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoctorRegisterRequest&&(identical(other.nationalId, nationalId) || other.nationalId == nationalId)&&(identical(other.password, password) || other.password == password)&&(identical(other.confirmPassword, confirmPassword) || other.confirmPassword == confirmPassword)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.licenseNumber, licenseNumber) || other.licenseNumber == licenseNumber)&&(identical(other.specialization, specialization) || other.specialization == specialization)&&(identical(other.hospital, hospital) || other.hospital == hospital)&&(identical(other.licenseDocument, licenseDocument) || other.licenseDocument == licenseDocument));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nationalId,password,confirmPassword,fullName,phoneNumber,email,licenseNumber,specialization,hospital);
+int get hashCode => Object.hash(runtimeType,nationalId,password,confirmPassword,fullName,email,phoneNumber,licenseNumber,specialization,hospital,licenseDocument);
 
 @override
 String toString() {
-  return 'DoctorRegisterRequest(nationalId: $nationalId, password: $password, confirmPassword: $confirmPassword, fullName: $fullName, phoneNumber: $phoneNumber, email: $email, licenseNumber: $licenseNumber, specialization: $specialization, hospital: $hospital)';
+  return 'DoctorRegisterRequest(nationalId: $nationalId, password: $password, confirmPassword: $confirmPassword, fullName: $fullName, email: $email, phoneNumber: $phoneNumber, licenseNumber: $licenseNumber, specialization: $specialization, hospital: $hospital, licenseDocument: $licenseDocument)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $DoctorRegisterRequestCopyWith<$Res>  {
   factory $DoctorRegisterRequestCopyWith(DoctorRegisterRequest value, $Res Function(DoctorRegisterRequest) _then) = _$DoctorRegisterRequestCopyWithImpl;
 @useResult
 $Res call({
- String nationalId, String password, String confirmPassword, String fullName, String phoneNumber, String email, String licenseNumber, String specialization, String hospital
+ String nationalId, String password, String confirmPassword, String fullName, String email, String phoneNumber, String licenseNumber, String specialization, String hospital, String? licenseDocument
 });
 
 
@@ -66,18 +66,19 @@ class _$DoctorRegisterRequestCopyWithImpl<$Res>
 
 /// Create a copy of DoctorRegisterRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? nationalId = null,Object? password = null,Object? confirmPassword = null,Object? fullName = null,Object? phoneNumber = null,Object? email = null,Object? licenseNumber = null,Object? specialization = null,Object? hospital = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? nationalId = null,Object? password = null,Object? confirmPassword = null,Object? fullName = null,Object? email = null,Object? phoneNumber = null,Object? licenseNumber = null,Object? specialization = null,Object? hospital = null,Object? licenseDocument = freezed,}) {
   return _then(_self.copyWith(
 nationalId: null == nationalId ? _self.nationalId : nationalId // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,confirmPassword: null == confirmPassword ? _self.confirmPassword : confirmPassword // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
-as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,licenseNumber: null == licenseNumber ? _self.licenseNumber : licenseNumber // ignore: cast_nullable_to_non_nullable
 as String,specialization: null == specialization ? _self.specialization : specialization // ignore: cast_nullable_to_non_nullable
 as String,hospital: null == hospital ? _self.hospital : hospital // ignore: cast_nullable_to_non_nullable
-as String,
+as String,licenseDocument: freezed == licenseDocument ? _self.licenseDocument : licenseDocument // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -162,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String nationalId,  String password,  String confirmPassword,  String fullName,  String phoneNumber,  String email,  String licenseNumber,  String specialization,  String hospital)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String nationalId,  String password,  String confirmPassword,  String fullName,  String email,  String phoneNumber,  String licenseNumber,  String specialization,  String hospital,  String? licenseDocument)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DoctorRegisterRequest() when $default != null:
-return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.fullName,_that.phoneNumber,_that.email,_that.licenseNumber,_that.specialization,_that.hospital);case _:
+return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.fullName,_that.email,_that.phoneNumber,_that.licenseNumber,_that.specialization,_that.hospital,_that.licenseDocument);case _:
   return orElse();
 
 }
@@ -183,10 +184,10 @@ return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.full
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String nationalId,  String password,  String confirmPassword,  String fullName,  String phoneNumber,  String email,  String licenseNumber,  String specialization,  String hospital)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String nationalId,  String password,  String confirmPassword,  String fullName,  String email,  String phoneNumber,  String licenseNumber,  String specialization,  String hospital,  String? licenseDocument)  $default,) {final _that = this;
 switch (_that) {
 case _DoctorRegisterRequest():
-return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.fullName,_that.phoneNumber,_that.email,_that.licenseNumber,_that.specialization,_that.hospital);case _:
+return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.fullName,_that.email,_that.phoneNumber,_that.licenseNumber,_that.specialization,_that.hospital,_that.licenseDocument);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -203,10 +204,10 @@ return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.full
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String nationalId,  String password,  String confirmPassword,  String fullName,  String phoneNumber,  String email,  String licenseNumber,  String specialization,  String hospital)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String nationalId,  String password,  String confirmPassword,  String fullName,  String email,  String phoneNumber,  String licenseNumber,  String specialization,  String hospital,  String? licenseDocument)?  $default,) {final _that = this;
 switch (_that) {
 case _DoctorRegisterRequest() when $default != null:
-return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.fullName,_that.phoneNumber,_that.email,_that.licenseNumber,_that.specialization,_that.hospital);case _:
+return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.fullName,_that.email,_that.phoneNumber,_that.licenseNumber,_that.specialization,_that.hospital,_that.licenseDocument);case _:
   return null;
 
 }
@@ -218,7 +219,7 @@ return $default(_that.nationalId,_that.password,_that.confirmPassword,_that.full
 @JsonSerializable()
 
 class _DoctorRegisterRequest implements DoctorRegisterRequest {
-  const _DoctorRegisterRequest({required this.nationalId, required this.password, required this.confirmPassword, required this.fullName, required this.phoneNumber, required this.email, required this.licenseNumber, required this.specialization, required this.hospital});
+  const _DoctorRegisterRequest({required this.nationalId, required this.password, required this.confirmPassword, required this.fullName, required this.email, required this.phoneNumber, required this.licenseNumber, required this.specialization, required this.hospital, this.licenseDocument});
   factory _DoctorRegisterRequest.fromJson(Map<String, dynamic> json) => _$DoctorRegisterRequestFromJson(json);
 
 @override final  String nationalId;
@@ -226,11 +227,12 @@ class _DoctorRegisterRequest implements DoctorRegisterRequest {
 @override final  String confirmPassword;
 @override final  String fullName;
 // required DateTime dateOfBirth,
-@override final  String phoneNumber;
 @override final  String email;
+@override final  String phoneNumber;
 @override final  String licenseNumber;
 @override final  String specialization;
 @override final  String hospital;
+@override final  String? licenseDocument;
 
 /// Create a copy of DoctorRegisterRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -245,16 +247,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoctorRegisterRequest&&(identical(other.nationalId, nationalId) || other.nationalId == nationalId)&&(identical(other.password, password) || other.password == password)&&(identical(other.confirmPassword, confirmPassword) || other.confirmPassword == confirmPassword)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.email, email) || other.email == email)&&(identical(other.licenseNumber, licenseNumber) || other.licenseNumber == licenseNumber)&&(identical(other.specialization, specialization) || other.specialization == specialization)&&(identical(other.hospital, hospital) || other.hospital == hospital));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoctorRegisterRequest&&(identical(other.nationalId, nationalId) || other.nationalId == nationalId)&&(identical(other.password, password) || other.password == password)&&(identical(other.confirmPassword, confirmPassword) || other.confirmPassword == confirmPassword)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.licenseNumber, licenseNumber) || other.licenseNumber == licenseNumber)&&(identical(other.specialization, specialization) || other.specialization == specialization)&&(identical(other.hospital, hospital) || other.hospital == hospital)&&(identical(other.licenseDocument, licenseDocument) || other.licenseDocument == licenseDocument));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nationalId,password,confirmPassword,fullName,phoneNumber,email,licenseNumber,specialization,hospital);
+int get hashCode => Object.hash(runtimeType,nationalId,password,confirmPassword,fullName,email,phoneNumber,licenseNumber,specialization,hospital,licenseDocument);
 
 @override
 String toString() {
-  return 'DoctorRegisterRequest(nationalId: $nationalId, password: $password, confirmPassword: $confirmPassword, fullName: $fullName, phoneNumber: $phoneNumber, email: $email, licenseNumber: $licenseNumber, specialization: $specialization, hospital: $hospital)';
+  return 'DoctorRegisterRequest(nationalId: $nationalId, password: $password, confirmPassword: $confirmPassword, fullName: $fullName, email: $email, phoneNumber: $phoneNumber, licenseNumber: $licenseNumber, specialization: $specialization, hospital: $hospital, licenseDocument: $licenseDocument)';
 }
 
 
@@ -265,7 +267,7 @@ abstract mixin class _$DoctorRegisterRequestCopyWith<$Res> implements $DoctorReg
   factory _$DoctorRegisterRequestCopyWith(_DoctorRegisterRequest value, $Res Function(_DoctorRegisterRequest) _then) = __$DoctorRegisterRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String nationalId, String password, String confirmPassword, String fullName, String phoneNumber, String email, String licenseNumber, String specialization, String hospital
+ String nationalId, String password, String confirmPassword, String fullName, String email, String phoneNumber, String licenseNumber, String specialization, String hospital, String? licenseDocument
 });
 
 
@@ -282,18 +284,19 @@ class __$DoctorRegisterRequestCopyWithImpl<$Res>
 
 /// Create a copy of DoctorRegisterRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? nationalId = null,Object? password = null,Object? confirmPassword = null,Object? fullName = null,Object? phoneNumber = null,Object? email = null,Object? licenseNumber = null,Object? specialization = null,Object? hospital = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? nationalId = null,Object? password = null,Object? confirmPassword = null,Object? fullName = null,Object? email = null,Object? phoneNumber = null,Object? licenseNumber = null,Object? specialization = null,Object? hospital = null,Object? licenseDocument = freezed,}) {
   return _then(_DoctorRegisterRequest(
 nationalId: null == nationalId ? _self.nationalId : nationalId // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,confirmPassword: null == confirmPassword ? _self.confirmPassword : confirmPassword // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
-as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,licenseNumber: null == licenseNumber ? _self.licenseNumber : licenseNumber // ignore: cast_nullable_to_non_nullable
 as String,specialization: null == specialization ? _self.specialization : specialization // ignore: cast_nullable_to_non_nullable
 as String,hospital: null == hospital ? _self.hospital : hospital // ignore: cast_nullable_to_non_nullable
-as String,
+as String,licenseDocument: freezed == licenseDocument ? _self.licenseDocument : licenseDocument // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

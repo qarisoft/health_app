@@ -15,37 +15,37 @@ abstract class MedicalHistory with _$MedicalHistory {
     required String patientName,
     required DateTime dateOfBirth,
     required Gender gender,
-    
+
     // Contact Information
     required String phoneNumber,
     String? email,
     required String address,
-    
+
     // Emergency Contact
+    String? emergencyContactRelationship,
+
+    // Vital Statistics
+    required BloodType bloodType,
+    required double weight,
+    required double height,
+
     required String emergencyContactName,
     required String emergencyContactPhone,
-    String? emergencyContactRelationship,
-    
-    // Vital Statistics
-    required double height,
-    required double weight,
-    required BloodType bloodType,
-    
     // Medical Conditions
-    List<String>? chronicConditions,
     List<String>? allergies,
+    List<String>? chronicConditions,
+    List<Surgery>? surgeries,
     List<String>? currentMedications,
     List<String>? pastMedications,
-    
+
     // Surgical History
-    List<Surgery>? surgeries,
-    
+
     // Hospitalizations
     List<Hospitalization>? hospitalizations,
-    
+
     // Family History
     Map<String, String>? familyMedicalHistory,
-    
+
     // Lifestyle
     required bool isSmoker,
     required int cigarettesPerDay,
@@ -53,31 +53,30 @@ abstract class MedicalHistory with _$MedicalHistory {
     required String alcoholFrequency,
     required bool usesRecreationalDrugs,
     String? recreationalDrugsDetails,
-    
+
     // Exercise & Diet
     required String exerciseFrequency,
     required String dietaryPreferences,
-    
+
     // Vaccination History
     List<Vaccination>? vaccinations,
-    
+
     // Women's Health
     DateTime? lastMenstrualPeriod,
     bool? isPregnant,
     int? pregnancies,
     int? liveBirths,
-    
+
     // Mental Health
     List<String>? mentalHealthConditions,
     String? currentTherapist,
-    
+
     // Additional Notes
     String? additionalNotes,
-    
+
     // Meta Information
     required DateTime lastUpdated,
     required DateTime createdAt,
-    
   }) = _MedicalHistory;
 
   factory MedicalHistory.fromJson(Map<String, dynamic> json) =>
@@ -153,7 +152,7 @@ enum BloodType {
   abPositive(5, 'AB+', 'AB+'),
   abNegative(6, 'AB-', 'AB-'),
   oPositive(7, 'O+', 'O+'),
-  unknown(0,'n','n'),
+  unknown(0, 'n', 'n'),
   oNegative(8, 'O-', 'O-');
 
   final int value;

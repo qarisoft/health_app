@@ -2,7 +2,7 @@
 
 const bool DEV_ENV = true;
 
-const version = 0;
+const version = 1087;
 const String AUTH_KEY = 'AUTH_KEY$version';
 const String AUTH_TYPE_KEY = 'AUTH_TYPE_KEY$version';
 
@@ -68,7 +68,14 @@ class K {
   //
   static const String loginUrl = "/auth/login";
   static const String registerUrl = "/auth/register";
+  //
+
+  static const String doctorHomeUrl =
+      "/doctorDashboard/patients?filter=recent_activity";
+  static const String doctorActivatePatientProfileUrl =
+      "/Doctor/activate/patient/profile";
 }
+// pm-ea3e5492
 
 class AppHeaders {
   static const String applicationJson = "application/json";

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:health_app/core/constants/app_layout.dart';
+import 'package:health_app/features/doctor/data/requests/home.dart';
 import 'package:health_app/shared/ex.dart';
 import '../../domain/patient.dart' show Patient;
 
 class PatientFormDialog extends StatefulWidget {
-  final Patient? patient;
-  final Function(Patient) onSubmit;
+  final RecentPatient? patient;
+  final Function(RecentPatient) onSubmit;
   final bool isEditing;
 
   const PatientFormDialog({
@@ -55,12 +56,12 @@ class _PatientFormDialogState extends State<PatientFormDialog> {
       _nationalIdController.text = widget.patient!.nationalId;
       _emailController.text = widget.patient!.email ?? '';
       _addressController.text = widget.patient!.address ?? '';
-      _emergencyController.text = widget.patient!.emergencyContact ?? '';
-      _notesController.text = widget.patient!.notes ?? '';
+      // _emergencyController.text = widget.patient!.emergencyContact ?? '';
+      // _notesController.text = widget.patient!.notes ?? '';
       _selectedGender = widget.patient!.gender;
-      _selectedBloodType = widget.patient!.bloodType;
-      _selectedDate = widget.patient!.dateOfBirth;
-      _isActive = widget.patient!.isActive;
+      // _selectedBloodType = widget.patient!.bloodType;
+      // _selectedDate = widget.patient!.dateOfBirth;
+      _isActive = widget.patient!.isAvtive;
     }
   }
 
@@ -317,7 +318,6 @@ class _PatientFormDialogState extends State<PatientFormDialog> {
                         ),
                         Row(
                           children: [
-
                             Switch(
                               value: _isActive,
                               onChanged: (value) {
@@ -349,7 +349,6 @@ class _PatientFormDialogState extends State<PatientFormDialog> {
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.s,
                     children: [
-
                       TextButton(
                         onPressed: _submitForm,
                         child: Text(
@@ -360,7 +359,6 @@ class _PatientFormDialogState extends State<PatientFormDialog> {
                       ),
                       const SizedBox(width: 12),
                       GestureDetector(child: Text(localizations.cancel)),
-
                     ],
                   ),
                   // Text('data'),
@@ -373,7 +371,6 @@ class _PatientFormDialogState extends State<PatientFormDialog> {
       ),
     );
   }
-
 
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
@@ -391,30 +388,30 @@ class _PatientFormDialogState extends State<PatientFormDialog> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      final patient = Patient(
-        id:
-            widget.patient?.id ??
-            DateTime.now().millisecondsSinceEpoch.toString(),
-        name: _nameController.text,
-        phoneNumber: _phoneController.text,
-        nationalId: _nationalIdController.text,
-        dateOfBirth: _selectedDate,
-        email: _emailController.text.isNotEmpty ? _emailController.text : null,
-        address: _addressController.text.isNotEmpty
-            ? _addressController.text
-            : null,
-        emergencyContact: _emergencyController.text.isNotEmpty
-            ? _emergencyController.text
-            : null,
-        bloodType: _selectedBloodType,
-        gender: _selectedGender ?? 'male',
-        notes: _notesController.text.isNotEmpty ? _notesController.text : null,
-        isActive: _isActive,
-        createdAt: widget.patient?.createdAt ?? DateTime.now(),
-        updatedAt: DateTime.now(),
-      );
+      // final patient = Patient(
+      //   id:
+      //       widget.patient?.id ??
+      //       DateTime.now().millisecondsSinceEpoch.toString(),
+      //   name: _nameController.text,
+      //   phoneNumber: _phoneController.text,
+      //   nationalId: _nationalIdController.text,
+      //   dateOfBirth: _selectedDate,
+      //   email: _emailController.text.isNotEmpty ? _emailController.text : null,
+      //   address: _addressController.text.isNotEmpty
+      //       ? _addressController.text
+      //       : null,
+      //   emergencyContact: _emergencyController.text.isNotEmpty
+      //       ? _emergencyController.text
+      //       : null,
+      //   bloodType: _selectedBloodType,
+      //   gender: _selectedGender ?? 'male',
+      //   notes: _notesController.text.isNotEmpty ? _notesController.text : null,
+      //   isActive: _isActive,
+      //   // createdAt: widget.patient?.createdAt ?? DateTime.now(),
+      //   updatedAt: DateTime.now(),
+      // );
 
-      widget.onSubmit(patient);
+      // widget.onSubmit(patient);
       Navigator.pop(context);
     }
   }

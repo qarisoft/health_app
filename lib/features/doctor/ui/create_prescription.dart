@@ -234,18 +234,21 @@ class _CreatePrescriptionDialogState
     );
 
     AppDialog().loading();
-    final res = await di<AppRepositories>().addPrescription(req.toJson());
-    AppDialog().dismiss();
-
-    res.when(
-      success: (s) {
-        ref.read(prescriptionsStoreProvider.notifier).addPrescription(req);
-        Navigator.pop(context, true);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Success')));
-      },
-      error: (er) => xlog(er),
-    );
+    try {
+      final res = await di<AppRepositories>().addPrescription(req.toJson());
+      res.when(
+        success: (s) {
+          ref.read(prescriptionsStoreProvider.notifier).addPrescription(req);
+          Navigator.pop(context, true);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Success')));
+        },
+        error: (er) => xlog(er),
+      );
+    } catch (e) {
+    } finally {
+      AppDialog().dismiss();
+    }
   }
 }

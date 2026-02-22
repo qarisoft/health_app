@@ -11,7 +11,7 @@ import 'package:health_app/features/auth/domain/models/patient.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const int version = 3;
+const int version = 16;
 const String appLocalKey = 'appLocalKey$version';
 const String userTokenKey = 'userTokenKey$version';
 //
@@ -69,7 +69,8 @@ class AppStorage {
 
   String getappLoale() => sharedPreferences.getString(appLocalKey) ?? 'ar';
   String? getUserToken() => sharedPreferences.getString(userTokenKey);
-  Future<bool?> setUserToken(String val) async => await sharedPreferences.setString(userTokenKey,val);
+  Future<bool?> setUserToken(String val) async =>
+      await sharedPreferences.setString(userTokenKey, val);
 
   Future<void> setAppAuthState(AppAuthState auth) async {
     await sharedPreferences.setString(
@@ -144,3 +145,5 @@ class AppStorage {
     return j.notNull() ? AdminAccount(admin: Admin.fromJson(j!)) : null;
   }
 }
+
+// Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwMyIsImp0aSI6ImQ1Nzc4MzNkLTk0MzMtNDM1NC1hNjQ1LTY0MjNhYWFmODE4ZiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJEb2N0b3IiLCJQYXRpZW50Il0sIm5hdGlvbmFsSWQiOiIyMDAwMDAwMDAxMDAwNSIsImV4cCI6MTc3MTcxNjExOCwiaXNzIjoiUGF0aWVudE1lZGljYWxSZWNvcmRzIiwiYXVkIjoiUGF0aWVudE1lZGljYWxSZWNvcmRzIn0.0uLO_ThUCXzG6zfP3cv8-Ca9_bNkFNiu7C_Z7C8qMbk

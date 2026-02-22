@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:health_app/auth_state.dart';
+import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart'
     show Doctor;
+import 'package:health_app/features/auth/domain/usecases/register_usecase.dart';
+import 'package:health_app/features/doctor/data/requests/home.dart';
+import 'package:health_app/features/doctor/data/responses/insights.dart'
+    show DoctorDashboardInsight;
 import 'package:health_app/features/doctor/ui/medical_record.dart';
 import 'package:health_app/features/doctor/ui/prescreptions.dart';
 import 'package:health_app/features/doctor/ui/profile.dart';
+import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import '../data/repositories/patient_repo.dart' show PatientRepository;
 import '../domain/patient.dart' show Patient;
@@ -24,8 +31,9 @@ class DoctorHome extends StatefulWidget {
 class _DoctorHomeState extends State<DoctorHome> {
   final PatientRepository _patientRepository = PatientRepository();
   final TextEditingController _searchController = TextEditingController();
-  List<Patient> _patients = [];
-  List<Patient> _filteredPatients = [];
+  List<RecentPatient> _patients = [];
+  List<RecentPatient> _filteredPatients = [];
+  DoctorDashboardInsight _insights = DoctorDashboardInsight();
   bool _isLoading = true;
   String _searchQuery = '';
 
@@ -43,6 +51,8 @@ class _DoctorHomeState extends State<DoctorHome> {
   }
 
   Future<void> _initializeData() async {
+    // xlog(a.toString());
+
     await _patientRepository.initializeWithSampleData();
     await _loadPatients();
   }
@@ -50,10 +60,14 @@ class _DoctorHomeState extends State<DoctorHome> {
   Future<void> _loadPatients() async {
     setState(() => _isLoading = true);
     final patients = await _patientRepository.getAllPatients();
+    final insigths = await di<AppRepositories>().doctorDashboardInsights();
+
+    // xlog(patients.t);
     setState(() {
       _patients = patients;
       _filteredPatients = patients;
       _isLoading = false;
+      _insights = insigths.whenOrNull(success: (s) => s) ?? _insights;
     });
   }
 
@@ -76,13 +90,19 @@ class _DoctorHomeState extends State<DoctorHome> {
   }
 
   Future<void> _addPatient() async {
-    await showDialog(
-      context: context,
-      builder: (context) => PatientFormDialog(onSubmit: _createPatient),
-    );
+    final dio = di<AppRepositories>().getDio();
+    final a = await dio.get(K.doctorHomeUrl);
+    xlog(a.data);
+    // 20000000010005
+    // Admin@123
+
+    // await showDialog(
+    //   context: context,
+    //   builder: (context) => PatientFormDialog(onSubmit: _createPatient),
+    // );
   }
 
-  Future<void> _editPatient(Patient patient) async {
+  Future<void> _editPatient(RecentPatient patient) async {
     await showDialog(
       context: context,
       builder: (context) => PatientFormDialog(
@@ -93,7 +113,7 @@ class _DoctorHomeState extends State<DoctorHome> {
     );
   }
 
-  Future<void> _createPatient(Patient patient) async {
+  Future<void> _createPatient(RecentPatient patient) async {
     await _patientRepository.createPatient(patient);
     await _loadPatients();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -104,8 +124,8 @@ class _DoctorHomeState extends State<DoctorHome> {
     );
   }
 
-  Future<void> _updatePatient(Patient patient) async {
-    await _patientRepository.updatePatient(patient);
+  Future<void> _updatePatient(RecentPatient patient) async {
+    // await _patientRepository.updatePatient(patient);
     await _loadPatients();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -115,7 +135,7 @@ class _DoctorHomeState extends State<DoctorHome> {
     );
   }
 
-  Future<void> _deletePatient(Patient patient) async {
+  Future<void> _deletePatient(RecentPatient patient) async {
     final localizations = context.tr;
 
     bool? confirm = await showDialog<bool>(
@@ -151,7 +171,7 @@ class _DoctorHomeState extends State<DoctorHome> {
     }
   }
 
-  void _viewPatientDetails(Patient patient) {
+  void _viewPatientDetails(RecentPatient patient) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -159,7 +179,7 @@ class _DoctorHomeState extends State<DoctorHome> {
     );
   }
 
-  Widget _buildPatientDetailsSheet(Patient patient) {
+  Widget _buildPatientDetailsSheet(RecentPatient patient) {
     final localizations = context.tr;
 
     return Container(
@@ -235,20 +255,19 @@ class _DoctorHomeState extends State<DoctorHome> {
                           : localizations.other,
                     ),
 
-                  if (patient.bloodType != null)
-                    _buildDetailRow(
-                      Icons.bloodtype,
-                      localizations.bloodType,
-                      patient.bloodType!,
-                    ),
+                  // if (patient.bloodType != null)
+                  //   _buildDetailRow(
+                  //     Icons.bloodtype,
+                  //     localizations.bloodType,
+                  //     patient.bloodType!,
+                  //   ),
 
-                  if (patient.dateOfBirth != null)
-                    _buildDetailRow(
-                      Icons.cake,
-                      localizations.dateOfBirth,
-                      '${patient.dateOfBirth!.day}/${patient.dateOfBirth!.month}/${patient.dateOfBirth!.year}',
-                    ),
-
+                  // if (patient.dateOfBirth != null)
+                  //   _buildDetailRow(
+                  //     Icons.cake,
+                  //     localizations.dateOfBirth,
+                  //     '${patient.dateOfBirth!.day}/${patient.dateOfBirth!.month}/${patient.dateOfBirth!.year}',
+                  //   ),
                   if (patient.address != null)
                     _buildDetailRow(
                       Icons.location_on,
@@ -256,20 +275,19 @@ class _DoctorHomeState extends State<DoctorHome> {
                       patient.address!,
                     ),
 
-                  if (patient.emergencyContact != null)
-                    _buildDetailRow(
-                      Icons.emergency,
-                      localizations.emergencyContact,
-                      patient.emergencyContact!,
-                    ),
+                  // if (patient.emergencyContact != null)
+                  // _buildDetailRow(
+                  //   Icons.emergency,
+                  //   localizations.emergencyContact,
+                  //   patient.emergencyContact!,
+                  // ),
 
-                  if (patient.notes != null)
-                    _buildDetailRow(
-                      Icons.note,
-                      localizations.notes,
-                      patient.notes!,
-                    ),
-
+                  // if (patient.notes != null)
+                  // _buildDetailRow(
+                  //   Icons.note,
+                  //   localizations.notes,
+                  //   patient.notes!,
+                  // ),
                   const SizedBox(height: 30),
 
                   const SizedBox(height: 20),
@@ -341,7 +359,7 @@ class _DoctorHomeState extends State<DoctorHome> {
 
   Widget _buildStatistics() {
     final localizations = context.tr;
-    final activeCount = _patients.where((p) => p.isActive).length;
+    final activeCount = _patients.where((p) => p.patientCode != '').length;
     final inactiveCount = _patients.length - activeCount;
 
     return Container(
@@ -473,7 +491,8 @@ class _DoctorHomeState extends State<DoctorHome> {
           ),
 
           // Statistics
-          if (_patients.isNotEmpty) _buildStatistics(),
+          // if (_patients.isNotEmpty)
+          _buildStatistics(),
 
           // Patients List
           Expanded(
@@ -530,7 +549,12 @@ class _DoctorHomeState extends State<DoctorHome> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addPatient,
+        onPressed: () async {
+          // final res = await di<AppRepositories>().api.getPatientProfile();
+          final res = await di<AppRepositories>().api.doctorStatistics();
+          xlog(res);
+        },
+        // onPressed: _addPatient,
         backgroundColor: Colors.blue,
         icon: const Icon(Icons.add, color: Colors.white),
         label: Text(

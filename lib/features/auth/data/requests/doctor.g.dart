@@ -13,11 +13,12 @@ _DoctorRegisterRequest _$DoctorRegisterRequestFromJson(
   password: json['password'] as String,
   confirmPassword: json['confirmPassword'] as String,
   fullName: json['fullName'] as String,
-  phoneNumber: json['phoneNumber'] as String,
   email: json['email'] as String,
+  phoneNumber: json['phoneNumber'] as String,
   licenseNumber: json['licenseNumber'] as String,
   specialization: json['specialization'] as String,
   hospital: json['hospital'] as String,
+  licenseDocument: json['licenseDocument'] as String?,
 );
 
 Map<String, dynamic> _$DoctorRegisterRequestToJson(
@@ -27,9 +28,10 @@ Map<String, dynamic> _$DoctorRegisterRequestToJson(
   'password': instance.password,
   'confirmPassword': instance.confirmPassword,
   'fullName': instance.fullName,
-  'phoneNumber': instance.phoneNumber,
   'email': instance.email,
+  'phoneNumber': instance.phoneNumber,
   'licenseNumber': instance.licenseNumber,
   'specialization': instance.specialization,
   'hospital': instance.hospital,
+  'licenseDocument': instance.licenseDocument,
 };
