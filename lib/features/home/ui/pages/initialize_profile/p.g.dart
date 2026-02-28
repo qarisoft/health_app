@@ -21,9 +21,16 @@ final class PProfileProvider
         retry: null,
         name: r'pProfileProvider',
         isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
+        dependencies: const <ProviderOrFamily>[accountProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          PProfileProvider.$allTransitiveDependencies0,
+          PProfileProvider.$allTransitiveDependencies1,
+        ],
       );
+
+  static const $allTransitiveDependencies0 = accountProvider;
+  static const $allTransitiveDependencies1 =
+      AccountProvider.$allTransitiveDependencies0;
 
   @override
   String debugGetCreateSourceHash() => _$pProfileHash();
@@ -41,7 +48,7 @@ final class PProfileProvider
   }
 }
 
-String _$pProfileHash() => r'39a3bdbfab06a75ab27cd2e78e0b4a6cf4b5c6e0';
+String _$pProfileHash() => r'0d826e1379546223f73004b1c2eac7c614c38cac';
 
 abstract class _$PProfile extends $Notifier<PatientProfileState> {
   PatientProfileState build();
@@ -74,9 +81,19 @@ final class CurrentStepProvider extends $FunctionalProvider<int, int, int>
         retry: null,
         name: r'currentStepProvider',
         isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
+        dependencies: const <ProviderOrFamily>[pProfileProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          CurrentStepProvider.$allTransitiveDependencies0,
+          CurrentStepProvider.$allTransitiveDependencies1,
+          CurrentStepProvider.$allTransitiveDependencies2,
+        ],
       );
+
+  static const $allTransitiveDependencies0 = pProfileProvider;
+  static const $allTransitiveDependencies1 =
+      PProfileProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      PProfileProvider.$allTransitiveDependencies1;
 
   @override
   String debugGetCreateSourceHash() => _$currentStepHash();
@@ -100,7 +117,7 @@ final class CurrentStepProvider extends $FunctionalProvider<int, int, int>
   }
 }
 
-String _$currentStepHash() => r'0501be3a89b5a2217bdd0183ddda92bf0e3d3ce2';
+String _$currentStepHash() => r'ed16f4d7f54a81f1390d7fac7ccb243232b93501';
 
 @ProviderFor(isLoading)
 const isLoadingProvider = IsLoadingProvider._();
@@ -114,9 +131,19 @@ final class IsLoadingProvider extends $FunctionalProvider<bool, bool, bool>
         retry: null,
         name: r'isLoadingProvider',
         isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
+        dependencies: const <ProviderOrFamily>[pProfileProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          IsLoadingProvider.$allTransitiveDependencies0,
+          IsLoadingProvider.$allTransitiveDependencies1,
+          IsLoadingProvider.$allTransitiveDependencies2,
+        ],
       );
+
+  static const $allTransitiveDependencies0 = pProfileProvider;
+  static const $allTransitiveDependencies1 =
+      PProfileProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      PProfileProvider.$allTransitiveDependencies1;
 
   @override
   String debugGetCreateSourceHash() => _$isLoadingHash();
@@ -140,7 +167,7 @@ final class IsLoadingProvider extends $FunctionalProvider<bool, bool, bool>
   }
 }
 
-String _$isLoadingHash() => r'85f3d95729f5885dc699df9ea174122fb59aa26b';
+String _$isLoadingHash() => r'9002456f2161e05024ae7b5421f8e10c5002e779';
 
 @ProviderFor(profile)
 const profileProvider = ProfileProvider._();
@@ -155,9 +182,19 @@ final class ProfileProvider
         retry: null,
         name: r'profileProvider',
         isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
+        dependencies: const <ProviderOrFamily>[pProfileProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          ProfileProvider.$allTransitiveDependencies0,
+          ProfileProvider.$allTransitiveDependencies1,
+          ProfileProvider.$allTransitiveDependencies2,
+        ],
       );
+
+  static const $allTransitiveDependencies0 = pProfileProvider;
+  static const $allTransitiveDependencies1 =
+      PProfileProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      PProfileProvider.$allTransitiveDependencies1;
 
   @override
   String debugGetCreateSourceHash() => _$profileHash();
@@ -181,4 +218,4 @@ final class ProfileProvider
   }
 }
 
-String _$profileHash() => r'e76e59f6c8b331c745baa7cc965d76ec74856075';
+String _$profileHash() => r'd0fa6752bf30d04dffa919825c5df3eaa060c178';

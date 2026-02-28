@@ -158,6 +158,15 @@ class ApiService {
     return _handleResponse(response);
   }
 
+  Future<Map<String, dynamic>> editPatientProfile(
+    Map<String, dynamic> data,
+  ) async {
+    final response = await _dio.put('/Patient/profile', data: data);
+
+    // response.log('response sssssssssss');
+    return _handleResponse(response);
+  }
+
   Future<Map<String, dynamic>> getPatientProfile() async {
     final response = await _dio.get('/Patient/profile');
 

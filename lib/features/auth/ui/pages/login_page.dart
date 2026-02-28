@@ -35,12 +35,12 @@ class _LoginPageState extends State<LoginPage> {
     text: PATIENT_KEY,
   );
   final TextEditingController _idCardNumberController = TextEditingController(
-    text: DEV_ENV ? '20000000010005' : null,
-    // text: DEV_ENV ? '1111111111' : null,
+    // text: DEV_ENV ? '20000000010005' : null,
+    text: DEV_ENV ? '1234567899' : null,
   );
   final TextEditingController _passwordController = TextEditingController(
-    // text: DEV_ENV ? 'pa32543vssword' : null,
-    text: DEV_ENV ? 'Admin@123' : null,
+    text: DEV_ENV ? 'pa32543vssword' : null,
+    // text: DEV_ENV ? 'Admin@123' : null,
   );
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final bool _isLoading = false;

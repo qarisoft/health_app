@@ -261,6 +261,7 @@ class AppRepositories {
       // for (var s in json.entries) {
       //   s.log('e');
       // }
+      xlog(json);
 
       final res = PatientProfileResponse.fromJson(json);
 
@@ -268,6 +269,13 @@ class AppRepositories {
 
       if (res.success.isN() && res.patient != null) {
         final patient = res.patient!;
+
+        if (patient.isProfileInitialized) {
+          storage.sharedPreferences.setBool(
+            PATIENT_ACCOUNT_IS_INITIALIZED_KEY,
+            true,
+          );
+        }
         final patientAccount = PatientAccount(
           patient: Patient.fromJson(patient.toJson()),
         );

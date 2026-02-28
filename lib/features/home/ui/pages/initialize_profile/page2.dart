@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/core/services/storage.dart';
-import 'package:health_app/shared/ex.dart';
+import 'package:health_app/features/auth/domain/models/patient.dart';
+// import 'package:health_app/core/services/storage.dart';
+// import 'package:health_app/shared/ex.dart';
 // import 'package:health_app/core/constants/_all.dart';
 import 'package:intl/intl.dart';
 import '../../../models/models.dart';
 import 'dialogs.dart';
 import 'p.dart';
 
-class InitializeProfilePage extends ConsumerStatefulWidget {
-  const InitializeProfilePage({super.key});
+class InitializeProfilePage2 extends ConsumerStatefulWidget {
+  const InitializeProfilePage2({super.key, this.pprofile});
+
+  final Patient? pprofile;
 
   @override
-  ConsumerState<InitializeProfilePage> createState() =>
-      _InitializeProfilePageState();
+  ConsumerState<InitializeProfilePage2> createState() =>
+      _InitializeProfilePage2State();
 }
 
-class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
+class _InitializeProfilePage2State
+    extends ConsumerState<InitializeProfilePage2> {
   final _formKey = GlobalKey<FormState>();
 
   // Controllers managed in State to avoid disposal issues
@@ -30,11 +34,18 @@ class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
     super.initState();
     final profile = ref.read(profileProvider);
 
-    // xlog(profile)
-    _fullNameController = TextEditingController(text: profile.fullName);
-    _phoneController = TextEditingController(text: profile.phoneNumber);
-    _emailController = TextEditingController(text: profile.email);
-    _addressController = TextEditingController(text: profile.address);
+    _fullNameController = TextEditingController(
+      text: widget.pprofile?.fullName ?? profile.fullName,
+    );
+    _phoneController = TextEditingController(
+      text: widget.pprofile?.phoneNumber ?? profile.phoneNumber,
+    );
+    _emailController = TextEditingController(
+      text: widget.pprofile?.email ?? profile.email,
+    );
+    _addressController = TextEditingController(
+      text: widget.pprofile?.address ?? profile.address,
+    );
   }
 
   @override
@@ -85,11 +96,11 @@ class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
                     addressController: _addressController,
                   ),
                   MedicalInfoStep(),
-                  AllergiesStep(),
-                  ChronicDiseasesStep(),
-                  SurgeriesStep(),
-                  MedicationsStep(),
-                  NotesStep(),
+                  // AllergiesStep(),
+                  // ChronicDiseasesStep(),
+                  // SurgeriesStep(),
+                  // MedicationsStep(),
+                  // NotesStep(),
                 ],
               ),
             ),
@@ -101,15 +112,7 @@ class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
   }
 
   Widget _buildStepper(int currentStep) {
-    final steps = [
-      'الشخصية',
-      'الطبية',
-      'الحساسية',
-      'الأمراض',
-      'الجراحة',
-      'الأدوية',
-      'الملاحظات',
-    ];
+    final steps = ['الشخصية', 'الطبية'];
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       color: Colors.white,
@@ -211,13 +214,13 @@ class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
                   child: ElevatedButton(
                     onPressed: () => _handleNext(currentStep),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: currentStep == 6
+                      backgroundColor: currentStep == 1
                           ? Colors.green
                           : Colors.blue,
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),
                     child: Text(
-                      currentStep == 6 ? 'إتمام التسجيل' : 'التالي',
+                      currentStep == 1 ? 'إتمام التسجيل' : 'التالي',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -235,10 +238,9 @@ class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
       if (_formKey.currentState!.validate()) {
         ref.read(pProfileProvider.notifier).nextStep();
       }
-    } else if (currentStep < 6) {
-      ref.read(pProfileProvider.notifier).nextStep();
     } else {
       _submit();
+      // ref.read(pProfileProvider.notifier).nextStep();
     }
   }
 
@@ -250,17 +252,8 @@ class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
     }
   }
 
-  // goHome(){
-  //   context.toNamed(routeName);
-  // }
   Future<void> _submit() async {
-    // await di<AppStorage>().setBool(PATIENT_ACCOUNT_IS_INITIALIZED_KEY, true);
-
-    await ref.read(pProfileProvider.notifier).submitProfile();
-    // if (ref.read(pProfileProvider).isSubmitted) {
-    // goHome();
-    // Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-    // }
+    await ref.read(pProfileProvider.notifier).updateProfile();
   }
 }
 
@@ -292,6 +285,7 @@ class PersonalInfoStep extends ConsumerWidget {
       child: Form(
         key: formKey,
         child: Column(
+          spacing: 16,
           children: [
             _buildField(
               controller: fullNameController,
@@ -300,15 +294,15 @@ class PersonalInfoStep extends ConsumerWidget {
               onChanged: notifier.updateFullName,
               validator: (v) => v!.isEmpty ? 'الرجاء إدخال الاسم' : null,
             ),
-            const SizedBox(height: 16),
+
             _buildDateField(
               context,
               profile.dateOfBirth,
               notifier.updateDateOfBirth,
             ),
-            const SizedBox(height: 16),
+
             _buildGenderPicker(profile.gender, notifier.updateGender),
-            const SizedBox(height: 16),
+
             _buildField(
               controller: phoneController,
               label: 'رقم الهاتف',
@@ -316,13 +310,20 @@ class PersonalInfoStep extends ConsumerWidget {
               keyboardType: TextInputType.phone,
               onChanged: notifier.updatePhoneNumber,
             ),
-            const SizedBox(height: 16),
+
             _buildField(
               controller: emailController,
               label: 'البريد الإلكتروني',
               icon: Icons.email,
               keyboardType: TextInputType.emailAddress,
               onChanged: notifier.updateEmail,
+            ),
+            _buildField(
+              controller: addressController,
+              label: 'العنوان',
+              icon: Icons.home,
+              keyboardType: TextInputType.text,
+              onChanged: notifier.updateAddress,
             ),
           ],
         ),
@@ -534,197 +535,6 @@ class MedicalInfoStep extends ConsumerWidget {
       ),
     );
   }
-}
-
-// Logic for Allergies, ChronicDiseases, Surgeries, and Medications are similar lists
-class AllergiesStep extends ConsumerWidget {
-  const AllergiesStep({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(profileProvider.select((p) => p.allergies));
-    final notifier = ref.read(pProfileProvider.notifier);
-    return _buildListStep(
-      context,
-      'الحساسيات',
-      items,
-      Icons.warning_amber,
-      () => _showDialog(context, null, notifier),
-      (i) => _showDialog(context, items[i], notifier, index: i),
-      (i) => notifier.removeAllergy(i),
-    );
-  }
-
-  void _showDialog(BuildContext context, allergy, notifier, {index}) {
-    showDialog(
-      context: context,
-      builder: (c) => AllergyDialog(
-        allergy: allergy,
-        onSave: (v) => index == null
-            ? notifier.addAllergy(v)
-            : notifier.updateAllergy(index, v),
-        severityLevels: const ['خفيف', 'متوسط', 'شديد'],
-      ),
-    );
-  }
-}
-
-class ChronicDiseasesStep extends ConsumerWidget {
-  const ChronicDiseasesStep({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(profileProvider.select((p) => p.chronicDiseases));
-    final notifier = ref.read(pProfileProvider.notifier);
-    return _buildListStep(
-      context,
-      'الأمراض المزمنة',
-      items,
-      Icons.health_and_safety,
-      () => _showDialog(context, null, notifier),
-      (i) => _showDialog(context, items[i], notifier, index: i),
-      (i) => notifier.removeChronicDisease(i),
-    );
-  }
-
-  void _showDialog(BuildContext context, item, notifier, {index}) {
-    showDialog(
-      context: context,
-      builder: (c) => ChronicDiseaseDialog(
-        disease: item,
-        onSave: (v) => index == null
-            ? notifier.addChronicDisease(v)
-            : notifier.updateChronicDisease(index, v),
-      ),
-    );
-  }
-}
-
-class SurgeriesStep extends ConsumerWidget {
-  const SurgeriesStep({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(profileProvider.select((p) => p.surgeries));
-    final notifier = ref.read(pProfileProvider.notifier);
-    return _buildListStep(
-      context,
-      'العمليات الجراحية',
-      items,
-      Icons.medical_services,
-      () => _showDialog(context, null, notifier),
-      (i) => _showDialog(context, items[i], notifier, index: i),
-      (i) => notifier.removeSurgery(i),
-    );
-  }
-
-  void _showDialog(BuildContext context, item, notifier, {index}) {
-    showDialog(
-      context: context,
-      builder: (c) => SurgeryDialog(
-        surgery: item,
-        onSave: (v) => index == null
-            ? notifier.addSurgery(v)
-            : notifier.updateSurgery(index, v),
-      ),
-    );
-  }
-}
-
-class MedicationsStep extends ConsumerWidget {
-  const MedicationsStep({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(
-      profileProvider.select((p) => p.currentMedications),
-    );
-    final notifier = ref.read(pProfileProvider.notifier);
-    return _buildListStep(
-      context,
-      'الأدوية الحالية',
-      items,
-      Icons.medication,
-      () => _showDialog(context, null, notifier),
-      (i) => _showDialog(context, items[i], notifier, index: i),
-      (i) => notifier.removeMedication(i),
-    );
-  }
-
-  void _showDialog(BuildContext context, item, notifier, {index}) {
-    showDialog(
-      context: context,
-      builder: (c) => MedicationDialog(
-        medication: item,
-        onSave: (v) => index == null
-            ? notifier.addMedication(v)
-            : notifier.updateMedication(index, v),
-      ),
-    );
-  }
-}
-
-class NotesStep extends ConsumerWidget {
-  const NotesStep({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(profileProvider);
-    final notifier = ref.read(pProfileProvider.notifier);
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'ملاحظات إضافية',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            maxLines: 5,
-            decoration: InputDecoration(
-              hintText: 'أضف أي تفاصيل أخرى...',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            onChanged: notifier.updateNotes,
-          ),
-          const SizedBox(height: 20),
-          _summaryCard(profile),
-        ],
-      ),
-    );
-  }
-
-  Widget _summaryCard(PatientProfile p) {
-    return Card(
-      color: Colors.blue[50],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _sumRow('الاسم', p.fullName),
-            _sumRow('عدد الأدوية', p.currentMedications.length.toString()),
-            _sumRow('عدد الحساسيات', p.allergies.length.toString()),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _sumRow(String l, String v) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(l),
-        Text(v, style: const TextStyle(fontWeight: FontWeight.bold)),
-      ],
-    ),
-  );
 }
 
 // Helper for repetitive list steps

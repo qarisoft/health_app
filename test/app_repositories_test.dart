@@ -24,9 +24,9 @@ void main() {
         // dio.
 
         // final res =
-        await dio.post(
+        await dio.get(
           // '/Patient/profile',
-          K.refreshTokenUrl,
+          '/Patient/emergency-screen',
 
           // '/Pharmacist/dispense-prescription',
           // data: {'identifier': '20000000010005', 'password': 'Admin@123'},

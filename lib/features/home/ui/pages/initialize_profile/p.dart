@@ -1,7 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/services/storage.dart';
+import 'package:health_app/features/auth/data/responses/user/user_response.dart';
+import 'package:health_app/features/auth/domain/models/account.dart'
+    hide Account;
+import 'package:health_app/features/auth/domain/models/patient.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,12 +29,49 @@ abstract class PatientProfileState with _$PatientProfileState {
   }) = _PatientProfileState;
 }
 
-@riverpod
+@Riverpod(dependencies: [Account])
 class PProfile extends _$PProfile {
   // PatientProfileNotifier() : super(const PatientProfileState());
   @override
   PatientProfileState build() {
+    final a = ref.watch(accountProvider);
+    final patient = a.whenOrNull(
+      acount: (ac) => ac.whenOrNull(patient: (p) => p),
+    );
+    if (patient != null) {
+      return PatientProfileState(
+        profile: PatientProfile(
+          address: patient.address,
+          bloodType: patient.bloodType,
+          dateOfBirth: patient.dateOfBirth,
+          email: patient.email,
+          height: patient.height.toDouble(),
+          weight: patient.weight.toDouble(),
+          emergencyContact: patient.emergencyContact,
+          emergencyPhone: patient.emergencyPhone,
+          fullName: patient.fullName,
+          gender: patient.gender,
+        ),
+      );
+    }
     return PatientProfileState();
+  }
+
+  void setPatientProfile(Patient p) {
+    state = state.copyWith(
+      profile: state.profile.copyWith(
+        address: p.address,
+        bloodType: p.bloodType,
+        dateOfBirth: p.dateOfBirth,
+        email: p.email,
+        height: p.height.toDouble(),
+        weight: p.weight.toDouble(),
+        emergencyContact: p.emergencyContact,
+        emergencyPhone: p.emergencyPhone,
+        fullName: p.fullName,
+        gender: p.gender,
+      ),
+    );
   }
 
   // Update basic profile info
@@ -207,6 +249,8 @@ class PProfile extends _$PProfile {
 
   // API actions
   Future<void> submitProfile() async {
+    // await di<AppStorage>().setBool(PATIENT_ACCOUNT_IS_INITIALIZED_KEY, true);
+    // return;
     state = state.copyWith(isLoading: true, error: null);
 
     try {
@@ -226,7 +270,7 @@ class PProfile extends _$PProfile {
       // ║    }
       // ║
 
-      await di<AppStorage>().setBool('isInitialized2', true);
+      await di<AppStorage>().setBool(PATIENT_ACCOUNT_IS_INITIALIZED_KEY, true);
       ref.invalidate(isInitializedProvider);
 
       // Here you would make the actual API call
@@ -234,6 +278,47 @@ class PProfile extends _$PProfile {
 
       state = state.copyWith(isLoading: false, isSubmitted: true);
     } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
+    }
+  }
+
+  Future<void> updateProfile() async {
+    // await di<AppStorage>().setBool(PATIENT_ACCOUNT_IS_INITIALIZED_KEY, true);
+    // return;
+    state = state.copyWith(isLoading: true, error: null);
+
+    try {
+      final js = await di<AppRepositories>().api.editPatientProfile({
+        'fullName': state.profile.fullName,
+        'dateOfBirth': state.profile.dateOfBirth,
+        'gender': state.profile.gender,
+        'phoneNumber': state.profile.phoneNumber,
+        'email': state.profile.email,
+        'address': state.profile.address,
+        'bloodType': state.profile.bloodType,
+        'weight': state.profile.weight,
+        'height': state.profile.height,
+        'emergencyContact': state.profile.emergencyContact,
+        'emergencyPhone': state.profile.emergencyPhone,
+      });
+      // xlog('updating');
+      // xlog(js);
+      final response = PatientProfileResponse.fromJson(js);
+      // xlog(response.message);
+      final patient = response.patient;
+      if (patient != null) {
+        final patientAccount = PatientAccount(
+          patient: Patient.fromJson(patient.toJson()),
+        );
+        await di<AppStorage>().setPatientAccount(patientAccount);
+        ref.invalidate(authRecordStateProvider);
+        ref.invalidate(accountProvider);
+      }
+      // di<AppStorage>().set
+
+      state = state.copyWith(isLoading: false, isSubmitted: true);
+    } catch (e) {
+      xlog(e.toString());
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
@@ -249,7 +334,7 @@ class PProfile extends _$PProfile {
 // );
 
 // // Step-specific providers
-@riverpod
+@Riverpod(dependencies: [PProfile])
 int currentStep(Ref ref) {
   return ref.watch(pProfileProvider).currentStep;
 }
@@ -257,7 +342,7 @@ int currentStep(Ref ref) {
 // final currentStepProvider = Provider<int>((ref) {
 //   return ref.watch(patientProfileProvider).currentStep;
 // });
-@riverpod
+@Riverpod(dependencies: [PProfile])
 bool isLoading(Ref ref) {
   return ref.watch(pProfileProvider).isLoading;
 }
@@ -265,11 +350,16 @@ bool isLoading(Ref ref) {
 // final isLoadingProvider = Provider<bool>((ref) {
 //   return ref.watch(patientProfileProvider).isLoading;
 // });
-@riverpod
+@Riverpod(dependencies: [PProfile])
 PatientProfile profile(Ref ref) {
   return ref.watch(pProfileProvider).profile;
 }
 
+// @riverpod
+// isInitialized(Ref ref, {required int id}) {
+//   return di<AppStorage>().getBool(PATIENT_ACCOUNT_IS_INITIALIZED_KEY);
+// }
+
 final isInitializedProvider = Provider<bool>((ref) {
-  return di<AppStorage>().getBool('isInitialized');
+  return di<AppStorage>().getBool(PATIENT_ACCOUNT_IS_INITIALIZED_KEY);
 });

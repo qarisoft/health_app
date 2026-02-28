@@ -11,11 +11,14 @@ import 'package:health_app/features/auth/domain/models/patient.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const int version = 17;
+const int version = 20;
 const String appLocalKey = 'appLocalKey$version';
 const String userTokenKey = 'userTokenKey$version';
 //
 const String PATIENT_ACCOUNT_KEY = 'patient-account$version';
+const String PATIENT_ACCOUNT_IS_INITIALIZED_KEY =
+    'patient-is-initialized-account$version';
+
 const String DOCTOR_ACCOUNT_KEY = 'doctor-account$version';
 const String PHARMACIST_ACCOUNT_KEY = 'pharmacist-account$version';
 const String ADMIN_ACCOUNT_KEY = 'admin-account$version';

@@ -51,6 +51,7 @@ class PatientResponse extends Profile {
   final int height;
   final String emergencyContact;
   final String emergencyPhone;
+  final bool isProfileInitialized;
 
   PatientResponse({
     super.id,
@@ -68,6 +69,7 @@ class PatientResponse extends Profile {
     this.dateOfBirth = 'null',
     this.address = 'null',
     this.emergencyPhone = 'null',
+    this.isProfileInitialized = false,
   });
   factory PatientResponse.fromJson(Map<String, dynamic> json) =>
       _$PatientResponseFromJson(json);

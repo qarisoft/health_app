@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/auth_state.dart';
+import 'package:health_app/core/error/app_error.dart';
+import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/home/ui/pages/initialize_profile/p.dart';
 import 'package:health_app/features/home/ui/pages/initialize_profile/page.dart';
+import 'package:health_app/features/home/ui/pages/initialize_profile/page2.dart';
+import 'package:health_app/features/home/ui/pages/qr.dart';
+import 'package:health_app/shared/api/api_repositories.dart';
+import 'package:health_app/shared/ex.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import './profile.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -15,6 +23,42 @@ class MainPatientPage extends ConsumerWidget {
       return HomePage();
     }
     return InitializeProfilePage();
+  }
+}
+
+class InitializedProfilePage2 extends ConsumerWidget {
+  const InitializedProfilePage2({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ac = ref.watch(accountProvider);
+    final patient = ac.whenOrNull(
+      acount: (account) => account.whenOrNull(patient: (p) => p),
+    );
+    xlog(patient);
+
+    return InitializeProfilePage2();
+  }
+}
+
+class EmergenciesScreen extends ConsumerStatefulWidget {
+  const EmergenciesScreen({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _EmergenciesScreenState();
+}
+
+class _EmergenciesScreenState extends ConsumerState<EmergenciesScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: RefreshIndicator(
+        child: SingleChildScrollView(child: Column()),
+        onRefresh: () async {},
+      ),
+    );
   }
 }
 
@@ -51,7 +95,12 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Color(0xFFF8FAFD),
       body: PageView(
         controller: _pageController,
-        children: [MyHomePage(), InitializeProfilePage(), MyHomePage(), ProfilePage()],
+        children: [
+          MyHomePage(),
+          InitializedProfilePage2(),
+          MyHomePage(),
+          ProfilePage(),
+        ],
       ),
 
       // Bottom Navigation Bar
@@ -59,9 +108,60 @@ class _HomePageState extends State<HomePage> {
 
       // Floating Action Button for Quick Add
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          AppDialog().loading();
+          xlog('start qr ');
+          final dio = di<AppRepositories>().getDio();
+          final res0 = await dio.get('/Patient/emergency-screen');
+          xlog(res0);
+
+          final res = await di<AppRepositories>().generateQr();
+          AppDialog().dismiss();
+
+          showDialog(
+            context: context,
+            builder: (context) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    // height: MediaQuery.of(context).size.height * 0.6,
+                    child: AlertDialog(
+                      content: Column(
+                        children: [
+                          // Text('data'),
+                          res.when(
+                            success: (s) {
+                              final str = s['qrCodeUrl'];
+                              xlog(s);
+                              return ImageFromDataUrl(dataUrl: str);
+                            },
+                            error: (e) {
+                              xlog('error');
+                              return Text(e.msg);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+          // xlog(res);
+          // res.when(
+          //   success: (s) {
+          //     final str = s['qrCodeUrl'];
+          //     xlog(s);
+          //   },
+          //   error: (e) {
+          //     xlog('error');
+          //   },
+          // );
+
           // Add new health data
-          _showAddDataDialog(context);
+          // _showAddDataDialog(context);
         },
         backgroundColor: Color(0xFF4A6FFF),
         shape: CircleBorder(),

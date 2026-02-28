@@ -60,6 +60,7 @@ PatientResponse _$PatientResponseFromJson(Map<String, dynamic> json) =>
       dateOfBirth: json['dateOfBirth'] as String? ?? 'null',
       address: json['address'] as String? ?? 'null',
       emergencyPhone: json['emergencyPhone'] as String? ?? 'null',
+      isProfileInitialized: json['isProfileInitialized'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$PatientResponseToJson(PatientResponse instance) =>
@@ -79,6 +80,7 @@ Map<String, dynamic> _$PatientResponseToJson(PatientResponse instance) =>
       'height': instance.height,
       'emergencyContact': instance.emergencyContact,
       'emergencyPhone': instance.emergencyPhone,
+      'isProfileInitialized': instance.isProfileInitialized,
     };
 
 PharmacistResponse _$PharmacistResponseFromJson(Map<String, dynamic> json) =>
