@@ -24,6 +24,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
   bool _isEditing = false;
   late Doctor _editedDoctor;
   final _formKey = GlobalKey<FormState>();
+  bool isInitialized = false;
 
   @override
   void initState() {
@@ -36,12 +37,27 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
     final authState = ref.watch(accountProvider);
     // final authState2 = ref.watch(authRecordStateProvider);
 
-    xlog('authstate' + authState.toString());
+    // xlog('authstate' + authState.toString());
 
     final doctorAc = authState.whenOrNull(
       acount: (account) => account.whenOrNull(doctor: (d) => d),
     );
     if (doctorAc != null) {
+      if (!isInitialized) {
+        setState(() {
+          _editedDoctor = _editedDoctor.copyWith(
+            email: doctorAc.email,
+            fullName: doctorAc.fullName,
+            hospital: doctorAc.hospital,
+            id: doctorAc.id,
+            userId: doctorAc.userId,
+            specialization: doctorAc.specialization,
+            licenseNumber: doctorAc.licenseNumber,
+            phoneNumber: doctorAc.phoneNumber,
+          );
+          isInitialized = true;
+        });
+      }
       return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -62,21 +78,19 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
-          child: _isEditing
-              ? _buildEditForm(doctorAc)
-              : _buildProfileView(doctorAc),
+          child: _isEditing ? _buildEditForm() : _buildProfileView(),
         ),
       );
     }
     return Scaffold(body: Text(authState?.toString() ?? ';'));
   }
 
-  Widget _buildProfileView(Doctor? ac) {
+  Widget _buildProfileView() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Profile Header
-        _buildProfileHeader(ac?.fullName),
+        _buildProfileHeader(_editedDoctor.fullName),
         const SizedBox(height: 24),
 
         // Personal Information
@@ -147,6 +161,17 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
               value: _formatDate(_editedDoctor.updatedAt),
             ),
           ],
+        ),
+        Consumer(
+          builder: (context, ref, _) {
+            return ElevatedButton(
+              onPressed: () async {
+                await ref.read(authRecordStateProvider.notifier).logOut();
+                Navigator.of(context).maybePop();
+              },
+              child: Text('logout'),
+            );
+          },
         ),
       ],
     );
@@ -287,7 +312,8 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
     );
   }
 
-  Widget _buildEditForm(Doctor d) {
+  Widget _buildEditForm() {
+    // Doctor _d = d;
     return Form(
       key: _formKey,
       child: Column(
@@ -296,17 +322,18 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
           // Full Name Field
           _buildTextField(
             label: 'الاسم الكامل',
-            value: d.fullName,
+            value: _editedDoctor.fullName,
             icon: Icons.person,
             onChanged: (value) {
+              xlog(value);
               setState(() {
                 _editedDoctor = _editedDoctor.copyWith(fullName: value);
               });
             },
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'الرجاء إدخال الاسم الكامل';
-              }
+              // if (value == null || value.isEmpty) {
+              //   return 'الرجاء إدخال الاسم الكامل';
+              // }
               return null;
             },
           ),
@@ -394,11 +421,12 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
           // Hospital Field
           _buildTextField(
             label: 'المستشفى',
-            value: _editedDoctor.hospital,
+            value: '_editedDoctor.hospital',
             icon: Icons.local_hospital,
             onChanged: (value) {
+              xlog('dsdasdsadsa');
               setState(() {
-                _editedDoctor = _editedDoctor.copyWith(hospital: value);
+                // _editedDoctor = _editedDoctor.copyWith(hospital: value);
               });
             },
             validator: (value) {
@@ -439,7 +467,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
                   onPressed: () {
                     setState(() {
                       _isEditing = false;
-                      _editedDoctor = widget.doctor; // Reset changes
+                      // _editedDoctor = widget.doctor; // Reset changes
                     });
                   },
                   style: OutlinedButton.styleFrom(

@@ -57,6 +57,11 @@ class AuthRecordState extends _$AuthRecordState {
     }
     return AuthRecordData.initial();
   }
+
+  Future<void> logOut() async {
+    await di<AppStorage>().clearAllAccounts();
+    ref.invalidateSelf();
+  }
 }
 
 @Riverpod(dependencies: [AuthRecordState])

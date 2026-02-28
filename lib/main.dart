@@ -1,7 +1,5 @@
-// import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:get_it/get_it.dart';
 import 'package:health_app/auth_state.dart' show accountProvider, di;
 import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/core/services/storage.dart';
@@ -11,12 +9,11 @@ import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/auth/ui/pages/register_page.dart';
 import 'package:health_app/features/doctor/ui/home.dart' as doctor_pages;
-import 'package:health_app/features/pharmacist/ui/home/page.dart'
-    as pharmacist_page;
-// import 'package:health_app/features/home/ui/pages/initialize_profile/page.dart';
 import 'package:health_app/features/home/ui/pages/p.dart' as patient;
 import 'package:health_app/features/patients/ui/home.dart'
     show MedicalHistoryPage;
+import 'package:health_app/features/pharmacist/ui/home/page.dart'
+    as pharmacist_page;
 import 'package:health_app/l10n/app_localizations.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/api/api_service.dart';
@@ -25,6 +22,7 @@ import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'core/theme/app_theme.dart';
 import 'features/auth/ui/pages/login_page.dart';
 // import 'features/home/presentation/pages/p.dart';

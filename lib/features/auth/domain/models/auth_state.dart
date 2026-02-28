@@ -7,6 +7,7 @@ part 'auth_state.g.dart';
 abstract class AuthRecord with _$AuthRecord {
   factory AuthRecord({
     required String accessToken,
+    required String refreshToken,
     required String role,
     required int userId,
   }) = _AuthRecord;
@@ -15,13 +16,9 @@ abstract class AuthRecord with _$AuthRecord {
       _$AuthRecordFromJson(json);
 }
 
-
-
 @freezed
 class AuthRecordData with _$AuthRecordData {
-
   factory AuthRecordData.initial() = InitialAuthRecordData;
   factory AuthRecordData.auth({required AuthRecord record}) = TAuthRecordData;
-
 }
 // extension AuthMapper on 

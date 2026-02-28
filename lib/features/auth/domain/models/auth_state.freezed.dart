@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AuthRecord {
 
- String get accessToken; String get role; int get userId;
+ String get accessToken; String get refreshToken; String get role; int get userId;
 /// Create a copy of AuthRecord
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AuthRecordCopyWith<AuthRecord> get copyWith => _$AuthRecordCopyWithImpl<AuthRec
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthRecord&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.role, role) || other.role == role)&&(identical(other.userId, userId) || other.userId == userId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthRecord&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.role, role) || other.role == role)&&(identical(other.userId, userId) || other.userId == userId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,accessToken,role,userId);
+int get hashCode => Object.hash(runtimeType,accessToken,refreshToken,role,userId);
 
 @override
 String toString() {
-  return 'AuthRecord(accessToken: $accessToken, role: $role, userId: $userId)';
+  return 'AuthRecord(accessToken: $accessToken, refreshToken: $refreshToken, role: $role, userId: $userId)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AuthRecordCopyWith<$Res>  {
   factory $AuthRecordCopyWith(AuthRecord value, $Res Function(AuthRecord) _then) = _$AuthRecordCopyWithImpl;
 @useResult
 $Res call({
- String accessToken, String role, int userId
+ String accessToken, String refreshToken, String role, int userId
 });
 
 
@@ -65,9 +65,10 @@ class _$AuthRecordCopyWithImpl<$Res>
 
 /// Create a copy of AuthRecord
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? accessToken = null,Object? role = null,Object? userId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? accessToken = null,Object? refreshToken = null,Object? role = null,Object? userId = null,}) {
   return _then(_self.copyWith(
 accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
+as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String accessToken,  String role,  int userId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String accessToken,  String refreshToken,  String role,  int userId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AuthRecord() when $default != null:
-return $default(_that.accessToken,_that.role,_that.userId);case _:
+return $default(_that.accessToken,_that.refreshToken,_that.role,_that.userId);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.accessToken,_that.role,_that.userId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String accessToken,  String role,  int userId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String accessToken,  String refreshToken,  String role,  int userId)  $default,) {final _that = this;
 switch (_that) {
 case _AuthRecord():
-return $default(_that.accessToken,_that.role,_that.userId);case _:
+return $default(_that.accessToken,_that.refreshToken,_that.role,_that.userId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.accessToken,_that.role,_that.userId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String accessToken,  String role,  int userId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String accessToken,  String refreshToken,  String role,  int userId)?  $default,) {final _that = this;
 switch (_that) {
 case _AuthRecord() when $default != null:
-return $default(_that.accessToken,_that.role,_that.userId);case _:
+return $default(_that.accessToken,_that.refreshToken,_that.role,_that.userId);case _:
   return null;
 
 }
@@ -211,10 +212,11 @@ return $default(_that.accessToken,_that.role,_that.userId);case _:
 @JsonSerializable()
 
 class _AuthRecord implements AuthRecord {
-   _AuthRecord({required this.accessToken, required this.role, required this.userId});
+   _AuthRecord({required this.accessToken, required this.refreshToken, required this.role, required this.userId});
   factory _AuthRecord.fromJson(Map<String, dynamic> json) => _$AuthRecordFromJson(json);
 
 @override final  String accessToken;
+@override final  String refreshToken;
 @override final  String role;
 @override final  int userId;
 
@@ -231,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthRecord&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.role, role) || other.role == role)&&(identical(other.userId, userId) || other.userId == userId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthRecord&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.role, role) || other.role == role)&&(identical(other.userId, userId) || other.userId == userId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,accessToken,role,userId);
+int get hashCode => Object.hash(runtimeType,accessToken,refreshToken,role,userId);
 
 @override
 String toString() {
-  return 'AuthRecord(accessToken: $accessToken, role: $role, userId: $userId)';
+  return 'AuthRecord(accessToken: $accessToken, refreshToken: $refreshToken, role: $role, userId: $userId)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$AuthRecordCopyWith<$Res> implements $AuthRecordCopyWith<$
   factory _$AuthRecordCopyWith(_AuthRecord value, $Res Function(_AuthRecord) _then) = __$AuthRecordCopyWithImpl;
 @override @useResult
 $Res call({
- String accessToken, String role, int userId
+ String accessToken, String refreshToken, String role, int userId
 });
 
 
@@ -268,9 +270,10 @@ class __$AuthRecordCopyWithImpl<$Res>
 
 /// Create a copy of AuthRecord
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? accessToken = null,Object? role = null,Object? userId = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? accessToken = null,Object? refreshToken = null,Object? role = null,Object? userId = null,}) {
   return _then(_AuthRecord(
 accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
+as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,

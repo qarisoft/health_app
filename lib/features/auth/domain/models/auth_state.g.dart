@@ -8,6 +8,7 @@ part of 'auth_state.dart';
 
 _AuthRecord _$AuthRecordFromJson(Map<String, dynamic> json) => _AuthRecord(
   accessToken: json['accessToken'] as String,
+  refreshToken: json['refreshToken'] as String,
   role: json['role'] as String,
   userId: (json['userId'] as num).toInt(),
 );
@@ -15,6 +16,7 @@ _AuthRecord _$AuthRecordFromJson(Map<String, dynamic> json) => _AuthRecord(
 Map<String, dynamic> _$AuthRecordToJson(_AuthRecord instance) =>
     <String, dynamic>{
       'accessToken': instance.accessToken,
+      'refreshToken': instance.refreshToken,
       'role': instance.role,
       'userId': instance.userId,
     };

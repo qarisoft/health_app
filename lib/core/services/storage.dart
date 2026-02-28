@@ -11,14 +11,14 @@ import 'package:health_app/features/auth/domain/models/patient.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const int version = 27;
+const int version = 29;
 const String appLocalKey = 'appLocalKey$version';
 const String userTokenKey = 'userTokenKey$version';
+const String userRefreshTokenKey = 'userRefreshTokenKey$version';
 //
 const String PATIENT_ACCOUNT_KEY = 'patient-account$version';
 const String PATIENT_ACCOUNT_IS_INITIALIZED_KEY =
     'patient-is-initialized-account$version';
-
 const String DOCTOR_ACCOUNT_KEY = 'doctor-account$version';
 const String PHARMACIST_ACCOUNT_KEY = 'pharmacist-account$version';
 const String ADMIN_ACCOUNT_KEY = 'admin-account$version';
@@ -27,11 +27,23 @@ const String AUTH_RECORD_KEY = 'AUTH_RECORD_KEY$version';
 const String MedicalRecordList_Key = 'MedicalRecordList$version';
 const String PrescriptionsList_KEY = 'PrescriptionsList_KEY$version';
 
-// MedicalRecordList
-
-//
-//
 class AppStorage {
+  Future<void> clearAllAccounts() async {
+    await sharedPreferences.remove(PATIENT_ACCOUNT_KEY);
+    await sharedPreferences.remove(PHARMACIST_ACCOUNT_KEY);
+    await sharedPreferences.remove(DOCTOR_ACCOUNT_KEY);
+    await sharedPreferences.remove(ADMIN_ACCOUNT_KEY);
+    await sharedPreferences.remove(PATIENT_ACCOUNT_IS_INITIALIZED_KEY);
+    //
+    await sharedPreferences.remove(AUTH_RECORD_KEY);
+    await sharedPreferences.remove(MedicalRecordList_Key);
+    await sharedPreferences.remove(PrescriptionsList_KEY);
+    //
+    await sharedPreferences.remove(userTokenKey);
+    await sharedPreferences.remove(userRefreshTokenKey);
+    // await sharedPreferences.clear();
+  }
+
   final SharedPreferences sharedPreferences;
 
   AppStorage(this.sharedPreferences);
@@ -41,13 +53,6 @@ class AppStorage {
 
   Future<void> clearAuthRecord() async {
     await sharedPreferences.remove(AUTH_RECORD_KEY);
-  }
-
-  Future<void> clearAllAccounts() async {
-    await sharedPreferences.remove(PATIENT_ACCOUNT_KEY);
-    await sharedPreferences.remove(PHARMACIST_ACCOUNT_KEY);
-    await sharedPreferences.remove(DOCTOR_ACCOUNT_KEY);
-    await sharedPreferences.remove(ADMIN_ACCOUNT_KEY);
   }
 
   String? getString(String k) {
@@ -78,14 +83,16 @@ class AppStorage {
   String? getUserToken() => sharedPreferences.getString(userTokenKey);
   Future<bool?> setUserToken(String val) async =>
       await sharedPreferences.setString(userTokenKey, val);
+  Future<bool?> setUserRefreshToken(String val) async =>
+      await sharedPreferences.setString(userRefreshTokenKey, val);
 
-  Future<void> setAppAuthState(AppAuthState auth) async {
-    await sharedPreferences.setString(
-      'appAuthstate',
-      jsonEncode(auth.toJson()),
-    );
-    return;
-  }
+  // Future<void> setAppAuthState(AppAuthState auth) async {
+  //   await sharedPreferences.setString(
+  //     'appAuthstate',
+  //     jsonEncode(auth.toJson()),
+  //   );
+  //   return;
+  // }
 
   Future<void> setAuthRecord(AuthRecord auth) async {
     await sharedPreferences.setString(

@@ -31,7 +31,7 @@ abstract class LocalState with _$LocalState {
 class Local extends _$Local {
   @override
   LocalState build() {
-    return LocalState.en();
+    return LocalState.ar();
   }
 
   void toggole() {

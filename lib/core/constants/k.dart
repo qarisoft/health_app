@@ -59,7 +59,7 @@ enum UserType {
   }
 }
 
-const api = '192.168.1.101';
+const api = '192.168.1.104';
 
 class K {
   // TODO Change this Url
@@ -67,6 +67,7 @@ class K {
 
   //
   static const String loginUrl = "/auth/login";
+  static const String pingUrl = "/App_Check/ping";
   static const String registerUrl = "/auth/register";
   //
   static const String refreshTokenUrl = "/auth/refresh";

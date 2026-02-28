@@ -63,10 +63,12 @@ class AppRepositories {
       if (response.success.isN() && isValid) {
         // if () {
         await storage.setUserToken(response.accessToken ?? '');
+        await storage.setUserRefreshToken(response.refreshToken ?? '');
         await _getProfile(role);
 
         final auth = AuthRecord(
           accessToken: response.accessToken ?? '',
+          refreshToken: response.refreshToken ?? '',
           role: role,
           userId: response.userId ?? 0,
         );
@@ -433,16 +435,27 @@ class AppRepositories {
   // ===============================================================
   // DOCTOR FUNCTIONS
   // ===============================================================
+  Future<ErrorOr<bool>> refreshTheToken() async {
+    return ErrorOr.success(data: true);
+    // return ErrorOr.error(error: ServerError(msg: ''));
+  }
 
   Future<ErrorOr<dynamic>> searchPatient(String identifier) async {
     try {
       final res = await api.searchPatient(identifier);
-      // final response = await getDio().post(
-      //   '/Doctor/search-patient',
-      //   data: {"identifier": identifier},
-      // );
-      // xlog('sss2' + response.data.toString());
+
       return ErrorOr.success(data: res);
+    } on DioException catch (e) {
+      if ((e.response?.statusCode ?? 0) == 401) {
+        final a = await refreshTheToken();
+        return a.when(
+          success: (s) => searchPatient(identifier),
+          error: (e) => ErrorOr.error(error: e),
+        );
+      }
+      return ErrorOr.error(
+        error: ServerError(msg: e.message ?? 'server error'),
+      );
     } catch (e) {
       debugPrint('Search patient error: $e');
       return ErrorOr.error(error: ServerError(msg: 'Search failed: $e'));
