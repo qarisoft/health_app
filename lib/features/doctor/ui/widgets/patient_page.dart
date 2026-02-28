@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/features/doctor/data/responses/patient_response.dart';
+import 'package:health_app/features/doctor/ui/create_medical_record.dart';
+import 'package:health_app/features/doctor/ui/create_prescription.dart';
 
 class PatientFloatingButton extends StatefulWidget {
-  const PatientFloatingButton({super.key});
+  const PatientFloatingButton({super.key, required this.patientId});
+  final int patientId;
 
   @override
   State<PatientFloatingButton> createState() => _PatientFloatingButtonState();
@@ -11,6 +14,12 @@ class PatientFloatingButton extends StatefulWidget {
 
 class _PatientFloatingButtonState extends State<PatientFloatingButton> {
   bool isExpanded = false;
+  int get patientId => widget.patientId;
+  void setIsNotExpanded() {
+    setState(() {
+      isExpanded = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +36,7 @@ class _PatientFloatingButtonState extends State<PatientFloatingButton> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    setState(() {
-                      isExpanded = false;
-                    });
-                    xlog('ssssssssssssss');
+                    setIsNotExpanded();
                   },
                 ),
               ),
@@ -38,22 +44,34 @@ class _PatientFloatingButtonState extends State<PatientFloatingButton> {
                 icon: Icons.medical_services,
                 label: 'Add Medical Record',
                 color: Colors.blue,
-                onPressed: () {},
+                onPressed: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CreateMedicalRecordDialog(patientId: patientId);
+                    },
+                  );
+                  setIsNotExpanded();
+                },
               ),
               _buildActionButton(
                 icon: Icons.description,
                 label: 'Add Prescription',
                 color: Colors.green,
-                onPressed: () {},
+                onPressed: () async {
+                  await showDialog<bool>(
+                    context: context,
+                    builder: (context) =>
+                        CreatePrescriptionDialog(patientId: patientId),
+                  );
+                },
               ),
               _buildActionButton(
                 icon: Icons.close,
                 label: 'Cancel',
                 color: Colors.grey,
                 onPressed: () {
-                  setState(() {
-                    isExpanded = false;
-                  });
+                  setIsNotExpanded();
                 },
               ),
             ],
@@ -132,7 +150,7 @@ class PatientPage extends StatelessWidget {
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(right: 20),
-        child: const PatientFloatingButton(),
+        child: PatientFloatingButton(patientId: patient.id),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: SingleChildScrollView(
