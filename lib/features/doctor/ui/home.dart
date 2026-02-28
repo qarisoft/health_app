@@ -450,11 +450,11 @@ class _DoctorHomeState extends State<DoctorHome> {
       context: context,
       builder: (context) => const SingleInputDialog(),
     );
-    AppDialog().loading();
 
-    xlog('oooooooooooooooooooooo');
+    // xlog('oooooooooooooooooooooo');
 
     if (identifier != null && identifier.isNotEmpty) {
+      AppDialog().loading();
       final res = await di<AppRepositories>().searchPatient(identifier);
       res.when(
         success: (json) {
