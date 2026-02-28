@@ -9,47 +9,6 @@ part of 'auth_state.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(appAuth)
-const appAuthProvider = AppAuthProvider._();
-
-final class AppAuthProvider
-    extends $FunctionalProvider<AppAuthState, AppAuthState, AppAuthState>
-    with $Provider<AppAuthState> {
-  const AppAuthProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'appAuthProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$appAuthHash();
-
-  @$internal
-  @override
-  $ProviderElement<AppAuthState> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  AppAuthState create(Ref ref) {
-    return appAuth(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AppAuthState value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<AppAuthState>(value),
-    );
-  }
-}
-
-String _$appAuthHash() => r'874ae5a87b2a3ebe0f8306d8a7086760adda62e0';
-
 @ProviderFor(AuthRecordState)
 const authRecordStateProvider = AuthRecordStateProvider._();
 

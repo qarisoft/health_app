@@ -34,9 +34,9 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(accountProvider);
-    final authState2 = ref.watch(authRecordStateProvider);
+    // final authState2 = ref.watch(authRecordStateProvider);
 
-    xlog(authState2);
+    xlog('authstate' + authState.toString());
 
     final doctorAc = authState.whenOrNull(
       acount: (account) => account.whenOrNull(doctor: (d) => d),
@@ -68,7 +68,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
         ),
       );
     }
-    return Scaffold(body: Text(authState2?.toString() ?? ';'));
+    return Scaffold(body: Text(authState?.toString() ?? ';'));
   }
 
   Widget _buildProfileView(Doctor? ac) {

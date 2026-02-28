@@ -42,7 +42,7 @@ final class MedicalRecordsStoreProvider
 }
 
 String _$medicalRecordsStoreHash() =>
-    r'f82adcb3c59f9d4d2a635603674fb24667e13f6e';
+    r'dcee26f96ec48cf1ef5e885f7356833922f68cff';
 
 abstract class _$MedicalRecordsStore extends $Notifier<MedicalRecordList> {
   MedicalRecordList build();

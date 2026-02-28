@@ -20,30 +20,30 @@ part 'auth_state.g.dart';
 
 final di = GetIt.instance;
 // import './main.dart' show di;
-@riverpod
-AppAuthState appAuth(Ref ref) {
-  final authType = di<SharedPreferences>().getString(AUTH_TYPE_KEY);
-  final authString = di<SharedPreferences>().getString(AUTH_KEY);
-  xlog(authType);
-  xlog('sssssssssssssss');
-  if (authString != null) {
-    final json = jsonDecode(authString);
+// @riverpod
+// AppAuthState appAuth(Ref ref) {
+//   final authType = di<SharedPreferences>().getString(AUTH_TYPE_KEY);
+//   final authString = di<SharedPreferences>().getString(AUTH_KEY);
+//   xlog(authType);
+//   xlog('sssssssssssssss');
+//   if (authString != null) {
+//     final json = jsonDecode(authString);
 
-    if (authType == PATIENT_KEY) {
-      return AppAuthState.patient(auth: PatientEntity.fromJson(json));
-    }
-    if (authType == DOCTOR_KEY) {
-      return AppAuthState.doctor(auth: DoctorEntity.fromJson(json));
-    }
-    if (authType == ADMIN_KEY) {
-      return AppAuthState.admin(auth: AdminEntity.fromJson(json));
-    }
-    if (authType == PHARMACIST_KEY) {
-      return AppAuthState.pharmacisit(auth: PharmacistEntity.fromJson(json));
-    }
-  }
-  return AppAuthState.initial();
-}
+//     if (authType == PATIENT_KEY) {
+//       return AppAuthState.patient(auth: PatientEntity.fromJson(json));
+//     }
+//     if (authType == DOCTOR_KEY) {
+//       return AppAuthState.doctor(auth: DoctorEntity.fromJson(json));
+//     }
+//     if (authType == ADMIN_KEY) {
+//       return AppAuthState.admin(auth: AdminEntity.fromJson(json));
+//     }
+//     if (authType == PHARMACIST_KEY) {
+//       return AppAuthState.pharmacisit(auth: PharmacistEntity.fromJson(json));
+//     }
+//   }
+//   return AppAuthState.initial();
+// }
 
 @riverpod
 class AuthRecordState extends _$AuthRecordState {

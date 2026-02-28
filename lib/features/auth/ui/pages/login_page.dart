@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/constants/app_colors.dart' show AppColors;
@@ -20,14 +21,14 @@ import 'package:health_app/shared/widgets/text_button.dart';
 import '../widgets/login_form.dart';
 import '../widgets/biometric_button.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   // final ValueChanged d =(value) {
 
   // }
@@ -71,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       AppDialog().dismiss();
+      ref.invalidate(authRecordStateProvider);
 
       auth.when(
         success: (succes) {

@@ -17,8 +17,8 @@ abstract class LocalState with _$LocalState {
   factory LocalState.fromJson(Map<String, dynamic> json) =>
       _$LocalStateFromJson(json);
 
-  factory LocalState.ar() => LocalState(code: 'ar', isRtl: true); 
-  factory LocalState.en() => LocalState(code: 'en', isRtl: false); 
+  factory LocalState.ar() => LocalState(code: 'ar', isRtl: true);
+  factory LocalState.en() => LocalState(code: 'en', isRtl: false);
 }
 
 // extension on LocalState {
@@ -31,15 +31,14 @@ abstract class LocalState with _$LocalState {
 class Local extends _$Local {
   @override
   LocalState build() {
-    return LocalState.ar();
+    return LocalState.en();
   }
 
   void toggole() {
     if (state.isRtl) {
       state = LocalState.ar();
-    }else{
+    } else {
       state = LocalState.en();
-
     }
   }
 }
