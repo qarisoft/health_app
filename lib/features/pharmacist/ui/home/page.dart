@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:health_app/features/auth/domain/models/patient.dart'
-    show Doctor, Pharmacist;
-import 'package:health_app/features/doctor/ui/medical_record.dart';
-import '../prescriptions/page.dart';
-import 'package:health_app/features/doctor/ui/profile.dart';
 import 'package:health_app/features/pharmacist/ui/profile/page.dart';
+
+import '../prescriptions/page.dart';
 import './home_page.dart';
 // import '../data/repositories/patient_repo.dart' show PatientRepository;
 // import '../domain/patient.dart' show Patient;
@@ -40,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         controller: _pageController,
         children: [
           PharmacistHomePage(),
-          PrescriptionsPage(),
+          // PrescriptionsPage(),
           PrescriptionsPage(),
           PharmacistProfilePage1(
             // pharmacist: Pharmacist(
@@ -75,8 +72,8 @@ class _HomePageState extends State<HomePage> {
             _buildNavItem(Icons.home, 'الرئيسية', 0),
             _buildNavItem(Icons.bar_chart, 'الوصفات', 1),
             // SizedBox(width: 40), // Space for FAB
-            _buildNavItem(Icons.fitness_center, 'prescriptions', 2),
-            _buildNavItem(Icons.person, 'البروفايل', 3),
+            // _buildNavItem(Icons.fitness_center, 'prescriptions', 2),
+            _buildNavItem(Icons.person, 'البروفايل', 2),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/features/pharmacist/data/providers/prescription_queu.dart';
 import 'package:health_app/features/pharmacist/domain/models/prescription.dart';
@@ -18,45 +19,65 @@ class PharmacistHomePage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           // 1. Modern Header with Stats
-          SliverAppBar(
-            expandedHeight: 220.0,
-            floating: false,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF00796B), Color(0xFF4DB6AC)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Welcome, Dr. Sarah",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+          Consumer(
+            builder: (context, ref, _) {
+              final ac = ref.watch(
+                allAcountsProvider.select((s) => s.pharmacist),
+              );
+              final pharmacist = ac?.pharmacist;
+              return SliverAppBar(
+                expandedHeight: 220.0,
+                floating: false,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF00796B), Color(0xFF4DB6AC)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _StatWidget(label: "Pending", value: "12"),
-                        _StatWidget(label: "Dispensed", value: "48"),
-                        _StatWidget(label: "Inventory", value: "Low"),
-                      ],
+                    child: Consumer(
+                      builder: (context, ref, _) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Welcome Back',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "${pharmacist?.fullName}",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _StatWidget(label: "Pending", value: "12"),
+                                _StatWidget(label: "Dispensed", value: "48"),
+                                // _StatWidget(label: "Inventory", value: "Low"),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                  ],
+                  ),
+                  title: const Text("Home"),
+                  // title: Text("${pharmacist?.fullName}"),
+                  centerTitle: true,
                 ),
-              ),
-              title: const Text("PharmaDash"),
-              centerTitle: true,
-            ),
+              );
+            },
           ),
 
           // 2. Quick Actions Grid

@@ -1,57 +1,44 @@
 // lib/features/prescription/presentation/providers/prescription_provider.dart
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../requests/create_prescription.dart';
 // import '../../domain/models/prescription.dart';
 // import '../requests/profile.dart';
 
 part 'create_rescription.freezed.dart';
 part 'create_rescription.g.dart';
 
-
 @freezed
-abstract class PrescriptionItem with _$PrescriptionItem {
-  const factory PrescriptionItem({
-    required int drugId,
-    required int quantity,
-    required String dosage,
-    required String frequency,
-    required String duration,
-    String? instructions,
-  }) = _PrescriptionItem;
+abstract class IdName with _$IdName {
+  factory IdName({required String name, required int id}) = _IdName;
 
-  factory PrescriptionItem.fromJson(Map<String, dynamic> json) =>
-      _$PrescriptionItemFromJson(json);
-}
-
-@freezed
-abstract class PrescriptionRequest with _$PrescriptionRequest {
-  const factory PrescriptionRequest({
-    required int patientId,
-    required int doctorId,
-    required String diagnosis,
-    required List<PrescriptionItem> items,
-  }) = _PrescriptionRequest;
-
-  factory PrescriptionRequest.fromJson(Map<String, dynamic> json) =>
-      _$PrescriptionRequestFromJson(json);
+  factory IdName.fromJson(Map<String, dynamic> json) => _$IdNameFromJson(json);
+  factory IdName.empty() => IdName(id: 0, name: '');
 }
 
 @freezed
 abstract class PrescriptionFormState with _$PrescriptionFormState {
   const factory PrescriptionFormState({
     required int patientId,
+    required IdName patient,
+    required IdName doctor,
     required int doctorId,
     @Default('') String diagnosis,
+    // @Default('') String diagnosis,
     @Default([]) List<PrescriptionItemForm> items,
     @Default(false) bool isLoading,
     String? errorMessage,
   }) = _PrescriptionFormState;
 }
 
+// const idname = IdName.empty();
 @freezed
 abstract class PrescriptionItemForm with _$PrescriptionItemForm {
   const factory PrescriptionItemForm({
     @Default('') String drugId,
+    // @Default('') String drugName,
+    required IdName drug,
     @Default('') String quantity,
     @Default('') String dosage,
     @Default('') String frequency,
@@ -60,11 +47,14 @@ abstract class PrescriptionItemForm with _$PrescriptionItemForm {
     @Default(true) bool isExpanded,
   }) = _PrescriptionItemForm;
 
+  factory PrescriptionItemForm.empty() =>
+      PrescriptionItemForm(drug: IdName.empty());
+
   const PrescriptionItemForm._();
 
   int? get drugIdInt => int.tryParse(drugId);
   int? get quantityInt => int.tryParse(quantity);
-    bool get isComplete {
+  bool get isComplete {
     return drugId.isNotEmpty &&
         drugIdInt != null &&
         quantity.isNotEmpty &&
@@ -78,14 +68,15 @@ abstract class PrescriptionItemForm with _$PrescriptionItemForm {
 @riverpod
 class PrescriptionForm extends _$PrescriptionForm {
   @override
-  PrescriptionFormState build({
-    required int patientId,
-    required int doctorId,
-  }) {
+  PrescriptionFormState build({required int patientId, required int doctorId}) {
     return PrescriptionFormState(
       patientId: patientId,
       doctorId: doctorId,
-      items: [PrescriptionItemForm()], // Start with one empty item
+      items: [
+        PrescriptionItemForm(drug: IdName.empty()),
+      ], // Start with one empty item
+      doctor: IdName.empty(),
+      patient: IdName.empty(),
     );
   }
 
@@ -93,9 +84,17 @@ class PrescriptionForm extends _$PrescriptionForm {
     state = state.copyWith(diagnosis: diagnosis);
   }
 
+  void updatePatient(IdName p) {
+    state = state.copyWith(patient: p);
+  }
+
+  void updateDoctor(IdName p) {
+    state = state.copyWith(doctor: p);
+  }
+
   void addNewItem() {
     state = state.copyWith(
-      items: [...state.items, PrescriptionItemForm()],
+      items: [...state.items, PrescriptionItemForm.empty()],
     );
   }
 
@@ -107,6 +106,16 @@ class PrescriptionForm extends _$PrescriptionForm {
     }
   }
 
+  void updateItemDrug({required int index, required IdName drug1}) {
+    final newItems = List<PrescriptionItemForm>.from(state.items);
+    final oldItem = newItems[index];
+
+    final updatedItem = oldItem.copyWith(drug: drug1);
+
+    newItems[index] = updatedItem;
+    state = state.copyWith(items: newItems);
+  }
+
   void updateItemField({
     required int index,
     required String field,
@@ -114,7 +123,28 @@ class PrescriptionForm extends _$PrescriptionForm {
   }) {
     final newItems = List<PrescriptionItemForm>.from(state.items);
     final oldItem = newItems[index];
-    
+    // final drug1 = oldItem.drug.c
+
+    final updatedItem = oldItem.copyWith(
+      drugId: field == 'drugId' ? value : oldItem.drugId,
+      // drug: field == 'drugId'
+      //     ? oldItem.drug.copyWith(id: int.tryParse(value) ?? oldItem.drug.id)
+      //     : oldItem.drug,
+      quantity: field == 'quantity' ? value : oldItem.quantity,
+      dosage: field == 'dosage' ? value : oldItem.dosage,
+      frequency: field == 'frequency' ? value : oldItem.frequency,
+      duration: field == 'duration' ? value : oldItem.duration,
+      instructions: field == 'instructions' ? value : oldItem.instructions,
+    );
+
+    newItems[index] = updatedItem;
+    state = state.copyWith(items: newItems);
+  }
+
+  void updateItemField2(int index, String field, String value) {
+    final newItems = List<PrescriptionItemForm>.from(state.items);
+    final oldItem = newItems[index];
+
     final updatedItem = oldItem.copyWith(
       drugId: field == 'drugId' ? value : oldItem.drugId,
       quantity: field == 'quantity' ? value : oldItem.quantity,
@@ -123,7 +153,7 @@ class PrescriptionForm extends _$PrescriptionForm {
       duration: field == 'duration' ? value : oldItem.duration,
       instructions: field == 'instructions' ? value : oldItem.instructions,
     );
-    
+
     newItems[index] = updatedItem;
     state = state.copyWith(items: newItems);
   }
@@ -134,37 +164,38 @@ class PrescriptionForm extends _$PrescriptionForm {
 
   bool get isFormValid {
     if (state.diagnosis.isEmpty) return false;
-    
+
     for (final item in state.items) {
-      if (item.drugId.isEmpty ||
+      if (item.drug.id != 0 ||
           item.quantity.isEmpty ||
           item.dosage.isEmpty ||
           item.frequency.isEmpty ||
           item.duration.isEmpty) {
         return false;
       }
-      
+
       if (item.drugIdInt == null || item.quantityInt == null) {
         return false;
       }
     }
-    
+
     return true;
   }
 
-  PrescriptionRequest toRequest() {
-    return PrescriptionRequest(
-      patientId: state.patientId,
-      doctorId: state.doctorId,
+  CreatePrescriptionRequest toRequest() {
+    return CreatePrescriptionRequest(
+      patientId: state.patient.id,
+      doctorId: state.doctor.id,
       diagnosis: state.diagnosis,
       items: state.items.map((item) {
         return PrescriptionItem(
-          drugId: item.drugIdInt!,
+          drugId: item.drug.id,
           quantity: item.quantityInt!,
           dosage: item.dosage,
           frequency: item.frequency,
           duration: item.duration,
-          instructions: item.instructions.isNotEmpty ? item.instructions : null,
+          instructions: item.instructions,
+          // instructions: item.instructions.isNotEmpty ? item.instructions : '',
         );
       }).toList(),
     );
@@ -178,12 +209,16 @@ class PrescriptionForm extends _$PrescriptionForm {
   }
 
   void expandAllItems() {
-    final newItems = state.items.map((item) => item.copyWith(isExpanded: true)).toList();
+    final newItems = state.items
+        .map((item) => item.copyWith(isExpanded: true))
+        .toList();
     state = state.copyWith(items: newItems);
   }
 
   void collapseAllItems() {
-    final newItems = state.items.map((item) => item.copyWith(isExpanded: false)).toList();
+    final newItems = state.items
+        .map((item) => item.copyWith(isExpanded: false))
+        .toList();
     state = state.copyWith(items: newItems);
   }
 }

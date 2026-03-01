@@ -17,3 +17,10 @@ String? emailValidator(String? value) {
   }
   return null;
 }
+
+String? notEmptyValidator(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'you must add one letter at least';
+  }
+  return null;
+}

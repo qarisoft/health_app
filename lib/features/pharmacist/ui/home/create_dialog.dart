@@ -1,7 +1,17 @@
 // lib/features/prescription/presentation/pages/create_prescription_page.dart
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/core/constants/_all.dart';
+import 'package:health_app/di.dart';
+import 'package:health_app/features/auth/data/responses/base/base_response.dart';
+import 'package:health_app/features/doctor/data/providers/search_patient.dart'
+    show medicationSearchResultsProvider, MedicationSearchResult;
 import 'package:health_app/features/pharmacist/data/providers/create_rescription.dart';
+import 'package:health_app/features/pharmacist/data/providers/search_provider.dart';
+import 'package:health_app/features/pharmacist/data/requests/create_prescription.dart';
+import 'package:health_app/shared/functions.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 // import '../providers/prescription_provider.dart';
 
 class CreatePrescriptionPage extends ConsumerWidget {
@@ -14,17 +24,52 @@ class CreatePrescriptionPage extends ConsumerWidget {
     required this.doctorId,
   });
 
+  Future<void> onSubmit(
+    CreatePrescriptionRequest req,
+    VoidCallback whenComplete,
+  ) async {
+    AppDialog().loading();
+    xlog(req.toJson());
+
+    try {
+      final res = await getDio.post(
+        '/Pharmacist/create-prescription',
+        data: req.toJson(),
+      );
+      AppDialog().dismiss();
+      final res2 = GeneralStatusResponse.fromJson(res.data);
+      // try {
+      // xlog(res.data);
+      if (res2.success ?? false) {
+        AppDialog()
+            .show(type: DialogType.success, message: 'Success')
+            .whenComplete(whenComplete);
+      } else {
+        // } catch (e) {
+        AppDialog().show(type: DialogType.error, message: res2.message??'server error');
+      }
+      // }
+    } catch (e) {
+      AppDialog().dismiss();
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formProvider = ref.watch(prescriptionFormProvider(
-      patientId: patientId,
-      doctorId: doctorId,
-    ).notifier);
-    
-    final formState = ref.watch(prescriptionFormProvider(
-      patientId: patientId,
-      doctorId: doctorId,
-    ));
+    final formProvider = ref.watch(
+      prescriptionFormProvider(
+        patientId: patientId,
+        doctorId: doctorId,
+      ).notifier,
+    );
+
+    final formState = ref.watch(
+      prescriptionFormProvider(patientId: patientId, doctorId: doctorId),
+    );
+
+    whenComplete() {
+      context.pop();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -59,30 +104,54 @@ class CreatePrescriptionPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Info
-              _buildHeaderInfo(formState),
+              // Header Info Widget
+              _HeaderWidget(
+                patient: formState.patient,
+                doctor: formState.doctor,
+                onUpdateDoctor: formProvider.updateDoctor,
+                onUpdatePatient: formProvider.updatePatient,
+              ),
               const SizedBox(height: 24),
-              
-              // Diagnosis Section
-              _buildDiagnosisSection(formState, formProvider),
+
+              // Diagnosis Widget
+              _DiagnosisWidget(
+                diagnosis: formState.diagnosis,
+                onDiagnosisChanged: (value) {
+                  formProvider.updateDiagnosis(value);
+                  formProvider.clearError();
+                },
+              ),
               const SizedBox(height: 32),
-              
-              // Medications Header with Summary
-              _buildMedicationsHeader(formState, formProvider),
-              const SizedBox(height: 16),
-              
-              // Medications List
-              _buildMedicationsList(formState, formProvider),
+
+              // Medications Widget
+              _MedicationsWidget(
+                items: formState.items,
+                onToggleExpand: formProvider.toggleItemExpansion,
+                onRemoveItem: formProvider.removeItem,
+                onUpdateField: formProvider.updateItemField2,
+                onExpandAll: formProvider.expandAllItems,
+                onCollapseAll: formProvider.collapseAllItems,
+                onUpdateItemDrug: (index, idname) =>
+                    formProvider.updateItemDrug(index: index, drug1: idname),
+                onAddNew: () {
+                  formProvider.addNewItem();
+                  // Expand the newly added item
+                  final newIndex = formState.items.length - 1;
+                  formProvider.toggleItemExpansion(newIndex);
+                },
+              ),
               const SizedBox(height: 24),
-              
+              ElevatedButton(
+                onPressed: () =>
+                    onSubmit(formProvider.toRequest(), whenComplete),
+                child: Text('submit'),
+              ),
+
               // Error Message
               if (formState.errorMessage != null) ...[
                 _buildErrorMessage(formState.errorMessage!),
                 const SizedBox(height: 16),
               ],
-              
-              // Add Medication Button
-              _buildAddButton(formProvider),
             ],
           ),
         ),
@@ -90,80 +159,304 @@ class CreatePrescriptionPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeaderInfo(PrescriptionFormState state) {
+  Widget _buildErrorMessage(String message) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.red[50],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.red[100]!),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.error_outline, color: Colors.red),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(message, style: const TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void onSuccess(BuildContext context) {
+    // Show success
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Prescription created successfully'),
+        backgroundColor: Colors.green,
+      ),
+    );
+
+    // Navigate back
+    Navigator.pop(context, true);
+  }
+
+  Future<void> _submitPrescription(WidgetRef ref, BuildContext context) async {
+    final formProvider = ref.read(
+      prescriptionFormProvider(
+        patientId: patientId,
+        doctorId: doctorId,
+      ).notifier,
+    );
+
+    try {
+      // Here you would call your repository/service
+      // final request =
+      formProvider.toRequest();
+
+      // Simulate API call
+      await Future.delayed(const Duration(seconds: 1));
+    } catch (e) {
+      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+      );
+    }
+  }
+}
+
+// Header Widget
+class _HeaderWidget extends StatefulWidget {
+  final IdName patient;
+  final IdName doctor;
+  final Function(IdName p) onUpdatePatient;
+  final Function(IdName d) onUpdateDoctor;
+
+  const _HeaderWidget({
+    required this.onUpdatePatient,
+    required this.onUpdateDoctor,
+    required this.patient,
+    required this.doctor,
+  });
+
+  @override
+  State<_HeaderWidget> createState() => _HeaderWidgetState();
+}
+
+class _HeaderWidgetState extends State<_HeaderWidget> {
+  int get patientId => widget.patient.id;
+  int get doctorId => widget.doctor.id;
+  void _handelOnPatientSearch() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Consumer(
+              builder: (context, ref, child) {
+                final patients = ref.watch(searchPatientsProvider);
+                return patients.when(
+                  data: (List<IdName> data) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.70,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  ...data.map(
+                                    (m) => ListTile(
+                                      onTap: () {
+                                        widget.onUpdatePatient(m);
+                                        context.pop();
+                                      },
+                                      title: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 3,
+                                        ),
+                                        child: Row(children: [Text(m.name)]),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  error: (Object error, StackTrace stackTrace) {
+                    return SizedBox(child: Text(error.toString()));
+                  },
+                  loading: () {
+                    return SizedBox(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void handelOnDoctorSearch() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Consumer(
+              builder: (context, ref, child) {
+                final patients = ref.watch(searchDoctorsProvider);
+                return patients.when(
+                  data: (List<IdName> data) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.70,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  ...data.map(
+                                    (m) => ListTile(
+                                      onTap: () {
+                                        widget.onUpdateDoctor(m);
+                                        context.pop();
+                                      },
+                                      title: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 3,
+                                        ),
+                                        child: Row(children: [Text(m.name)]),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  error: (Object error, StackTrace stackTrace) {
+                    return SizedBox(child: Text(error.toString()));
+                  },
+                  loading: () {
+                    return SizedBox(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Column(
-              children: [
-                const Text(
-                  'Patient ID',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
+            // Patient Section
+            Expanded(
+              child: GestureDetector(
+                onTap: _handelOnPatientSearch,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Patient',
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 4),
+                    Flexible(
+                      child: Text(
+                        widget.patient.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  state.patientId.toString(),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+              ),
             ),
-            Container(
-              height: 40,
-              width: 1,
-              color: Colors.grey[300],
+
+            // Divider
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Container(height: 40, width: 1, color: Colors.grey[300]),
             ),
-            Column(
-              children: [
-                const Text(
-                  'Doctor ID',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
+
+            // Doctor Section
+            Expanded(
+              child: GestureDetector(
+                onTap: handelOnDoctorSearch,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Doctor',
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 4),
+                    Flexible(
+                      child: Text(
+                        widget.doctor.name,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  state.doctorId.toString(),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildDiagnosisSection(
-    PrescriptionFormState state,
-    PrescriptionForm formProvider,
-  ) {
+// Diagnosis Widget
+class _DiagnosisWidget extends StatelessWidget {
+  final String diagnosis;
+  final ValueChanged<String> onDiagnosisChanged;
+
+  const _DiagnosisWidget({
+    required this.diagnosis,
+    required this.onDiagnosisChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           'Diagnosis',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
         TextFormField(
-          initialValue: state.diagnosis,
+          initialValue: diagnosis,
           maxLines: 3,
           decoration: const InputDecoration(
             hintText: 'Enter patient diagnosis...',
@@ -171,100 +464,141 @@ class CreatePrescriptionPage extends ConsumerWidget {
             filled: true,
             fillColor: Colors.white,
           ),
-          onChanged: (value) {
-            formProvider.updateDiagnosis(value);
-            formProvider.clearError();
+          onChanged: onDiagnosisChanged,
+        ),
+      ],
+    );
+  }
+}
+
+// Medications Widget
+class _MedicationsWidget extends StatefulWidget {
+  final List<PrescriptionItemForm> items;
+  final Function(int) onToggleExpand;
+  final Function(int) onRemoveItem;
+  final void Function(int, String, String) onUpdateField;
+  final void Function(int, IdName) onUpdateItemDrug;
+  final VoidCallback onExpandAll;
+  final VoidCallback onCollapseAll;
+  final VoidCallback onAddNew;
+
+  const _MedicationsWidget({
+    required this.items,
+    required this.onToggleExpand,
+    required this.onRemoveItem,
+    required this.onUpdateField,
+    required this.onExpandAll,
+    required this.onCollapseAll,
+    required this.onAddNew,
+    required this.onUpdateItemDrug,
+  });
+
+  @override
+  State<_MedicationsWidget> createState() => _MedicationsWidgetState();
+}
+
+class _MedicationsWidgetState extends State<_MedicationsWidget> {
+  @override
+  Widget build(BuildContext context) {
+    final completedItems = widget.items.where((item) => item.isComplete).length;
+    final totalItems = widget.items.length;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 10,
+      children: [
+        // Medications Header
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Medications',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '$completedItems of $totalItems completed',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: completedItems == totalItems
+                        ? Colors.green
+                        : Colors.orange,
+                  ),
+                ),
+              ],
+            ),
+            // Quick Actions
+            Row(
+              children: [
+                // Expand All Button
+                Tooltip(
+                  message: 'Expand All',
+                  child: IconButton(
+                    icon: const Icon(Icons.expand, size: 20),
+                    onPressed: widget.onExpandAll,
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.grey[100],
+                      padding: const EdgeInsets.all(8),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // Collapse All Button
+                Tooltip(
+                  message: 'Collapse All',
+                  child: IconButton(
+                    icon: const Icon(Icons.compress, size: 20),
+                    onPressed: widget.onCollapseAll,
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.grey[100],
+                      padding: const EdgeInsets.all(8),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+
+        // Medications List
+        ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: widget.items.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            return _buildCollapsibleMedicationCard(index, widget.items[index]);
           },
         ),
-      ],
-    );
-  }
 
-  Widget _buildMedicationsHeader(
-    PrescriptionFormState state,
-    PrescriptionForm formProvider,
-  ) {
-    final completedItems = state.items.where((item) => item.isComplete).length;
-    final totalItems = state.items.length;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Medications',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
+        // Add Medication Button
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            icon: const Icon(Icons.add_circle_outline, size: 20),
+            label: const Text('Add New Medication'),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              backgroundColor: Colors.blue[50],
+              foregroundColor: Colors.blue[700],
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(color: Colors.blue.shade100),
               ),
             ),
-            const SizedBox(height: 4),
-            Text(
-              '$completedItems of $totalItems completed',
-              style: TextStyle(
-                fontSize: 14,
-                color: completedItems == totalItems ? Colors.green : Colors.orange,
-              ),
-            ),
-          ],
-        ),
-        // Quick Actions
-        Row(
-          children: [
-            // Expand All Button
-            Tooltip(
-              message: 'Expand All',
-              child: IconButton(
-                icon: const Icon(Icons.expand, size: 20),
-                onPressed: formProvider.expandAllItems,
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.grey[100],
-                  padding: const EdgeInsets.all(8),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            // Collapse All Button
-            Tooltip(
-              message: 'Collapse All',
-              child: IconButton(
-                icon: const Icon(Icons.compress, size: 20),
-                onPressed: formProvider.collapseAllItems,
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.grey[100],
-                  padding: const EdgeInsets.all(8),
-                ),
-              ),
-            ),
-          ],
+            onPressed: widget.onAddNew,
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildMedicationsList(
-    PrescriptionFormState state,
-    PrescriptionForm formProvider,
-  ) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: state.items.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        return _buildCollapsibleMedicationCard(index, state.items[index], formProvider);
-      },
-    );
-  }
-
-  Widget _buildCollapsibleMedicationCard(
-    int index,
-    PrescriptionItemForm item,
-    PrescriptionForm formProvider,
-  ) {
+  Widget _buildCollapsibleMedicationCard(int index, PrescriptionItemForm item) {
     return Card(
       elevation: 1,
       clipBehavior: Clip.antiAlias,
@@ -278,20 +612,234 @@ class CreatePrescriptionPage extends ConsumerWidget {
       child: Column(
         children: [
           // Header (Always visible)
-          _buildMedicationHeader(index, item, formProvider),
-          
+          _buildMedicationHeader(index, item),
+
           // Collapsible Content
-          if (item.isExpanded) _buildMedicationContent(index, item, formProvider),
+          if (item.isExpanded) _buildMedicationContent(index, item),
         ],
       ),
     );
   }
 
-  Widget _buildMedicationHeader(
-    int index,
-    PrescriptionItemForm item,
-    PrescriptionForm formProvider,
-  ) {
+  void handelSearchDialog(int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final controller = TextEditingController();
+        final k = GlobalKey<FormState>();
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Consumer(
+              builder: (context, ref, child) {
+                final drugs = ref.watch(medicationSearchResultsProvider);
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.70,
+                  child: Column(
+                    children: [
+                      Form(
+                        key: k,
+                        child: Column(
+                          spacing: 6,
+                          children: [
+                            Row(children: [Text('search')]),
+                            TextFormField(
+                              controller: controller,
+                              validator: notEmptyValidator,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () async {
+                          if (k.currentState!.validate()) {
+                            // xlog('ssssssssssssssssssssssssssss');
+                            // ref.invalidate(searchMedicationProvider(identifier: ''));
+                            final dio = getDio;
+                            final res = await dio.get(
+                              '/Pharmacist/search-drugs?query=${controller.text}',
+                            );
+                            final data = res.data;
+                            // xlog(data.toString());
+                            xlog(data.runtimeType);
+                            if (data.runtimeType == List) {
+                              final d = (data as List<dynamic>)
+                                  .map(
+                                    (s) => MedicationSearchResult.fromJson(s),
+                                  )
+                                  .toList();
+                              if (d.runtimeType ==
+                                  List<MedicationSearchResult>) {
+                                ref
+                                    .read(
+                                      medicationSearchResultsProvider.notifier,
+                                    )
+                                    .init(d);
+                              }
+                            }
+                          }
+                        },
+                        child: Text('search'),
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              ...drugs.map(
+                                (m) => ListTile(
+                                  onTap: () {
+                                    widget.onUpdateItemDrug(
+                                      index,
+                                      IdName(
+                                        name:
+                                            m.brandName ?? m.chemicalName ?? '',
+                                        id: m.drugId,
+                                      ),
+                                    );
+
+                                    context.pop();
+                                  },
+                                  title: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 3,
+                                    ),
+                                    child: Row(
+                                      children: [Text(m.brandName ?? '')],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMedicationContent(int index, PrescriptionItemForm item) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          _buildTextFieldRow(
+            label: 'Drug ID',
+            value: item.drug.name,
+            readOnly: true,
+
+            icon: Icons.medication_outlined,
+            onChanged: (value) => {},
+            // keyboardType: TextInputType.number,
+            isRequired: true,
+            labelLeading: IconButton(
+              onPressed: () => handelSearchDialog(index),
+              icon: Icon(Icons.search),
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          Row(
+            children: [
+              Expanded(
+                child: _buildTextFieldRow(
+                  label: 'Quantity',
+                  value: item.quantity,
+                  icon: Icons.format_list_numbered,
+                  onChanged: (value) =>
+                      widget.onUpdateField(index, 'quantity', value),
+                  keyboardType: TextInputType.number,
+                  isRequired: true,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildTextFieldRow(
+                  label: 'Dosage',
+                  value: item.dosage,
+                  icon: Icons.scale_outlined,
+                  onChanged: (value) =>
+                      widget.onUpdateField(index, 'dosage', value),
+                  hint: 'e.g., 500mg',
+                  isRequired: true,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          Row(
+            children: [
+              Expanded(
+                child: _buildTextFieldRow(
+                  label: 'Frequency',
+                  value: item.frequency,
+                  icon: Icons.schedule_outlined,
+                  onChanged: (value) =>
+                      widget.onUpdateField(index, 'frequency', value),
+                  hint: 'e.g., Twice daily',
+                  isRequired: true,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildTextFieldRow(
+                  label: 'Duration',
+                  value: item.duration,
+                  icon: Icons.calendar_today_outlined,
+                  onChanged: (value) =>
+                      widget.onUpdateField(index, 'duration', value),
+                  hint: 'e.g., 7 days',
+                  isRequired: true,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          _buildTextFieldRow(
+            label: 'Special Instructions (Optional)',
+            value: item.instructions,
+            icon: Icons.info_outline,
+            onChanged: (value) =>
+                widget.onUpdateField(index, 'instructions', value),
+            maxLines: 2,
+          ),
+
+          // Quick Actions
+          if (item.isExpanded)
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  OutlinedButton.icon(
+                    icon: const Icon(Icons.check, size: 16),
+                    label: const Text('Done'),
+                    onPressed: () => widget.onToggleExpand(index),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMedicationHeader(int index, PrescriptionItemForm item) {
     return Container(
       color: item.isExpanded ? Colors.blue[50] : Colors.grey[50],
       child: ListTile(
@@ -311,16 +859,16 @@ class CreatePrescriptionPage extends ConsumerWidget {
                 item.isExpanded ? Icons.expand_less : Icons.expand_more,
                 color: Colors.blue,
               ),
-              onPressed: () => formProvider.toggleItemExpansion(index),
+              onPressed: () => widget.onToggleExpand(index),
               style: IconButton.styleFrom(
                 visualDensity: VisualDensity.compact,
                 padding: EdgeInsets.zero,
               ),
             ),
-            if (formProvider.state.items.length > 1)
+            if (widget.items.length > 1)
               IconButton(
                 icon: const Icon(Icons.delete_outline, size: 18),
-                onPressed: () => formProvider.removeItem(index),
+                onPressed: () => widget.onRemoveItem(index),
                 color: Colors.red,
                 style: IconButton.styleFrom(
                   visualDensity: VisualDensity.compact,
@@ -329,7 +877,7 @@ class CreatePrescriptionPage extends ConsumerWidget {
               ),
           ],
         ),
-        onTap: () => formProvider.toggleItemExpansion(index),
+        onTap: () => widget.onToggleExpand(index),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
     );
@@ -358,13 +906,12 @@ class CreatePrescriptionPage extends ConsumerWidget {
   }
 
   Widget _buildMedicationTitle(int index, PrescriptionItemForm item) {
-    final drugName = item.drugId.isNotEmpty ? 'Drug #${item.drugId}' : 'New Medication';
+    final drugName = item.drug.name.isNotEmpty
+        ? item.drug.name
+        : 'New Medication';
     return Text(
       '${index + 1}. $drugName',
-      style: const TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: 15,
-      ),
+      style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
     );
   }
 
@@ -379,148 +926,14 @@ class CreatePrescriptionPage extends ConsumerWidget {
     } else if (item.drugId.isNotEmpty || item.dosage.isNotEmpty) {
       return Text(
         'Incomplete • Tap to edit',
-        style: TextStyle(
-          fontSize: 12,
-          color: Colors.orange[700],
-        ),
+        style: TextStyle(fontSize: 12, color: Colors.orange[700]),
       );
     } else {
       return const Text(
         'Empty • Tap to add details',
-        style: TextStyle(
-          fontSize: 12,
-          color: Colors.grey,
-        ),
+        style: TextStyle(fontSize: 12, color: Colors.grey),
       );
     }
-  }
-
-  Widget _buildMedicationContent(
-    int index,
-    PrescriptionItemForm item,
-    PrescriptionForm formProvider,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          _buildTextFieldRow(
-            label: 'Drug ID',
-            value: item.drugId,
-            icon: Icons.medication_outlined,
-            onChanged: (value) => formProvider.updateItemField(
-              index: index,
-              field: 'drugId',
-              value: value,
-            ),
-            keyboardType: TextInputType.number,
-            isRequired: true,
-          ),
-          const SizedBox(height: 12),
-          
-          Row(
-            children: [
-              Expanded(
-                child: _buildTextFieldRow(
-                  label: 'Quantity',
-                  value: item.quantity,
-                  icon: Icons.format_list_numbered,
-                  onChanged: (value) => formProvider.updateItemField(
-                    index: index,
-                    field: 'quantity',
-                    value: value,
-                  ),
-                  keyboardType: TextInputType.number,
-                  isRequired: true,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildTextFieldRow(
-                  label: 'Dosage',
-                  value: item.dosage,
-                  icon: Icons.scale_outlined,
-                  onChanged: (value) => formProvider.updateItemField(
-                    index: index,
-                    field: 'dosage',
-                    value: value,
-                  ),
-                  hint: 'e.g., 500mg',
-                  isRequired: true,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          
-          Row(
-            children: [
-              Expanded(
-                child: _buildTextFieldRow(
-                  label: 'Frequency',
-                  value: item.frequency,
-                  icon: Icons.schedule_outlined,
-                  onChanged: (value) => formProvider.updateItemField(
-                    index: index,
-                    field: 'frequency',
-                    value: value,
-                  ),
-                  hint: 'e.g., Twice daily',
-                  isRequired: true,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildTextFieldRow(
-                  label: 'Duration',
-                  value: item.duration,
-                  icon: Icons.calendar_today_outlined,
-                  onChanged: (value) => formProvider.updateItemField(
-                    index: index,
-                    field: 'duration',
-                    value: value,
-                  ),
-                  hint: 'e.g., 7 days',
-                  isRequired: true,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          
-          _buildTextFieldRow(
-            label: 'Special Instructions (Optional)',
-            value: item.instructions,
-            icon: Icons.info_outline,
-            onChanged: (value) => formProvider.updateItemField(
-              index: index,
-              field: 'instructions',
-              value: value,
-            ),
-            maxLines: 2,
-          ),
-          
-          // Quick Actions
-          if (item.isExpanded)
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  OutlinedButton.icon(
-                    icon: const Icon(Icons.check, size: 16),
-                    label: const Text('Done'),
-                    onPressed: () => formProvider.toggleItemExpansion(index),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
   }
 
   Widget _buildTextFieldRow({
@@ -528,10 +941,12 @@ class CreatePrescriptionPage extends ConsumerWidget {
     required String value,
     required IconData icon,
     required ValueChanged<String> onChanged,
+    Widget? labelLeading,
     TextInputType keyboardType = TextInputType.text,
     int maxLines = 1,
     String? hint,
     bool isRequired = false,
+    bool readOnly = false,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -545,112 +960,32 @@ class CreatePrescriptionPage extends ConsumerWidget {
             if (isRequired)
               const Padding(
                 padding: EdgeInsets.only(left: 4),
-                child: Text(
-                  '*',
-                  style: TextStyle(color: Colors.red),
-                ),
+                child: Text('*', style: TextStyle(color: Colors.red)),
               ),
+            if (labelLeading != null) labelLeading,
           ],
         ),
         const SizedBox(height: 4),
-        TextFormField(
-          initialValue: value,
-          decoration: InputDecoration(
-            hintText: hint,
-            prefixIcon: Icon(icon, size: 20),
-            border: const OutlineInputBorder(),
-            contentPadding:  EdgeInsets.symmetric(horizontal: 12, vertical: maxLines > 1 ? 12 : 0),
-            filled: true,
-            fillColor: Colors.white,
+        if (readOnly) Row(children: [Text(value.isNotEmpty ? value : '...')]),
+        if (!readOnly)
+          TextFormField(
+            initialValue: value,
+            decoration: InputDecoration(
+              hintText: hint,
+              prefixIcon: Icon(icon, size: 20),
+              border: const OutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: maxLines > 1 ? 12 : 0,
+              ),
+              filled: true,
+              fillColor: Colors.white,
+            ),
+            keyboardType: keyboardType,
+            maxLines: maxLines,
+            onChanged: onChanged,
           ),
-          keyboardType: keyboardType,
-          maxLines: maxLines,
-          onChanged: onChanged,
-        ),
       ],
     );
-  }
-
-  Widget _buildErrorMessage(String message) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.red[50],
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.red[100]!),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.error_outline, color: Colors.red),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.red),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAddButton(PrescriptionForm formProvider) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton.icon(
-        icon: const Icon(Icons.add_circle_outline, size: 20),
-        label: const Text('Add New Medication'),
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          backgroundColor: Colors.blue[50],
-          foregroundColor: Colors.blue[700],
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: BorderSide(color: Colors.blue.shade100),
-          ),
-        ),
-        onPressed: () {
-          formProvider.addNewItem();
-          // Expand the newly added item
-          final newIndex = formProvider.state.items.length - 1;
-          formProvider.toggleItemExpansion(newIndex);
-        },
-      ),
-    );
-  }
-
-  Future<void> _submitPrescription(WidgetRef ref, BuildContext context) async {
-    final formProvider = ref.read(prescriptionFormProvider(
-      patientId: patientId,
-      doctorId: doctorId,
-    ).notifier);
-    
-    try {
-      // Here you would call your repository/service
-      final request = formProvider.toRequest();
-      
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 1));
-      
-      // Show success
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Prescription created successfully'),
-          backgroundColor: Colors.green,
-        ),
-      );
-      
-      // Navigate back
-      Navigator.pop(context, true);
-    } catch (e) {
-      // Handle error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
   }
 }
