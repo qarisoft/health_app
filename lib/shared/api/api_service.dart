@@ -137,6 +137,11 @@ class ApiService {
     return _handleResponse(response);
   }
 
+  Future<Map<String, dynamic>> activatePharmacistAsPatientProfile() async {
+    final response = await _dio.post('/Pharmacist/activate-patient-profile');
+    return _handleResponse(response);
+  }
+
   Future<Map<String, dynamic>> doctorStatistics() async {
     final response = await _dio.get('/Doctordashboard/insights');
     return _handleResponse(response);

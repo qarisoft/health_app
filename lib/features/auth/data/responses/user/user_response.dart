@@ -45,6 +45,21 @@ class DoctorAsPatientResponse extends BaseResponse {
 }
 
 @JsonSerializable()
+class PharmacistAsPatientResponse extends BaseResponse {
+  final String? token;
+
+  PharmacistAsPatientResponse({
+    required super.success,
+    super.message,
+    this.token,
+  });
+
+  factory PharmacistAsPatientResponse.fromJson(Map<String, dynamic> json) {
+    return _$PharmacistAsPatientResponseFromJson(json);
+  }
+}
+
+@JsonSerializable()
 class PatientRegisterResponse extends BaseResponse {
   final RegisterData? data;
 

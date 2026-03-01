@@ -176,7 +176,7 @@ class PrescriptionCard extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text("Diagnosis: ${prescription.diagnosis}"),
-        trailing: _buildPopupMenu(context),
+        trailing: _buildPopupMenu(context, prescription),
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -272,7 +272,7 @@ class PrescriptionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPopupMenu(BuildContext context) {
+  Widget _buildPopupMenu(BuildContext context, Prescription prescription) {
     return Consumer(
       builder: (context, ref, _) {
         return PopupMenuButton(
@@ -285,8 +285,9 @@ class PrescriptionCard extends StatelessWidget {
             if (val == 'change-status') _handleChangestatus(context, ref);
           },
           itemBuilder: (context) => [
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'check',
+              enabled: prescription.status != 2,
               child: ListTile(
                 leading: Icon(Icons.security, color: Colors.green),
                 title: Text("Drug Interactions"),

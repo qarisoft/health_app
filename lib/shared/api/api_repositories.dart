@@ -344,6 +344,19 @@ class AppRepositories {
   }
 
   Future<void> _getPharmacistProfile() async {
+    try {
+      final json2 = await api.activatePharmacistAsPatientProfile();
+      xlog(json2);
+      final res3 = DoctorAsPatientResponse.fromJson(json2);
+      if (res3.success.isN()) {
+        final token = res3.token;
+        if (token != null) {
+          await storage.setUserToken(token);
+        }
+      }
+      await _getPatientProfile();
+    } catch (e) {}
+
     final json = await api.getPharmacistProfile();
 
     xlog(json);

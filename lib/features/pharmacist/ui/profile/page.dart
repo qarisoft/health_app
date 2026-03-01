@@ -18,6 +18,8 @@ import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
+import '../../../home/ui/pages/p.dart' as patientApp;
+
 // import 'package:freezed_annotation/freezed_annotation.dart';
 // import 'package:health_app/features/auth/domain/models/patient.dart';
 class PharmacistProfilePage1 extends ConsumerWidget {
@@ -62,7 +64,7 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'تعديل الملف الشخصي' : 'الملف الشخصي للطبيب'),
+        title: Text(_isEditing ? 'تعديل الملف الشخصي' : 'الملف الشخصي للصيدلي'),
         centerTitle: true,
         actions: [
           if (!_isEditing)
@@ -231,10 +233,28 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
   Widget _buildProfileView() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 15,
       children: [
         // Profile Header
         _buildProfileHeader(),
-        const SizedBox(height: 24),
+        Consumer(
+          builder: (context, ref, _) {
+            final patientAc = ref.watch(
+              allAcountsProvider.select((s) => s.patient),
+            );
+            xlog(patientAc);
+            return TextButton(
+              onPressed: () {
+                xlog(patientAc);
+                if (patientAc != null) {
+                  ref.read(accountProvider.notifier).changeAccount(patientAc);
+                  context.to(patientApp.HomePage());
+                }
+              },
+              child: Text('login as patient'),
+            );
+          },
+        ),
 
         // Personal Information
         _buildSection(
@@ -258,10 +278,28 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
           ],
         ),
 
-        const SizedBox(height: 20),
-
+        // Personal Information
+        _buildSection(
+          title: 'معلومات المهنة',
+          children: [
+            _buildInfoItem(
+              icon: Icons.person,
+              label: 'اسم الصيدلية',
+              value: _editedPharmacist.pharmacyName,
+            ),
+            _buildInfoItem(
+              icon: Icons.phone,
+              label: 'رقم الرخصة',
+              value: _editedPharmacist.licenseNumber,
+            ),
+            // _buildInfoItem(
+            //   icon: Icons.email,
+            //   label: 'البريد الإلكتروني',
+            //   value: _editedPharmacist.email,
+            // ),
+          ],
+        ),
         // Professional Information
-        const SizedBox(height: 20),
 
         // Account Information
         _buildSection(
