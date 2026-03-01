@@ -24,39 +24,6 @@ class CreatePrescriptionPage extends ConsumerWidget {
     required this.doctorId,
   });
 
-  Future<void> onSubmit(
-    CreatePrescriptionRequest req,
-    VoidCallback whenComplete,
-  ) async {
-    AppDialog().loading();
-    xlog(req.toJson());
-
-    try {
-      final res = await getDio.post(
-        '/Pharmacist/create-prescription',
-        data: req.toJson(),
-      );
-      AppDialog().dismiss();
-      final res2 = GeneralStatusResponse.fromJson(res.data);
-      // try {
-      // xlog(res.data);
-      if (res2.success ?? false) {
-        AppDialog()
-            .show(type: DialogType.success, message: 'Success')
-            .whenComplete(whenComplete);
-      } else {
-        // } catch (e) {
-        AppDialog().show(
-          type: DialogType.error,
-          message: res2.message ?? 'server error',
-        );
-      }
-      // }
-    } catch (e) {
-      AppDialog().dismiss();
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formProvider = ref.watch(
@@ -69,6 +36,39 @@ class CreatePrescriptionPage extends ConsumerWidget {
     final formState = ref.watch(
       prescriptionFormProvider(patientId: patientId, doctorId: doctorId),
     );
+    final key = GlobalKey<FormState>();
+    Future<void> onSubmit(
+      CreatePrescriptionRequest req,
+      VoidCallback whenComplete,
+    ) async {
+      AppDialog().loading();
+      xlog(req.toJson());
+
+      try {
+        final res = await getDio.post(
+          '/Pharmacist/create-prescription',
+          data: req.toJson(),
+        );
+        AppDialog().dismiss();
+        final res2 = GeneralStatusResponse.fromJson(res.data);
+        // try {
+        // xlog(res.data);
+        if (res2.success ?? false) {
+          AppDialog()
+              .show(type: DialogType.success, message: 'Success')
+              .whenComplete(whenComplete);
+        } else {
+          // } catch (e) {
+          AppDialog().show(
+            type: DialogType.error,
+            message: res2.message ?? 'server error',
+          );
+        }
+        // }
+      } catch (e) {
+        AppDialog().dismiss();
+      }
+    }
 
     whenComplete() {
       context.pop();
@@ -104,58 +104,64 @@ class CreatePrescriptionPage extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header Info Widget
-              _HeaderWidget(
-                patient: formState.patient,
-                doctor: formState.doctor,
-                onUpdateDoctor: formProvider.updateDoctor,
-                onUpdatePatient: formProvider.updatePatient,
-              ),
-              const SizedBox(height: 24),
+          child: Form(
+            key: key,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header Info Widget
+                _HeaderWidget(
+                  patient: formState.patient,
+                  doctor: formState.doctor,
+                  onUpdateDoctor: formProvider.updateDoctor,
+                  onUpdatePatient: formProvider.updatePatient,
+                ),
+                const SizedBox(height: 24),
 
-              // Diagnosis Widget
-              _DiagnosisWidget(
-                diagnosis: formState.diagnosis,
-                onDiagnosisChanged: (value) {
-                  formProvider.updateDiagnosis(value);
-                  formProvider.clearError();
-                },
-              ),
-              const SizedBox(height: 32),
+                // Diagnosis Widget
+                _DiagnosisWidget(
+                  diagnosis: formState.diagnosis,
+                  onDiagnosisChanged: (value) {
+                    formProvider.updateDiagnosis(value);
+                    formProvider.clearError();
+                  },
+                ),
+                const SizedBox(height: 32),
 
-              // Medications Widget
-              _MedicationsWidget(
-                items: formState.items,
-                onToggleExpand: formProvider.toggleItemExpansion,
-                onRemoveItem: formProvider.removeItem,
-                onUpdateField: formProvider.updateItemField2,
-                onExpandAll: formProvider.expandAllItems,
-                onCollapseAll: formProvider.collapseAllItems,
-                onUpdateItemDrug: (index, idname) =>
-                    formProvider.updateItemDrug(index: index, drug1: idname),
-                onAddNew: () {
-                  formProvider.addNewItem();
-                  // Expand the newly added item
-                  final newIndex = formState.items.length - 1;
-                  formProvider.toggleItemExpansion(newIndex);
-                },
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () =>
-                    onSubmit(formProvider.toRequest(), whenComplete),
-                child: Text('submit'),
-              ),
+                // Medications Widget
+                _MedicationsWidget(
+                  items: formState.items,
+                  onToggleExpand: formProvider.toggleItemExpansion,
+                  onRemoveItem: formProvider.removeItem,
+                  onUpdateField: formProvider.updateItemField2,
+                  onExpandAll: formProvider.expandAllItems,
+                  onCollapseAll: formProvider.collapseAllItems,
+                  onUpdateItemDrug: (index, idname) =>
+                      formProvider.updateItemDrug(index: index, drug1: idname),
+                  onAddNew: () {
+                    formProvider.addNewItem();
+                    // Expand the newly added item
+                    final newIndex = formState.items.length - 1;
+                    formProvider.closeItemExpansion(newIndex);
+                  },
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () {
+                    if (key.currentState!.validate()) {
+                      onSubmit(formProvider.toRequest(), whenComplete);
+                    }
+                  },
+                  child: Text('submit'),
+                ),
 
-              // Error Message
-              if (formState.errorMessage != null) ...[
-                _buildErrorMessage(formState.errorMessage!),
-                const SizedBox(height: 16),
+                // Error Message
+                if (formState.errorMessage != null) ...[
+                  _buildErrorMessage(formState.errorMessage!),
+                  const SizedBox(height: 16),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
@@ -373,7 +379,7 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
               child: GestureDetector(
                 onTap: _handelOnPatientSearch,
                 child: Container(
-                  color: Colors.red,
+                  color: Colors.white,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -410,27 +416,30 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
             Expanded(
               child: GestureDetector(
                 onTap: handelOnDoctorSearch,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Doctor',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 4),
-                    Flexible(
-                      child: Text(
-                        widget.doctor.name,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Doctor',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 4),
+                      Flexible(
+                        child: Text(
+                          widget.doctor.name,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

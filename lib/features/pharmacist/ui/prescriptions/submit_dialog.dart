@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart' show di;
 import 'package:health_app/core/constants/_all.dart';
+import 'package:health_app/features/pharmacist/data/providers/prescriptions.dart'
+    show prescriptionsProvider;
 import 'package:health_app/features/pharmacist/data/requests/dispense_prescription.dart'
     as Req;
 import 'package:health_app/features/pharmacist/data/responses/dispense_response.dart';
@@ -402,6 +404,8 @@ class _SubmitPrescriptionDialogState
                     AppDialog().dismiss();
                     final res2 = DispenseResponse.fromJson(res.data);
                     if (res2.success.isN()) {
+                      ref.read(prescriptionsProvider.notifier).refresh();
+
                       context.mayPop(true);
                     } else {}
                   } catch (e) {}

@@ -208,6 +208,15 @@ class PrescriptionForm extends _$PrescriptionForm {
     state = state.copyWith(items: newItems);
   }
 
+  void closeItemExpansion(int index) {
+    final newItems = List<PrescriptionItemForm>.from(state.items);
+    final item = newItems[index];
+    if (item.isExpanded) {
+      newItems[index] = item.copyWith(isExpanded: !item.isExpanded);
+      state = state.copyWith(items: newItems);
+    }
+  }
+
   void expandAllItems() {
     final newItems = state.items
         .map((item) => item.copyWith(isExpanded: true))
