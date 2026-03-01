@@ -9,6 +9,7 @@ part of 'create_prescription.dart';
 _PrescriptionItem _$PrescriptionItemFromJson(Map<String, dynamic> json) =>
     _PrescriptionItem(
       drugId: (json['drugId'] as num).toInt(),
+      drugName: json['drugName'] as String,
       quantity: (json['quantity'] as num).toInt(),
       dosage: json['dosage'] as String,
       frequency: json['frequency'] as String,
@@ -19,6 +20,7 @@ _PrescriptionItem _$PrescriptionItemFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PrescriptionItemToJson(_PrescriptionItem instance) =>
     <String, dynamic>{
       'drugId': instance.drugId,
+      'drugName': instance.drugName,
       'quantity': instance.quantity,
       'dosage': instance.dosage,
       'frequency': instance.frequency,

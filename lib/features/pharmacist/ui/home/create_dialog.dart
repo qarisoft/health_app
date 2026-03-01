@@ -37,11 +37,22 @@ class CreatePrescriptionPage extends ConsumerWidget {
       prescriptionFormProvider(patientId: patientId, doctorId: doctorId),
     );
     final key = GlobalKey<FormState>();
+    whenComplete() {
+      context.pop();
+    }
+
     Future<void> onSubmit(
-      CreatePrescriptionRequest req,
-      VoidCallback whenComplete,
+      // CreatePrescriptionRequest req,
+      // VoidCallback whenComplete,
     ) async {
+      if (!formProvider.isFormValid) {
+        AppDialog().show(type: DialogType.error, message: 'Form is not valid');
+        return;
+      }
+
       AppDialog().loading();
+
+      final req = formProvider.toRequest();
       xlog(req.toJson());
 
       try {
@@ -68,10 +79,6 @@ class CreatePrescriptionPage extends ConsumerWidget {
       } catch (e) {
         AppDialog().dismiss();
       }
-    }
-
-    whenComplete() {
-      context.pop();
     }
 
     return Scaffold(
@@ -147,11 +154,10 @@ class CreatePrescriptionPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
-                    if (key.currentState!.validate()) {
-                      onSubmit(formProvider.toRequest(), whenComplete);
-                    }
-                  },
+                  onPressed: onSubmit,
+                  // if (key.currentState!.validate()) {
+                  // onSubmitwhenComplete);
+                  // }
                   child: Text('submit'),
                 ),
 

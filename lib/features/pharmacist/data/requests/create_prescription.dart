@@ -9,6 +9,7 @@ part 'create_prescription.g.dart';
 abstract class PrescriptionItem with _$PrescriptionItem {
   factory PrescriptionItem({
     required int drugId,
+    required String drugName,
     required int quantity,
     required String dosage,
     required String frequency,

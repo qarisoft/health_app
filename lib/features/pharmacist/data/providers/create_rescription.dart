@@ -195,6 +195,7 @@ class PrescriptionForm extends _$PrescriptionForm {
           frequency: item.frequency,
           duration: item.duration,
           instructions: item.instructions,
+          drugName: item.drug.name,
           // instructions: item.instructions.isNotEmpty ? item.instructions : '',
         );
       }).toList(),
