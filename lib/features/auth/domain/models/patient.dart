@@ -74,8 +74,8 @@ abstract class Pharmacist with _$Pharmacist {
     @Default('-') String email,
     @Default('-') String pharmacyName,
     @Default('-') String licenseNumber,
+    // licenseNumber
     @Default('-') String createdAt,
-    @Default('-') String specialization,
     @Default('-') String updatedAt,
   }) = _Pharmacist;
 

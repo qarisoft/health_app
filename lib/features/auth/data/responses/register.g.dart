@@ -95,6 +95,7 @@ PharmacistResponse _$PharmacistResponseFromJson(Map<String, dynamic> json) =>
       createdAt: json['createdAt'] as String? ?? 'null',
       updatedAt: json['updatedAt'] as String? ?? 'null',
       pharmacyName: json['pharmacyName'] as String? ?? 'null',
+      licenseNumber: json['licenseNumber'] as String? ?? 'null',
     );
 
 Map<String, dynamic> _$PharmacistResponseToJson(PharmacistResponse instance) =>
@@ -107,6 +108,7 @@ Map<String, dynamic> _$PharmacistResponseToJson(PharmacistResponse instance) =>
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
       'pharmacyName': instance.pharmacyName,
+      'licenseNumber': instance.licenseNumber,
     };
 
 AdminResponse _$AdminResponseFromJson(Map<String, dynamic> json) =>

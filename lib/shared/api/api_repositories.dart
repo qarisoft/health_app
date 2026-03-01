@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/error/app_error.dart' show ErrorOr, ServerError;
 import 'package:health_app/core/services/storage.dart';
+import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/data/requests/doctor.dart';
 import 'package:health_app/features/auth/data/requests/pharmacist.dart';
 import 'package:health_app/features/auth/data/responses/user/user_response.dart'
@@ -355,6 +356,11 @@ class AppRepositories {
           pharmacist: Pharmacist.fromJson(pharmacist.toJson()),
         );
         await storage.setPharmacistAccount(pharmacistAccount);
+        // final pharmacist = res.pharmacist!;
+        // final pharmacistAccount = PharmacistAccount(
+        //   pharmacist: Pharmacist.fromJson(pharmacist.toJson()),
+        // );
+        // await storage.setPharmacistAccount(pharmacistAccount);
       }
     } catch (e) {
       debugPrint('Error fetching pharmacist profile: $e');
@@ -424,6 +430,19 @@ class AppRepositories {
       if (response.success.isN() && response.pharmacist != null) {
         // Refresh profile after update
         // await _getPharmacistProfile();
+        final pharmacist = response.pharmacist!;
+        final pharmacistAccount = PharmacistAccount(
+          pharmacist: Pharmacist.fromJson(pharmacist.toJson()),
+        );
+        xlog('piutting into database' + pharmacistAccount.toString());
+        await storage.setPharmacistAccount(pharmacistAccount);
+        // xlog(response.pharmacist?.toJson());
+
+        // appStorage.setPharmacistAccount(
+        //   PharmacistAccount(
+        //     pharmacist: Pharmacist(email: ),
+        //   ),
+        // );
 
         return ErrorOr.success(
           data: Pharmacist.fromJson(response.pharmacist!.toJson()),

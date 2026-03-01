@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -23,10 +24,12 @@ abstract class AllAcountsState with _$AllAcountsState {
 class AllAcounts extends _$AllAcounts {
   @override
   AllAcountsState build() {
-    return AllAcountsState(
+    final s = AllAcountsState(
       doctor: appStorage.getDoctorAccount(),
       patient: appStorage.getPatientAccount(),
       pharmacist: appStorage.getPharmacistAccount(),
     );
+    xlog(s.toString());
+    return s;
   }
 }

@@ -81,6 +81,7 @@ class PatientResponse extends Profile {
 @JsonSerializable()
 class PharmacistResponse extends Profile {
   final String pharmacyName;
+  final String licenseNumber;
 
   PharmacistResponse({
     super.id,
@@ -92,6 +93,7 @@ class PharmacistResponse extends Profile {
     super.createdAt,
     super.updatedAt,
     this.pharmacyName = 'null',
+    this.licenseNumber = 'null',
   });
   factory PharmacistResponse.fromJson(Map<String, dynamic> json) =>
       _$PharmacistResponseFromJson(json);

@@ -41,7 +41,7 @@ final class AllAcountsProvider
   }
 }
 
-String _$allAcountsHash() => r'021adc76d118383438d6f1b4f67ceef5c6805dda';
+String _$allAcountsHash() => r'cb939c6cd29fcd0dd32cbb844175665cb96de1fd';
 
 abstract class _$AllAcounts extends $Notifier<AllAcountsState> {
   AllAcountsState build();

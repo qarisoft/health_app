@@ -14,6 +14,7 @@ import 'package:health_app/features/auth/domain/models/patient.dart'
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/pharmacist/data/requests/profile.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
+import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
@@ -136,24 +137,6 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
               });
             },
             validator: emailValidator,
-          ),
-          _buildTextField(
-            label: 'التخصص',
-            value: _editedPharmacist.specialization,
-            icon: Icons.medical_services,
-            onChanged: (value) {
-              setState(() {
-                _editedPharmacist = _editedPharmacist.copyWith(
-                  specialization: value,
-                );
-              });
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'الرجاء إدخال التخصص';
-              }
-              return null;
-            },
           ),
 
           // License Number Field
@@ -278,27 +261,6 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
         const SizedBox(height: 20),
 
         // Professional Information
-        _buildSection(
-          title: 'المعلومات المهنية',
-          children: [
-            _buildInfoItem(
-              icon: Icons.medical_services,
-              label: 'التخصص',
-              value: _editedPharmacist.specialization,
-            ),
-            _buildInfoItem(
-              icon: Icons.badge,
-              label: 'رقم الرخصة',
-              value: _editedPharmacist.licenseNumber,
-            ),
-            _buildInfoItem(
-              icon: Icons.local_hospital,
-              label: 'الصيدلية',
-              value: _editedPharmacist.pharmacyName,
-            ),
-          ],
-        ),
-
         const SizedBox(height: 20),
 
         // Account Information
@@ -512,6 +474,7 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
 
   void _saveChanges() async {
     AppDialog().loading(message: 'جاري التعديل, الرجاء الانتضار');
+    xlog('saving ${_editedPharmacist.toJson()}');
 
     try {
       // Simulate API call
