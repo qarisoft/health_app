@@ -36,7 +36,7 @@ class CreatePrescriptionPage extends ConsumerWidget {
     final formState = ref.watch(
       prescriptionFormProvider(patientId: patientId, doctorId: doctorId),
     );
-    final key = GlobalKey<FormState>();
+    // final key = GlobalKey<FormState>();
     whenComplete() {
       context.pop();
     }
@@ -45,8 +45,14 @@ class CreatePrescriptionPage extends ConsumerWidget {
       // CreatePrescriptionRequest req,
       // VoidCallback whenComplete,
     ) async {
-      if (!formProvider.isFormValid) {
-        AppDialog().show(type: DialogType.error, message: 'Form is not valid');
+      final validation = formProvider.validate();
+
+      if (validation != null) {
+        AppDialog().show(
+          type: DialogType.error,
+          title: 'Form is not valid ',
+          message: validation + formState.toString(),
+        );
         return;
       }
 
@@ -111,63 +117,60 @@ class CreatePrescriptionPage extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
-          child: Form(
-            key: key,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Info Widget
-                _HeaderWidget(
-                  patient: formState.patient,
-                  doctor: formState.doctor,
-                  onUpdateDoctor: formProvider.updateDoctor,
-                  onUpdatePatient: formProvider.updatePatient,
-                ),
-                const SizedBox(height: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Info Widget
+              _HeaderWidget(
+                patient: formState.patient,
+                doctor: formState.doctor,
+                onUpdateDoctor: formProvider.updateDoctor,
+                onUpdatePatient: formProvider.updatePatient,
+              ),
+              const SizedBox(height: 24),
 
-                // Diagnosis Widget
-                _DiagnosisWidget(
-                  diagnosis: formState.diagnosis,
-                  onDiagnosisChanged: (value) {
-                    formProvider.updateDiagnosis(value);
-                    formProvider.clearError();
-                  },
-                ),
-                const SizedBox(height: 32),
+              // Diagnosis Widget
+              _DiagnosisWidget(
+                diagnosis: formState.diagnosis,
+                onDiagnosisChanged: (value) {
+                  formProvider.updateDiagnosis(value);
+                  formProvider.clearError();
+                },
+              ),
+              const SizedBox(height: 32),
 
-                // Medications Widget
-                _MedicationsWidget(
-                  items: formState.items,
-                  onToggleExpand: formProvider.toggleItemExpansion,
-                  onRemoveItem: formProvider.removeItem,
-                  onUpdateField: formProvider.updateItemField2,
-                  onExpandAll: formProvider.expandAllItems,
-                  onCollapseAll: formProvider.collapseAllItems,
-                  onUpdateItemDrug: (index, idname) =>
-                      formProvider.updateItemDrug(index: index, drug1: idname),
-                  onAddNew: () {
-                    formProvider.addNewItem();
-                    // Expand the newly added item
-                    final newIndex = formState.items.length - 1;
-                    formProvider.closeItemExpansion(newIndex);
-                  },
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: onSubmit,
-                  // if (key.currentState!.validate()) {
-                  // onSubmitwhenComplete);
-                  // }
-                  child: Text('submit'),
-                ),
+              // Medications Widget
+              _MedicationsWidget(
+                items: formState.items,
+                onToggleExpand: formProvider.toggleItemExpansion,
+                onRemoveItem: formProvider.removeItem,
+                onUpdateField: formProvider.updateItemField2,
+                onExpandAll: formProvider.expandAllItems,
+                onCollapseAll: formProvider.collapseAllItems,
+                onUpdateItemDrug: (index, idname) =>
+                    formProvider.updateItemDrug(index: index, drug1: idname),
+                onAddNew: () {
+                  formProvider.addNewItem();
+                  // Expand the newly added item
+                  final newIndex = formState.items.length - 1;
+                  formProvider.closeItemExpansion(newIndex);
+                },
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: onSubmit,
+                // if (key.currentState!.validate()) {
+                // onSubmitwhenComplete);
+                // }
+                child: Text('submit'),
+              ),
 
-                // Error Message
-                if (formState.errorMessage != null) ...[
-                  _buildErrorMessage(formState.errorMessage!),
-                  const SizedBox(height: 16),
-                ],
+              // Error Message
+              if (formState.errorMessage != null) ...[
+                _buildErrorMessage(formState.errorMessage!),
+                const SizedBox(height: 16),
               ],
-            ),
+            ],
           ),
         ),
       ),

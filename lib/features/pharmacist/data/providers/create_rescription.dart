@@ -110,7 +110,10 @@ class PrescriptionForm extends _$PrescriptionForm {
     final newItems = List<PrescriptionItemForm>.from(state.items);
     final oldItem = newItems[index];
 
-    final updatedItem = oldItem.copyWith(drug: drug1);
+    final updatedItem = oldItem.copyWith(
+      drug: drug1,
+      drugId: drug1.id.toString(),
+    );
 
     newItems[index] = updatedItem;
     state = state.copyWith(items: newItems);
@@ -180,6 +183,33 @@ class PrescriptionForm extends _$PrescriptionForm {
     }
 
     return true;
+  }
+
+  String? validate() {
+    if (state.diagnosis.isEmpty) return 'Diagnosis isEmpty';
+    if (state.patient.id == 0) return 'Patient isEmpty';
+    if (state.doctor.id == 0) return 'Doctor isEmpty';
+    int i = 0;
+    for (final item in state.items) {
+      i++;
+      if (item.drug.id == 0) {
+        return 'item $i drug is Empty';
+      }
+      if (item.quantity.isEmpty) {
+        return 'item $i quantity is Empty';
+      }
+      if (item.dosage.isEmpty) {
+        return 'item $i dosage is Empty';
+      }
+      if (item.frequency.isEmpty) {
+        return 'item $i frequency is Empty';
+      }
+      if (item.duration.isEmpty) {
+        return 'item $i duration is Empty';
+      }
+    }
+
+    return null;
   }
 
   CreatePrescriptionRequest toRequest() {
