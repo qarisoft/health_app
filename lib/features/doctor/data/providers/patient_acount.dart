@@ -5,6 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'patient_acount.g.dart';
 
 @riverpod
-PatientAccount? patientAccount(Ref ref) {
+patientAccount(Ref ref) {
   return di<AppStorage>().getPatientAccount();
 }

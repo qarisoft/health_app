@@ -259,143 +259,142 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
 
         // License Document File Picker Section
-        if (
-        // false
-        // widget.userType == UserType.doctor ||
-        widget.userType == UserType.pharmacist)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Hidden text field for file URL
-              Opacity(
-                opacity: 0,
-                child: CustomTextField(
-                  controller: widget.licenseDocumentUrlController,
-                  labelText: '',
-                ),
-              ),
+        // if (
+        // // false
+        // // widget.userType == UserType.doctor ||
+        // widget.userType == UserType.pharmacist)
+        //   Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       // Hidden text field for file URL
+        //       Opacity(
+        //         opacity: 0,
+        //         child: CustomTextField(
+        //           controller: widget.licenseDocumentUrlController,
+        //           labelText: '',
+        //         ),
+        //       ),
 
-              Text(
-                'License Document',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withOpacity(0.8),
-                ),
-              ),
-              const SizedBox(height: 8),
+        //       Text(
+        //         'License Document',
+        //         style: TextStyle(
+        //           fontSize: 14,
+        //           fontWeight: FontWeight.w500,
+        //           color: Theme.of(
+        //             context,
+        //           ).colorScheme.onSurface.withOpacity(0.8),
+        //         ),
+        //       ),
+        //       const SizedBox(height: 8),
 
-              // File picker button
-              OutlinedButton(
-                onPressed: _isPickingFile ? null : _pickLicenseDocument,
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                ),
-                child: _isPickingFile
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.attach_file),
-                          const SizedBox(width: 8),
-                          Text(
-                            _licenseFileName.isEmpty
-                                ? 'Choose License Document'
-                                : 'Change Document',
-                          ),
-                        ],
-                      ),
-              ),
+        //       // File picker button
+        //       OutlinedButton(
+        //         onPressed: _isPickingFile ? null : _pickLicenseDocument,
+        //         style: OutlinedButton.styleFrom(
+        //           minimumSize: const Size(double.infinity, 50),
+        //           side: BorderSide(
+        //             color: Theme.of(context).colorScheme.outline,
+        //           ),
+        //           backgroundColor: Theme.of(context).colorScheme.surface,
+        //         ),
+        //         child: _isPickingFile
+        //             ? const SizedBox(
+        //                 height: 20,
+        //                 width: 20,
+        //                 child: CircularProgressIndicator(strokeWidth: 2),
+        //               )
+        //             : Row(
+        //                 mainAxisSize: MainAxisSize.min,
+        //                 children: [
+        //                   const Icon(Icons.attach_file),
+        //                   const SizedBox(width: 8),
+        //                   Text(
+        //                     _licenseFileName.isEmpty
+        //                         ? 'Choose License Document'
+        //                         : 'Change Document',
+        //                   ),
+        //                 ],
+        //               ),
+        //       ),
 
-              // Selected file info
-              if (_licenseFileName.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceVariant,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.outline,
-                        width: 0.5,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          _licenseFileName.toLowerCase().endsWith('.pdf')
-                              ? Icons.picture_as_pdf
-                              : Icons.description,
-                          color: Theme.of(context).primaryColor,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _licenseFileName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              if (_selectedLicenseFile != null)
-                                Text(
-                                  _formatFileSize(
-                                    _selectedLicenseFile!.lengthSync(),
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurface.withOpacity(0.6),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: _removeSelectedFile,
-                          icon: const Icon(Icons.close, size: 20),
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+        //       // Selected file info
+        //       if (_licenseFileName.isNotEmpty)
+        //         Padding(
+        //           padding: const EdgeInsets.only(top: 8.0),
+        //           child: Container(
+        //             padding: const EdgeInsets.all(12),
+        //             decoration: BoxDecoration(
+        //               color: Theme.of(context).colorScheme.surfaceVariant,
+        //               borderRadius: BorderRadius.circular(8),
+        //               border: Border.all(
+        //                 color: Theme.of(context).colorScheme.outline,
+        //                 width: 0.5,
+        //               ),
+        //             ),
+        //             child: Row(
+        //               children: [
+        //                 Icon(
+        //                   _licenseFileName.toLowerCase().endsWith('.pdf')
+        //                       ? Icons.picture_as_pdf
+        //                       : Icons.description,
+        //                   color: Theme.of(context).primaryColor,
+        //                   size: 24,
+        //                 ),
+        //                 const SizedBox(width: 12),
+        //                 Expanded(
+        //                   child: Column(
+        //                     crossAxisAlignment: CrossAxisAlignment.start,
+        //                     children: [
+        //                       Text(
+        //                         _licenseFileName,
+        //                         style: TextStyle(
+        //                           fontWeight: FontWeight.w500,
+        //                           fontSize: 14,
+        //                           overflow: TextOverflow.ellipsis,
+        //                         ),
+        //                       ),
+        //                       if (_selectedLicenseFile != null)
+        //                         Text(
+        //                           _formatFileSize(
+        //                             _selectedLicenseFile!.lengthSync(),
+        //                           ),
+        //                           style: TextStyle(
+        //                             fontSize: 12,
+        //                             color: Theme.of(
+        //                               context,
+        //                             ).colorScheme.onSurface.withOpacity(0.6),
+        //                           ),
+        //                         ),
+        //                     ],
+        //                   ),
+        //                 ),
+        //                 IconButton(
+        //                   onPressed: _removeSelectedFile,
+        //                   icon: const Icon(Icons.close, size: 20),
+        //                   padding: EdgeInsets.zero,
+        //                   constraints: const BoxConstraints(),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ),
 
-              // Help text
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Text(
-                  'Accepted formats: PDF, JPG, PNG, DOC (Max 10MB)',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withOpacity(0.6),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
-
+        //       // Help text
+        //       Padding(
+        //         padding: const EdgeInsets.only(top: 4.0),
+        //         child: Text(
+        //           'Accepted formats: PDF, JPG, PNG, DOC (Max 10MB)',
+        //           style: TextStyle(
+        //             fontSize: 12,
+        //             color: Theme.of(
+        //               context,
+        //             ).colorScheme.onSurface.withOpacity(0.6),
+        //           ),
+        //         ),
+        //       ),
+        //       const SizedBox(height: 16),
+        //     ],
+        //   ),
         if (widget.userType == UserType.doctor)
           CustomTextField(
             controller: widget.hospitalController,

@@ -4,14 +4,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 // import 'package:health_app/core/constants/k.dart';
-import 'package:health_app/core/user/user.dart';
+// import 'package:health_app/core/user/user.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const int version = 29;
+const int version = 25;
 const String appLocalKey = 'appLocalKey$version';
 const String userTokenKey = 'userTokenKey$version';
 const String userRefreshTokenKey = 'userRefreshTokenKey$version';
@@ -105,8 +105,15 @@ class AppStorage {
     final s = sharedPreferences.getString(AUTH_RECORD_KEY);
 
     final json = s != null ? jsonDecode(s) : null;
+    try {
+      if (json != null) {
+        final a = AuthRecord.fromJson(json);
+        return a;
+      }
+    } catch (e) {}
+    return null;
 
-    return json != null ? AuthRecord.fromJson(json) : null;
+    // return json != null ? AuthRecord.fromJson(json) : null;
   }
 
   Future<void> setPatientAccount(PatientAccount account) async {
@@ -148,10 +155,16 @@ class AppStorage {
   }
 
   PharmacistAccount? getPharmacistAccount() {
-    final j = getJson(PHARMACIST_ACCOUNT_KEY);
-    return j.notNull()
-        ? PharmacistAccount(pharmacist: Pharmacist.fromJson(j!))
-        : null;
+    try {
+      final j = getJson(PHARMACIST_ACCOUNT_KEY);
+      if (j != null) {
+        return PharmacistAccount(pharmacist: Pharmacist.fromJson(j));
+      }
+    } catch (e) {}
+    return null;
+    // return j.notNull()
+    //     ? PharmacistAccount(pharmacist: Pharmacist.fromJson(j!))
+    //     : null;
   }
 
   AdminAccount? getAdminAccount() {

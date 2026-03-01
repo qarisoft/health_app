@@ -87,7 +87,7 @@ class SplashPage extends ConsumerWidget {
       acount: (a) => a.when(
         patient: (p) => patient.HomePage(),
         doctor: (p) => const doctor_pages.HomePage(),
-        pharmacist: (p) => patient.HomePage(),
+        pharmacist: (p) => const pharmacist_page.HomePage(),
         admin: (p) => patient.HomePage(),
       ),
     );

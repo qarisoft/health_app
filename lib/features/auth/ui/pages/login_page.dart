@@ -76,8 +76,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
       auth.when(
         success: (succes) {
-          xlog(succes.toString());
-          goHome(succes);
+          // xlog(succes.toString());
+          // goHome(succes);
         },
         error: (e) {
           // AppDialog().info(title: 'Error', message: 'dsadsdsadsadsadsa');

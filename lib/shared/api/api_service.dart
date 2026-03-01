@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:health_app/core/constants/_all.dart';
+import 'package:health_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:health_app/shared/api/dio_factory.dart';
 // import 'package:dio/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,16 +18,30 @@ class ApiService {
 
   // Helper method to handle responses
   Map<String, dynamic> _handleResponse(Response response) {
-    if (response.statusCode! >= 200 && response.statusCode! < 300) {
-      return response.data; // This returns the JSON Map
-    } else {
-      return response.data; // This returns the JSON Map
-      // if () {
+    // if (response.statusCode! >= 200 && response.statusCode! < 300) {
+    final data = response.data;
+    // xlog('_handleResponse' + data);
+    // xlog('_handleResponse' + response.toString());
+    // if (data.runtimeType == String&&data.isEmpty) {
+    // }
 
-      // }
-      // xlog(response.data['']);
-      // throw Exception('Server Error: ${response.statusCode}');
-    }
+    // if (data.runtimeType is Map<String, dynamic>) {
+    //   return data as Map<String, dynamic>; // This returns the JSON Map
+    // }
+    try {
+      final d = data as Map<String, dynamic>; // This returns the JSON Map
+      return d;
+    } catch (e) {}
+    return {'success': false, 'message': 'ssssss ' + data.toString()};
+    // throw data.toString();
+    // } else {
+    // return response.data; // This returns the JSON Map
+    // if () {
+
+    // }
+    // xlog(response.data['']);
+    // throw Exception('Server Error: ${response.statusCode}');
+    // }
   }
 
   // ===============================================================
@@ -62,6 +78,8 @@ class ApiService {
         // 'Authorization': 'Bearer $token',
       ),
     );
+    // xlog('sssssssss' + response.data);
+    // return ErrorOr.error(error: error);
     return _handleResponse(response);
   }
 
@@ -84,7 +102,13 @@ class ApiService {
     //   await prefs.setInt('userId', response.data['userId']);
     //   await prefs.setString('role', response.data['role']);
     // }
-    return _handleResponse(response);
+
+    // xlog('sssssssss ${response.data}');
+    final a = _handleResponse(response);
+    return a;
+    // xlog('sssssssss ${a}');
+
+    // return {};
   }
 
   Future<Map<String, dynamic>> logout() async {
@@ -223,19 +247,18 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> searchPrescription(String identifier) async {
-    final response = await _dio.post(
-      '/Pharmacist/search-prescription',
-      data: {"identifier": identifier},
+    xlog('ssssssssssssssss$identifier');
+    final response = await _dio.get(
+      '/Pharmacist/search-prescription?identifier=$identifier',
+      // data: FormData.fromMap({"identifier": identifier}),
     );
     return _handleResponse(response);
   }
 
-  Future<Map<String, dynamic>> checkDrugInteractions(
-    Map<String, dynamic> data,
-  ) async {
+  Future<Map<String, dynamic>> checkDrugInteractions(int id) async {
     final response = await _dio.post(
-      '/Pharmacist/check-drug-interactions',
-      data: data,
+      '/Pharmacist/check-interactions/$id',
+      // data: data,
     );
     return _handleResponse(response);
   }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PrescriptionItem {
 
- int get id; int get prescriptionId; String get medicationName; String get dosage; String get frequency; String get duration; String get instructions; double get quantity; bool get isDispensed; DateTime? get createdAt;
+ int get id; int get prescriptionId; String get medicationName; String get dosage; String get notes; String get frequency; String get duration; String get instructions; double get quantity; bool get isDispensed; DateTime? get createdAt;
 /// Create a copy of PrescriptionItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $PrescriptionItemCopyWith<PrescriptionItem> get copyWith => _$PrescriptionItemCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PrescriptionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.prescriptionId, prescriptionId) || other.prescriptionId == prescriptionId)&&(identical(other.medicationName, medicationName) || other.medicationName == medicationName)&&(identical(other.dosage, dosage) || other.dosage == dosage)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.instructions, instructions) || other.instructions == instructions)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.isDispensed, isDispensed) || other.isDispensed == isDispensed)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PrescriptionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.prescriptionId, prescriptionId) || other.prescriptionId == prescriptionId)&&(identical(other.medicationName, medicationName) || other.medicationName == medicationName)&&(identical(other.dosage, dosage) || other.dosage == dosage)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.instructions, instructions) || other.instructions == instructions)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.isDispensed, isDispensed) || other.isDispensed == isDispensed)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,prescriptionId,medicationName,dosage,frequency,duration,instructions,quantity,isDispensed,createdAt);
+int get hashCode => Object.hash(runtimeType,id,prescriptionId,medicationName,dosage,notes,frequency,duration,instructions,quantity,isDispensed,createdAt);
 
 @override
 String toString() {
-  return 'PrescriptionItem(id: $id, prescriptionId: $prescriptionId, medicationName: $medicationName, dosage: $dosage, frequency: $frequency, duration: $duration, instructions: $instructions, quantity: $quantity, isDispensed: $isDispensed, createdAt: $createdAt)';
+  return 'PrescriptionItem(id: $id, prescriptionId: $prescriptionId, medicationName: $medicationName, dosage: $dosage, notes: $notes, frequency: $frequency, duration: $duration, instructions: $instructions, quantity: $quantity, isDispensed: $isDispensed, createdAt: $createdAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $PrescriptionItemCopyWith<$Res>  {
   factory $PrescriptionItemCopyWith(PrescriptionItem value, $Res Function(PrescriptionItem) _then) = _$PrescriptionItemCopyWithImpl;
 @useResult
 $Res call({
- int id, int prescriptionId, String medicationName, String dosage, String frequency, String duration, String instructions, double quantity, bool isDispensed, DateTime? createdAt
+ int id, int prescriptionId, String medicationName, String dosage, String notes, String frequency, String duration, String instructions, double quantity, bool isDispensed, DateTime? createdAt
 });
 
 
@@ -65,12 +65,13 @@ class _$PrescriptionItemCopyWithImpl<$Res>
 
 /// Create a copy of PrescriptionItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? prescriptionId = null,Object? medicationName = null,Object? dosage = null,Object? frequency = null,Object? duration = null,Object? instructions = null,Object? quantity = null,Object? isDispensed = null,Object? createdAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? prescriptionId = null,Object? medicationName = null,Object? dosage = null,Object? notes = null,Object? frequency = null,Object? duration = null,Object? instructions = null,Object? quantity = null,Object? isDispensed = null,Object? createdAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,prescriptionId: null == prescriptionId ? _self.prescriptionId : prescriptionId // ignore: cast_nullable_to_non_nullable
 as int,medicationName: null == medicationName ? _self.medicationName : medicationName // ignore: cast_nullable_to_non_nullable
 as String,dosage: null == dosage ? _self.dosage : dosage // ignore: cast_nullable_to_non_nullable
+as String,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,frequency: null == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
 as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
 as String,instructions: null == instructions ? _self.instructions : instructions // ignore: cast_nullable_to_non_nullable
@@ -162,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int prescriptionId,  String medicationName,  String dosage,  String frequency,  String duration,  String instructions,  double quantity,  bool isDispensed,  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int prescriptionId,  String medicationName,  String dosage,  String notes,  String frequency,  String duration,  String instructions,  double quantity,  bool isDispensed,  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PrescriptionItem() when $default != null:
-return $default(_that.id,_that.prescriptionId,_that.medicationName,_that.dosage,_that.frequency,_that.duration,_that.instructions,_that.quantity,_that.isDispensed,_that.createdAt);case _:
+return $default(_that.id,_that.prescriptionId,_that.medicationName,_that.dosage,_that.notes,_that.frequency,_that.duration,_that.instructions,_that.quantity,_that.isDispensed,_that.createdAt);case _:
   return orElse();
 
 }
@@ -183,10 +184,10 @@ return $default(_that.id,_that.prescriptionId,_that.medicationName,_that.dosage,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int prescriptionId,  String medicationName,  String dosage,  String frequency,  String duration,  String instructions,  double quantity,  bool isDispensed,  DateTime? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int prescriptionId,  String medicationName,  String dosage,  String notes,  String frequency,  String duration,  String instructions,  double quantity,  bool isDispensed,  DateTime? createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _PrescriptionItem():
-return $default(_that.id,_that.prescriptionId,_that.medicationName,_that.dosage,_that.frequency,_that.duration,_that.instructions,_that.quantity,_that.isDispensed,_that.createdAt);case _:
+return $default(_that.id,_that.prescriptionId,_that.medicationName,_that.dosage,_that.notes,_that.frequency,_that.duration,_that.instructions,_that.quantity,_that.isDispensed,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -203,10 +204,10 @@ return $default(_that.id,_that.prescriptionId,_that.medicationName,_that.dosage,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int prescriptionId,  String medicationName,  String dosage,  String frequency,  String duration,  String instructions,  double quantity,  bool isDispensed,  DateTime? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int prescriptionId,  String medicationName,  String dosage,  String notes,  String frequency,  String duration,  String instructions,  double quantity,  bool isDispensed,  DateTime? createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _PrescriptionItem() when $default != null:
-return $default(_that.id,_that.prescriptionId,_that.medicationName,_that.dosage,_that.frequency,_that.duration,_that.instructions,_that.quantity,_that.isDispensed,_that.createdAt);case _:
+return $default(_that.id,_that.prescriptionId,_that.medicationName,_that.dosage,_that.notes,_that.frequency,_that.duration,_that.instructions,_that.quantity,_that.isDispensed,_that.createdAt);case _:
   return null;
 
 }
@@ -218,13 +219,14 @@ return $default(_that.id,_that.prescriptionId,_that.medicationName,_that.dosage,
 
 @JsonSerializable(explicitToJson: true)
 class _PrescriptionItem implements PrescriptionItem {
-   _PrescriptionItem({this.id = 0, this.prescriptionId = 0, this.medicationName = '', this.dosage = '', this.frequency = '', this.duration = '', this.instructions = '', this.quantity = 0.0, this.isDispensed = false, this.createdAt});
+   _PrescriptionItem({this.id = 0, this.prescriptionId = 0, this.medicationName = '', this.dosage = '', this.notes = '', this.frequency = '', this.duration = '', this.instructions = '', this.quantity = 0.0, this.isDispensed = false, this.createdAt});
   factory _PrescriptionItem.fromJson(Map<String, dynamic> json) => _$PrescriptionItemFromJson(json);
 
 @override@JsonKey() final  int id;
 @override@JsonKey() final  int prescriptionId;
 @override@JsonKey() final  String medicationName;
 @override@JsonKey() final  String dosage;
+@override@JsonKey() final  String notes;
 @override@JsonKey() final  String frequency;
 @override@JsonKey() final  String duration;
 @override@JsonKey() final  String instructions;
@@ -245,16 +247,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PrescriptionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.prescriptionId, prescriptionId) || other.prescriptionId == prescriptionId)&&(identical(other.medicationName, medicationName) || other.medicationName == medicationName)&&(identical(other.dosage, dosage) || other.dosage == dosage)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.instructions, instructions) || other.instructions == instructions)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.isDispensed, isDispensed) || other.isDispensed == isDispensed)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PrescriptionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.prescriptionId, prescriptionId) || other.prescriptionId == prescriptionId)&&(identical(other.medicationName, medicationName) || other.medicationName == medicationName)&&(identical(other.dosage, dosage) || other.dosage == dosage)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.instructions, instructions) || other.instructions == instructions)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.isDispensed, isDispensed) || other.isDispensed == isDispensed)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,prescriptionId,medicationName,dosage,frequency,duration,instructions,quantity,isDispensed,createdAt);
+int get hashCode => Object.hash(runtimeType,id,prescriptionId,medicationName,dosage,notes,frequency,duration,instructions,quantity,isDispensed,createdAt);
 
 @override
 String toString() {
-  return 'PrescriptionItem(id: $id, prescriptionId: $prescriptionId, medicationName: $medicationName, dosage: $dosage, frequency: $frequency, duration: $duration, instructions: $instructions, quantity: $quantity, isDispensed: $isDispensed, createdAt: $createdAt)';
+  return 'PrescriptionItem(id: $id, prescriptionId: $prescriptionId, medicationName: $medicationName, dosage: $dosage, notes: $notes, frequency: $frequency, duration: $duration, instructions: $instructions, quantity: $quantity, isDispensed: $isDispensed, createdAt: $createdAt)';
 }
 
 
@@ -265,7 +267,7 @@ abstract mixin class _$PrescriptionItemCopyWith<$Res> implements $PrescriptionIt
   factory _$PrescriptionItemCopyWith(_PrescriptionItem value, $Res Function(_PrescriptionItem) _then) = __$PrescriptionItemCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int prescriptionId, String medicationName, String dosage, String frequency, String duration, String instructions, double quantity, bool isDispensed, DateTime? createdAt
+ int id, int prescriptionId, String medicationName, String dosage, String notes, String frequency, String duration, String instructions, double quantity, bool isDispensed, DateTime? createdAt
 });
 
 
@@ -282,12 +284,13 @@ class __$PrescriptionItemCopyWithImpl<$Res>
 
 /// Create a copy of PrescriptionItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? prescriptionId = null,Object? medicationName = null,Object? dosage = null,Object? frequency = null,Object? duration = null,Object? instructions = null,Object? quantity = null,Object? isDispensed = null,Object? createdAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? prescriptionId = null,Object? medicationName = null,Object? dosage = null,Object? notes = null,Object? frequency = null,Object? duration = null,Object? instructions = null,Object? quantity = null,Object? isDispensed = null,Object? createdAt = freezed,}) {
   return _then(_PrescriptionItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,prescriptionId: null == prescriptionId ? _self.prescriptionId : prescriptionId // ignore: cast_nullable_to_non_nullable
 as int,medicationName: null == medicationName ? _self.medicationName : medicationName // ignore: cast_nullable_to_non_nullable
 as String,dosage: null == dosage ? _self.dosage : dosage // ignore: cast_nullable_to_non_nullable
+as String,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,frequency: null == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
 as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
 as String,instructions: null == instructions ? _self.instructions : instructions // ignore: cast_nullable_to_non_nullable

@@ -906,8 +906,8 @@ extension AppEx on BuildContext {
     Navigator.of(this).pop(results);
   }
 
-  void mayPop<T extends Object?>([T? results]) {
-    Navigator.of(this).maybePop(results);
+  Future<bool> mayPop<T extends Object?>([T? results]) {
+    return Navigator.of(this).maybePop(results);
   }
   //
 
@@ -926,6 +926,6 @@ extension Loger on Object? {
   }
 }
 
-void xlog(Object o) {
+void xlog(Object? o) {
   print('###: $o');
 }

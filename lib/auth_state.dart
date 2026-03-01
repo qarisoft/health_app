@@ -45,18 +45,22 @@ class Account extends _$Account {
   @override
   AccountState build() {
     final authRecord = ref.watch(authRecordStateProvider);
-    if (authRecord is TAuthRecordData) {
-      final p = switch (authRecord.record.role) {
-        'admin' => di<AppStorage>().getAdminAccount(),
-        'doctor' => di<AppStorage>().getDoctorAccount(),
-        'pharmacist' => di<AppStorage>().getPharmacistAccount(),
-        'patient' => di<AppStorage>().getPatientAccount(),
-        // de => di<AppStorage>().getPatientAccount(),
-        String() => di<AppStorage>().getPatientAccount(),
-      };
-      if (p != null) {
-        return AccountState.acount(account: p);
+    try {
+      if (authRecord is TAuthRecordData) {
+        final p = switch (authRecord.record.role) {
+          'admin' => di<AppStorage>().getAdminAccount(),
+          'doctor' => di<AppStorage>().getDoctorAccount(),
+          'pharmacist' => di<AppStorage>().getPharmacistAccount(),
+          'patient' => di<AppStorage>().getPatientAccount(),
+          // de => di<AppStorage>().getPatientAccount(),
+          String() => di<AppStorage>().getPatientAccount(),
+        };
+        if (p != null) {
+          return AccountState.acount(account: p);
+        }
       }
+    } catch (e) {
+      return AccountState.initial();
     }
     return AccountState.initial();
   }

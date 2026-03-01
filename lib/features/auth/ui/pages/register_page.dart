@@ -29,7 +29,8 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _userTypeController = TextEditingController(
-    text: PATIENT_KEY,
+    text: PHARMACIST_KEY,
+    // text: PATIENT_KEY,
   );
   final TextEditingController nameController = TextEditingController(
     text: 'name'.dev,
@@ -47,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
     text: '123456789'.dev,
   );
   final TextEditingController _idCardController = TextEditingController(
-    text: '4342eghgh43432'.dev,
+    text: 'gdvtf54ef543'.dev,
   );
   final TextEditingController _passwordController = TextEditingController(
     text: 'pa32543vssword'.dev,
@@ -199,8 +200,8 @@ class _RegisterPageState extends State<RegisterPage> {
       phoneNumber: _phoneController.text,
       email: _emailController.text,
       licenseNumber: licenseNumberController.text,
-      licenseDocument:
-          _selectedLicenseFile?.path ?? licenseDocumentUrlController.text,
+      // licenseDocument:
+      //     _selectedLicenseFile?.path ?? licenseDocumentUrlController.text,
       pharmacyName: pharmacyNameController.text,
     );
     // xlog(_selectedLicenseFile?.path ?? '');

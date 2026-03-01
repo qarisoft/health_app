@@ -26,6 +26,7 @@ import 'package:health_app/features/doctor/data/requests/home.dart'
     show HomeResponse, RecentPatient;
 import 'package:health_app/features/doctor/data/responses/insights.dart';
 import 'package:health_app/features/pharmacist/data/requests/profile.dart';
+import 'package:health_app/features/pharmacist/data/responses/drugs_interaction.dart';
 import 'package:health_app/features/pharmacist/data/responses/prescription.dart';
 import 'package:health_app/features/pharmacist/domain/models/prescription.dart';
 import 'package:health_app/shared/api/api_service.dart' show ApiService;
@@ -49,7 +50,17 @@ class AppRepositories {
     required String password,
   }) async {
     try {
+      xlog('sssssssssssssssssssss');
       final res = await api.login(identifier, password);
+      // return;
+      // return ErrorOr.error(error: ServerError(msg: res.toString()));
+      // xlog('s222222222222222222222');
+      // if (res.runtimeType is! Map<String, dynamic>) {
+      //   xlog(
+      //     'if (res.runtimeType is! Map<String, dynamic>)${res.runtimeType} { ssssssssssssssssssssssssssssssssssssssssssssss',
+      //   );
+      //   return ErrorOr.error(error: ServerError(msg: res.toString()));
+      // }
       // res.log();
       final response = LoginResponse.fromJson(res);
 
@@ -137,36 +148,40 @@ class AppRepositories {
     PharmacistRegisterRequest data,
   ) async {
     try {
-      final File file = File(data.licenseDocument);
+      // final File file = File(data.licenseDocument);
       // data.
-      String fileName = file.path.split('/').last;
-      FormData formData = FormData.fromMap({
-        "licenseDocument": await MultipartFile.fromFile(
-          file.path,
-          filename: fileName,
-        ),
+      // String fileName = file.path.split('/').last;
+      // FormData formData = FormData.fromMap({
+      //   // "licenseDocument": await MultipartFile.fromFile(
+      //   //   file.path,
+      //   //   filename: fileName,
+      //   // ),
+      //   "nationalId": data.nationalId,
+      //   "password": data.password,
+      //   "confirmPassword": data.confirmPassword,
+      //   "fullName": data.fullName,
+      //   "dateOfBirth": data.dateOfBirth,
+      //   "phoneNumber": data.phoneNumber,
+      //   "email": data.email,
+      //   "licenseNumber": data.licenseNumber,
+      //   "pharmacyName": data.pharmacyName,
 
-        "nationalId": data.nationalId,
-        "password": data.password,
-        "confirmPassword": data.confirmPassword,
-        "fullName": data.fullName,
-        "dateOfBirth": data.dateOfBirth,
-        "phoneNumber": data.phoneNumber,
-        "email": data.email,
-        "licenseNumber": data.licenseNumber,
-        "pharmacyName": data.pharmacyName,
+      //   // Additional fields
+      // });
 
-        // Additional fields
-      });
-
-      final res = await api.registerPharmacist(formData);
+      // final res = await api.registerPharmacist(formData);
+      final res = await api.registerPharmacist(FormData.fromMap(data.toJson()));
       final res2 = GeneralResponse.fromJson(res);
+      // xlog(res);
 
       if (res2.success.isN()) {
         return ErrorOr.success(data: res2);
       }
+      return ErrorOr.error(
+        error: ServerError(msg: res2.message ?? 'server error'),
+      );
 
-      return ErrorOr.error(error: ServerError(msg: res2.message ?? ''));
+      // return ErrorOr.error(error: ServerError(msg: res2.message ?? ''));
     } catch (e) {
       debugPrint('Pharmacist registration error: $e');
       return ErrorOr.error(error: ServerError(msg: 'Registration failed: $e'));
@@ -555,23 +570,33 @@ class AppRepositories {
   ) async {
     try {
       final json = await api.searchPrescription(identifier);
+      xlog(json);
       final res = PrescriptionsResponse.fromJson(json);
       if (res.success.isN()) {
         return ErrorOr.success(data: res);
       }
-      throw 'un able to get the data, Converssion Error';
+
+      return ErrorOr.error(
+        error: ServerError(
+          msg: (res.message != null && res.message!.isNotEmpty)
+              ? res.message!
+              : 'no results',
+        ),
+      );
+      // throw 'un able to get the data, Converssion Error ${res.toJson()}';
     } catch (e) {
       debugPrint('Search prescription error: $e');
       return ErrorOr.error(error: ServerError(msg: 'Search failed: $e'));
     }
   }
 
-  Future<ErrorOr<Map<String, dynamic>>> checkDrugInteractions(
-    Map<String, dynamic> data,
+  Future<ErrorOr<DrugsInteractionsResponse>> checkDrugInteractions(
+    int id,
   ) async {
     try {
-      final res = await api.checkDrugInteractions(data);
-      return ErrorOr.success(data: res);
+      final res = await api.checkDrugInteractions(id);
+      final a = DrugsInteractionsResponse.fromJson(res);
+      return ErrorOr.success(data: a);
     } catch (e) {
       debugPrint('Check drug interactions error: $e');
       return ErrorOr.error(

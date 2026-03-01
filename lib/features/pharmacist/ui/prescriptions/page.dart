@@ -1,344 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart';
+import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/core/constants/app_strings.dart';
-import 'package:health_app/core/error/app_error.dart';
+// import 'package:health_app/features/auth/data/responses/user/user_response.dart';
+import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/pharmacist/data/providers/prescriptions.dart';
-import 'package:health_app/features/pharmacist/ui/prescriptions/edit.dart';
+import 'package:health_app/features/pharmacist/data/responses/drugs_interaction.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
+// import 'package:health_app/shared/ex.dart' hide xlog;
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:health_app/shared/widgets/dialog/single_input_dialog.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/material.dart';
 
 import '../../domain/models/prescription.dart'
-    show Prescription, PrescriptionItem;
-
-// class  extends ConsumerStatefulWidget {
-//   const ({super.key});
-
-//   @override
-//   ConsumerState<ConsumerStatefulWidget> createState() => _State();
-// }
-
-// // class _State extends ConsumerState<> {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
-class PrescriptionPage extends ConsumerStatefulWidget {
-  const PrescriptionPage({super.key});
-
-  @override
-  ConsumerState<PrescriptionPage> createState() => _PrescriptionPageState();
-}
-
-class _PrescriptionPageState extends ConsumerState<PrescriptionPage> {
-  // final List<Prescription> _prescriptions = [];
-  // final ScrollController _scrollController = ScrollController();
-  // bool _isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // _scrollController.addListener(_onScroll);
-  }
-
-  // void _onScroll() {
-  //   if (_scrollController.position.pixels >=
-  //       _scrollController.position.maxScrollExtent - 200) {
-  //     if (!_isLoading && _prescriptions.isNotEmpty) _fetchPrescriptions();
-  //   }
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    final _prescriptions = ref.watch(prescriptionsProvider);
-    return Scaffold(
-      appBar: AppBar(title: const Text("My Prescriptions")),
-      body: _prescriptions.isEmpty
-          ? _buildEmptyState()
-          : RefreshIndicator(
-              onRefresh: () async {
-                // setState(() => _prescriptions.clear());
-                // await _fetchPrescriptions();
-              },
-              child: ListView.builder(
-                // controller: _scrollController,
-                padding: const EdgeInsets.all(12),
-                itemCount: _prescriptions.length,
-                itemBuilder: (context, index) {
-                  if (index < _prescriptions.length) {
-                    return PrescriptionCard(
-                      prescription: _prescriptions[index],
-                      // onEdit: () => _editPrescription(_prescriptions[index]),
-                      // onDelete: () =>
-                      // setState(() => _prescriptions.removeAt(index)),
-                    );
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                },
-              ),
-            ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.medication_liquid,
-            size: 100,
-            color: Colors.blueGrey,
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            "No prescriptions found",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          // ElevatedButton(
-          //   onPressed: _fetchPrescriptions,
-          //   child: const Text("Add Prescription"),
-          // ),
-        ],
-      ),
-    );
-  }
-
-  // void _editPrescription(Prescription p) {
-  //   // Logic to open an edit form
-  //   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Editing ${p.id}")));
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return EditPrescriptionDialog(prescription: p);
-  //     },
-  //   );
-  // }
-}
-
-class PrescriptionCard extends StatelessWidget {
-  final Prescription prescription;
-  // final VoidCallback onEdit;
-  // final VoidCallback onDelete;
-
-  const PrescriptionCard({
-    super.key,
-    required this.prescription,
-    // required this.onEdit,
-    // required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      margin: const EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header: Doctor & Actions
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      prescription.doctorName,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      prescription.diagnosis,
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                    Text(
-                      prescription.notes,
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                  ],
-                ),
-                // PopupMenuButton(
-                //   itemBuilder: (context) => [
-                //     const PopupMenuItem(value: 'edit', child: Text("Edit")),
-                //     const PopupMenuItem(
-                //       value: 'delete',
-                //       child: Text(
-                //         "Delete",
-                //         style: TextStyle(color: Colors.red),
-                //       ),
-                //     ),
-                //   ],
-                //   onSelected: (val) => val == 'edit' ? onEdit() : onDelete(),
-                // ),
-              ],
-            ),
-            const Divider(),
-            // Nested Items List
-            ...prescription.items.map(
-              (item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Row(
-                  children: [
-                    const Icon(Icons.circle, size: 8, color: Colors.blue),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        "${item.medicationName} (${item.dosage}) - ${item.frequency}",
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class EndlessListPage extends StatefulWidget {
-  const EndlessListPage({super.key});
-
-  @override
-  State<EndlessListPage> createState() => _EndlessListPageState();
-}
-
-class _EndlessListPageState extends State<EndlessListPage> {
-  final List<String> _items = [];
-  final ScrollController _scrollController = ScrollController();
-  bool _isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // Listen to scroll position for pagination
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200) {
-        if (!_isLoading && _items.isNotEmpty) {
-          _loadMoreData();
-        }
-      }
-    });
-  }
-
-  // Simulate fetching data
-  Future<void> _loadMoreData() async {
-    setState(() => _isLoading = true);
-
-    // Simulate network delay
-    await Future.delayed(const Duration(seconds: 2));
-
-    final newItems = List.generate(
-      15,
-      (index) => "Item ${_items.length + index + 1}",
-    );
-
-    setState(() {
-      _items.addAll(newItems);
-      _isLoading = false;
-    });
-  }
-
-  // Handle Refresh Indicator
-  Future<void> _handleRefresh() async {
-    setState(() => _items.clear());
-    await _loadMoreData();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Endless Scroll")),
-      // 1. Check if the list is empty
-      body: _items.isEmpty
-          ? _buildEmptyState()
-          : RefreshIndicator(
-              onRefresh: _handleRefresh,
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: _items.length + (_isLoading ? 1 : 0),
-                itemBuilder: (context, index) {
-                  if (index < _items.length) {
-                    return ListTile(
-                      title: Text(_items[index]),
-                      leading: const Icon(Icons.label),
-                    );
-                  } else {
-                    // Bottom Loader
-                    return const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Center(child: CircularProgressIndicator()),
-                    );
-                  }
-                },
-              ),
-            ),
-    );
-  }
-
-  // 2. Empty State Widget
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.cloud_off, size: 80, color: Colors.grey),
-          const SizedBox(height: 16),
-          const Text("No data found", style: TextStyle(fontSize: 18)),
-          const SizedBox(height: 24),
-          ElevatedButton.icon(
-            onPressed: _loadMoreData,
-            icon: const Icon(Icons.add),
-            label: const Text("Add First Items"),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-}
+    show
+        Prescription,
+        PrescriptionItem,
+        PrescriptionStatus,
+        PrescriptionStatusEnum;
+import 'submit_dialog.dart';
 
 class PrescriptionsPage extends ConsumerStatefulWidget {
   const PrescriptionsPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _PrescriptionsPageState();
+  ConsumerState<PrescriptionsPage> createState() => _PrescriptionsPageState();
 }
 
 class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
   void _handleSearchPress() async {
     final id = await showDialog(
       context: context,
-      builder: (context) {
-        return SingleInputDialog(label: 'المعرف', title: 'البحث عن وصفه');
-      },
+      builder: (context) => const SingleInputDialog(
+        label: 'Prescription ID',
+        title: 'Search Prescription',
+      ),
     );
 
     if (id != null) {
       AppDialog().loading(message: AppStrings.loadingMsg);
-
       final res = await di<AppRepositories>().searchPrescription(id);
-
       AppDialog().dismiss();
 
       res.when(
@@ -351,7 +52,7 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
           AppDialog().show(
             type: DialogType.error,
             message: e.msg,
-            title: 'Error',
+            title: 'Not Found',
           );
         },
       );
@@ -360,15 +61,36 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final data = [];
+    final prescriptions = ref.watch(prescriptionsProvider);
+
     return Scaffold(
-      // appBar: AppBar(),
-      body: data.isEmpty ? PrescriptionPage() : SingleChildScrollView(),
-      // body: data.isEmpty ? _buildEmptyState() : SingleChildScrollView(),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        title: const Text("Prescriptions"),
+        centerTitle: false,
+        actions: [
+          IconButton(
+            onPressed: () => ref.refresh(prescriptionsProvider),
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
+      ),
+      body: prescriptions.isEmpty
+          ? _buildEmptyState()
+          : RefreshIndicator(
+              onRefresh: () async => ref.refresh(prescriptionsProvider),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: prescriptions.length,
+                itemBuilder: (context, index) =>
+                    PrescriptionCard(prescription: prescriptions[index]),
+              ),
+            ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _handleSearchPress,
-        label: const Text('بحث'),
+        label: const Text('Search ID'),
         icon: const Icon(Icons.search),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
   }
@@ -378,16 +100,432 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.cloud_off, size: 80, color: Colors.grey),
-          const SizedBox(height: 16),
-          const Text("No data found", style: TextStyle(fontSize: 18)),
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.blueGrey.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.medication_liquid_sharp,
+              size: 80,
+              color: Colors.blueGrey,
+            ),
+          ),
           const SizedBox(height: 24),
-          // ElevatedButton.icon(
-          //   onPressed: () {},
-          //   icon: const Icon(Icons.add),
-          //   label: const Text("Add First Items"),
-          // ),
+          const Text(
+            "No Prescriptions Found",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            "Search for a prescription ID to begin",
+            style: TextStyle(color: Colors.grey),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class PrescriptionCard extends StatelessWidget {
+  final Prescription prescription;
+
+  const PrescriptionCard({super.key, required this.prescription});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: BorderSide(color: theme.dividerColor.withOpacity(0.1)),
+      ),
+      child: ExpansionTile(
+        clipBehavior: Clip.antiAlias,
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        leading: CircleAvatar(
+          backgroundColor:
+              prescription.getStatus() == PrescriptionStatusEnum.dispensed
+              ? Colors.blue
+              : Colors.grey,
+          child: Icon(
+            Icons.person,
+            // color: prescription.getStatus() == PrescriptionStatusEnum.dispensed
+            //     ? Colors.blue
+            //     : Colors.grey,
+          ),
+        ),
+        title: Text(
+          prescription.doctorName,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text("Diagnosis: ${prescription.diagnosis}"),
+        trailing: _buildPopupMenu(context),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Divider(),
+                const SizedBox(height: 8),
+                if (prescription.notes.isNotEmpty)
+                  _buildInfoRow(
+                    Icons.note_alt_outlined,
+                    "Notes",
+                    prescription.notes,
+                  ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.list_alt,
+                      size: 18,
+                      color: theme.colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      "Medication Plan",
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: theme.colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                ...prescription.items.map(
+                  (item) => _buildMedicationItem(context, item),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 16, color: Colors.grey),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              "$label: $value",
+              style: const TextStyle(color: Colors.black87, fontSize: 13),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMedicationItem(BuildContext context, PrescriptionItem item) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.medication, color: Colors.blue, size: 24),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.medicationName,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "${item.dosage} • ${item.frequency}",
+                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPopupMenu(BuildContext context) {
+    return PopupMenuButton(
+      icon: const Icon(Icons.more_vert),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      onSelected: (val) {
+        if (val == 'check') _handleInteractionCheck(context);
+        if (val == 'change-status') _handleChangestatus(context);
+      },
+      itemBuilder: (context) => [
+        const PopupMenuItem(
+          value: 'check',
+          child: ListTile(
+            leading: Icon(Icons.security, color: Colors.green),
+            title: Text("Drug Interactions"),
+            contentPadding: EdgeInsets.zero,
+            visualDensity: VisualDensity.compact,
+          ),
+        ),
+        const PopupMenuItem(
+          value: 'change-status',
+          child: ListTile(
+            leading: Icon(Icons.security, color: Colors.green),
+            title: Text("Change Status"),
+            contentPadding: EdgeInsets.zero,
+            visualDensity: VisualDensity.compact,
+          ),
+        ),
+        const PopupMenuItem(
+          value: 'delete',
+          child: ListTile(
+            leading: Icon(Icons.delete_outline, color: Colors.red),
+            title: Text("Remove", style: TextStyle(color: Colors.red)),
+            contentPadding: EdgeInsets.zero,
+            visualDensity: VisualDensity.compact,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _handleChangestatus(BuildContext context) async {
+    // 1. Show the confirmation dialog and wait for the boolean result
+    final bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.orange),
+              SizedBox(width: 8),
+              Text("Confirm Update"),
+            ],
+          ),
+          content: const Text(
+            "Are you sure you want to change the status of this prescription?",
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(
+                dialogContext,
+              ).pop(false), // Return false on cancel
+              child: const Text("Cancel", style: TextStyle(color: Colors.grey)),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(
+                dialogContext,
+              ).pop(true), // Return true on confirm
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
+    );
+
+    // 2. If the user clicked 'Confirm', execute your logic
+    if (confirm == true) {
+      AppDialog().loading();
+
+      try {
+        // TODO: Replace with your actual repository call
+        // final res = await di<AppRepositories>().updatePrescriptionStatus(prescription.id);
+
+        await Future.delayed(const Duration(seconds: 1)); // Simulated delay
+
+        AppDialog().dismiss();
+
+        // Optional: Show success snackbar
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Status updated successfully'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      } catch (e) {
+        AppDialog().dismiss();
+        AppDialog().show(
+          type: DialogType.error,
+          message: "Failed to update status",
+          title: 'Error',
+        );
+      }
+    }
+  }
+
+  void _handleInteractionCheck(BuildContext context) async {
+    AppDialog().loading();
+    final res = await di<AppRepositories>().checkDrugInteractions(
+      prescription.id,
+    );
+    AppDialog().dismiss();
+    showMessage() {
+      // TODO show snackbar success message
+    }
+    void callOnSubmit() async {
+      final a = await showDialog(
+        context: context,
+        builder: (context) {
+          return SubmitPrescriptionDialog(prescription: prescription);
+        },
+      );
+      if (a != null && a == true) {
+        showMessage();
+      }
+    }
+
+    onSubmitFunction() {
+      context.pop();
+
+      callOnSubmit();
+    }
+
+    res.when(
+      success: (s) {
+        showDialog(
+          context: context,
+          builder: (context) =>
+              InteractionResultDialog(result: s, onSubmit: onSubmitFunction),
+        );
+      },
+      error: (e) => xlog(e),
+    );
+
+    // res.when(
+    //   success: (s) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) => InteractionResultDialog(result: s),
+    //     );
+    //   },
+    //   error: (e) => xlog(e),
+    // );
+  }
+}
+
+class InteractionResultDialog extends StatelessWidget {
+  final DrugsInteractionsResponse
+  result; // Replace with your Interaction Model type
+  final Function() onSubmit;
+
+  const InteractionResultDialog({
+    super.key,
+    required this.result,
+    required this.onSubmit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final hasInteractions = result.hasInteractions;
+
+    return AlertDialog(
+      title: const Text("Safety Analysis"),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildStatusHeader(hasInteractions),
+              const SizedBox(height: 16),
+              if (hasInteractions)
+                ...result.warnings.map((w) => _buildWarningCard(w))
+              else
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    "All medications in this prescription are safe to take together.",
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+      actions: [TextButton(onPressed: onSubmit, child: const Text("Submit"))],
+    );
+  }
+
+  Widget _buildStatusHeader(bool hasInteractions) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: hasInteractions
+            ? Colors.red.withOpacity(0.1)
+            : Colors.green.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            hasInteractions
+                ? Icons.warning_amber_rounded
+                : Icons.check_circle_outline,
+            color: hasInteractions ? Colors.red : Colors.green,
+          ),
+          const SizedBox(width: 12),
+          Text(
+            hasInteractions ? "Conflicts Found" : "Safe Prescription",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: hasInteractions ? Colors.red : Colors.green,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWarningCard(dynamic w) {
+    return Card(
+      elevation: 0,
+      color: Colors.orange.shade50,
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "${w.medication1} ↔ ${w.medication2}",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.brown,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              w.description ?? 'No description',
+              style: const TextStyle(fontSize: 13),
+            ),
+            const SizedBox(height: 8),
+            if (w.recommendation != null)
+              Text(
+                "Advice: ${w.recommendation}",
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.blueGrey,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

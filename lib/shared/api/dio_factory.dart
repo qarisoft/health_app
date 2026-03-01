@@ -91,14 +91,17 @@ class DioFactory {
     // 4. Interceptors (Logging)
     // Only show logs in Debug mode, never in Release mode
     // if (!kReleaseMode) {
-    //   dio.interceptors.add(
-    //     PrettyDioLogger(
-    //       requestHeader: true,
-    //       requestBody: true,
-    //       responseHeader: true,
-    //     ),
-    //   );
+    dio.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        request: true,
+        responseHeader: true,
+        responseBody: true,
+      ),
+    );
     // }
+    // pm-ea3e5492
 
     // 5. Authentication Interceptor (Optional)
     // Useful for refreshing tokens automatically on 401 errors
