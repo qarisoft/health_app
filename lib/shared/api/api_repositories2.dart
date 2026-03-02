@@ -46,12 +46,19 @@ class AppRepositories {
   Future<ErrorOr<T>> handleDioRequest<T>({
     required Future<dynamic> Function() request,
     required T Function(dynamic) fromJson,
+    bool throwError = false,
   }) async {
     try {
       final response = await request();
 
       // xlog('response $response');
       final res = response;
+      // if (throwError) {
+      //   throw DioException(
+      //     requestOptions: response.requestOptions,
+      //     response: Response(requestOptions: RequestOptions(), statusCode: 401),
+      //   );
+      // }
       if (res.runtimeType == Response) {
         if (response.statusCode == 401) {
           throw DioException(
@@ -88,7 +95,7 @@ class AppRepositories {
               }
             } else {
               xlog('Token refresh failed');
-              // await clearLocalData();
+              await clearLocalData();
               return ErrorOr.error(
                 error: ServerError(msg: 'Session expired. Please login again.'),
               );
@@ -96,7 +103,7 @@ class AppRepositories {
           },
           error: (error) {
             xlog('Token refresh error: $error');
-            // clearLocalData();
+            clearLocalData();
             return ErrorOr.error(
               error: ServerError(msg: 'Session expired. Please login again.'),
             );
