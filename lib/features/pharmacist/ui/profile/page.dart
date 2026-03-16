@@ -14,12 +14,10 @@ import 'package:health_app/features/auth/domain/models/patient.dart'
     show Pharmacist;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/pharmacist/data/requests/profile.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
-import '../../../doctor/ui/home.dart';
 import '../../../home/ui/pages/p.dart' as patient_app;
 
 // import 'package:freezed_annotation/freezed_annotation.dart';

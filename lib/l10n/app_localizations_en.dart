@@ -50,6 +50,228 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get failedToLoadDashboard => 'Failed to load dashboard';
+
+  @override
+  String get noDashboardData => 'No dashboard data available.';
+
+  @override
+  String get overview => 'Overview';
+
+  @override
+  String get visits => 'Visits';
+
+  @override
+  String get doctors => 'Doctors';
+
+  @override
+  String get latestDiagnosis => 'Latest Diagnosis';
+
+  @override
+  String get seeHistory => 'See History';
+
+  @override
+  String get medicationsLabel => 'Medications:';
+
+  @override
+  String get recentActivities => 'Recent Activities';
+
+  @override
+  String get emergencyInfo => 'Emergency Info';
+
+  @override
+  String get scanForMedicalProfile => 'Scan for Medical Profile';
+
+  @override
+  String get failedToLoadEmergencyData => 'Failed to load emergency data.';
+
+  @override
+  String get createMedicalRecordStep => 'Create Medical Record - Step';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get addHealthData => 'Add Health Data';
+
+  @override
+  String get medicationPlan => 'Medication Plan';
+
+  @override
+  String get healthSummary => 'Health Summary';
+
+  @override
+  String get goodMorning => 'Good Morning,';
+
+  @override
+  String get goodAfternoon => 'Good Afternoon,';
+
+  @override
+  String get goodEvening => 'Good Evening,';
+
+  @override
+  String get viewDetailedReport => 'View Detailed Report';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get dispense => 'Dispense';
+
+  @override
+  String get myPrescriptions => 'My Prescriptions';
+
+  @override
+  String get addPrescription => 'Add Prescription';
+
+  @override
+  String get diagnosisLabel => 'Diagnosis:';
+
+  @override
+  String get aboutApp => 'About App';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get privacyAndSecurity => 'Privacy & Security';
+
+  @override
+  String get selectLanguage => 'Select Language';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get removePhoto => 'Remove Photo';
+
+  @override
+  String get takePhoto => 'Take Photo';
+
+  @override
+  String get chooseFromGallery => 'Choose from Gallery';
+
+  @override
+  String get themeDescription => 'Switch between dark and light theme';
+
+  @override
+  String get notificationsDescription => 'Enable or disable notifications';
+
+  @override
+  String get logoutConfirmation => 'Are you sure you want to log out?';
+
+  @override
+  String get patientDigitalId => 'Patient Digital ID';
+
+  @override
+  String get dataTooLargeQr => 'Data too large for QR code';
+
+  @override
+  String get failedToLoadImage => 'Failed to load image';
+
+  @override
+  String get invalidImageData => 'Invalid image data';
+
+  @override
+  String get findPatient => 'Find Patient';
+
+  @override
+  String get patientPrescriptions => 'Patient Prescriptions';
+
+  @override
+  String get newPrescription => 'New Prescription';
+
+  @override
+  String get addToList => 'Add to List';
+
+  @override
+  String get editPrescription => 'Edit Prescription';
+
+  @override
+  String get allergenName => 'Allergen Name';
+
+  @override
+  String get frequency => 'Frequency';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get reaction => 'Reaction';
+
+  @override
+  String get allergySeverity => 'Allergy Severity';
+
+  @override
+  String get createProfile => 'Create Profile';
+
+  @override
+  String get medicineName => 'Medicine Name';
+
+  @override
+  String get dosage => 'Dosage';
+
+  @override
+  String get changesSavedSuccessfully => 'Changes saved successfully';
+
+  @override
+  String get previous => 'Previous';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get enterPassword => 'Please enter password';
+
+  @override
+  String get passwordTooShort => 'Password must be at least 6 characters';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get pleaseSelectUserType => 'Please select user type';
+
+  @override
+  String get pleaseEnterName => 'Please enter your name';
+
+  @override
+  String get pleaseEnterEmail => 'Please enter your email';
+
+  @override
+  String get pleaseEnterPhoneNumber => 'Please enter phone number';
+
+  @override
+  String get invalidDate => 'You must enter a valid date';
+
+  @override
+  String get licenseNumber => 'License Number';
+
+  @override
+  String get pleaseEnterLicenseNumber => 'Please enter license number';
+
+  @override
+  String get specialization => 'Specialization';
+
+  @override
+  String get pleaseEnterSpecialization => 'Please enter specialization';
+
+  @override
+  String get pharmacyName => 'Pharmacy Name';
+
+  @override
+  String get pleaseEnterPharmacyName => 'Please enter pharmacy name';
+
+  @override
+  String get errorPickingFile => 'Error picking file';
+
+  @override
   String get medicalHistory => 'Medical History';
 
   @override
@@ -233,6 +455,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bmi => 'BMI';
+
+  @override
+  String get profilePage => 'profile';
+
+  @override
+  String get activePrescriptions => 'active Prescriptions';
+
+  @override
+  String get inactivePrescriptions => 'inactive Prescriptions';
+
+  @override
+  String get partialDispensed => 'partial Dispensed';
+
+  @override
+  String get canceled => 'canceled';
+
+  @override
+  String get inReview => 'inReview';
+
+  @override
+  String get dispensed => 'dispensed';
+
+  @override
+  String get needConsultation => 'need Consultation';
 
   @override
   String get isSmoker => 'Smoker';

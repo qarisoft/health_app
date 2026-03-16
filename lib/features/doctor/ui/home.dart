@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/auth_state.dart';
-import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart'
     show Doctor;
@@ -15,11 +13,10 @@ import 'package:health_app/features/doctor/ui/medical_record.dart';
 import 'package:health_app/features/doctor/ui/prescreptions.dart';
 import 'package:health_app/features/doctor/ui/profile.dart';
 import 'package:health_app/features/doctor/ui/widgets/patient_page.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/single_input_dialog.dart' hide SingleInputDialog;
 import '../data/repositories/patient_repo.dart' show PatientRepository;
-import '../domain/patient.dart' show Patient;
 // import '../widgets/patient_form_dialog.dart';
 // import '../widgets/patient_card.dart';
 // import '../models/patient.dart';
@@ -227,25 +224,23 @@ class _DoctorHomeState extends State<DoctorHome> {
                             patient.nationalId,
                           ),
 
-                          if (patient.email != null)
-                            _buildDetailRow(
-                              Icons.email,
-                              localizations.email,
-                              patient.email!,
-                            ),
+                          _buildDetailRow(
+                            Icons.email,
+                            localizations.email,
+                            patient.email,
+                          ),
 
-                          if (patient.gender != null)
-                            _buildDetailRow(
-                              patient.gender == 'male'
-                                  ? Icons.male
-                                  : Icons.female,
-                              localizations.gender,
-                              patient.gender == 'male'
-                                  ? localizations.male
-                                  : patient.gender == 'female'
-                                  ? localizations.female
-                                  : localizations.other,
-                            ),
+                          _buildDetailRow(
+                            patient.gender == 'male'
+                                ? Icons.male
+                                : Icons.female,
+                            localizations.gender,
+                            patient.gender == 'male'
+                                ? localizations.male
+                                : patient.gender == 'female'
+                                ? localizations.female
+                                : localizations.other,
+                          ),
 
                           // if (patient.bloodType != null)
                           //   _buildDetailRow(
@@ -260,12 +255,11 @@ class _DoctorHomeState extends State<DoctorHome> {
                           //     localizations.dateOfBirth,
                           //     '${patient.dateOfBirth!.day}/${patient.dateOfBirth!.month}/${patient.dateOfBirth!.year}',
                           //   ),
-                          if (patient.address != null)
-                            _buildDetailRow(
-                              Icons.location_on,
-                              localizations.address,
-                              patient.address!,
-                            ),
+                          _buildDetailRow(
+                            Icons.location_on,
+                            localizations.address,
+                            patient.address,
+                          ),
 
                           // if (patient.emergencyContact != null)
                           // _buildDetailRow(
@@ -317,10 +311,10 @@ class _DoctorHomeState extends State<DoctorHome> {
             );
           },
           error: (Object error, StackTrace stackTrace) {
-            return Container(child: Text(error.toString()));
+            return Center(child: Text(error.toString()));
           },
           loading: () {
-            return CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           },
         );
 
@@ -406,43 +400,40 @@ class _DoctorHomeState extends State<DoctorHome> {
     IconData icon,
     Color color,
   ) {
-    return Container(
-      // color: Colors.red,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: color, size: 24),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
           ),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+          child: Icon(icon, color: color, size: 24),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: color,
           ),
-          const SizedBox(height: 4),
-          Center(
-            child: SizedBox(
-              width: MediaQuery.widthOf(context) / 4,
-              child: Center(
-                child: Text(
-                  title.replaceFirst('المرضى', ''),
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                ),
+        ),
+        const SizedBox(height: 4),
+        Center(
+          child: SizedBox(
+            width: MediaQuery.widthOf(context) / 4,
+            child: Center(
+              child: Text(
+                title.replaceFirst('المرضى', ''),
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -474,7 +465,7 @@ class _DoctorHomeState extends State<DoctorHome> {
           // xlog(error);
           AppDialog().dismiss();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Patient not found: ${error.msg}')),
+            SnackBar(content: Text('${context.tr.noPatientsFound}: ${error.msg}')),
           );
         },
       );
@@ -493,7 +484,7 @@ class _DoctorHomeState extends State<DoctorHome> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _loadPatients,
-            tooltip: 'Refresh',
+            tooltip: localizations.refresh,
           ),
         ],
       ),
@@ -562,7 +553,7 @@ class _DoctorHomeState extends State<DoctorHome> {
                               onPressed: () {
                                 _searchController.clear();
                               },
-                              child: Text('Clear search'),
+                              child: Text(localizations.clearSearch),
                             ),
                           ),
                       ],
@@ -628,13 +619,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF8FAFD),
+      backgroundColor: const Color(0xFFF8FAFD),
       body: PageView(
         controller: _pageController,
         children: [
-          DoctorHome(),
-          DoctorMedicalRecord(),
-          PrescreptionsPage(),
+          const DoctorHome(),
+          const DoctorMedicalRecord(),
+          const PrescreptionsPage(),
           DoctorProfilePage(
             doctor: Doctor(
               email: 'dsadsa@dsads.sa',
@@ -729,18 +720,18 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBottomNavBar() {
     return BottomAppBar(
-      shape: CircularNotchedRectangle(),
+      shape: const CircularNotchedRectangle(),
       // notchMargin: 8,
       child: SizedBox(
         height: 70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(Icons.home, 'Home', 0),
-            _buildNavItem(Icons.bar_chart, 'records', 1),
+            _buildNavItem(Icons.home, context.tr.home, 0),
+            _buildNavItem(Icons.bar_chart, context.tr.medicalRecord, 1),
             // SizedBox(width: 40), // Space for FAB
-            _buildNavItem(Icons.fitness_center, 'prescriptions', 2),
-            _buildNavItem(Icons.person, 'Profile', 3),
+            _buildNavItem(Icons.fitness_center, context.tr.prescriptions, 2),
+            _buildNavItem(Icons.person, context.tr.profile, 3),
           ],
         ),
       ),
@@ -761,18 +752,18 @@ class _HomePageState extends State<HomePage> {
           Icon(
             icon,
             color: _selectedIndex == index
-                ? Color(0xFF4A6FFF)
-                : Color(0xFF8A8A8A),
+                ? const Color(0xFF4A6FFF)
+                : const Color(0xFF8A8A8A),
             size: 28,
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
               fontSize: 12,
               color: _selectedIndex == index
-                  ? Color(0xFF4A6FFF)
-                  : Color(0xFF8A8A8A),
+                  ? const Color(0xFF4A6FFF)
+                  : const Color(0xFF8A8A8A),
             ),
           ),
         ],

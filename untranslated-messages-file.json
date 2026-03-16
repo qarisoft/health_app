@@ -1,1 +1,20 @@
-{}
+{
+  "ar": [
+    "enterPassword",
+    "passwordTooShort",
+    "passwordsDoNotMatch",
+    "pleaseSelectUserType",
+    "pleaseEnterName",
+    "pleaseEnterEmail",
+    "pleaseEnterPhoneNumber",
+    "invalidDate",
+    "licenseNumber",
+    "pleaseEnterLicenseNumber",
+    "specialization",
+    "pleaseEnterSpecialization",
+    "pharmacyName",
+    "pleaseEnterPharmacyName",
+    "errorPickingFile",
+    "inactivePrescriptions"
+  ]
+}

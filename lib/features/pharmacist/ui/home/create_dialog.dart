@@ -1,5 +1,4 @@
 // lib/features/prescription/presentation/pages/create_prescription_page.dart
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/core/constants/_all.dart';
@@ -10,7 +9,6 @@ import 'package:health_app/features/doctor/data/providers/search_patient.dart'
     show medicationSearchResultsProvider, MedicationSearchResult;
 import 'package:health_app/features/pharmacist/data/providers/create_rescription.dart';
 import 'package:health_app/features/pharmacist/data/providers/search_provider.dart';
-import 'package:health_app/features/pharmacist/data/requests/create_prescription.dart';
 import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 // import '../providers/prescription_provider.dart';

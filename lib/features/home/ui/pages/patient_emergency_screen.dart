@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/shared/ex.dart';
 
 import '../../data/providers/emergency.dart' show patientEmergencyProvider;
 import 'qr.dart';
@@ -14,7 +15,7 @@ class EmergenciesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Emergency Info'),
+        title: Text(context.tr.emergencyInfo),
         // A distinct color helps indicate the critical nature of this screen
         backgroundColor: Colors.red.shade600,
         foregroundColor: Colors.white,
@@ -34,23 +35,23 @@ class EmergenciesScreen extends ConsumerWidget {
               children: [
 
                 // --- Personal & Contact Info ---
-                _buildSectionHeader('Personal Information', Icons.person),
-                _buildInfoTile('Full Name', info.fullName ?? 'Not provided'),
-                _buildInfoTile('Blood Type', _getBloodType(info.bloodType)),
+                _buildSectionHeader(context, context.tr.personalInformation, Icons.person),
+                _buildInfoTile(context.tr.name, info.fullName ?? 'Not provided'),
+                _buildInfoTile(context.tr.bloodType, _getBloodType(info.bloodType)),
 
                 const SizedBox(height: 16),
 
-                _buildSectionHeader('Emergency Contact', Icons.contact_phone),
-                _buildInfoTile('Name', info.emergencyContact ?? 'Not provided'),
-                _buildInfoTile('Phone', info.emergencyPhone ?? 'Not provided', isPhone: true),
+                _buildSectionHeader(context, context.tr.emergencyContact, Icons.contact_phone),
+                _buildInfoTile(context.tr.name, info.emergencyContact ?? 'Not provided'),
+                _buildInfoTile(context.tr.phoneNumber, info.emergencyPhone ?? 'Not provided', isPhone: true),
 
                 const SizedBox(height: 16),
 
                 // --- Medical Info ---
-                _buildSectionHeader('Medical Information', Icons.medical_services),
-                _buildListSection('Allergies', info.allergies),
-                _buildListSection('Chronic Diseases', info.chronicDiseases),
-                _buildListSection('Current Medications', info.currentMedications),
+                _buildSectionHeader(context, context.tr.medicalInformation, Icons.medical_services),
+                _buildListSection(context, context.tr.allergies, info.allergies),
+                _buildListSection(context, context.tr.chronicConditions, info.chronicDiseases),
+                _buildListSection(context, context.tr.currentMedications, info.currentMedications),
 
 
                 if (info.qrCodeUrl != null) ...[
@@ -61,9 +62,9 @@ class EmergenciesScreen extends ConsumerWidget {
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: [
-                            const Text(
-                              'Scan for Medical Profile',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            Text(
+                              context.tr.scanForMedicalProfile,
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 12),
                             ImageFromDataUrl(dataUrl: info.qrCodeUrl!),
@@ -83,10 +84,10 @@ class EmergenciesScreen extends ConsumerWidget {
             children: [
               const Icon(Icons.error_outline, color: Colors.red, size: 48),
               const SizedBox(height: 16),
-              const Text('Failed to load emergency data.'),
+              Text(context.tr.failedToLoadEmergencyData),
               TextButton(
                 onPressed: () => ref.invalidate(patientEmergencyProvider),
-                child: const Text('Retry'),
+                child: Text(context.tr.retry),
               )
             ],
           ),
@@ -98,7 +99,7 @@ class EmergenciesScreen extends ConsumerWidget {
 
   // --- UI Helper Methods ---
 
-  Widget _buildSectionHeader(String title, IconData icon) {
+  Widget _buildSectionHeader(BuildContext context, String title, IconData icon) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
@@ -135,7 +136,7 @@ class EmergenciesScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildListSection(String label, List<String>? items) {
+  Widget _buildListSection(BuildContext context, String label, List<String>? items) {
     if (items == null || items.isEmpty) {
       return _buildInfoTile(label, 'None reported');
     }

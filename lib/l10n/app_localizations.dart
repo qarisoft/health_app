@@ -176,6 +176,450 @@ abstract class AppLocalizations {
   /// **'Welcome, {name}'**
   String welcome(String name);
 
+  /// No description provided for @failedToLoadDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load dashboard'**
+  String get failedToLoadDashboard;
+
+  /// No description provided for @noDashboardData.
+  ///
+  /// In en, this message translates to:
+  /// **'No dashboard data available.'**
+  String get noDashboardData;
+
+  /// No description provided for @overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overview;
+
+  /// No description provided for @visits.
+  ///
+  /// In en, this message translates to:
+  /// **'Visits'**
+  String get visits;
+
+  /// No description provided for @doctors.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctors'**
+  String get doctors;
+
+  /// No description provided for @latestDiagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest Diagnosis'**
+  String get latestDiagnosis;
+
+  /// No description provided for @seeHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'See History'**
+  String get seeHistory;
+
+  /// No description provided for @medicationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Medications:'**
+  String get medicationsLabel;
+
+  /// No description provided for @recentActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activities'**
+  String get recentActivities;
+
+  /// No description provided for @emergencyInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Info'**
+  String get emergencyInfo;
+
+  /// No description provided for @scanForMedicalProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan for Medical Profile'**
+  String get scanForMedicalProfile;
+
+  /// No description provided for @failedToLoadEmergencyData.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load emergency data.'**
+  String get failedToLoadEmergencyData;
+
+  /// No description provided for @createMedicalRecordStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Medical Record - Step'**
+  String get createMedicalRecordStep;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @addHealthData.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Health Data'**
+  String get addHealthData;
+
+  /// No description provided for @medicationPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication Plan'**
+  String get medicationPlan;
+
+  /// No description provided for @healthSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Summary'**
+  String get healthSummary;
+
+  /// No description provided for @goodMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good Morning,'**
+  String get goodMorning;
+
+  /// No description provided for @goodAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good Afternoon,'**
+  String get goodAfternoon;
+
+  /// No description provided for @goodEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good Evening,'**
+  String get goodEvening;
+
+  /// No description provided for @viewDetailedReport.
+  ///
+  /// In en, this message translates to:
+  /// **'View Detailed Report'**
+  String get viewDetailedReport;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @dispense.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispense'**
+  String get dispense;
+
+  /// No description provided for @myPrescriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'My Prescriptions'**
+  String get myPrescriptions;
+
+  /// No description provided for @addPrescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Prescription'**
+  String get addPrescription;
+
+  /// No description provided for @diagnosisLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnosis:'**
+  String get diagnosisLabel;
+
+  /// No description provided for @aboutApp.
+  ///
+  /// In en, this message translates to:
+  /// **'About App'**
+  String get aboutApp;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
+
+  /// No description provided for @privacyAndSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Security'**
+  String get privacyAndSecurity;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @removePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Photo'**
+  String get removePhoto;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// No description provided for @chooseFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from Gallery'**
+  String get chooseFromGallery;
+
+  /// No description provided for @themeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch between dark and light theme'**
+  String get themeDescription;
+
+  /// No description provided for @notificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable or disable notifications'**
+  String get notificationsDescription;
+
+  /// No description provided for @logoutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get logoutConfirmation;
+
+  /// No description provided for @patientDigitalId.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Digital ID'**
+  String get patientDigitalId;
+
+  /// No description provided for @dataTooLargeQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Data too large for QR code'**
+  String get dataTooLargeQr;
+
+  /// No description provided for @failedToLoadImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load image'**
+  String get failedToLoadImage;
+
+  /// No description provided for @invalidImageData.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid image data'**
+  String get invalidImageData;
+
+  /// No description provided for @findPatient.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Patient'**
+  String get findPatient;
+
+  /// No description provided for @patientPrescriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Prescriptions'**
+  String get patientPrescriptions;
+
+  /// No description provided for @newPrescription.
+  ///
+  /// In en, this message translates to:
+  /// **'New Prescription'**
+  String get newPrescription;
+
+  /// No description provided for @addToList.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to List'**
+  String get addToList;
+
+  /// No description provided for @editPrescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Prescription'**
+  String get editPrescription;
+
+  /// No description provided for @allergenName.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergen Name'**
+  String get allergenName;
+
+  /// No description provided for @frequency.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency'**
+  String get frequency;
+
+  /// No description provided for @duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// No description provided for @reaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reaction'**
+  String get reaction;
+
+  /// No description provided for @allergySeverity.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergy Severity'**
+  String get allergySeverity;
+
+  /// No description provided for @createProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Profile'**
+  String get createProfile;
+
+  /// No description provided for @medicineName.
+  ///
+  /// In en, this message translates to:
+  /// **'Medicine Name'**
+  String get medicineName;
+
+  /// No description provided for @dosage.
+  ///
+  /// In en, this message translates to:
+  /// **'Dosage'**
+  String get dosage;
+
+  /// No description provided for @changesSavedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes saved successfully'**
+  String get changesSavedSuccessfully;
+
+  /// No description provided for @previous.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get previous;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @enterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter password'**
+  String get enterPassword;
+
+  /// No description provided for @passwordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordTooShort;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// No description provided for @pleaseSelectUserType.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select user type'**
+  String get pleaseSelectUserType;
+
+  /// No description provided for @pleaseEnterName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your name'**
+  String get pleaseEnterName;
+
+  /// No description provided for @pleaseEnterEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get pleaseEnterEmail;
+
+  /// No description provided for @pleaseEnterPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter phone number'**
+  String get pleaseEnterPhoneNumber;
+
+  /// No description provided for @invalidDate.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a valid date'**
+  String get invalidDate;
+
+  /// No description provided for @licenseNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'License Number'**
+  String get licenseNumber;
+
+  /// No description provided for @pleaseEnterLicenseNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter license number'**
+  String get pleaseEnterLicenseNumber;
+
+  /// No description provided for @specialization.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialization'**
+  String get specialization;
+
+  /// No description provided for @pleaseEnterSpecialization.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter specialization'**
+  String get pleaseEnterSpecialization;
+
+  /// No description provided for @pharmacyName.
+  ///
+  /// In en, this message translates to:
+  /// **'Pharmacy Name'**
+  String get pharmacyName;
+
+  /// No description provided for @pleaseEnterPharmacyName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter pharmacy name'**
+  String get pleaseEnterPharmacyName;
+
+  /// No description provided for @errorPickingFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Error picking file'**
+  String get errorPickingFile;
+
   /// Title for medical history section and page
   ///
   /// In en, this message translates to:
@@ -541,6 +985,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'BMI'**
   String get bmi;
+
+  /// No description provided for @profilePage.
+  ///
+  /// In en, this message translates to:
+  /// **'profile'**
+  String get profilePage;
+
+  /// No description provided for @activePrescriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'active Prescriptions'**
+  String get activePrescriptions;
+
+  /// No description provided for @inactivePrescriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'inactive Prescriptions'**
+  String get inactivePrescriptions;
+
+  /// No description provided for @partialDispensed.
+  ///
+  /// In en, this message translates to:
+  /// **'partial Dispensed'**
+  String get partialDispensed;
+
+  /// No description provided for @canceled.
+  ///
+  /// In en, this message translates to:
+  /// **'canceled'**
+  String get canceled;
+
+  /// No description provided for @inReview.
+  ///
+  /// In en, this message translates to:
+  /// **'inReview'**
+  String get inReview;
+
+  /// No description provided for @dispensed.
+  ///
+  /// In en, this message translates to:
+  /// **'dispensed'**
+  String get dispensed;
+
+  /// No description provided for @needConsultation.
+  ///
+  /// In en, this message translates to:
+  /// **'need Consultation'**
+  String get needConsultation;
 
   /// Label for smoking status toggle
   ///

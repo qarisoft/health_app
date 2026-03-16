@@ -3,7 +3,6 @@ import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
-import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import './features/auth/domain/models/account.dart' as Ac;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/features/doctor/data/responses/patient_response.dart';
 import 'package:health_app/features/doctor/ui/create_medical_record.dart';
 import 'package:health_app/features/doctor/ui/create_prescription.dart';

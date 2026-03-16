@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/core/constants/_all.dart';
+import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/functions.dart';
 import 'package:intl/intl.dart';
 
@@ -32,7 +32,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             if (summaryData == null) {
               return _buildEmptyState();
             }
-            xlog(summaryData.toJson());
+            // xlog(summaryData.toJson());
 
             return _buildDashboardContent(summaryData);
           },
@@ -43,11 +43,11 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               children: [
                 const Icon(Icons.error_outline, color: Colors.red, size: 48),
                 const SizedBox(height: 16),
-                const Text('Failed to load dashboard'),
+                Text(context.tr.failedToLoadDashboard),
                 TextButton(
                   onPressed: () =>
                       ref.invalidate(patientDashboardSummaryProvider),
-                  child: const Text('Retry'),
+                  child: Text(context.tr.retry),
                 ),
               ],
             ),
@@ -94,10 +94,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       child: ListView(
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.3),
-          const Center(
+          Center(
             child: Text(
-              'No dashboard data available.',
-              style: TextStyle(color: Colors.grey, fontSize: 16),
+              context.tr.noDashboardData,
+              style: const TextStyle(color: Colors.grey, fontSize: 16),
             ),
           ),
         ],
@@ -134,7 +134,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                   child: Row(
                     children: [
                       Text(
-                        ' فصيلة الدم : ${_getBloodType(profile!.bloodType)}',
+                        '${context.tr.bloodType}: ${_getBloodType(profile!.bloodType)}',
                         style: TextStyle(
 
                           fontSize: 12,
@@ -166,9 +166,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Welcome back!',
-            style: TextStyle(
+          Text(
+            context.tr.loginTitle,
+            style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w800,
               color: Color(0xFF2D2D2D),
@@ -195,9 +195,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Overview',
-            style: TextStyle(
+          Text(
+            context.tr.overview,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
               color: Color(0xFF2D2D2D),
@@ -208,7 +208,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             children: [
               Expanded(
                 child: _buildStatCard(
-                  'Visits',
+                  context.tr.visits,
                   stats.totalVisits.toString(),
                   Icons.medical_services,
                   const Color(0xFF4A6FFF),
@@ -217,7 +217,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               const SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
-                  'Doctors',
+                  context.tr.doctors,
                   stats.uniqueDoctors.toString(),
                   Icons.people_outline,
                   const Color(0xFF9B51E0),
@@ -230,7 +230,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             children: [
               Expanded(
                 child: _buildStatCard(
-                  'Prescriptions',
+                  context.tr.prescriptions,
                   stats.totalPrescriptions.toString(),
                   Icons.medication,
                   const Color(0xFF2D9CDB),
@@ -239,7 +239,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               const SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
-                  'Pending',
+                  context.tr.pending,
                   stats.pendingPrescriptions.toString(),
                   Icons.pending_actions,
                   stats.pendingPrescriptions > 0
@@ -318,9 +318,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Latest Diagnosis',
-                style: TextStyle(
+              Text(
+                context.tr.latestDiagnosis,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF2D2D2D),
@@ -335,9 +335,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                   minimumSize: const Size(50, 30),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-                child: const Text(
-                  'See History',
-                  style: TextStyle(
+                child: Text(
+                  context.tr.seeHistory,
+                  style: const TextStyle(
                     color: Color(0xFF4A6FFF),
                     fontWeight: FontWeight.w600,
                   ),
@@ -479,8 +479,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Active Prescription',
+          Text(
+            context.tr.activePrescriptions,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 12),
@@ -544,9 +544,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                       color: Colors.orange.withOpacity(0.9),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text(
-                      'Pending',
-                      style: TextStyle(
+                    child: Text(
+                      context.tr.pending,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -583,20 +583,20 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Incomplete Profile',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.orange.shade900,
+                      color: Color(0xFF7A5900), // Darker orange for readability
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
+                  const Text(
                     'Please complete your medical profile for better assistance during emergencies.',
                     style: TextStyle(
                       fontSize: 13,
-                      color: Colors.orange.shade800,
+                      color: Color(0xFF8B6B00),
                     ),
                   ),
                 ],

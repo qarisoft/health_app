@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:health_app/core/constants/app_layout.dart';
 import 'package:health_app/features/doctor/data/requests/home.dart';
 import 'package:health_app/shared/ex.dart';
-import '../../domain/patient.dart' show Patient;
 
 class PatientFormDialog extends StatefulWidget {
   final RecentPatient? patient;

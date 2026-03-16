@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/auth_state.dart';
 import 'package:health_app/shared/ex.dart' show AppEx;
 import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/core/constants/app_strings.dart';
@@ -9,7 +8,6 @@ import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/pharmacist/data/providers/prescriptions.dart';
 import 'package:health_app/features/pharmacist/data/responses/drugs_interaction.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 // import 'package:health_app/shared/ex.dart' hide xlog;
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:health_app/shared/widgets/dialog/single_input_dialog.dart';
@@ -34,9 +32,9 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
   void _handleSearchPress(WidgetRef ref) async {
     final id = await showDialog(
       context: context,
-      builder: (context) => const SingleInputDialog(
-        label: 'Prescription ID',
-        title: 'Search Prescription',
+      builder: (context) => SingleInputDialog(
+        label: context.tr.patientId,
+        title: context.tr.search,
         initialValue: 'pm-ea3e5492',
       ),
     );
@@ -56,7 +54,7 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
           AppDialog().show(
             type: DialogType.error,
             message: e.msg,
-            title: 'Not Found',
+            title: context.tr.noMedicalHistoryFound,
           );
         },
       );
@@ -71,7 +69,7 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text("Prescriptions"),
+        title: Text(context.tr.prescriptions),
         centerTitle: false,
         actions: [
           IconButton(
@@ -98,7 +96,7 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
         builder: (context, ref, _) {
           return FloatingActionButton.extended(
             onPressed: () => _handleSearchPress(ref),
-            label: const Text('Search ID'),
+            label: Text(context.tr.clearSearch),
             icon: const Icon(Icons.search),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -127,14 +125,14 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
-            "No Prescriptions Found",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Text(
+            context.tr.noMedicalHistoryFound,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
-          const Text(
-            "Search for a prescription ID to begin",
-            style: TextStyle(color: Colors.grey),
+          Text(
+            context.tr.searchPatients,
+            style: const TextStyle(color: Colors.grey),
           ),
         ],
       ),
@@ -167,7 +165,7 @@ class PrescriptionCard extends StatelessWidget {
               prescription.getStatus() == PrescriptionStatusEnum.dispensed
               ? Colors.blue
               : Colors.grey,
-          child: Icon(
+          child: const Icon(
             Icons.person,
             // color: prescription.getStatus() == PrescriptionStatusEnum.dispensed
             //     ? Colors.blue
@@ -178,7 +176,7 @@ class PrescriptionCard extends StatelessWidget {
           prescription.doctorName,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text("Diagnosis: ${prescription.diagnosis}"),
+        subtitle: Text("${context.tr.diagnosisLabel} ${prescription.diagnosis}"),
         trailing: _buildPopupMenu(context, prescription),
         children: [
           Padding(
@@ -191,7 +189,7 @@ class PrescriptionCard extends StatelessWidget {
                 if (prescription.notes.isNotEmpty)
                   _buildInfoRow(
                     Icons.note_alt_outlined,
-                    "Notes",
+                    context.tr.notes,
                     prescription.notes,
                   ),
                 const SizedBox(height: 12),
@@ -204,7 +202,7 @@ class PrescriptionCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "Medication Plan",
+                      context.tr.medicationPlan,
                       style: theme.textTheme.labelLarge?.copyWith(
                         color: theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,
@@ -248,7 +246,7 @@ class PrescriptionCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+        color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -292,26 +290,26 @@ class PrescriptionCard extends StatelessWidget {
               value: 'check',
               enabled: prescription.status != 2,
               child: ListTile(
-                leading: Icon(Icons.security, color: Colors.green),
-                title: Text("Drug Interactions"),
+                leading: const Icon(Icons.security, color: Colors.green),
+                title: Text(context.tr.privacyAndSecurity),
                 contentPadding: EdgeInsets.zero,
                 visualDensity: VisualDensity.compact,
               ),
             ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'change-status',
               child: ListTile(
-                leading: Icon(Icons.security, color: Colors.green),
-                title: Text("Change Status"),
+                leading: const Icon(Icons.security, color: Colors.green),
+                title: Text(context.tr.status),
                 contentPadding: EdgeInsets.zero,
                 visualDensity: VisualDensity.compact,
               ),
             ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'delete',
               child: ListTile(
-                leading: Icon(Icons.delete_outline, color: Colors.red),
-                title: Text("Remove", style: TextStyle(color: Colors.red)),
+                leading: const Icon(Icons.delete_outline, color: Colors.red),
+                title: Text(context.tr.delete, style: const TextStyle(color: Colors.red)),
                 contentPadding: EdgeInsets.zero,
                 visualDensity: VisualDensity.compact,
               ),
@@ -354,8 +352,8 @@ class PrescriptionCard extends StatelessWidget {
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Status updated successfully'),
+             SnackBar(
+              content: Text(context.tr.changesSavedSuccessfully),
               backgroundColor: Colors.green,
             ),
           );
@@ -368,7 +366,7 @@ class PrescriptionCard extends StatelessWidget {
         AppDialog().show(
           type: DialogType.error,
           message: "Failed to update status",
-          title: 'Error',
+          title: context.tr.noMedicalHistoryFound,
         );
       }
     }
@@ -380,8 +378,8 @@ class PrescriptionCard extends StatelessWidget {
     AppDialog().dismiss();
     showMessage() {
       AppDialog().show(
-        title: 'Good',
-        message: "تم الحفض بنجاح!!",
+        title: context.tr.confirm,
+        message: context.tr.changesSavedSuccessfully,
         type: DialogType.success,
       );
     }
@@ -449,11 +447,11 @@ class _ChangeStatusDialogState extends State<ChangeStatusDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Row(
+      title: Row(
         children: [
-          Icon(Icons.update, color: Colors.blue),
-          SizedBox(width: 8),
-          Text("Update Status"),
+          const Icon(Icons.update, color: Colors.blue),
+          const SizedBox(width: 8),
+          Text(context.tr.status),
         ],
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -463,12 +461,12 @@ class _ChangeStatusDialogState extends State<ChangeStatusDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildRadioOption(1, 'Pending'),
-              _buildRadioOption(2, 'Dispensed'),
-              _buildRadioOption(3, 'Partial Dispensed'),
-              _buildRadioOption(4, 'Canceled'),
-              _buildRadioOption(5, 'In Review'),
-              _buildRadioOption(6, 'Need Consultation'),
+              _buildRadioOption(1, context.tr.pending),
+              _buildRadioOption(2, context.tr.completed),
+              _buildRadioOption(3, context.tr.pending),
+              _buildRadioOption(4, context.tr.cancelled),
+              _buildRadioOption(5, context.tr.pending),
+              _buildRadioOption(6, context.tr.pending),
             ],
           ),
         ),
@@ -477,13 +475,13 @@ class _ChangeStatusDialogState extends State<ChangeStatusDialog> {
         TextButton(
           onPressed: () =>
               Navigator.of(context).pop(null), // Cancel returns null
-          child: const Text("Cancel", style: TextStyle(color: Colors.grey)),
+          child: Text(context.tr.cancel, style: const TextStyle(color: Colors.grey)),
         ),
         FilledButton(
           onPressed: () => Navigator.of(
             context,
           ).pop(_selectedStatus), // Update returns the selected ID
-          child: const Text("Update"),
+          child: Text(context.tr.update),
         ),
       ],
     );
@@ -524,7 +522,7 @@ class InteractionResultDialog extends StatelessWidget {
     final hasInteractions = result.hasInteractions;
 
     return AlertDialog(
-      title: const Text("Safety Analysis"),
+      title: Text(context.tr.privacyAndSecurity),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       content: SizedBox(
         width: double.maxFinite,
@@ -547,7 +545,7 @@ class InteractionResultDialog extends StatelessWidget {
           ),
         ),
       ),
-      actions: [TextButton(onPressed: onSubmit, child: const Text("Submit"))],
+      actions: [TextButton(onPressed: onSubmit, child: Text(context.tr.done))],
     );
   }
 

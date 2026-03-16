@@ -1,8 +1,5 @@
-import 'package:health_app/auth_state.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/usecases/register_usecase.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
-import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../responses/queue_item.dart' show PrescriptionQueueItem;

@@ -7,7 +7,6 @@ import 'package:health_app/features/auth/domain/models/patient.dart'
     show Doctor;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/doctor/data/providers/patient_acount.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:health_app/features/home/ui/pages/p.dart' as patient_app;
@@ -66,7 +65,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            _isEditing ? 'تعديل الملف الشخصي' : 'الملف الشخصي للطبيب',
+            _isEditing ? context.tr.editProfile : context.tr.profile,
           ),
           centerTitle: true,
           actions: [
@@ -87,7 +86,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
         ),
       );
     }
-    return Scaffold(body: Text(authState?.toString() ?? ';'));
+    return Scaffold(body: Text(authState.toString()));
   }
 
   Widget _buildProfileView() {
@@ -109,27 +108,27 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
                   context.to(patient_app.HomePage());
                 }
               },
-              child: Text('login as patient'),
+              child: const Text('login as patient'),
             );
           },
         ),
 
         _buildSection(
-          title: 'المعلومات الشخصية',
+          title: context.tr.personalInformation,
           children: [
             _buildInfoItem(
               icon: Icons.person,
-              label: 'الاسم الكامل',
+              label: context.tr.name,
               value: _editedDoctor.fullName,
             ),
             _buildInfoItem(
               icon: Icons.phone,
-              label: 'رقم الهاتف',
+              label: context.tr.phoneNumber,
               value: _editedDoctor.phoneNumber,
             ),
             _buildInfoItem(
               icon: Icons.email,
-              label: 'البريد الإلكتروني',
+              label: context.tr.email,
               value: _editedDoctor.email,
             ),
           ],
@@ -139,21 +138,21 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
 
         // Professional Information
         _buildSection(
-          title: 'المعلومات المهنية',
+          title: context.tr.medicalInformation,
           children: [
             _buildInfoItem(
               icon: Icons.medical_services,
-              label: 'التخصص',
+              label: context.tr.doctor, // Should be specialization if available
               value: _editedDoctor.specialization,
             ),
             _buildInfoItem(
               icon: Icons.badge,
-              label: 'رقم الرخصة',
+              label: context.tr.idCardNumber,
               value: _editedDoctor.licenseNumber,
             ),
             _buildInfoItem(
               icon: Icons.local_hospital,
-              label: 'المستشفى',
+              label: context.tr.hospitalName,
               value: _editedDoctor.hospital,
             ),
           ],
@@ -163,21 +162,21 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
 
         // Account Information
         _buildSection(
-          title: 'معلومات الحساب',
+          title: context.tr.settings,
           children: [
             _buildInfoItem(
               icon: Icons.person_pin,
-              label: 'رقم المستخدم',
+              label: context.tr.patientId,
               value: _editedDoctor.userId.toString(),
             ),
             _buildInfoItem(
               icon: Icons.calendar_today,
-              label: 'تاريخ الإنشاء',
+              label: context.tr.createdAt,
               value: _formatDate(_editedDoctor.createdAt),
             ),
             _buildInfoItem(
               icon: Icons.update,
-              label: 'آخر تحديث',
+              label: context.tr.lastUpdated,
               value: _formatDate(_editedDoctor.updatedAt),
             ),
           ],
@@ -189,7 +188,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
                 await ref.read(authRecordStateProvider.notifier).logOut();
                 Navigator.of(context).maybePop();
               },
-              child: Text('logout'),
+              child: Text(context.tr.logout),
             );
           },
         ),
@@ -227,7 +226,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
               name ??
                   (_editedDoctor.fullName.isNotEmpty
                       ? _editedDoctor.fullName
-                      : 'الدكتور'),
+                      : context.tr.doctor),
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -341,7 +340,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
         children: [
           // Full Name Field
           _buildTextField(
-            label: 'الاسم الكامل',
+            label: context.tr.name,
             value: _editedDoctor.fullName,
             icon: Icons.person,
             onChanged: (value) {
@@ -360,7 +359,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
 
           // Specialization Field
           _buildTextField(
-            label: 'التخصص',
+            label: context.tr.doctor, // Should be specialization
             value: _editedDoctor.specialization,
             icon: Icons.medical_services,
             onChanged: (value) {
@@ -370,7 +369,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'الرجاء إدخال التخصص';
+                return context.tr.requiredField;
               }
               return null;
             },
@@ -378,7 +377,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
 
           // Phone Number Field
           _buildTextField(
-            label: 'رقم الهاتف',
+            label: context.tr.phoneNumber,
             value: _editedDoctor.phoneNumber,
             icon: Icons.phone,
             keyboardType: TextInputType.phone,
@@ -389,10 +388,10 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'الرجاء إدخال رقم الهاتف';
+                return context.tr.requiredField;
               }
               if (!RegExp(r'^[0-9]{10,15}$').hasMatch(value)) {
-                return 'رقم الهاتف غير صالح';
+                return context.tr.invalidPhone;
               }
               return null;
             },
@@ -400,7 +399,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
 
           // Email Field
           _buildTextField(
-            label: 'البريد الإلكتروني',
+            label: context.tr.email,
             value: _editedDoctor.email,
             icon: Icons.email,
             keyboardType: TextInputType.emailAddress,
@@ -411,10 +410,10 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'الرجاء إدخال البريد الإلكتروني';
+                return context.tr.requiredField;
               }
               if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                return 'البريد الإلكتروني غير صالح';
+                return context.tr.invalidEmail;
               }
               return null;
             },
@@ -422,7 +421,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
 
           // License Number Field
           _buildTextField(
-            label: 'رقم الرخصة',
+            label: context.tr.idCardNumber,
             value: _editedDoctor.licenseNumber,
             icon: Icons.badge,
             onChanged: (value) {
@@ -432,7 +431,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'الرجاء إدخال رقم الرخصة';
+                return context.tr.requiredField;
               }
               return null;
             },
@@ -440,18 +439,18 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
 
           // Hospital Field
           _buildTextField(
-            label: 'المستشفى',
-            value: '_editedDoctor.hospital',
+            label: context.tr.hospitalName,
+            value: _editedDoctor.hospital,
             icon: Icons.local_hospital,
             onChanged: (value) {
               xlog('dsdasdsadsa');
               setState(() {
-                // _editedDoctor = _editedDoctor.copyWith(hospital: value);
+                 _editedDoctor = _editedDoctor.copyWith(hospital: value);
               });
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'الرجاء إدخال اسم المستشفى';
+                return context.tr.requiredField;
               }
               return null;
             },
@@ -475,9 +474,9 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: Colors.green,
                   ),
-                  child: const Text(
-                    'حفظ التغييرات',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  child: Text(
+                    context.tr.saveChanges,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -494,9 +493,9 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     side: const BorderSide(color: Colors.red),
                   ),
-                  child: const Text(
-                    'إلغاء',
-                    style: TextStyle(fontSize: 16, color: Colors.red),
+                  child: Text(
+                    context.tr.cancel,
+                    style: const TextStyle(fontSize: 16, color: Colors.red),
                   ),
                 ),
               ),
@@ -550,7 +549,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
     //     child: CircularProgressIndicator(),
     //   ),
     // );
-    AppDialog().loading(message: 'please wait, while updating your profile');
+    AppDialog().loading(message: context.tr.loading);
 
     try {
       // Simulate API call
@@ -577,8 +576,8 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
 
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('تم حفظ التغييرات بنجاح'),
+        SnackBar(
+          content: Text(context.tr.changesSavedSuccessfully),
           backgroundColor: Colors.green,
         ),
       );
@@ -586,7 +585,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
       // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('فشل في حفظ التغييرات: $e'),
+          content: Text('${context.tr.noMedicalHistoryFound}: $e'),
           backgroundColor: Colors.red,
         ),
       );

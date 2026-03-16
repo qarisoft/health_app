@@ -1,9 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/error/app_error.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/doctor/data/responses/patient_response.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'search_patient.freezed.dart';
 part 'search_patient.g.dart';

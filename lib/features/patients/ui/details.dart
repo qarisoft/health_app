@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_app/features/patients/domain/models/medical_history.dart' show MedicalHistory, Gender;
-// import 'package:health_app/features/patients/domain/models/medical_history.dart' hide Gender;
 import 'package:health_app/l10n/app_localizations.dart';
 import 'package:health_app/shared/ex.dart';
-// import '../models/medical_history.dart';
 
 class MedicalHistoryDetails extends StatelessWidget {
   final MedicalHistory history;
@@ -15,17 +13,6 @@ class MedicalHistoryDetails extends StatelessWidget {
     final localizations = context.tr;
     
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(localizations.medicalHistory),
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.edit),
-      //       onPressed: () {
-      //         // Navigate to edit page
-      //       },
-      //     ),
-      //   ],
-      // ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -203,14 +190,12 @@ class MedicalHistoryDetails extends StatelessWidget {
 
   Widget _buildInfoCard({required String title, required List<Widget> children}) {
     return Card(
-      
       margin: const EdgeInsets.only(bottom: 16.0),
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          
           children: [
             Text(
               title,
@@ -278,10 +263,6 @@ class MedicalHistoryDetails extends StatelessWidget {
         return localizations.male;
       case Gender.female:
         return localizations.female;
-      // case Gender.other:
-      //   return localizations.other;
-      // case Gender.preferNotToSay:
-      //   return localizations.preferNotToSay;
     }
   }
 }

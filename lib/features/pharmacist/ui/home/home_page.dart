@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/features/pharmacist/data/providers/prescription_queu.dart';
 import 'package:health_app/features/pharmacist/domain/models/prescription.dart';
-import 'package:health_app/shared/ex.dart';
 
 import 'create_dialog.dart';
 

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/auth_state.dart' show di;
-import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/pharmacist/data/providers/prescriptions.dart'
     show prescriptionsProvider;
@@ -9,7 +7,6 @@ import 'package:health_app/features/pharmacist/data/requests/dispense_prescripti
     as Req;
 import 'package:health_app/features/pharmacist/data/responses/dispense_response.dart';
 import 'package:health_app/features/pharmacist/domain/models/prescription.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
@@ -238,7 +235,7 @@ class _SubmitPrescriptionDialogState
                   labelText: 'General Dispensing Notes',
                   alignLabelWithHint: true,
                   filled: true,
-                  fillColor: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                  fillColor: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                     borderSide: BorderSide(

@@ -1,29 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/auth_state.dart';
-import 'package:health_app/core/error/app_error.dart';
-import 'package:health_app/di.dart';
-import 'package:health_app/features/doctor/data/providers/medical_records.dart';
 import 'package:health_app/features/doctor/data/requests/medical_record.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
-import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/custom_text_field.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
-
-// class  extends ConsumerStatefulWidget {
-//   const ({super.key});
-
-//   @override
-//   ConsumerState<ConsumerStatefulWidget> createState() => _State();
-// }
-
-// class _State extends ConsumerState<> {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
+import 'package:health_app/shared/ex.dart';
 
 class CreateMedicalRecordDialog extends ConsumerStatefulWidget {
   const CreateMedicalRecordDialog({super.key, required this.patientId});
@@ -50,14 +30,6 @@ class _CreateMedicalRecordDialogState
     GlobalKey<FormState>(),
   ];
 
-  // Step titles
-  final List<String> _stepTitles = [
-    'Diagnosis',
-    'Symptoms',
-    'Treatment Plan',
-    'Additional Notes',
-  ];
-
   @override
   void dispose() {
     diagnosisController.dispose();
@@ -69,17 +41,25 @@ class _CreateMedicalRecordDialogState
 
   @override
   Widget build(BuildContext context) {
+    // Step titles using localizations
+    final List<String> stepTitles = [
+      context.tr.medicalRecord, // Using 'Medical Record' for Diagnosis step title if specific one doesn't exist
+      context.tr.medicalInformation, // Using 'Medical Information' for Symptoms
+      context.tr.treatmentDetails, // 'Treatment Plan' -> 'Treatment Details'
+      context.tr.additionalNotes, // 'Additional Notes'
+    ];
+
     return AlertDialog(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Create Medical Record - Step ${_currentStep + 1}/${_stepTitles.length}',
+            '${context.tr.createMedicalHistory} - ${context.tr.status} ${_currentStep + 1}/${stepTitles.length}',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
           Text(
-            _stepTitles[_currentStep],
+            stepTitles[_currentStep],
             style: TextStyle(
               fontSize: 14,
               color: Theme.of(context).primaryColor,
@@ -88,14 +68,14 @@ class _CreateMedicalRecordDialogState
           ),
           const SizedBox(height: 8),
           LinearProgressIndicator(
-            value: (_currentStep + 1) / _stepTitles.length,
+            value: (_currentStep + 1) / stepTitles.length,
             backgroundColor: Colors.grey[200],
             color: Theme.of(context).primaryColor,
           ),
         ],
       ),
       content: SizedBox(width: double.maxFinite, child: _buildStepContent()),
-      actions: _buildActions(),
+      actions: _buildActions(stepTitles.length),
       scrollable: true,
     );
   }
@@ -110,19 +90,19 @@ class _CreateMedicalRecordDialogState
             children: [
               CustomTextField(
                 controller: diagnosisController,
-                labelText: 'Primary Diagnosis',
-                hintText: 'Enter the main diagnosis',
+                labelText: context.tr.medicalRecord,
+                hintText: context.tr.enterNotes,
                 maxLines: 3,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a diagnosis';
+                    return context.tr.requiredField;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 8),
               Text(
-                'Enter the primary medical condition or diagnosis.',
+                context.tr.medicalInformation,
                 style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               ),
             ],
@@ -137,19 +117,19 @@ class _CreateMedicalRecordDialogState
             children: [
               CustomTextField(
                 controller: symptomsController,
-                labelText: 'Symptoms',
-                hintText: 'List all symptoms separated by commas',
+                labelText: context.tr.medicalInformation,
+                hintText: context.tr.enterNotes,
                 maxLines: 4,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please describe the symptoms';
+                    return context.tr.requiredField;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 8),
               Text(
-                'Describe the symptoms experienced by the patient.',
+                context.tr.medicalInformation,
                 style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               ),
             ],
@@ -164,19 +144,19 @@ class _CreateMedicalRecordDialogState
             children: [
               CustomTextField(
                 controller: treatmentController,
-                labelText: 'Treatment Plan',
-                hintText: 'Describe the treatment plan',
+                labelText: context.tr.treatmentDetails,
+                hintText: context.tr.enterNotes,
                 maxLines: 4,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a treatment plan';
+                    return context.tr.requiredField;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 8),
               Text(
-                'Outline the prescribed treatment, medication, and follow-up care.',
+                context.tr.treatmentDetails,
                 style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               ),
             ],
@@ -191,13 +171,13 @@ class _CreateMedicalRecordDialogState
             children: [
               CustomTextField(
                 controller: notesController,
-                labelText: 'Additional Notes',
-                hintText: 'Any additional observations or recommendations',
+                labelText: context.tr.additionalNotes,
+                hintText: context.tr.additionalNotesHint,
                 maxLines: 4,
               ),
               const SizedBox(height: 8),
               Text(
-                'Add any other relevant information about the patient\'s condition.',
+                context.tr.additionalNotes,
                 style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               ),
             ],
@@ -209,28 +189,28 @@ class _CreateMedicalRecordDialogState
     }
   }
 
-  List<Widget> _buildActions() {
+  List<Widget> _buildActions(int totalSteps) {
     return [
       // Cancel button
       TextButton(
         onPressed: () => Navigator.pop(context),
-        child: const Text('Cancel'),
+        child: Text(context.tr.cancel),
       ),
 
       // Previous button (show only if not on first step)
       if (_currentStep > 0)
-        TextButton(onPressed: _previousStep, child: const Text('Previous')),
+        TextButton(onPressed: _previousStep, child: Text(context.tr.previous)),
 
       // Next/Submit button
       ElevatedButton(
-        onPressed: _currentStep < _stepTitles.length - 1
+        onPressed: _currentStep < totalSteps - 1
             ? _nextStep
             : _submitRecord,
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,
         ),
         child: Text(
-          _currentStep < _stepTitles.length - 1 ? 'Next' : 'Submit',
+          _currentStep < totalSteps - 1 ? context.tr.next : context.tr.confirm,
           style: const TextStyle(color: Colors.white),
         ),
       ),
@@ -240,7 +220,7 @@ class _CreateMedicalRecordDialogState
   void _nextStep() {
     if (_formKeys[_currentStep].currentState!.validate()) {
       setState(() {
-        if (_currentStep < _stepTitles.length - 1) {
+        if (_currentStep < 3) {
           _currentStep++;
         }
       });
@@ -266,36 +246,8 @@ class _CreateMedicalRecordDialogState
         recordDate: DateTime.now(),
       );
 
-      AppDialog().loading(message: 'please wait, processing,,,');
-      // TODO
-
-      // final res = await appRepo.m(record.toJson());
-      // AppDialog().dismiss();
-      // await ref
-      //     .read(medicalRecordsStoreProvider.notifier)
-      //     .addMedicalRecord(record);
-
-      // res.when(
-      //   success: (s) {
-      //     xlog(s);
-      //     ScaffoldMessenger.of(context).showSnackBar(
-      //       const SnackBar(
-      //         content: Text('Medical record created successfully'),
-      //         backgroundColor: Colors.green,
-      //       ),
-      //     );
-      //     Navigator.pop(context, true); // Return success
-      //   },
-      //   error: (er) {
-      //     xlog(er);
-      //     ScaffoldMessenger.of(context).showSnackBar(
-      //       SnackBar(
-      //         content: Text('Error: ${er.msg}'),
-      //         backgroundColor: Colors.red,
-      //       ),
-      //     );
-      //   },
-      // );
+      AppDialog().loading(message: context.tr.loading);
+      // TODO: Submit record logic
     }
   }
 }

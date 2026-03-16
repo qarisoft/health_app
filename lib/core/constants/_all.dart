@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
-import 'package:health_app/l10n/app_localizations.dart' show AppLocalizations;
 
 class AppColors {
   AppColors._(); // Private constructor to prevent instantiation

@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

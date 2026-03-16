@@ -4,16 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
-import 'package:health_app/shared/ex.dart' show AppEx;
-import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
-import 'package:health_app/features/home/ui/pages/edit_profile.dart';
-import 'package:health_app/shared/ex.dart' hide xlog;
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/widgets/patient/app_bar/return_button.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../core/constants/_all.dart' hide xlog;
 import '../../../../shared/ex.dart';
 import '../../../auth/domain/models/patient.dart';
 import 'p.dart' show InitializedProfilePage2;
@@ -27,7 +22,7 @@ class ProfilePage extends ConsumerWidget {
     final auth = ref.watch(allAcountsProvider.select((s) => s.patient));
     xlog(auth);
     if (auth == null) {
-      return Scaffold(
+      return const Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Center(child: CircularProgressIndicator())],
@@ -65,7 +60,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
     return Scaffold(
       backgroundColor: _isDarkMode ? Colors.grey[900] : Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(context.tr.profile),
         actions: [
           IconButton(
             icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
@@ -170,7 +165,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           const SizedBox(height: 15),
           Text(
             patient.fullName,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 5),
           Text(
@@ -214,7 +209,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Settings',
+            context.tr.settings,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -224,14 +219,14 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           const SizedBox(height: 15),
           ListTile(
             leading: const Icon(Iconsax.personalcard),
-            title: const Text('Edit Profile'),
+            title: Text('context.tr.editProfile'),
             subtitle: Text(_language),
             trailing: const Icon(Icons.chevron_right),
             onTap: _navigateToEditProfile,
           ),
           SwitchListTile(
-            title: const Text('Dark Mode'),
-            subtitle: const Text('Switch between dark and light theme'),
+            title: Text(context.tr.darkMode),
+            subtitle: Text(context.tr.themeDescription),
             value: _isDarkMode,
             onChanged: (value) {
               setState(() {
@@ -241,8 +236,8 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
             secondary: const Icon(Iconsax.moon),
           ),
           SwitchListTile(
-            title: const Text('Notifications'),
-            subtitle: const Text('Enable or disable notifications'),
+            title: Text('notifications'),
+            subtitle: Text(context.tr.notificationsDescription),
             value: _notificationsEnabled,
             onChanged: (value) {
               setState(() {
@@ -253,20 +248,20 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           ),
           ListTile(
             leading: const Icon(Iconsax.language_circle),
-            title: const Text('Language'),
+            title: Text(context.tr.language),
             subtitle: Text(_language),
             trailing: const Icon(Icons.chevron_right),
             onTap: _changeLanguage,
           ),
           ListTile(
             leading: const Icon(Iconsax.security),
-            title: const Text('Privacy & Security'),
+            title: Text(context.tr.privacyAndSecurity),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
           ),
           ListTile(
             leading: const Icon(Iconsax.info_circle),
-            title: const Text('About App'),
+            title: Text(context.tr.aboutApp),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
           ),
@@ -290,12 +285,12 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           ),
           elevation: 0,
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Iconsax.logout),
-            SizedBox(width: 10),
-            Text('Log Out', style: TextStyle(fontSize: 16)),
+            const Icon(Iconsax.logout),
+            const SizedBox(width: 10),
+            Text(context.tr.logout, style: const TextStyle(fontSize: 16)),
           ],
         ),
       ),
@@ -313,7 +308,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
             children: [
               ListTile(
                 leading: const Icon(Icons.camera_alt),
-                title: const Text('Take Photo'),
+                title: Text(context.tr.takePhoto),
                 onTap: () {
                   Navigator.pop(context);
                   // Implement camera functionality
@@ -321,7 +316,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('Choose from Gallery'),
+                title: Text(context.tr.chooseFromGallery),
                 onTap: () {
                   Navigator.pop(context);
                   // Implement gallery picker
@@ -329,7 +324,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
               ),
               ListTile(
                 leading: const Icon(Icons.delete),
-                title: const Text('Remove Photo'),
+                title: Text(context.tr.removePhoto),
                 onTap: () {
                   Navigator.pop(context);
                   // Remove profile photo
@@ -358,7 +353,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Select Language'),
+          title: Text(context.tr.selectLanguage),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView(
@@ -400,12 +395,12 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Log Out'),
-          content: const Text('Are you sure you want to log out?'),
+          title: Text(context.tr.logout),
+          content: Text(context.tr.logoutConfirmation),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(context.tr.cancel),
             ),
             Consumer(
               builder: (context, ref, _) {
@@ -429,9 +424,9 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
 
                     // Implement logout logic
                   },
-                  child: const Text(
-                    'Log Out',
-                    style: TextStyle(color: Colors.red),
+                  child: Text(
+                    context.tr.logout,
+                    style: const TextStyle(color: Colors.red),
                   ),
                 );
               },
@@ -441,127 +436,4 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
       },
     );
   }
-
-
-
-  //
-
-  // Widget _buildStatsSection() {
-  //   return Container(
-  //     margin: const EdgeInsets.all(20),
-  //     padding: const EdgeInsets.all(20),
-  //     decoration: BoxDecoration(
-  //       color: _isDarkMode ? Colors.grey[800] : Colors.white,
-  //       borderRadius: BorderRadius.circular(20),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.05),
-  //           blurRadius: 10,
-  //           offset: const Offset(0, 5),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //       children: [
-  //         _buildStatItem('142', 'Posts'),
-  //         _buildStatItem('3.2K', 'Followers'),
-  //         _buildStatItem('284', 'Following'),
-  //         _buildStatItem('24', 'Projects'),
-  //       ],
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _buildStatItem(String value, String label) {
-  //   return Column(
-  //     children: [
-  //       Text(
-  //         value,
-  //         style: const TextStyle(
-  //           fontSize: 20,
-  //           fontWeight: FontWeight.bold,
-  //           color: Colors.blue,
-  //         ),
-  //       ),
-  //       const SizedBox(height: 5),
-  //       Text(label, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
-  //     ],
-  //   );
-  // }
-  //
-  // Widget _buildMenuSection() {
-  //   return Container(
-  //     margin: const EdgeInsets.symmetric(horizontal: 20),
-  //     decoration: BoxDecoration(
-  //       color: _isDarkMode ? Colors.grey[800] : Colors.white,
-  //       borderRadius: BorderRadius.circular(20),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.05),
-  //           blurRadius: 10,
-  //           offset: const Offset(0, 5),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Column(
-  //       children: [
-  //         _buildMenuItem(
-  //           icon: Iconsax.user,
-  //           title: 'Edit Profile',
-  //           onTap: () => _navigateToEditProfile(),
-  //         ),
-  //         // _buildMenuItem(icon: Iconsax.heart, title: 'Favorites', badge: '12'),
-  //         // _buildMenuItem(icon: Iconsax.shop, title: 'My Orders', badge: '5'),
-  //         // _buildMenuItem(icon: Iconsax.wallet, title: 'Payment Methods'),
-  //         // _buildMenuItem(icon: Iconsax.location, title: 'Addresses'),
-  //       ],
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _buildMenuItem({
-  //   required IconData icon,
-  //   required String title,
-  //   String? badge,
-  //   VoidCallback? onTap,
-  // }) {
-  //   return ListTile(
-  //     leading: Container(
-  //       padding: const EdgeInsets.all(5),
-  //       decoration: BoxDecoration(
-  //         color: Colors.blue.withOpacity(0.1),
-  //         borderRadius: BorderRadius.circular(10),
-  //       ),
-  //       child: Icon(icon, color: Colors.blue),
-  //     ),
-  //     title: Text(title),
-  //     trailing: Padding(
-  //       padding: const EdgeInsets.all(8.0),
-  //       child: Row(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           if (badge != null)
-  //             Container(
-  //               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-  //               decoration: BoxDecoration(
-  //                 color: Colors.red,
-  //                 borderRadius: BorderRadius.circular(10),
-  //               ),
-  //               child: Text(
-  //                 badge,
-  //                 style: const TextStyle(color: Colors.white, fontSize: 12),
-  //               ),
-  //             ),
-  //           const SizedBox(width: 10),
-  //           Padding(
-  //             padding: const EdgeInsets.all(8.0),
-  //             child: const Icon(Icons.chevron_right, color: Colors.grey),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //     onTap: onTap,
-  //   );
-  // }
 }

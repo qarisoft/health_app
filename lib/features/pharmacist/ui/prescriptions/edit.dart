@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:health_app/auth_state.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
-import 'package:health_app/shared/api/api_repositories2.dart';
 
 import '../../domain/models/prescription.dart';
 

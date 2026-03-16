@@ -93,7 +93,7 @@ class _RegisterFormState extends State<RegisterForm> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error picking file: ${e.toString()}'),
+          content: Text('${context.tr.errorPickingFile}: ${e.toString()}'),
           backgroundColor: Colors.red,
         ),
       );
@@ -125,14 +125,14 @@ class _RegisterFormState extends State<RegisterForm> {
 
   String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter password';
+      return context.tr.enterPassword;
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+      return context.tr.passwordTooShort;
     }
     if (widget.passwordConfirmController.text !=
         widget.passwordController.text) {
-      return 'Password don\'t match';
+      return context.tr.passwordsDoNotMatch;
     }
     return null;
   }
@@ -162,7 +162,7 @@ class _RegisterFormState extends State<RegisterForm> {
             prefixIcon: Icons.person,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please select user type';
+                return context.tr.pleaseSelectUserType;
               }
               return null;
             },
@@ -175,7 +175,7 @@ class _RegisterFormState extends State<RegisterForm> {
           keyboardType: TextInputType.name,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your name';
+              return context.tr.pleaseEnterName;
             }
             return null;
           },
@@ -187,7 +187,7 @@ class _RegisterFormState extends State<RegisterForm> {
           keyboardType: TextInputType.emailAddress,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your email';
+              return context.tr.pleaseEnterEmail;
             }
             return null;
           },
@@ -199,7 +199,7 @@ class _RegisterFormState extends State<RegisterForm> {
           keyboardType: TextInputType.phone,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter phone number';
+              return context.tr.pleaseEnterPhoneNumber;
             }
             return null;
           },
@@ -229,17 +229,17 @@ class _RegisterFormState extends State<RegisterForm> {
         if (widget.userType == UserType.patient)
           CustomTextField(
             controller: widget.dateOfBirthController,
-            labelText: 'Date of birth',
+            labelText: context.tr.dateOfBirth,
             isDatePicker: true,
             lastDate: DateTime.now(),
             validator: (a) {
               if (a == null || a.isEmpty) {
-                return 'You must enter a valid date';
+                return context.tr.invalidDate;
               }
               try {
                 final aa = DateTime.tryParse(a);
               } catch (e) {
-                return 'You must enter a valid date';
+                return context.tr.invalidDate;
               }
               return null;
             },
@@ -249,159 +249,22 @@ class _RegisterFormState extends State<RegisterForm> {
             widget.userType == UserType.pharmacist)
           CustomTextField(
             controller: widget.licenseNumberController,
-            labelText: 'License number',
+            labelText: context.tr.licenseNumber,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter license number';
+                return context.tr.pleaseEnterLicenseNumber;
               }
               return null;
             },
           ),
 
-        // License Document File Picker Section
-        // if (
-        // // false
-        // // widget.userType == UserType.doctor ||
-        // widget.userType == UserType.pharmacist)
-        //   Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       // Hidden text field for file URL
-        //       Opacity(
-        //         opacity: 0,
-        //         child: CustomTextField(
-        //           controller: widget.licenseDocumentUrlController,
-        //           labelText: '',
-        //         ),
-        //       ),
-
-        //       Text(
-        //         'License Document',
-        //         style: TextStyle(
-        //           fontSize: 14,
-        //           fontWeight: FontWeight.w500,
-        //           color: Theme.of(
-        //             context,
-        //           ).colorScheme.onSurface.withOpacity(0.8),
-        //         ),
-        //       ),
-        //       const SizedBox(height: 8),
-
-        //       // File picker button
-        //       OutlinedButton(
-        //         onPressed: _isPickingFile ? null : _pickLicenseDocument,
-        //         style: OutlinedButton.styleFrom(
-        //           minimumSize: const Size(double.infinity, 50),
-        //           side: BorderSide(
-        //             color: Theme.of(context).colorScheme.outline,
-        //           ),
-        //           backgroundColor: Theme.of(context).colorScheme.surface,
-        //         ),
-        //         child: _isPickingFile
-        //             ? const SizedBox(
-        //                 height: 20,
-        //                 width: 20,
-        //                 child: CircularProgressIndicator(strokeWidth: 2),
-        //               )
-        //             : Row(
-        //                 mainAxisSize: MainAxisSize.min,
-        //                 children: [
-        //                   const Icon(Icons.attach_file),
-        //                   const SizedBox(width: 8),
-        //                   Text(
-        //                     _licenseFileName.isEmpty
-        //                         ? 'Choose License Document'
-        //                         : 'Change Document',
-        //                   ),
-        //                 ],
-        //               ),
-        //       ),
-
-        //       // Selected file info
-        //       if (_licenseFileName.isNotEmpty)
-        //         Padding(
-        //           padding: const EdgeInsets.only(top: 8.0),
-        //           child: Container(
-        //             padding: const EdgeInsets.all(12),
-        //             decoration: BoxDecoration(
-        //               color: Theme.of(context).colorScheme.surfaceVariant,
-        //               borderRadius: BorderRadius.circular(8),
-        //               border: Border.all(
-        //                 color: Theme.of(context).colorScheme.outline,
-        //                 width: 0.5,
-        //               ),
-        //             ),
-        //             child: Row(
-        //               children: [
-        //                 Icon(
-        //                   _licenseFileName.toLowerCase().endsWith('.pdf')
-        //                       ? Icons.picture_as_pdf
-        //                       : Icons.description,
-        //                   color: Theme.of(context).primaryColor,
-        //                   size: 24,
-        //                 ),
-        //                 const SizedBox(width: 12),
-        //                 Expanded(
-        //                   child: Column(
-        //                     crossAxisAlignment: CrossAxisAlignment.start,
-        //                     children: [
-        //                       Text(
-        //                         _licenseFileName,
-        //                         style: TextStyle(
-        //                           fontWeight: FontWeight.w500,
-        //                           fontSize: 14,
-        //                           overflow: TextOverflow.ellipsis,
-        //                         ),
-        //                       ),
-        //                       if (_selectedLicenseFile != null)
-        //                         Text(
-        //                           _formatFileSize(
-        //                             _selectedLicenseFile!.lengthSync(),
-        //                           ),
-        //                           style: TextStyle(
-        //                             fontSize: 12,
-        //                             color: Theme.of(
-        //                               context,
-        //                             ).colorScheme.onSurface.withOpacity(0.6),
-        //                           ),
-        //                         ),
-        //                     ],
-        //                   ),
-        //                 ),
-        //                 IconButton(
-        //                   onPressed: _removeSelectedFile,
-        //                   icon: const Icon(Icons.close, size: 20),
-        //                   padding: EdgeInsets.zero,
-        //                   constraints: const BoxConstraints(),
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //         ),
-
-        //       // Help text
-        //       Padding(
-        //         padding: const EdgeInsets.only(top: 4.0),
-        //         child: Text(
-        //           'Accepted formats: PDF, JPG, PNG, DOC (Max 10MB)',
-        //           style: TextStyle(
-        //             fontSize: 12,
-        //             color: Theme.of(
-        //               context,
-        //             ).colorScheme.onSurface.withOpacity(0.6),
-        //           ),
-        //         ),
-        //       ),
-        //       const SizedBox(height: 16),
-        //     ],
-        //   ),
         if (widget.userType == UserType.doctor)
           CustomTextField(
             controller: widget.hospitalController,
-            labelText: 'Hospital',
+            labelText: context.tr.hospitalName,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter hospital name';
+                return context.tr.requiredField;
               }
               return null;
             },
@@ -410,10 +273,10 @@ class _RegisterFormState extends State<RegisterForm> {
         if (widget.userType == UserType.doctor)
           CustomTextField(
             controller: widget.specializationController,
-            labelText: 'Specialization',
+            labelText: context.tr.specialization,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter specialization';
+                return context.tr.pleaseEnterSpecialization;
               }
               return null;
             },
@@ -422,10 +285,10 @@ class _RegisterFormState extends State<RegisterForm> {
         if (widget.userType == UserType.pharmacist)
           CustomTextField(
             controller: widget.pharmacyNameController,
-            labelText: 'Pharmacy name',
+            labelText: context.tr.pharmacyName,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter pharmacy name';
+                return context.tr.pleaseEnterPharmacyName;
               }
               return null;
             },

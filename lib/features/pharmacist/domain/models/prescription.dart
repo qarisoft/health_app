@@ -1,6 +1,8 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:health_app/shared/ex.dart';
 
 part 'prescription.freezed.dart';
 part 'prescription.g.dart';
@@ -87,6 +89,24 @@ String getPrescriptionStatusString(int s) {
       return 'needConsoultation';
     default:
       return 'pending';
+  }
+}
+
+
+String getPrescriptionStatusLocalizedString(int s,BuildContext c) {
+  switch (s) {
+    case 2:
+      return c.tr.dispensed;
+    case 3:
+      return c.tr.partialDispensed;
+    case 4:
+      return c.tr.canceled;
+    case 5:
+      return c.tr.inReview;
+    case 6:
+      return c.tr.needConsultation;
+    default:
+      return c.tr.pending;
   }
 }
 

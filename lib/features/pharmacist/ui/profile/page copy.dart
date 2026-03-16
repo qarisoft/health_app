@@ -6,7 +6,6 @@ import 'package:health_app/features/auth/domain/models/patient.dart'
     show Doctor, Pharmacist;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/pharmacist/data/requests/profile.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 // import 'package:freezed_annotation/freezed_annotation.dart';
 // import 'package:health_app/features/auth/domain/models/patient.dart';

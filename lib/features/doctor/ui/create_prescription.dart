@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/error/app_error.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/doctor/data/providers/prescriptions.dart';
 import 'package:health_app/features/doctor/data/providers/search_patient.dart';
-// import 'package:health_app/features/doctor/data/models/prescription.dart';
 import 'package:health_app/features/doctor/data/requests/prescription.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/custom_text_field.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
@@ -39,8 +36,6 @@ class _CreatePrescriptionDialogState
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
   ];
-
-  final List<String> _stepTitles = ['Diagnosis & Notes', 'Medications'];
 
   @override
   void dispose() {
@@ -75,17 +70,22 @@ class _CreatePrescriptionDialogState
 
   @override
   Widget build(BuildContext context) {
+    final List<String> stepTitles = [
+      '${context.tr.diagnosisLabel} & ${context.tr.notes}',
+      context.tr.medications
+    ];
+
     return AlertDialog(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Prescription - Step ${_currentStep + 1}/2',
+            '${context.tr.prescriptions} - ${context.tr.status} ${_currentStep + 1}/2',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
           Text(
-            _stepTitles[_currentStep],
+            stepTitles[_currentStep],
             style: TextStyle(
               fontSize: 14,
               color: Theme.of(context).primaryColor,
@@ -102,8 +102,8 @@ class _CreatePrescriptionDialogState
   }
 
   Widget _buildStepContent() {
-    final _controller = TextEditingController();
-    final _k = GlobalKey<FormState>();
+    final controller = TextEditingController();
+    final k = GlobalKey<FormState>();
 
     void handelSearchDialog() {
       showDialog(
@@ -120,35 +120,32 @@ class _CreatePrescriptionDialogState
                     child: Column(
                       children: [
                         Form(
-                          key: _k,
+                          key: k,
                           child: Column(
                             spacing: 6,
                             children: [
-                              Row(children: [Text('search')]),
+                              Row(children: [Text(context.tr.search)]),
                               TextFormField(
-                                controller: _controller,
+                                controller: controller,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'you must add one letter at least';
+                                    return context.tr.requiredField;
                                   }
+                                  return null;
                                 },
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         ElevatedButton(
                           onPressed: () async {
-                            if (_k.currentState!.validate()) {
-                              // xlog('ssssssssssssssssssssssssssss');
-                              // ref.invalidate(searchMedicationProvider(identifier: ''));
+                            if (k.currentState!.validate()) {
                               final dio = appRepo.getDio();
                               final res = await dio.get(
-                                '/Doctor/search-drugs?query=${_controller.text}',
+                                '/Doctor/search-drugs?query=${controller.text}',
                               );
                               final data = res.data;
-                              // xlog(data.toString());
-                              // xlog(data.runtimeType);
                               if (data.runtimeType == List) {
                                 final d = (data as List<dynamic>)
                                     .map(
@@ -164,16 +161,10 @@ class _CreatePrescriptionDialogState
                                       )
                                       .init(d);
                                 }
-                                // xlog(d.runtimeType);
-                                // xlog(d.first);
-
-                                //   return ErrorOr.success(
-                                //     data:
-                                //   );
                               }
                             }
                           },
-                          child: Text('search'),
+                          child: Text(context.tr.search),
                         ),
                         Expanded(
                           child: SingleChildScrollView(
@@ -219,13 +210,13 @@ class _CreatePrescriptionDialogState
           children: [
             CustomTextField(
               controller: diagnosisController,
-              labelText: 'Diagnosis',
-              validator: (v) => v!.isEmpty ? 'Required' : null,
+              labelText: context.tr.diagnosisLabel,
+              validator: (v) => v!.isEmpty ? context.tr.requiredField : null,
             ),
             const SizedBox(height: 12),
             CustomTextField(
               controller: notesController,
-              labelText: 'Doctor Notes',
+              labelText: context.tr.notes,
               maxLines: 3,
             ),
           ],
@@ -237,9 +228,9 @@ class _CreatePrescriptionDialogState
         children: [
           // List of already added medications
           if (_items.isNotEmpty) ...[
-            const Text(
-              'Current Items:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              '${context.tr.medications}:',
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             ..._items.asMap().entries.map(
               (entry) => ListTile(
@@ -262,7 +253,7 @@ class _CreatePrescriptionDialogState
               children: [
                 IconButton(
                   onPressed: handelSearchDialog,
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                 ),
               ],
             ),
@@ -275,8 +266,8 @@ class _CreatePrescriptionDialogState
               children: [
                 CustomTextField(
                   controller: medNameController,
-                  labelText: 'Medicine Name',
-                  validator: (v) => v!.isEmpty ? 'Required' : null,
+                  labelText: context.tr.medicineName,
+                  validator: (v) => v!.isEmpty ? context.tr.requiredField : null,
                 ),
                 const SizedBox(height: 8),
                 Row(
@@ -284,16 +275,16 @@ class _CreatePrescriptionDialogState
                     Expanded(
                       child: CustomTextField(
                         controller: dosageController,
-                        labelText: 'Dosage',
-                        validator: (v) => v!.isEmpty ? 'Required' : null,
+                        labelText: context.tr.dosage,
+                        validator: (v) => v!.isEmpty ? context.tr.requiredField : null,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: CustomTextField(
                         controller: freqController,
-                        labelText: 'Freq.',
-                        validator: (v) => v!.isEmpty ? 'Required' : null,
+                        labelText: context.tr.frequency,
+                        validator: (v) => v!.isEmpty ? context.tr.requiredField : null,
                       ),
                     ),
                   ],
@@ -301,13 +292,13 @@ class _CreatePrescriptionDialogState
                 const SizedBox(height: 8),
                 CustomTextField(
                   controller: instrController,
-                  labelText: 'Instructions',
+                  labelText: context.tr.notes, // Instructions
                 ),
                 const SizedBox(height: 8),
                 ElevatedButton.icon(
                   onPressed: _addMedication,
                   icon: const Icon(Icons.add),
-                  label: const Text('Add to List'),
+                  label: Text(context.tr.addToList),
                 ),
               ],
             ),
@@ -321,12 +312,12 @@ class _CreatePrescriptionDialogState
     return [
       TextButton(
         onPressed: () => Navigator.pop(context),
-        child: const Text('Cancel'),
+        child: Text(context.tr.cancel),
       ),
       if (_currentStep > 0)
         TextButton(
           onPressed: () => setState(() => _currentStep--),
-          child: const Text('Back'),
+          child: Text(context.tr.previous),
         ),
       ElevatedButton(
         onPressed: _currentStep == 0
@@ -336,7 +327,7 @@ class _CreatePrescriptionDialogState
                 }
               }
             : _submitPrescription,
-        child: Text(_currentStep == 0 ? 'Next' : 'Submit Prescription'),
+        child: Text(_currentStep == 0 ? context.tr.next : context.tr.confirm),
       ),
     ];
   }
@@ -344,7 +335,7 @@ class _CreatePrescriptionDialogState
   Future<void> _submitPrescription() async {
     if (_items.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least one medicine')),
+         SnackBar(content: Text(context.tr.requiredField)),
       );
       return;
     }
@@ -363,21 +354,17 @@ class _CreatePrescriptionDialogState
       final res = await appRepo.addPrescription(req.toJson());
       res.when(
         success: (s) {
-          // context.pop();
-          // AppDialog().dismiss();
           ref.read(prescriptionsStoreProvider.notifier).addPrescription(req);
           isOk = true;
         },
         error: (er) => xlog(er),
       );
-    } catch (e) {
     } finally {
       AppDialog().dismiss();
       context.pop();
     }
 
     if (isOk) {
-      // context.
       showSuccess();
     }
   }
@@ -385,6 +372,6 @@ class _CreatePrescriptionDialogState
   void showSuccess() {
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(const SnackBar(content: Text('Success')));
+    ).showSnackBar(SnackBar(content: Text(context.tr.loginSuccess)));
   }
 }

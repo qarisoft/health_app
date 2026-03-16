@@ -4,17 +4,14 @@ import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/error/app_error.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
-import 'package:health_app/features/home/data/providers/emergency.dart';
 import 'package:health_app/features/home/ui/pages/initialize_profile/p.dart';
 import 'package:health_app/features/home/ui/pages/initialize_profile/page.dart';
 import 'package:health_app/features/home/ui/pages/initialize_profile/page2.dart';
 import 'package:health_app/features/home/ui/pages/prescriptions_page.dart';
 import 'package:health_app/features/home/ui/pages/qr.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import './profile.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 import 'home_page.dart';
 import 'patient_emergency_screen.dart' show EmergenciesScreen;
@@ -129,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                               return ImageFromDataUrl(dataUrl: str);
                             },
                             error: (e) {
-                              xlog('error');
+                              // xlog('error');
                               return Text(e.msg);
                             },
                           ),
@@ -163,65 +160,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _showAddDataDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Add Health Data'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildAddDataField('Steps', 'steps', Icons.directions_walk),
-                _buildAddDataField('Heart Rate', 'heartRate', Icons.favorite),
-                _buildAddDataField(
-                  'Sleep (hours)',
-                  'sleep',
-                  Icons.nightlight_round,
-                ),
-                _buildAddDataField('Water (L)', 'water', Icons.local_drink),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Save data logic here
-                Navigator.pop(context);
-              },
-              child: Text('Save'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildAddDataField(String label, String key, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextField(
-        decoration: InputDecoration(
-          labelText: label,
-          prefixIcon: Icon(icon),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        keyboardType: TextInputType.number,
-        onChanged: (value) {
-          if (value.isNotEmpty) {
-            setState(() {
-              healthData[key] = double.parse(value);
-            });
-          }
-        },
-      ),
-    );
-  }
 
   Widget _buildBottomNavBar() {
     return BottomAppBar(
@@ -232,11 +170,11 @@ class _HomePageState extends State<HomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(Icons.home, 'Home', 0),
-            _buildNavItem(Icons.bar_chart, 'Stats', 1),
+            _buildNavItem(Icons.home, context.tr.home, 0),
+            _buildNavItem(Icons.bar_chart, context.tr.emergencyInfo, 1),
             SizedBox(width: 40), // Space for FAB
-            _buildNavItem(Icons.fitness_center, 'Workout', 2),
-            _buildNavItem(Icons.person, 'Profile', 3),
+            _buildNavItem(Icons.fitness_center, context.tr.prescriptions, 2),
+            _buildNavItem(Icons.person, context.tr.profilePage, 3),
           ],
         ),
       ),

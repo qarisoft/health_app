@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/doctor/data/requests/medical_record.dart';

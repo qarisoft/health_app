@@ -98,45 +98,44 @@ class PatientCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 // pm-ea3e5492
-                if (patient.gender != null)
-                  Row(
-                    children: [
-                      Icon(
-                        patient.gender == 'male'
-                            ? Icons.male
-                            : patient.gender == 'female'
-                            ? Icons.female
-                            : Icons.transgender,
-                        size: 16,
-                        color: Colors.grey[600],
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        patient.gender == 'male'
-                            ? localizations.male
-                            : patient.gender == 'female'
-                            ? localizations.female
-                            : localizations.other,
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                    ],
-                  ),
+                Row(
+                  children: [
+                    Icon(
+                      patient.gender == 'male'
+                          ? Icons.male
+                          : patient.gender == 'female'
+                          ? Icons.female
+                          : Icons.transgender,
+                      size: 16,
+                      color: Colors.grey[600],
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      patient.gender == 'male'
+                          ? localizations.male
+                          : patient.gender == 'female'
+                          ? localizations.female
+                          : localizations.other,
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                  ],
+                ),
               ],
             ),
 
-            if (patient.bloodType != null) ...[
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.bloodtype, size: 16, color: Colors.grey[600]),
-                  const SizedBox(width: 8),
-                  Text(
-                    '${localizations.bloodType}: ${patient.bloodType}',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                ],
-              ),
-            ],
+            ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Icon(Icons.bloodtype, size: 16, color: Colors.grey[600]),
+                const SizedBox(width: 8),
+                Text(
+                  '${localizations.bloodType}: ${patient.bloodType}',
+                  style: TextStyle(color: Colors.grey[700]),
+                ),
+              ],
+            ),
+          ],
 
             // if (patient.dateOfBirth != null) ...[
             //   const SizedBox(height: 8),

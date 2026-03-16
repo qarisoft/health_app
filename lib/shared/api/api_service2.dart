@@ -1,5 +1,4 @@
 // Updated ApiService with proper type handling for methods that return lists
-import 'dart:convert' show json;
 import 'dart:io' show Platform;
 
 import 'package:dio/dio.dart' show FormData, Options, Dio, Response;

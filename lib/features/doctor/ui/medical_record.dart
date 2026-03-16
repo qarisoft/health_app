@@ -2,16 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/error/app_error.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/data/responses/user/user_response.dart';
 import 'package:health_app/features/doctor/data/providers/medical_records.dart';
 import 'package:health_app/features/doctor/data/requests/medical_record.dart';
 import 'package:health_app/features/doctor/ui/create_medical_record.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:intl/intl.dart';
 
 class DoctorMedicalRecord extends ConsumerStatefulWidget {

@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/services/storage.dart';
@@ -9,7 +7,6 @@ import 'package:health_app/features/auth/domain/models/account.dart'
     hide Account;
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart';
-import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

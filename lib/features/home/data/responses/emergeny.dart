@@ -35,7 +35,7 @@ class EmergencyResponse {
 
 extension Em on EmergencyResponse{
   String bloodTypeString(){
-    final List<String> _bloodTypes = [
+    final List<String> bloodTypes = [
       'A+',
       'A-',
       'B+',
@@ -47,7 +47,7 @@ extension Em on EmergencyResponse{
     ];
     final int b = bloodType??0;
     // if(bloodType==)
-    return _bloodTypes[b];
+    return bloodTypes[b];
   }
 }
 

@@ -145,7 +145,7 @@ class PatientQrScreen extends StatelessWidget {
             // Patient Info Card
             Card(
               elevation: 0,
-              color: Theme.of(context).colorScheme.surfaceVariant,
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
               child: ListTile(
                 leading: const CircleAvatar(child: Icon(Icons.person)),
                 title: Text(_patientJson['patient']['fullName']),

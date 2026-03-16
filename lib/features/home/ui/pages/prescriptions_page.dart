@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/features/home/data/providers/prescriptions.dart';
+import 'package:health_app/shared/ex.dart';
 
 import '../../../pharmacist/domain/models/prescription.dart';
-import '../../../pharmacist/ui/prescriptions/page.dart' show PrescriptionCard;
 
 class PatientPrescriptionsScreen extends ConsumerStatefulWidget {
   const PatientPrescriptionsScreen({super.key});
@@ -21,10 +21,9 @@ class _PatientPrescriptionsScreenState
     // xlog(res);
     // return
     return Scaffold(
-      appBar: AppBar(title: Text('Prescriptions')),
+      appBar: AppBar(title: Text(context.tr.prescriptions)),
       body: res.when(
         data: (d) {
-          xlog(d.prescriptions);
           final prescriptions = d.prescriptions;
           return ListView.builder(
             padding: const EdgeInsets.all(16),
@@ -79,7 +78,7 @@ class PrescriptionCard extends StatelessWidget {
           prescription.doctorName,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text("status: ${getPrescriptionStatusString(prescription.status)}"),
+        subtitle: Text("${context.tr.status}: ${getPrescriptionStatusLocalizedString(prescription.status,context)}"),
         // subtitle: Text("Diagnosis: ${prescription.diagnosis}"),
         // trailing: _buildPopupMenu(context, prescription),
         children: [
@@ -93,14 +92,14 @@ class PrescriptionCard extends StatelessWidget {
                 if (prescription.diagnosis.isNotEmpty)
                   _buildInfoRow(
                     Icons.note_alt_outlined,
-                    "Diagnosis",
+                    context.tr.diagnosisLabel,
                     prescription.diagnosis,
                   ),
                 const SizedBox(height: 8),
                 if (prescription.notes.isNotEmpty)
                   _buildInfoRow(
                     Icons.note_alt_outlined,
-                    "Notes",
+                    context.tr.notes,
                     prescription.notes,
                   ),
                 const SizedBox(height: 12),
@@ -113,7 +112,7 @@ class PrescriptionCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "Medication Plan",
+                      context.tr.medicationPlan,
                       style: theme.textTheme.labelLarge?.copyWith(
                         color: theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,
@@ -157,7 +156,7 @@ class PrescriptionCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+        color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

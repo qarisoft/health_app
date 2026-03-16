@@ -50,6 +50,228 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get failedToLoadDashboard => 'فشل تحميل لوحة التحكم';
+
+  @override
+  String get noDashboardData => 'لا توجد بيانات لوحة تحكم متاحة.';
+
+  @override
+  String get overview => 'نظرة عامة';
+
+  @override
+  String get visits => 'الزيارات';
+
+  @override
+  String get doctors => 'الأطباء';
+
+  @override
+  String get latestDiagnosis => 'أحدث تشخيص';
+
+  @override
+  String get seeHistory => 'عرض السجل';
+
+  @override
+  String get medicationsLabel => 'الأدوية:';
+
+  @override
+  String get recentActivities => 'الأنشطة الأخيرة';
+
+  @override
+  String get emergencyInfo => 'معلومات الطوارئ';
+
+  @override
+  String get scanForMedicalProfile => 'مسح للملف الطبي';
+
+  @override
+  String get failedToLoadEmergencyData => 'فشل تحميل بيانات الطوارئ.';
+
+  @override
+  String get createMedicalRecordStep => 'إنشاء سجل طبي - خطوة';
+
+  @override
+  String get saveChanges => 'حفظ التغييرات';
+
+  @override
+  String get addHealthData => 'إضافة بيانات صحية';
+
+  @override
+  String get medicationPlan => 'خطة العلاج';
+
+  @override
+  String get healthSummary => 'ملخص الصحة';
+
+  @override
+  String get goodMorning => 'صباح الخير،';
+
+  @override
+  String get goodAfternoon => 'طاب مساؤك،';
+
+  @override
+  String get goodEvening => 'مساء الخير،';
+
+  @override
+  String get viewDetailedReport => 'عرض تقرير مفصل';
+
+  @override
+  String get search => 'بحث';
+
+  @override
+  String get dispense => 'صرف';
+
+  @override
+  String get myPrescriptions => 'وصفاتي الطبية';
+
+  @override
+  String get addPrescription => 'إضافة وصفة طبية';
+
+  @override
+  String get diagnosisLabel => 'التشخيص:';
+
+  @override
+  String get aboutApp => 'عن التطبيق';
+
+  @override
+  String get darkMode => 'الوضع الداكن';
+
+  @override
+  String get privacyAndSecurity => 'الخصوصية والأمان';
+
+  @override
+  String get selectLanguage => 'اختر اللغة';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get removePhoto => 'إزالة الصورة';
+
+  @override
+  String get takePhoto => 'التقاط صورة';
+
+  @override
+  String get chooseFromGallery => 'اختر من المعرض';
+
+  @override
+  String get themeDescription => 'التبديل بين المظهر الداكن والفاتح';
+
+  @override
+  String get notificationsDescription => 'تفعيل أو تعطيل التنبيهات';
+
+  @override
+  String get logoutConfirmation => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
+
+  @override
+  String get patientDigitalId => 'الهوية الرقمية للمريض';
+
+  @override
+  String get dataTooLargeQr => 'البيانات كبيرة جداً لرمز QR';
+
+  @override
+  String get failedToLoadImage => 'فشل تحميل الصورة';
+
+  @override
+  String get invalidImageData => 'بيانات صورة غير صالحة';
+
+  @override
+  String get findPatient => 'البحث عن مريض';
+
+  @override
+  String get patientPrescriptions => 'وصفات المريض';
+
+  @override
+  String get newPrescription => 'وصفة جديدة';
+
+  @override
+  String get addToList => 'إضافة إلى القائمة';
+
+  @override
+  String get editPrescription => 'تعديل الوصفة';
+
+  @override
+  String get allergenName => 'اسم المادة المسببة للحساسية';
+
+  @override
+  String get frequency => 'التكرار';
+
+  @override
+  String get duration => 'المدة';
+
+  @override
+  String get reaction => 'رد الفعل';
+
+  @override
+  String get allergySeverity => 'شدة الحساسية';
+
+  @override
+  String get createProfile => 'إنشاء الملف الشخصي';
+
+  @override
+  String get medicineName => 'اسم الدواء';
+
+  @override
+  String get dosage => 'الجرعة';
+
+  @override
+  String get changesSavedSuccessfully => 'تم حفظ التغييرات بنجاح';
+
+  @override
+  String get previous => 'السابق';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get editProfile => 'تعديل البروفايل';
+
+  @override
+  String get notifications => 'اشعارات';
+
+  @override
+  String get enterPassword => 'Please enter password';
+
+  @override
+  String get passwordTooShort => 'Password must be at least 6 characters';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get pleaseSelectUserType => 'Please select user type';
+
+  @override
+  String get pleaseEnterName => 'Please enter your name';
+
+  @override
+  String get pleaseEnterEmail => 'Please enter your email';
+
+  @override
+  String get pleaseEnterPhoneNumber => 'Please enter phone number';
+
+  @override
+  String get invalidDate => 'You must enter a valid date';
+
+  @override
+  String get licenseNumber => 'License Number';
+
+  @override
+  String get pleaseEnterLicenseNumber => 'Please enter license number';
+
+  @override
+  String get specialization => 'Specialization';
+
+  @override
+  String get pleaseEnterSpecialization => 'Please enter specialization';
+
+  @override
+  String get pharmacyName => 'Pharmacy Name';
+
+  @override
+  String get pleaseEnterPharmacyName => 'Please enter pharmacy name';
+
+  @override
+  String get errorPickingFile => 'Error picking file';
+
+  @override
   String get medicalHistory => 'السجل الطبي';
 
   @override
@@ -233,6 +455,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bmi => 'مؤشر كتلة الجسم';
+
+  @override
+  String get profilePage => 'البروفايل';
+
+  @override
+  String get activePrescriptions => 'احدث الوصفات';
+
+  @override
+  String get inactivePrescriptions => 'inactive Prescriptions';
+
+  @override
+  String get partialDispensed => 'صرفت جزئيا';
+
+  @override
+  String get canceled => 'ملغية';
+
+  @override
+  String get inReview => 'تحت المراجعة';
+
+  @override
+  String get dispensed => 'مصروفة';
+
+  @override
+  String get needConsultation => 'تحتاج الى استشارة';
 
   @override
   String get isSmoker => 'مدخن';
@@ -425,7 +671,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get familyHistoryHint => 'التاريخ الطبي العائلي المهم';
 
   @override
-  String get notes => 'ملاحظات إضافية';
+  String get notes => 'ملاحظات';
 
   @override
   String get additionalNotesHint => 'أي معلومات طبية أخرى ذات صلة';
