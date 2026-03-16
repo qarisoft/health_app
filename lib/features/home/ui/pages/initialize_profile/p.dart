@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/di.dart' show appRepo, di;
@@ -33,10 +34,8 @@ class PProfile extends _$PProfile {
   // PatientProfileNotifier() : super(const PatientProfileState());
   @override
   PatientProfileState build() {
-    final a = ref.watch(accountProvider);
-    final patient = a.whenOrNull(
-      acount: (ac) => ac.whenOrNull(patient: (p) => p),
-    );
+    final a = ref.watch(allAcountsProvider);
+    final patient = a.patient?.patient;
     if (patient != null) {
       return PatientProfileState(
         profile: PatientProfile(
@@ -50,6 +49,8 @@ class PProfile extends _$PProfile {
           emergencyPhone: patient.emergencyPhone,
           fullName: patient.fullName,
           gender: patient.gender,
+          phoneNumber: patient.phoneNumber,
+
         ),
       );
     }

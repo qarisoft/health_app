@@ -66,7 +66,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      AppDialog().loading(message: "login, please wait ...");
+      AppDialog().loading(message: context.tr.loading);
       await Future.delayed(Duration(seconds: 2));
 
       final auth = await appRepo.login(

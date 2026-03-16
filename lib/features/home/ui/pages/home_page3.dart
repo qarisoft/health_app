@@ -16,39 +16,23 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-  // Sample data for the top horizontal scroll
-  final List<Map<String, String>> promoCards = [
-    {
-      'title': 'Consult a Specialist',
-      'subtitle': 'Book online consultations',
-      'image': 'https://images.unsplash.com/photo-1576091160550-2173ff9e5eb3?auto=format&fit=crop&w=600&q=80',
-    },
-    {
-      'title': 'Emergency Care',
-      'subtitle': '24/7 Support & Ambulance',
-      'image': 'https://images.unsplash.com/photo-1587370560942-12f96608e0cb?auto=format&fit=crop&w=600&q=80',
-    },
-    {
-      'title': 'Health Checkups',
-      'subtitle': 'Comprehensive body screening',
-      'image': 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?auto=format&fit=crop&w=600&q=80',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    // Watch your generated riverpod provider
     final dashboardAsyncValue = ref.watch(patientDashboardSummaryProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFF8F9FA), // Light clinical background
       body: SafeArea(
         child: dashboardAsyncValue.when(
           data: (pageResponse) {
+            // Unwrap the actual data from your BaseResponse wrapper
             final summaryData = pageResponse.data;
 
             if (summaryData == null) {
               return _buildEmptyState();
             }
+            // xlog(summaryData.toJson());
 
             return _buildDashboardContent(summaryData);
           },
@@ -85,9 +69,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             _buildAppBar(data.profileStatus),
             _buildGreeting(),
 
-            // --- NEW: Horizontal Image Scroll added here ---
-            _buildHorizontalPromoScroll(),
-
             // Show Profile Warning if not initialized
             if (data.profileStatus?.isInitialized == false)
               _buildProfileWarningTip(),
@@ -106,96 +87,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   }
 
   // --- UI Components ---
-
-  // NEW METHOD: Horizontal Image Scroll Widget
-  Widget _buildHorizontalPromoScroll() {
-    return SizedBox(
-      height: 160,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        itemCount: promoCards.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 16),
-        itemBuilder: (context, index) {
-          final card = promoCards[index];
-          return Container(
-            width: 280, // Fixed width for consistent scroll feel
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: NetworkImage(card['image']!),
-                fit: BoxFit.cover,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 5),
-                ),
-              ],
-            ),
-            child: Stack(
-              children: [
-                // Dark gradient overlay for text readability
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Colors.black.withOpacity(0.8),
-                        Colors.black.withOpacity(0.1),
-                      ],
-                    ),
-                  ),
-                ),
-                // Text Content
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        card['title']!,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        card['subtitle']!,
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.9),
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Interactive Ripple Effect
-                Positioned.fill(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () {
-                        // TODO: Add navigation logic based on card clicked
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   Widget _buildEmptyState() {
     return RefreshIndicator(
@@ -228,6 +119,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 child: Icon(Icons.person, color: Colors.white),
               ),
               const SizedBox(width: 12),
+              // Show blood type if profile is initialized
               if (profile?.isInitialized == true)
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -244,6 +136,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                       Text(
                         '${context.tr.bloodType}: ${_getBloodType(profile!.bloodType)}',
                         style: TextStyle(
+
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Colors.red.shade700,
@@ -269,7 +162,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   Widget _buildGreeting() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0), // Adjusted bottom padding
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -290,6 +183,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               fontWeight: FontWeight.w500,
             ),
           ),
+          const SizedBox(height: 24),
         ],
       ),
     );
@@ -301,7 +195,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 24), // Added space before Overview
           Text(
             context.tr.overview,
             style: const TextStyle(
@@ -337,8 +230,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             children: [
               Expanded(
                 child: _buildStatCard(
-                  // Fallback string used here; replace with context.tr.prescriptions if available
-                  'Prescriptions',
+                  context.tr.prescriptions,
                   stats.totalPrescriptions.toString(),
                   Icons.medication,
                   const Color(0xFF2D9CDB),
@@ -347,8 +239,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               const SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
-                  // Fallback string used here; replace with context.tr.pending if available
-                  'Pending',
+                  context.tr.pending,
                   stats.pendingPrescriptions.toString(),
                   Icons.pending_actions,
                   stats.pendingPrescriptions > 0
@@ -365,11 +256,11 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   }
 
   Widget _buildStatCard(
-      String title,
-      String value,
-      IconData icon,
-      Color color,
-      ) {
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -654,8 +545,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      // Used generic 'Pending' text to ensure compilation, change back to context.tr.pending if supported
-                      'Pending',
+                      context.tr.pending,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -673,7 +563,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   Widget _buildProfileWarningTip() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 24, bottom: 8),
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 24),
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
@@ -721,15 +611,24 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   // Helper mapping
   String _getBloodType(int typeCode) {
     switch (typeCode) {
-      case 1: return 'A+';
-      case 2: return 'A-';
-      case 3: return 'B+';
-      case 4: return 'B-';
-      case 5: return 'AB+';
-      case 6: return 'AB-';
-      case 7: return 'O+';
-      case 8: return 'O-';
-      default: return 'N/A';
+      case 1:
+        return 'A+';
+      case 2:
+        return 'A-';
+      case 3:
+        return 'B+';
+      case 4:
+        return 'B-';
+      case 5:
+        return 'AB+';
+      case 6:
+        return 'AB-';
+      case 7:
+        return 'O+';
+      case 8:
+        return 'O-';
+      default:
+        return 'N/A';
     }
   }
 }

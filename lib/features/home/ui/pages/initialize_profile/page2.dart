@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart';
+import 'package:health_app/shared/ex.dart';
 import 'package:intl/intl.dart';
 import 'p.dart';
 
@@ -201,7 +202,7 @@ class _InitializeProfilePage2State
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                       ),
-                      child: const Text('السابق'),
+                      child: Text(context.tr.previous),
                     ),
                   ),
                 if (currentStep > 0) const SizedBox(width: 12),
@@ -216,7 +217,7 @@ class _InitializeProfilePage2State
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),
                     child: Text(
-                      currentStep == 1 ? 'إتمام التسجيل' : 'التالي',
+                      currentStep == 1 ? context.tr.confirm:context.tr.next,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -250,6 +251,7 @@ class _InitializeProfilePage2State
 
   Future<void> _submit() async {
     await ref.read(pProfileProvider.notifier).updateProfile();
+    context.mayPop();
   }
 }
 

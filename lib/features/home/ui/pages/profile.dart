@@ -220,7 +220,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           ListTile(
             leading: const Icon(Iconsax.personalcard),
             title: Text(context.tr.editProfile),
-            subtitle: Text(_language),
+            // subtitle: Text(_language),
             trailing: const Icon(Icons.chevron_right),
             onTap: _navigateToEditProfile,
           ),
@@ -236,7 +236,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
             secondary: const Icon(Iconsax.moon),
           ),
           SwitchListTile(
-            title: Text('notifications'),
+            title: Text(context.tr. notifications),
             subtitle: Text(context.tr.notificationsDescription),
             value: _notificationsEnabled,
             onChanged: (value) {

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart';
 // import 'package:health_app/core/constants/_all.dart';
 import 'package:intl/intl.dart';
+import '../../../../../shared/ex.dart' show AppEx;
 import '../../../models/models.dart';
 import 'dialogs.dart';
 import 'p.dart';
@@ -208,7 +209,7 @@ class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                       ),
-                      child: const Text('السابق'),
+                      child: Text(context.tr.previous),
                     ),
                   ),
                 if (currentStep > 0) const SizedBox(width: 12),
@@ -223,7 +224,7 @@ class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),
                     child: Text(
-                      currentStep == 6 ? 'إتمام التسجيل' : 'التالي',
+                      currentStep == 6 ? context.tr.confirm : context.tr.next,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
