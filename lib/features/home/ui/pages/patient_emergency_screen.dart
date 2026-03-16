@@ -17,7 +17,7 @@ class EmergenciesScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(context.tr.emergencyInfo),
         // A distinct color helps indicate the critical nature of this screen
-        backgroundColor: Colors.red.shade600,
+        backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
       body: res.when(
@@ -33,26 +33,61 @@ class EmergenciesScreen extends ConsumerWidget {
             child: ListView(
               padding: const EdgeInsets.all(16.0),
               children: [
-
                 // --- Personal & Contact Info ---
-                _buildSectionHeader(context, context.tr.personalInformation, Icons.person),
-                _buildInfoTile(context.tr.name, info.fullName ?? 'Not provided'),
-                _buildInfoTile(context.tr.bloodType, _getBloodType(info.bloodType)),
+                _buildSectionHeader(
+                  context,
+                  context.tr.personalInformation,
+                  Icons.person,
+                ),
+                _buildInfoTile(
+                  context.tr.name,
+                  info.fullName ?? 'Not provided',
+                ),
+                _buildInfoTile(
+                  context.tr.bloodType,
+                  _getBloodType(info.bloodType),
+                ),
 
                 const SizedBox(height: 16),
 
-                _buildSectionHeader(context, context.tr.emergencyContact, Icons.contact_phone),
-                _buildInfoTile(context.tr.name, info.emergencyContact ?? 'Not provided'),
-                _buildInfoTile(context.tr.phoneNumber, info.emergencyPhone ?? 'Not provided', isPhone: true),
+                _buildSectionHeader(
+                  context,
+                  context.tr.emergencyContact,
+                  Icons.contact_phone,
+                ),
+                _buildInfoTile(
+                  context.tr.name,
+                  info.emergencyContact ?? 'Not provided',
+                ),
+                _buildInfoTile(
+                  context.tr.phoneNumber,
+                  info.emergencyPhone ?? 'Not provided',
+                  isPhone: true,
+                ),
 
                 const SizedBox(height: 16),
 
                 // --- Medical Info ---
-                _buildSectionHeader(context, context.tr.medicalInformation, Icons.medical_services),
-                _buildListSection(context, context.tr.allergies, info.allergies),
-                _buildListSection(context, context.tr.chronicConditions, info.chronicDiseases),
-                _buildListSection(context, context.tr.currentMedications, info.currentMedications),
-
+                _buildSectionHeader(
+                  context,
+                  context.tr.medicalInformation,
+                  Icons.medical_services,
+                ),
+                _buildListSection(
+                  context,
+                  context.tr.allergies,
+                  info.allergies,
+                ),
+                _buildListSection(
+                  context,
+                  context.tr.chronicConditions,
+                  info.chronicDiseases,
+                ),
+                _buildListSection(
+                  context,
+                  context.tr.currentMedications,
+                  info.currentMedications,
+                ),
 
                 if (info.qrCodeUrl != null) ...[
                   Center(
@@ -64,7 +99,9 @@ class EmergenciesScreen extends ConsumerWidget {
                           children: [
                             Text(
                               context.tr.scanForMedicalProfile,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             const SizedBox(height: 12),
                             ImageFromDataUrl(dataUrl: info.qrCodeUrl!),
@@ -74,7 +111,8 @@ class EmergenciesScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                ],              ],
+                ],
+              ],
             ),
           );
         },
@@ -82,13 +120,13 @@ class EmergenciesScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error_outline, color: Colors.red, size: 48),
+              const Icon(Icons.error_outline, color: Colors.blue, size: 48),
               const SizedBox(height: 16),
               Text(context.tr.failedToLoadEmergencyData),
               TextButton(
                 onPressed: () => ref.invalidate(patientEmergencyProvider),
                 child: Text(context.tr.retry),
-              )
+              ),
             ],
           ),
         ),
@@ -99,12 +137,16 @@ class EmergenciesScreen extends ConsumerWidget {
 
   // --- UI Helper Methods ---
 
-  Widget _buildSectionHeader(BuildContext context, String title, IconData icon) {
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title,
+    IconData icon,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
         children: [
-          Icon(icon, color: Colors.red.shade600, size: 20),
+          Icon(icon, color: Colors.blue.shade600, size: 20),
           const SizedBox(width: 8),
           Text(
             title,
@@ -136,7 +178,11 @@ class EmergenciesScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildListSection(BuildContext context, String label, List<String>? items) {
+  Widget _buildListSection(
+    BuildContext context,
+    String label,
+    List<String>? items,
+  ) {
     if (items == null || items.isEmpty) {
       return _buildInfoTile(label, 'None reported');
     }
@@ -150,11 +196,15 @@ class EmergenciesScreen extends ConsumerWidget {
           Wrap(
             spacing: 8.0,
             runSpacing: 4.0,
-            children: items.map((item) => Chip(
-              label: Text(item, style: const TextStyle(fontSize: 12)),
-              backgroundColor: Colors.red.shade50,
-              side: BorderSide(color: Colors.red.shade200),
-            )).toList(),
+            children: items
+                .map(
+                  (item) => Chip(
+                    label: Text(item, style: const TextStyle(fontSize: 12)),
+                    backgroundColor: Colors.blue.shade50,
+                    side: BorderSide(color: Colors.blue.shade200),
+                  ),
+                )
+                .toList(),
           ),
         ],
       ),
@@ -165,15 +215,24 @@ class EmergenciesScreen extends ConsumerWidget {
   // Note: Adjust the switch cases to match your backend's specific integer mapping!
   String _getBloodType(int? typeCode) {
     switch (typeCode) {
-      case 1: return 'A+';
-      case 2: return 'A-';
-      case 3: return 'B+';
-      case 4: return 'B-';
-      case 5: return 'AB+';
-      case 6: return 'AB-';
-      case 7: return 'O+';
-      case 8: return 'O-';
-      default: return 'Unknown';
+      case 1:
+        return 'A+';
+      case 2:
+        return 'A-';
+      case 3:
+        return 'B+';
+      case 4:
+        return 'B-';
+      case 5:
+        return 'AB+';
+      case 6:
+        return 'AB-';
+      case 7:
+        return 'O+';
+      case 8:
+        return 'O-';
+      default:
+        return 'Unknown';
     }
   }
 }

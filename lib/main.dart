@@ -7,13 +7,12 @@ import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/ui/pages/register_page.dart';
 import 'package:health_app/features/doctor/ui/home.dart' as doctor_app;
 import 'package:health_app/features/home/ui/pages/p.dart' as patient_app;
-import 'package:health_app/features/patients/ui/home.dart'
-    show MedicalHistoryPage;
 import 'package:health_app/features/pharmacist/ui/home/page.dart'
     as pharmacist_page;
 import 'package:health_app/l10n/app_localizations.dart';
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+
 import 'core/theme/app_theme.dart';
 import 'features/auth/ui/pages/login_page.dart';
 
@@ -49,7 +48,7 @@ class HealthCareApp extends StatelessWidget {
             AppRoutes.login: (context) => const LoginPage(),
             AppRoutes.register: (context) => const RegisterPage(),
             //
-            AppRoutes.patientMHistory: (context) => const MedicalHistoryPage(),
+            // AppRoutes.patientMHistory: (context) => const MedicalHistoryPage(),
             AppRoutes.patientHome: (context) =>
                 const patient_app.MainPatientPage(),
             AppRoutes.doctorHome: (context) => const doctor_app.HomePage(),
@@ -70,9 +69,6 @@ class SplashPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(accountProvider);
-    // xlog('auth ${auth.toString()}');
-
-    // auth.log('auth ');
     return auth.when(
       initial: () => LoginPage(),
       acount: (a) => a.when(
@@ -82,33 +78,6 @@ class SplashPage extends ConsumerWidget {
         admin: (p) => patient_app.HomePage(),
       ),
     );
-  }
-}
-
-class AdminHomePage extends StatelessWidget {
-  const AdminHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('admin')));
-  }
-}
-
-class PharmacistHomePage extends StatelessWidget {
-  const PharmacistHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('pharmacist')));
-  }
-}
-
-class DoctorHomePage extends StatelessWidget {
-  const DoctorHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('doctor')));
   }
 }
 

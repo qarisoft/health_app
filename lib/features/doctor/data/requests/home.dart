@@ -1,5 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:health_app/features/patients/domain/models/medical_history.dart';
+
+import '../../../../shared/functions.dart' show BloodType;
+
+// import 'package:health_app/features/patients/domain/models/medical_history.dart';
 
 part 'home.freezed.dart';
 part 'home.g.dart';
@@ -20,14 +23,23 @@ abstract class RecentPatient with _$RecentPatient {
 
 extension Asss on RecentPatient {
   bool get isAvtive => patientId == 1;
+
   bool get isActive => patientId == 1;
+
   String get nationalId => patientId.toString();
+
   String get id => patientId.toString();
+
   String get gender => 'dsa';
+
   String get name => fullName;
+
   String get email => fullName;
+
   String get address => fullName;
+
   BloodType get bloodType => BloodType.aNegative;
+
   // String get email => fullName;
   // String get nationalId => patientId;
   String get phoneNumber => fullName;
