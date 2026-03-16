@@ -41,7 +41,7 @@ final class AuthRecordStateProvider
   }
 }
 
-String _$authRecordStateHash() => r'5a723e0e8f37e05c9b556b8cc0bcf8a8a829b573';
+String _$authRecordStateHash() => r'a0a3af5ea7f79ddb22f1e34dbe377a559f04fe08';
 
 abstract class _$AuthRecordState extends $Notifier<AuthRecordData> {
   AuthRecordData build();
@@ -73,13 +73,9 @@ final class AccountProvider extends $NotifierProvider<Account, AccountState> {
         retry: null,
         name: r'accountProvider',
         isAutoDispose: true,
-        dependencies: const <ProviderOrFamily>[authRecordStateProvider],
-        $allTransitiveDependencies: const <ProviderOrFamily>[
-          AccountProvider.$allTransitiveDependencies0,
-        ],
+        dependencies: null,
+        $allTransitiveDependencies: null,
       );
-
-  static const $allTransitiveDependencies0 = authRecordStateProvider;
 
   @override
   String debugGetCreateSourceHash() => _$accountHash();
@@ -97,7 +93,7 @@ final class AccountProvider extends $NotifierProvider<Account, AccountState> {
   }
 }
 
-String _$accountHash() => r'76c3bcadc288b8cd00b9dc8a477796da441c5e5c';
+String _$accountHash() => r'd2f15d74749097cf492e2f74d3ee359d28989f12';
 
 abstract class _$Account extends $Notifier<AccountState> {
   AccountState build();

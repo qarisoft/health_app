@@ -13,10 +13,10 @@ EmergencyResponse _$EmergencyResponseFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      fullName: json['fullName'] as String,
-      emergencyPhone: json['emergencyPhone'] as String,
-      emergencyContact: json['emergencyContact'] as String,
-      bloodType: (json['bloodType'] as num).toInt(),
+      fullName: json['fullName'] as String?,
+      emergencyPhone: json['emergencyPhone'] as String?,
+      emergencyContact: json['emergencyContact'] as String?,
+      bloodType: (json['bloodType'] as num?)?.toInt(),
       chronicDiseases:
           (json['chronicDiseases'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -27,6 +27,7 @@ EmergencyResponse _$EmergencyResponseFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      qrCodeUrl: json['qrCodeUrl'] as String?,
     );
 
 Map<String, dynamic> _$EmergencyResponseToJson(EmergencyResponse instance) =>
@@ -34,6 +35,7 @@ Map<String, dynamic> _$EmergencyResponseToJson(EmergencyResponse instance) =>
       'fullName': instance.fullName,
       'emergencyPhone': instance.emergencyPhone,
       'emergencyContact': instance.emergencyContact,
+      'qrCodeUrl': instance.qrCodeUrl,
       'bloodType': instance.bloodType,
       'allergies': instance.allergies,
       'chronicDiseases': instance.chronicDiseases,

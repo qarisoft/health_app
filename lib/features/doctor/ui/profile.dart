@@ -10,7 +10,7 @@ import 'package:health_app/features/doctor/data/providers/patient_acount.dart';
 import 'package:health_app/shared/api/api_repositories.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
-import 'package:health_app/features/home/ui/pages/p.dart' as patientApp;
+import 'package:health_app/features/home/ui/pages/p.dart' as patient_app;
 // import 'package:freezed_annotation/freezed_annotation.dart';
 // import 'package:health_app/features/auth/domain/models/patient.dart';
 
@@ -106,7 +106,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
                 xlog(patientAc);
                 if (patientAc != null) {
                   ref.read(accountProvider.notifier).changeAccount(patientAc);
-                  context.to(patientApp.HomePage());
+                  context.to(patient_app.HomePage());
                 }
               },
               child: Text('login as patient'),

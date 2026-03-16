@@ -5,7 +5,6 @@ const bool DEV_ENV = true;
 const version = 1087;
 const String AUTH_KEY = 'AUTH_KEY$version';
 const String AUTH_TYPE_KEY = 'AUTH_TYPE_KEY$version';
-
 const String DOCTOR_KEY = 'doctor';
 const String ADMIN_KEY = 'admin';
 const String PHARMACIST_KEY = 'pharmacist';
@@ -59,7 +58,7 @@ enum UserType {
   }
 }
 
-const api = '192.168.1.104';
+const api = '192.168.1.100';
 
 class K {
   // TODO Change this Url

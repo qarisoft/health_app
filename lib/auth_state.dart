@@ -1,3 +1,4 @@
+import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
@@ -26,15 +27,19 @@ class AuthRecordState extends _$AuthRecordState {
 
   Future<void> logOut() async {
     await di<AppStorage>().clearAllAccounts();
+    ref.invalidate(allAcountsProvider);
+    ref.invalidate(accountProvider);
     ref.invalidateSelf();
+
   }
 }
 
-@Riverpod(dependencies: [AuthRecordState])
+@riverpod
 class Account extends _$Account {
   @override
   AccountState build() {
-    final authRecord = ref.watch(authRecordStateProvider);
+    final authRecord = getAuthRecord();
+
     try {
       if (authRecord is TAuthRecordData) {
         final p = switch (authRecord.record.role) {
@@ -53,6 +58,16 @@ class Account extends _$Account {
       return AccountState.initial();
     }
     return AccountState.initial();
+  }
+
+  AuthRecordData getAuthRecord(){
+    final auth = appStorage.getAuthRecord();
+    // auth.log('authRecord');
+    // return auth !=null?:;
+    if (auth != null) {
+      return AuthRecordData.auth(record: auth);
+    }
+    return AuthRecordData.initial();
   }
 
   void getAccount(String s) {}

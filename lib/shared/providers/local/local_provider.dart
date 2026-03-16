@@ -34,6 +34,15 @@ class Local extends _$Local {
     return LocalState.ar();
   }
 
+  void setLocalArabic(){
+    state=LocalState.ar();
+
+  }
+  void setLocalEnglish(){
+
+    state=LocalState.en();
+  }
+
   void toggole() {
     if (state.isRtl) {
       state = LocalState.ar();

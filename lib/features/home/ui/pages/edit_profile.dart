@@ -1,14 +1,16 @@
 // edit_profile_page.dart
 import 'package:flutter/material.dart';
+import 'package:health_app/features/auth/domain/models/patient.dart';
 
 class EditProfilePage extends StatefulWidget {
   final bool isDarkMode;
   final VoidCallback onProfileUpdated;
+  final Patient patient;
 
   const EditProfilePage({
     super.key,
     required this.isDarkMode,
-    required this.onProfileUpdated,
+    required this.onProfileUpdated, required this.patient,
   });
 
   @override
@@ -27,10 +29,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void initState() {
     super.initState();
     // Initialize with current user data (you would fetch this from your data source)
-    _nameController.text = 'Alex Johnson';
-    _emailController.text = 'alex.johnson@email.com';
+    _nameController.text = widget.patient.fullName;
+    _emailController.text = widget.patient.email;
+    _phoneController.text=widget.patient.phoneNumber;
     _bioController.text = 'Flutter Developer & UI/UX Designer';
-    _locationController.text = 'San Francisco, CA';
+    _locationController.text = widget.patient.address;
   }
 
   @override

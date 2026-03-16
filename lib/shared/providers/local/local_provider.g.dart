@@ -50,7 +50,7 @@ final class LocalProvider extends $NotifierProvider<Local, LocalState> {
   }
 }
 
-String _$localHash() => r'569d5e0fdd279852bf696f2feab315d10eb4f581';
+String _$localHash() => r'974aed6a6607f7cd4cc41803bcea9b13a341fc43';
 
 abstract class _$Local extends $Notifier<LocalState> {
   LocalState build();

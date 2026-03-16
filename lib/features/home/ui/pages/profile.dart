@@ -1,24 +1,64 @@
 // profile_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
+import 'package:health_app/shared/ex.dart' show AppEx;
+import 'package:health_app/di.dart';
+import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/home/ui/pages/edit_profile.dart';
-import 'package:health_app/shared/ex.dart';
+import 'package:health_app/shared/ex.dart' hide xlog;
+import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/widgets/patient/app_bar/return_button.dart';
 import 'package:iconsax/iconsax.dart';
+
+import '../../../../core/constants/_all.dart' hide xlog;
+import '../../../../shared/ex.dart';
+import '../../../auth/domain/models/patient.dart';
+import 'p.dart' show InitializedProfilePage2;
 // import 'package:iconsax/iconsax.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(allAcountsProvider.select((s) => s.patient));
+    xlog(auth);
+    if (auth == null) {
+      return Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Center(child: CircularProgressIndicator())],
+        ),
+      );
+    }
+    return ProfilePageBuilder(account: auth);
+  }
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class ProfilePageBuilder extends ConsumerStatefulWidget {
+  const ProfilePageBuilder({super.key, required this.account});
+
+  final PatientAccount account;
+
+  @override
+  ConsumerState<ProfilePageBuilder> createState() => _ProfilePageBuilderState();
+}
+
+class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
   bool _isDarkMode = false;
   bool _notificationsEnabled = true;
   String _language = 'English';
+
+  late Patient patient;
+
+  @override
+  void initState() {
+    patient = widget.account.patient;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +80,12 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          spacing: 10,
           children: [
             // Profile Header Section
             _buildProfileHeader(),
 
-            // Stats Section
-            _buildStatsSection(),
 
-            // Menu Items Section
-            _buildMenuSection(),
-
-            // Settings Section
             _buildSettingsSection(),
 
             // Logout Button
@@ -133,13 +168,13 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
           const SizedBox(height: 15),
-          const Text(
-            'Alex Johnson',
+          Text(
+            patient.fullName,
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 5),
           Text(
-            'alex.johnson@email.com',
+            patient.email,
             style: TextStyle(fontSize: 16, color: Colors.grey[600]),
           ),
           const SizedBox(height: 10),
@@ -149,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Icon(Icons.location_on, size: 16, color: Colors.grey[600]),
               const SizedBox(width: 5),
               Text(
-                'San Francisco, CA',
+                patient.address,
                 style: TextStyle(fontSize: 14, color: Colors.grey[600]),
               ),
             ],
@@ -159,118 +194,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildStatsSection() {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: _isDarkMode ? Colors.grey[800] : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildStatItem('142', 'Posts'),
-          _buildStatItem('3.2K', 'Followers'),
-          _buildStatItem('284', 'Following'),
-          _buildStatItem('24', 'Projects'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatItem(String value, String label) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
-          ),
-        ),
-        const SizedBox(height: 5),
-        Text(label, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
-      ],
-    );
-  }
-
-  Widget _buildMenuSection() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-        color: _isDarkMode ? Colors.grey[800] : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          _buildMenuItem(
-            icon: Iconsax.user,
-            title: 'Edit Profile',
-            onTap: () => _navigateToEditProfile(),
-          ),
-          _buildMenuItem(icon: Iconsax.heart, title: 'Favorites', badge: '12'),
-          _buildMenuItem(icon: Iconsax.shop, title: 'My Orders', badge: '5'),
-          _buildMenuItem(icon: Iconsax.wallet, title: 'Payment Methods'),
-          _buildMenuItem(icon: Iconsax.location, title: 'Addresses'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMenuItem({
-    required IconData icon,
-    required String title,
-    String? badge,
-    VoidCallback? onTap,
-  }) {
-    return ListTile(
-      leading: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(icon, color: Colors.blue),
-      ),
-      title: Text(title),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (badge != null)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                badge,
-                style: const TextStyle(color: Colors.white, fontSize: 12),
-              ),
-            ),
-          const SizedBox(width: 10),
-          const Icon(Icons.chevron_right, color: Colors.grey),
-        ],
-      ),
-      onTap: onTap,
-    );
-  }
 
   Widget _buildSettingsSection() {
     return Container(
@@ -299,6 +222,13 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           const SizedBox(height: 15),
+          ListTile(
+            leading: const Icon(Iconsax.personalcard),
+            title: const Text('Edit Profile'),
+            subtitle: Text(_language),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: _navigateToEditProfile,
+          ),
           SwitchListTile(
             title: const Text('Dark Mode'),
             subtitle: const Text('Switch between dark and light theme'),
@@ -416,12 +346,9 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditProfilePage(
-          isDarkMode: _isDarkMode,
-          onProfileUpdated: () {
-            // Refresh profile data here
-          },
-        ),
+        builder: (context) => InitializedProfilePage2(onBackPressed: (){
+          context.pop();
+        },)
       ),
     );
   }
@@ -437,11 +364,13 @@ class _ProfilePageState extends State<ProfilePage> {
             child: ListView(
               shrinkWrap: true,
               children: [
-                _buildLanguageOption('English'),
-                _buildLanguageOption('Spanish'),
-                _buildLanguageOption('French'),
-                _buildLanguageOption('German'),
-                _buildLanguageOption('Chinese'),
+                _buildLanguageOption('English',onTap: ()=>
+                  ref.read(localProvider.notifier).setLocalEnglish()
+                ),
+                _buildLanguageOption('arabic',
+                    onTap: ()=>
+                  ref.read(localProvider.notifier).setLocalArabic()
+                ),
               ],
             ),
           ),
@@ -450,13 +379,14 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildLanguageOption(String language) {
+  Widget _buildLanguageOption(String language,{Function()?onTap}) {
     return ListTile(
       title: Text(language),
       trailing: _language == language
           ? const Icon(Icons.check, color: Colors.blue)
           : null,
       onTap: () {
+        onTap?.call();
         setState(() {
           _language = language;
         });
@@ -480,11 +410,18 @@ class _ProfilePageState extends State<ProfilePage> {
             Consumer(
               builder: (context, ref, _) {
                 out() {
+                  // ref.invalidate(accountProvider);
+
                   context.pop();
+                  context.mayPop();
                 }
 
                 return TextButton(
-                  onPressed: () {
+                  onPressed: () async{
+                    // await appStorage.clearAllAccounts();
+                    // ref.invalidate(accountProvider);
+                    // ref.invalidate(allAcountsProvider);
+
                     ref
                         .read(authRecordStateProvider.notifier)
                         .logOut()
@@ -504,4 +441,127 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     );
   }
+
+
+
+  //
+
+  // Widget _buildStatsSection() {
+  //   return Container(
+  //     margin: const EdgeInsets.all(20),
+  //     padding: const EdgeInsets.all(20),
+  //     decoration: BoxDecoration(
+  //       color: _isDarkMode ? Colors.grey[800] : Colors.white,
+  //       borderRadius: BorderRadius.circular(20),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.black.withOpacity(0.05),
+  //           blurRadius: 10,
+  //           offset: const Offset(0, 5),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //       children: [
+  //         _buildStatItem('142', 'Posts'),
+  //         _buildStatItem('3.2K', 'Followers'),
+  //         _buildStatItem('284', 'Following'),
+  //         _buildStatItem('24', 'Projects'),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _buildStatItem(String value, String label) {
+  //   return Column(
+  //     children: [
+  //       Text(
+  //         value,
+  //         style: const TextStyle(
+  //           fontSize: 20,
+  //           fontWeight: FontWeight.bold,
+  //           color: Colors.blue,
+  //         ),
+  //       ),
+  //       const SizedBox(height: 5),
+  //       Text(label, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+  //     ],
+  //   );
+  // }
+  //
+  // Widget _buildMenuSection() {
+  //   return Container(
+  //     margin: const EdgeInsets.symmetric(horizontal: 20),
+  //     decoration: BoxDecoration(
+  //       color: _isDarkMode ? Colors.grey[800] : Colors.white,
+  //       borderRadius: BorderRadius.circular(20),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.black.withOpacity(0.05),
+  //           blurRadius: 10,
+  //           offset: const Offset(0, 5),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         _buildMenuItem(
+  //           icon: Iconsax.user,
+  //           title: 'Edit Profile',
+  //           onTap: () => _navigateToEditProfile(),
+  //         ),
+  //         // _buildMenuItem(icon: Iconsax.heart, title: 'Favorites', badge: '12'),
+  //         // _buildMenuItem(icon: Iconsax.shop, title: 'My Orders', badge: '5'),
+  //         // _buildMenuItem(icon: Iconsax.wallet, title: 'Payment Methods'),
+  //         // _buildMenuItem(icon: Iconsax.location, title: 'Addresses'),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _buildMenuItem({
+  //   required IconData icon,
+  //   required String title,
+  //   String? badge,
+  //   VoidCallback? onTap,
+  // }) {
+  //   return ListTile(
+  //     leading: Container(
+  //       padding: const EdgeInsets.all(5),
+  //       decoration: BoxDecoration(
+  //         color: Colors.blue.withOpacity(0.1),
+  //         borderRadius: BorderRadius.circular(10),
+  //       ),
+  //       child: Icon(icon, color: Colors.blue),
+  //     ),
+  //     title: Text(title),
+  //     trailing: Padding(
+  //       padding: const EdgeInsets.all(8.0),
+  //       child: Row(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           if (badge != null)
+  //             Container(
+  //               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+  //               decoration: BoxDecoration(
+  //                 color: Colors.red,
+  //                 borderRadius: BorderRadius.circular(10),
+  //               ),
+  //               child: Text(
+  //                 badge,
+  //                 style: const TextStyle(color: Colors.white, fontSize: 12),
+  //               ),
+  //             ),
+  //           const SizedBox(width: 10),
+  //           Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             child: const Icon(Icons.chevron_right, color: Colors.grey),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //     onTap: onTap,
+  //   );
+  // }
 }

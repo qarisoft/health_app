@@ -24,13 +24,10 @@ final class PProfileProvider
         dependencies: const <ProviderOrFamily>[accountProvider],
         $allTransitiveDependencies: const <ProviderOrFamily>[
           PProfileProvider.$allTransitiveDependencies0,
-          PProfileProvider.$allTransitiveDependencies1,
         ],
       );
 
   static const $allTransitiveDependencies0 = accountProvider;
-  static const $allTransitiveDependencies1 =
-      AccountProvider.$allTransitiveDependencies0;
 
   @override
   String debugGetCreateSourceHash() => _$pProfileHash();
@@ -85,15 +82,12 @@ final class CurrentStepProvider extends $FunctionalProvider<int, int, int>
         $allTransitiveDependencies: const <ProviderOrFamily>[
           CurrentStepProvider.$allTransitiveDependencies0,
           CurrentStepProvider.$allTransitiveDependencies1,
-          CurrentStepProvider.$allTransitiveDependencies2,
         ],
       );
 
   static const $allTransitiveDependencies0 = pProfileProvider;
   static const $allTransitiveDependencies1 =
       PProfileProvider.$allTransitiveDependencies0;
-  static const $allTransitiveDependencies2 =
-      PProfileProvider.$allTransitiveDependencies1;
 
   @override
   String debugGetCreateSourceHash() => _$currentStepHash();
@@ -135,15 +129,12 @@ final class IsLoadingProvider extends $FunctionalProvider<bool, bool, bool>
         $allTransitiveDependencies: const <ProviderOrFamily>[
           IsLoadingProvider.$allTransitiveDependencies0,
           IsLoadingProvider.$allTransitiveDependencies1,
-          IsLoadingProvider.$allTransitiveDependencies2,
         ],
       );
 
   static const $allTransitiveDependencies0 = pProfileProvider;
   static const $allTransitiveDependencies1 =
       PProfileProvider.$allTransitiveDependencies0;
-  static const $allTransitiveDependencies2 =
-      PProfileProvider.$allTransitiveDependencies1;
 
   @override
   String debugGetCreateSourceHash() => _$isLoadingHash();
@@ -186,15 +177,12 @@ final class ProfileProvider
         $allTransitiveDependencies: const <ProviderOrFamily>[
           ProfileProvider.$allTransitiveDependencies0,
           ProfileProvider.$allTransitiveDependencies1,
-          ProfileProvider.$allTransitiveDependencies2,
         ],
       );
 
   static const $allTransitiveDependencies0 = pProfileProvider;
   static const $allTransitiveDependencies1 =
       PProfileProvider.$allTransitiveDependencies0;
-  static const $allTransitiveDependencies2 =
-      PProfileProvider.$allTransitiveDependencies1;
 
   @override
   String debugGetCreateSourceHash() => _$profileHash();

@@ -596,6 +596,12 @@ class AppRepositories {
       fromJson: (data) => data,
     );
   }
+  Future<ErrorOr<Map<String, dynamic>>> getPatientDashboardSummary() async {
+    return handleDioRequest(
+      request: () => api.getPatientDashboardSummary(),
+      fromJson: (data) => data,
+    );
+  }
 
   // ===============================================================
   // PHARMACIST FUNCTIONS

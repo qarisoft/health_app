@@ -9,26 +9,46 @@ part 'emergeny.g.dart';
 class EmergencyResponse {
   // final List<MedicalRecord>? medicalRecords;
   // final List<Prescription>? prescriptions;
-  final String fullName;
-  final String emergencyPhone;
-  final String emergencyContact;
-  final int bloodType;
-  final List<String> allergies;
-  final List<String> chronicDiseases;
-  final List<String> currentMedications;
+  final String? fullName;
+  final String? emergencyPhone;
+  final String? emergencyContact;
+  final String? qrCodeUrl;
+  final int? bloodType;
+  final List<String>? allergies;
+  final List<String>? chronicDiseases;
+  final List<String>? currentMedications;
 
   EmergencyResponse({
     this.allergies = const [],
-    required this.fullName,
-    required this.emergencyPhone,
-    required this.emergencyContact,
-    required this.bloodType,
+    this.fullName,
+    this.emergencyPhone,
+    this.emergencyContact,
+    this.bloodType,
     this.chronicDiseases = const [],
-    this.currentMedications = const [],
+    this.currentMedications = const [], this.qrCodeUrl,
+
   });
   factory EmergencyResponse.fromJson(Map<String, dynamic> json) =>
       _$EmergencyResponseFromJson(json);
   Map<String, dynamic> toJson() => _$EmergencyResponseToJson(this);
+}
+
+extension Em on EmergencyResponse{
+  String bloodTypeString(){
+    final List<String> _bloodTypes = [
+      'A+',
+      'A-',
+      'B+',
+      'B-',
+      'AB+',
+      'AB-',
+      'O+',
+      'O-',
+    ];
+    final int b = bloodType??0;
+    // if(bloodType==)
+    return _bloodTypes[b];
+  }
 }
 
 @JsonSerializable(explicitToJson: true)

@@ -1,16 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart';
-// import 'package:health_app/core/services/storage.dart';
-// import 'package:health_app/shared/ex.dart';
-// import 'package:health_app/core/constants/_all.dart';
 import 'package:intl/intl.dart';
-import '../../../models/models.dart';
-import 'dialogs.dart';
 import 'p.dart';
 
 class InitializeProfilePage2 extends ConsumerStatefulWidget {
-  const InitializeProfilePage2({super.key, this.pprofile});
+  const InitializeProfilePage2({super.key, this.pprofile, this.onBackPressed});
+  final VoidCallback? onBackPressed;
 
   final Patient? pprofile;
 
@@ -69,7 +66,7 @@ class _InitializeProfilePage2State
       appBar: AppBar(
         title: const Text(
           'إنشاء الملف الشخصي',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
         ),
         centerTitle: true,
         elevation: 0,
@@ -79,6 +76,7 @@ class _InitializeProfilePage2State
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             // _goBack()
+            widget.onBackPressed?.call();
           },
         ),
       ),
@@ -98,11 +96,7 @@ class _InitializeProfilePage2State
                     addressController: _addressController,
                   ),
                   MedicalInfoStep(),
-                  // AllergiesStep(),
-                  // ChronicDiseasesStep(),
-                  // SurgeriesStep(),
-                  // MedicationsStep(),
-                  // NotesStep(),
+
                 ],
               ),
             ),

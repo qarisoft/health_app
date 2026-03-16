@@ -228,6 +228,10 @@ class ApiService {
     final response = await _dio.get('/Patient/prescriptions');
     return _handleListResponse(response);
   }
+  Future<Map<String,dynamic>> getPatientDashboardSummary() async {
+    final response = await _dio.get('/Patient/dashboard-summary');
+    return _handleResponse(response);
+  }
 
   // ===============================================================
   // PHARMACIST

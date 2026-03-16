@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart';
+import 'package:health_app/shared/ex.dart' show AppEx;
 import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/core/constants/app_strings.dart';
 import 'package:health_app/di.dart';
@@ -140,6 +141,7 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
     );
   }
 }
+
 
 class PrescriptionCard extends StatelessWidget {
   final Prescription prescription;

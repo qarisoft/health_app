@@ -12,13 +12,10 @@ import 'package:health_app/features/patients/ui/home.dart'
 import 'package:health_app/features/pharmacist/ui/home/page.dart'
     as pharmacist_page;
 import 'package:health_app/l10n/app_localizations.dart';
-import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
-
 import 'core/theme/app_theme.dart';
 import 'features/auth/ui/pages/login_page.dart';
-// import 'features/home/presentation/pages/p.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

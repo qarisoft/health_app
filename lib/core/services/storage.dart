@@ -107,6 +107,7 @@ class AppStorage {
 
   AuthRecord? getAuthRecord() {
     final s = sharedPreferences.getString(AUTH_RECORD_KEY);
+    // sharedPreferences.c
 
     final json = s != null ? jsonDecode(s) : null;
     try {
