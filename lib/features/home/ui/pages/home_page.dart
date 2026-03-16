@@ -400,13 +400,14 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               const SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
-                  context.tr.pendingPrescriptions,
+                  context.tr.prescriptions,
                   // Use context.tr.pending if available
                   stats.pendingPrescriptions.toString(),
                   Icons.pending_actions,
                   stats.pendingPrescriptions > 0
                       ? const Color(0xFFFF6B6B)
                       : Colors.green,
+                  hint: context.tr.pendingPrescriptions,
                 ),
               ),
             ],
@@ -422,7 +423,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     String value,
     IconData icon,
     Color color, {
-    String? hint,
+    String? hint = '',
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -461,10 +462,11 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
 
-          const SizedBox(height: 4),
-          Row(
+          // const SizedBox(height: 16),
+          const SizedBox(height: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
