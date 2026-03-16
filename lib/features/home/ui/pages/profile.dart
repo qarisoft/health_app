@@ -219,7 +219,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           const SizedBox(height: 15),
           ListTile(
             leading: const Icon(Iconsax.personalcard),
-            title: Text('context.tr.editProfile'),
+            title: Text(context.tr.editProfile),
             subtitle: Text(_language),
             trailing: const Icon(Icons.chevron_right),
             onTap: _navigateToEditProfile,
