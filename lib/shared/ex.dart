@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,34 @@ import 'package:health_app/l10n/app_localizations.dart';
 //   // Navigations
 //
 // }
+extension CacheExtension on Ref {
+  /// Keeps the provider alive for a specified [duration] after the last listener is removed.
+  /// If a new listener is added before the timer completes, the timer is canceled and the state is kept.
+  void cacheTheState([Duration? duration]) {
+    // Prevent the provider from being disposed immediately
+    final link = keepAlive();
+    Timer? timer;
+    final Duration duration_ = duration ?? Duration(minutes: 5);
+
+    // Triggered when the last UI element stops listening to this provider
+    onCancel(() {
+      timer = Timer(duration_, () {
+        // Timer completed without new listeners. Allow the provider to be destroyed.
+        link.close();
+      });
+    });
+
+    // Triggered if a new UI element starts listening before the timer finishes
+    onResume(() {
+      timer?.cancel();
+    });
+
+    // Triggered when the provider is completely destroyed (e.g., via ref.invalidate)
+    onDispose(() {
+      timer?.cancel();
+    });
+  }
+}
 
 extension AppEx on BuildContext {
   // Navigations
@@ -20,7 +49,6 @@ extension AppEx on BuildContext {
 
   Future<T?> to<T>(Widget w) async =>
       await Navigator.of(this).push(MaterialPageRoute(builder: (context) => w));
-
 
   //
 
@@ -37,6 +65,7 @@ extension AppEx on BuildContext {
   double h(int fr) {
     return MediaQuery.heightOf(this) * fr * 0.01;
   }
+
   // Future<T?> toNamed<T>(String routeName) async =>
   //     await Navigator.of(this).pushNamed(routeName);
   //
@@ -50,6 +79,7 @@ extension AppEx on BuildContext {
   Future<bool> mayPop<T extends Object?>([T? results]) {
     return Navigator.of(this).maybePop(results);
   }
+
   //
   //
   // AppLocalizations get tr => AppLocalizations.of(this)!;
@@ -92,9 +122,8 @@ extension JsEncoder on Map<String, dynamic> {
   String jsencode() => jsonEncode(this);
 }
 
-
-extension LogOutExt on Ref{
-  void invalidateAllAuthProviders(){
+extension LogOutExt on Ref {
+  void invalidateAllAuthProviders() {
     invalidate(authRecordStateProvider);
     invalidate(accountProvider);
     invalidate(allAcountsProvider);
