@@ -393,6 +393,8 @@
   "dispensed":"dispensed",
   "needConsultation":"need Consultation",
 "emergencyPage":"emergency",
+  "totalPrescriptions":"total Prescriptions",
+  "pendingPrescriptions":"pending Prescriptions",
 
   "isSmoker": "Smoker",
   "@isSmoker": {

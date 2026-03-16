@@ -484,6 +484,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get emergencyPage => 'الطوارئ';
 
   @override
+  String get totalPrescriptions => 'الوصفات (الكل)';
+
+  @override
+  String get pendingPrescriptions => 'الوصفات (غير مصروفه)';
+
+  @override
   String get isSmoker => 'مدخن';
 
   @override

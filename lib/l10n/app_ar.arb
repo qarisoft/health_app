@@ -140,7 +140,8 @@
     "description": "Title for medical history section and page"
   },
   "emergencyPage":"الطوارئ",
-  
+  "totalPrescriptions":"الوصفات (الكل)",
+  "pendingPrescriptions":"الوصفات (غير مصروفه)",
   "todaysMedicine": "أدوية اليوم",
   "@todaysMedicine": {
     "description": "Title for today's medication schedule section"

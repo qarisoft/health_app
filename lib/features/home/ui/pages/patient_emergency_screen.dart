@@ -107,6 +107,7 @@ class _EmergenciesScreenState extends ConsumerState<EmergenciesScreen> {
               ),
             ),
         ],
+        leading: null,
       ),
       body: res.when(
         data: (data) {

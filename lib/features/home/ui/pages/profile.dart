@@ -6,7 +6,6 @@ import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/shared/providers/local/local_provider.dart';
-import 'package:health_app/shared/widgets/patient/app_bar/return_button.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../shared/ex.dart';
@@ -71,7 +70,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
             },
           ),
         ],
-        leading: ReturnButton(),
+        leading: null,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -79,7 +78,6 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           children: [
             // Profile Header Section
             _buildProfileHeader(),
-
 
             _buildSettingsSection(),
 
@@ -189,7 +187,6 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
     );
   }
 
-
   Widget _buildSettingsSection() {
     return Container(
       margin: const EdgeInsets.all(20),
@@ -236,7 +233,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
             secondary: const Icon(Iconsax.moon),
           ),
           SwitchListTile(
-            title: Text(context.tr. notifications),
+            title: Text(context.tr.notifications),
             subtitle: Text(context.tr.notificationsDescription),
             value: _notificationsEnabled,
             onChanged: (value) {
@@ -341,9 +338,11 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => InitializedProfilePage2(onBackPressed: (){
-          context.pop();
-        },)
+        builder: (context) => InitializedProfilePage2(
+          onBackPressed: () {
+            context.pop();
+          },
+        ),
       ),
     );
   }
@@ -359,12 +358,15 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
             child: ListView(
               shrinkWrap: true,
               children: [
-                _buildLanguageOption('English',onTap: ()=>
-                  ref.read(localProvider.notifier).setLocalEnglish()
+                _buildLanguageOption(
+                  'English',
+                  onTap: () =>
+                      ref.read(localProvider.notifier).setLocalEnglish(),
                 ),
-                _buildLanguageOption('arabic',
-                    onTap: ()=>
-                  ref.read(localProvider.notifier).setLocalArabic()
+                _buildLanguageOption(
+                  'arabic',
+                  onTap: () =>
+                      ref.read(localProvider.notifier).setLocalArabic(),
                 ),
               ],
             ),
@@ -374,7 +376,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
     );
   }
 
-  Widget _buildLanguageOption(String language,{Function()?onTap}) {
+  Widget _buildLanguageOption(String language, {Function()? onTap}) {
     return ListTile(
       title: Text(language),
       trailing: _language == language
@@ -412,7 +414,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                 }
 
                 return TextButton(
-                  onPressed: () async{
+                  onPressed: () async {
                     // await appStorage.clearAllAccounts();
                     // ref.invalidate(accountProvider);
                     // ref.invalidate(allAcountsProvider);

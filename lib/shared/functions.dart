@@ -47,6 +47,18 @@ String formatDate(String isoDateString) {
   }
 }
 
+String formatDate2(String isoDateString, {String locale = 'ar'}) {
+  try {
+    final DateTime parsedDate = DateTime.parse(isoDateString);
+
+    // Passes the locale to DateFormat. Will output formats like: 2 مارس 2026
+    return DateFormat('d MMMM yyyy', locale).format(parsedDate);
+  } catch (e) {
+    // Fallback to the original string if parsing fails
+    return isoDateString;
+  }
+}
+
 enum Gender {
   male(1, 'Male', 'ذكر'),
   female(2, 'Female', 'أنثى');

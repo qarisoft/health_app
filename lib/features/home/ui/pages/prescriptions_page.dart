@@ -15,6 +15,7 @@ class PatientPrescriptionsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: null,
         title: Text(
           context.tr.prescriptions,
           style: const TextStyle(fontWeight: FontWeight.bold),

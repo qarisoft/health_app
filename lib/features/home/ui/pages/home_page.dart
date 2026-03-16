@@ -390,7 +390,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             children: [
               Expanded(
                 child: _buildStatCard(
-                  'Prescriptions', // Use context.tr.prescriptions if available
+                  context.tr.totalPrescriptions,
+                  // Use context.tr.prescriptions if available
                   stats.totalPrescriptions.toString(),
                   Icons.medication,
                   const Color(0xFF2D9CDB),
@@ -399,7 +400,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               const SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
-                  'Pending', // Use context.tr.pending if available
+                  context.tr.pendingPrescriptions,
+                  // Use context.tr.pending if available
                   stats.pendingPrescriptions.toString(),
                   Icons.pending_actions,
                   stats.pendingPrescriptions > 0
@@ -419,8 +421,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     String title,
     String value,
     IconData icon,
-    Color color,
-  ) {
+    Color color, {
+    String? hint,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -461,13 +464,26 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           const SizedBox(height: 16),
 
           const SizedBox(height: 4),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF8A8A8A),
-              fontWeight: FontWeight.w500,
-            ),
+          Row(
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Color(0xFF8A8A8A),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              if (hint != null)
+                Text(
+                  hint,
+                  style: const TextStyle(
+                    fontSize: 9,
+                    color: Color(0xFF8A8A8A),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+            ],
           ),
         ],
       ),
@@ -560,7 +576,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
-                                formatDate(diagnosis.date),
+                                formatDate2(diagnosis.date, locale: 'ar'),
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,

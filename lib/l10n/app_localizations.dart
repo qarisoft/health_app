@@ -1040,6 +1040,18 @@ abstract class AppLocalizations {
   /// **'emergency'**
   String get emergencyPage;
 
+  /// No description provided for @totalPrescriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'total Prescriptions'**
+  String get totalPrescriptions;
+
+  /// No description provided for @pendingPrescriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'pending Prescriptions'**
+  String get pendingPrescriptions;
+
   /// Label for smoking status toggle
   ///
   /// In en, this message translates to:

@@ -484,6 +484,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emergencyPage => 'emergency';
 
   @override
+  String get totalPrescriptions => 'total Prescriptions';
+
+  @override
+  String get pendingPrescriptions => 'pending Prescriptions';
+
+  @override
   String get isSmoker => 'Smoker';
 
   @override
