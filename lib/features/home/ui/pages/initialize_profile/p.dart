@@ -12,6 +12,7 @@ import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/models.dart';
+
 // import '../models/patient_profile.dart';
 
 // part 'patient_profile_provider.freezed.dart';
@@ -50,7 +51,6 @@ class PProfile extends _$PProfile {
           fullName: patient.fullName,
           gender: patient.gender,
           phoneNumber: patient.phoneNumber,
-
         ),
       );
     }

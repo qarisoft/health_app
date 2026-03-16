@@ -1,47 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/features/home/data/providers/prescriptions.dart';
 import 'package:health_app/shared/ex.dart';
 
 import '../../../pharmacist/domain/models/prescription.dart';
 
-class PatientPrescriptionsScreen extends ConsumerStatefulWidget {
+// Converted to ConsumerWidget for cleaner code
+class PatientPrescriptionsScreen extends ConsumerWidget {
   const PatientPrescriptionsScreen({super.key});
 
   @override
-  ConsumerState createState() => _PatientPrescriptionsScreenState();
-}
-
-class _PatientPrescriptionsScreenState
-    extends ConsumerState<PatientPrescriptionsScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final res = ref.watch(patientPrescriptionsProvider);
-    // xlog(res);
-    // return
+
     return Scaffold(
-      appBar: AppBar(title: Text(context.tr.prescriptions)),
+      appBar: AppBar(
+        title: Text(
+          context.tr.prescriptions,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
       body: res.when(
         data: (d) {
           final prescriptions = d.prescriptions;
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: prescriptions.length,
-            itemBuilder: (context, index) =>
-                PrescriptionCard(prescription: prescriptions[index]),
+
+          // Handle Empty State
+          if (prescriptions.isEmpty) {
+            return RefreshIndicator(
+              onRefresh: () async =>
+                  ref.invalidate(patientPrescriptionsProvider),
+              child: ListView(
+                children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+                  Center(
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.receipt_long_outlined,
+                          size: 64,
+                          color: Colors.grey.shade400,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'No prescriptions found',
+                          // Replace with context.tr if you have a localization key
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          // Main List View
+          return RefreshIndicator(
+            onRefresh: () async => ref.invalidate(patientPrescriptionsProvider),
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: prescriptions.length,
+              itemBuilder: (context, index) =>
+                  PrescriptionCard(prescription: prescriptions[index]),
+            ),
           );
         },
-        error: (e, s) {
-          return SingleChildScrollView(child: Column());
-        },
-        loading: () => CircularProgressIndicator(),
+        error: (e, s) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, color: Colors.red, size: 48),
+              const SizedBox(height: 16),
+              const Text('Failed to load prescriptions.'),
+              TextButton.icon(
+                onPressed: () => ref.invalidate(patientPrescriptionsProvider),
+                icon: const Icon(Icons.refresh),
+                label: Text(context.tr.retry),
+              ),
+            ],
+          ),
+        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }
 }
-
-
 
 class PrescriptionCard extends StatelessWidget {
   final Prescription prescription;
@@ -52,35 +100,60 @@ class PrescriptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    // Determine status colors dynamically
+    final isDispensed =
+        prescription.getStatus() == PrescriptionStatusEnum.dispensed;
+    final statusColor = isDispensed ? Colors.green : Colors.orange;
+
     return Card(
       elevation: 0,
       margin: const EdgeInsets.only(bottom: 16),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         side: BorderSide(color: theme.dividerColor.withOpacity(0.1)),
       ),
       child: ExpansionTile(
         clipBehavior: Clip.antiAlias,
         shape: const RoundedRectangleBorder(side: BorderSide.none),
-        leading: CircleAvatar(
-          backgroundColor:
-          prescription.getStatus() == PrescriptionStatusEnum.dispensed
-              ? Colors.blue
-              : Colors.grey,
-          child: Icon(
-            Icons.person,
-            // color: prescription.getStatus() == PrescriptionStatusEnum.dispensed
-            //     ? Colors.blue
-            //     : Colors.grey,
+        // Removes borders when expanded
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
+        leading: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: statusColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
           ),
+          child: Icon(Icons.receipt_long, color: statusColor),
         ),
         title: Text(
-          prescription.doctorName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          'Dr. ${prescription.doctorName}',
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
-        subtitle: Text("${context.tr.status}: ${getPrescriptionStatusLocalizedString(prescription.status,context)}"),
-        // subtitle: Text("Diagnosis: ${prescription.diagnosis}"),
-        // trailing: _buildPopupMenu(context, prescription),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4.0),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: statusColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  getPrescriptionStatusLocalizedString(
+                    prescription.status,
+                    context,
+                  ),
+                  style: TextStyle(
+                    color: statusColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -91,29 +164,32 @@ class PrescriptionCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 if (prescription.diagnosis.isNotEmpty)
                   _buildInfoRow(
-                    Icons.note_alt_outlined,
+                    context,
+                    Icons.monitor_heart_outlined,
                     context.tr.diagnosisLabel,
                     prescription.diagnosis,
                   ),
-                const SizedBox(height: 8),
-                if (prescription.notes.isNotEmpty)
+                if (prescription.notes.isNotEmpty) ...[
+                  const SizedBox(height: 8),
                   _buildInfoRow(
+                    context,
                     Icons.note_alt_outlined,
-                    context.tr.notes,
+                    context.tr.notes, // Ensure this translation key exists
                     prescription.notes,
                   ),
-                const SizedBox(height: 12),
+                ],
+                const SizedBox(height: 16),
                 Row(
                   children: [
                     Icon(
-                      Icons.list_alt,
-                      size: 18,
+                      Icons.medication_liquid,
+                      size: 20,
                       color: theme.colorScheme.primary,
                     ),
                     const SizedBox(width: 8),
                     Text(
                       context.tr.medicationPlan,
-                      style: theme.textTheme.labelLarge?.copyWith(
+                      style: theme.textTheme.titleMedium?.copyWith(
                         color: theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,
                       ),
@@ -122,7 +198,7 @@ class PrescriptionCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 ...prescription.items.map(
-                      (item) => _buildMedicationItem(context, item),
+                  (item) => _buildMedicationItem(context, item),
                 ),
               ],
             ),
@@ -132,36 +208,66 @@ class PrescriptionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 16, color: Colors.grey),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              "$label: $value",
-              style: const TextStyle(color: Colors.black87, fontSize: 13),
+  Widget _buildInfoRow(
+    BuildContext context,
+    IconData icon,
+    String label,
+    String value,
+  ) {
+    final theme = Theme.of(context);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 18, color: theme.colorScheme.secondary),
+        const SizedBox(width: 8),
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              style: theme.textTheme.bodyMedium,
+              children: [
+                TextSpan(
+                  text: "$label ",
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                TextSpan(
+                  text: value,
+                  style: TextStyle(
+                    color: theme.colorScheme.onSurface.withOpacity(0.8),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildMedicationItem(BuildContext context, PrescriptionItem item) {
+    final theme = Theme.of(context);
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.4),
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.05)),
       ),
       child: Row(
         children: [
-          const Icon(Icons.medication, color: Colors.blue, size: 24),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.medication,
+              color: theme.colorScheme.primary,
+              size: 20,
+            ),
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -169,11 +275,19 @@ class PrescriptionCard extends StatelessWidget {
               children: [
                 Text(
                   item.medicationName,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
                 ),
+                const SizedBox(height: 2),
                 Text(
                   "${item.dosage} • ${item.frequency}",
-                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: theme.colorScheme.onSurface.withOpacity(0.6),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),
@@ -182,5 +296,4 @@ class PrescriptionCard extends StatelessWidget {
       ),
     );
   }
-
 }

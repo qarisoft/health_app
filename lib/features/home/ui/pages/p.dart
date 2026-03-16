@@ -99,7 +99,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           AppDialog().loading();
-          xlog('start qr ');
           final dio = appRepo.getDio();
           final res0 = await dio.get('/Patient/emergency-screen');
           xlog(res0);
@@ -171,7 +170,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem(Icons.home, context.tr.home, 0),
-            _buildNavItem(Icons.bar_chart, context.tr.emergencyInfo, 1),
+            _buildNavItem(Icons.bar_chart, context.tr.emergencyPage, 1),
             SizedBox(width: 40), // Space for FAB
             _buildNavItem(Icons.fitness_center, context.tr.prescriptions, 2),
             _buildNavItem(Icons.person, context.tr.profilePage, 3),

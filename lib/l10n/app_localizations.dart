@@ -1034,6 +1034,12 @@ abstract class AppLocalizations {
   /// **'need Consultation'**
   String get needConsultation;
 
+  /// No description provided for @emergencyPage.
+  ///
+  /// In en, this message translates to:
+  /// **'emergency'**
+  String get emergencyPage;
+
   /// Label for smoking status toggle
   ///
   /// In en, this message translates to:

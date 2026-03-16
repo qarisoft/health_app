@@ -1,3 +1,5 @@
+import 'dart:async'; // Added for Timer
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/shared/ex.dart';
@@ -5,8 +7,8 @@ import 'package:health_app/shared/functions.dart';
 import 'package:intl/intl.dart';
 
 // Adjust these imports to match your actual file structure
-import '../../data/providers/dashboard_summary.dart'; // Adjust path to where your @riverpod provider is
-import '../../data/responses/dashboard_summary.dart'; // Adjust path to your models
+import '../../data/providers/dashboard_summary.dart';
+import '../../data/responses/dashboard_summary.dart';
 
 class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
@@ -16,24 +18,73 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
+  // --- Animation Controllers ---
+  late ScrollController _carouselScrollController;
+  Timer? _carouselTimer;
+
+  // Card dimensions for calculation
+  final double _cardWidth = 280.0;
+  final double _cardSpacing = 16.0;
+
   // Sample data for the top horizontal scroll
   final List<Map<String, String>> promoCards = [
     {
       'title': 'Consult a Specialist',
       'subtitle': 'Book online consultations',
-      'image': 'https://images.unsplash.com/photo-1576091160550-2173ff9e5eb3?auto=format&fit=crop&w=600&q=80',
+      'image': 'assets/images/panar1.jpg',
     },
     {
       'title': 'Emergency Care',
       'subtitle': '24/7 Support & Ambulance',
-      'image': 'https://images.unsplash.com/photo-1587370560942-12f96608e0cb?auto=format&fit=crop&w=600&q=80',
+      'image': 'assets/images/panar2.jpg',
     },
     {
       'title': 'Health Checkups',
       'subtitle': 'Comprehensive body screening',
-      'image': 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?auto=format&fit=crop&w=600&q=80',
+      'image': 'assets/images/panar3.jpg',
     },
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _carouselScrollController = ScrollController();
+    _startAutoScroll();
+  }
+
+  @override
+  void dispose() {
+    _carouselTimer
+        ?.cancel(); // Important: clean up timer to prevent memory leaks
+    _carouselScrollController.dispose();
+    super.dispose();
+  }
+
+  // Logic to auto-move the carousel every 3.5 seconds
+  void _startAutoScroll() {
+    _carouselTimer = Timer.periodic(const Duration(milliseconds: 3500), (
+      timer,
+    ) {
+      if (_carouselScrollController.hasClients) {
+        double maxScroll = _carouselScrollController.position.maxScrollExtent;
+        double currentScroll = _carouselScrollController.position.pixels;
+        double scrollDelta = _cardWidth + _cardSpacing;
+
+        double nextScroll = currentScroll + scrollDelta;
+
+        // If we reach or exceed the end, jump smoothly back to the start
+        if (nextScroll > maxScroll + (_cardWidth / 2)) {
+          nextScroll = 0;
+        }
+
+        _carouselScrollController.animateTo(
+          nextScroll,
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.fastOutSlowIn,
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +136,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             _buildAppBar(data.profileStatus),
             _buildGreeting(),
 
-            // --- NEW: Horizontal Image Scroll added here ---
+            // Horizontal Image Scroll
             _buildHorizontalPromoScroll(),
 
             // Show Profile Warning if not initialized
@@ -107,24 +158,26 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   // --- UI Components ---
 
-  // NEW METHOD: Horizontal Image Scroll Widget
   Widget _buildHorizontalPromoScroll() {
     return SizedBox(
       height: 160,
       child: ListView.separated(
+        controller: _carouselScrollController,
+        // Attached the controller here
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemCount: promoCards.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 16),
+        separatorBuilder: (context, index) => SizedBox(width: _cardSpacing),
         itemBuilder: (context, index) {
           final card = promoCards[index];
           return Container(
-            width: 280, // Fixed width for consistent scroll feel
+            width: _cardWidth,
+            // Use the variable to ensure calculation accuracy
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                image: NetworkImage(card['image']!),
+                image: AssetImage(card['image']!),
                 fit: BoxFit.cover,
               ),
               boxShadow: [
@@ -269,7 +322,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   Widget _buildGreeting() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0), // Adjusted bottom padding
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -301,7 +354,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 24), // Added space before Overview
+          const SizedBox(height: 24),
           Text(
             context.tr.overview,
             style: const TextStyle(
@@ -337,8 +390,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             children: [
               Expanded(
                 child: _buildStatCard(
-                  // Fallback string used here; replace with context.tr.prescriptions if available
-                  'Prescriptions',
+                  'Prescriptions', // Use context.tr.prescriptions if available
                   stats.totalPrescriptions.toString(),
                   Icons.medication,
                   const Color(0xFF2D9CDB),
@@ -347,8 +399,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               const SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
-                  // Fallback string used here; replace with context.tr.pending if available
-                  'Pending',
+                  'Pending', // Use context.tr.pending if available
                   stats.pendingPrescriptions.toString(),
                   Icons.pending_actions,
                   stats.pendingPrescriptions > 0
@@ -365,11 +416,11 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   }
 
   Widget _buildStatCard(
-      String title,
-      String value,
-      IconData icon,
-      Color color,
-      ) {
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -423,7 +474,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Row with a "See History" action
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -436,9 +486,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  // TODO: Navigate to full diagnosis history
-                },
+                onPressed: () {},
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   minimumSize: const Size(50, 30),
@@ -455,8 +503,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             ],
           ),
           const SizedBox(height: 12),
-
-          // Enhanced Interactive Card
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -475,15 +521,12 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               borderRadius: BorderRadius.circular(20),
               child: InkWell(
                 borderRadius: BorderRadius.circular(20),
-                onTap: () {
-                  // TODO: Navigate to specific diagnosis details
-                },
+                onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Stylized Medical Icon
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
@@ -497,13 +540,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                         ),
                       ),
                       const SizedBox(width: 16),
-
-                      // Content Column
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Date Badge
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
@@ -523,8 +563,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                               ),
                             ),
                             const SizedBox(height: 8),
-
-                            // Diagnosis Title
                             Text(
                               diagnosis.diagnosis,
                               style: const TextStyle(
@@ -534,8 +572,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                               ),
                             ),
                             const SizedBox(height: 6),
-
-                            // Doctor Info
                             Row(
                               children: [
                                 Icon(
@@ -561,8 +597,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                           ],
                         ),
                       ),
-
-                      // Trailing Navigation Arrow
                       Padding(
                         padding: const EdgeInsets.only(top: 24.0, left: 8.0),
                         child: Icon(
@@ -589,8 +623,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            context.tr.activePrescriptions,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            context.tr.activePrescriptions ?? 'Active Prescription',
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 12),
           Container(
@@ -642,7 +676,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                     ],
                   ),
                 ),
-                // Assuming status 0 = pending, 1 = dispensed, etc. Adjust as needed.
                 if (prescription.status == 0)
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -653,10 +686,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                       color: Colors.orange.withOpacity(0.9),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(
-                      // Used generic 'Pending' text to ensure compilation, change back to context.tr.pending if supported
+                    child: const Text(
                       'Pending',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -698,16 +730,13 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF7A5900), // Darker orange for readability
+                      color: Color(0xFF7A5900),
                     ),
                   ),
                   const SizedBox(height: 4),
                   const Text(
                     'Please complete your medical profile for better assistance during emergencies.',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Color(0xFF8B6B00),
-                    ),
+                    style: TextStyle(fontSize: 13, color: Color(0xFF8B6B00)),
                   ),
                 ],
               ),
@@ -718,18 +747,26 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     );
   }
 
-  // Helper mapping
   String _getBloodType(int typeCode) {
     switch (typeCode) {
-      case 1: return 'A+';
-      case 2: return 'A-';
-      case 3: return 'B+';
-      case 4: return 'B-';
-      case 5: return 'AB+';
-      case 6: return 'AB-';
-      case 7: return 'O+';
-      case 8: return 'O-';
-      default: return 'N/A';
+      case 1:
+        return 'A+';
+      case 2:
+        return 'A-';
+      case 3:
+        return 'B+';
+      case 4:
+        return 'B-';
+      case 5:
+        return 'AB+';
+      case 6:
+        return 'AB-';
+      case 7:
+        return 'O+';
+      case 8:
+        return 'O-';
+      default:
+        return 'N/A';
     }
   }
 }

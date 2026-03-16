@@ -481,6 +481,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get needConsultation => 'تحتاج الى استشارة';
 
   @override
+  String get emergencyPage => 'الطوارئ';
+
+  @override
   String get isSmoker => 'مدخن';
 
   @override

@@ -139,6 +139,7 @@
   "@medicalHistory": {
     "description": "Title for medical history section and page"
   },
+  "emergencyPage":"الطوارئ",
   
   "todaysMedicine": "أدوية اليوم",
   "@todaysMedicine": {

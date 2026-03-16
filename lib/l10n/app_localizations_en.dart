@@ -481,6 +481,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get needConsultation => 'need Consultation';
 
   @override
+  String get emergencyPage => 'emergency';
+
+  @override
   String get isSmoker => 'Smoker';
 
   @override
