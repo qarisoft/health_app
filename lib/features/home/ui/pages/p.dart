@@ -11,8 +11,8 @@ import 'package:health_app/features/home/ui/pages/prescriptions_page.dart';
 import 'package:health_app/features/home/ui/pages/qr.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
-import './profile.dart';
 
+import './profile.dart';
 import 'home_page.dart';
 import 'patient_emergency_screen.dart' show EmergenciesScreen;
 
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
       // Floating Action Button for Quick Add
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          AppDialog().loading();
+          AppDialog().loading(message: context.tr.loading);
           final dio = appRepo.getDio();
           final res0 = await dio.get('/Patient/emergency-screen');
           xlog(res0);
@@ -137,19 +137,6 @@ class _HomePageState extends State<HomePage> {
               );
             },
           );
-          // xlog(res);
-          // res.when(
-          //   success: (s) {
-          //     final str = s['qrCodeUrl'];
-          //     xlog(s);
-          //   },
-          //   error: (e) {
-          //     xlog('error');
-          //   },
-          // );
-
-          // Add new health data
-          // _showAddDataDialog(context);
         },
         backgroundColor: Color(0xFF4A6FFF),
         shape: CircleBorder(),
@@ -158,7 +145,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-
 
   Widget _buildBottomNavBar() {
     return BottomAppBar(
