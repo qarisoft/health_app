@@ -526,15 +526,21 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
         width: double.infinity,
         child: ElevatedButton(
           onPressed: _showLogoutDialog,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red.withOpacity(0.1),
-            foregroundColor: Colors.red,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
+          style:
+              ElevatedButton.styleFrom(
+                backgroundColor: Colors.red.withOpacity(0.1),
+                foregroundColor: Colors.red,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                // This ensures elevation is 0 for ALL states (hover, click, focus, etc.)
+                elevation: 0,
+                shadowColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ).copyWith(
+                // Using copyWith to explicitly zero out state-dependent elevation
+                elevation: WidgetStateProperty.all(0),
+              ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -674,20 +680,124 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
     showDialog(
       context: context,
       builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          backgroundColor: Theme.of(context).canvasColor,
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // 1. Visual Element (Lottie or Icon)
+                // If using Lottie: Lottie.asset('assets/lottie/logout.json', height: 120)
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Iconsax.logout_1, // Using Iconsax for that modern look
+                    color: Colors.red,
+                    size: 40,
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // 2. Title & Content
+                Text(
+                  context.tr.logout,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  context.tr.logoutConfirmation,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 32),
+
+                // 3. Actions (Stacked)
+                Consumer(
+                  builder: (context, ref, _) {
+                    void out() {
+                      ref.invalidateAllAuthProviders();
+                      Navigator.of(context).pop(); // Close dialog
+                    }
+
+                    return SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        onPressed: () async {
+                          await ref
+                              .read(authRecordStateProvider.notifier)
+                              .logOut();
+                          out();
+                        },
+                        child: Text(
+                          context.tr.logout,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.grey[500],
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: Text(
+                      context.tr.cancel,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showLogoutDialog0() {
+    showDialog(
+      context: context,
+      builder: (context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
           title: Text(context.tr.logout),
           content: Text(context.tr.logoutConfirmation),
+          actionsOverflowButtonSpacing: 5,
           actions: [
-            TextButton(
-              onPressed: context.pop,
-              child: Text(
-                context.tr.cancel,
-                style: const TextStyle(color: Colors.grey),
-              ),
-            ),
             Consumer(
               builder: (context, ref, _) {
                 out() {
@@ -714,6 +824,28 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                   child: Text(context.tr.logout),
                 );
               },
+            ),
+
+            // --- Secondary Cancel Button ---
+            SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.grey[600], // Subtle secondary color
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  context.tr.cancel,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
             ),
           ],
         );

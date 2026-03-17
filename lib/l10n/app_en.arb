@@ -1,9 +1,43 @@
 {
   "@@locale": "en",
   "@@context": "General application strings",
-
-
-
+  "createPrescription": "Create Prescription",
+  "savePrescription": "Save Prescription",
+  "expandCollapseAll": "Expand/Collapse All",
+  "submit": "Submit",
+  "success": "Success",
+  "diagnosis": "Diagnosis",
+  "enterDiagnosisHint": "Enter patient diagnosis...",
+  "formInvalid": "Form is not valid",
+  "serverError": "Server error",
+  "prescriptionCreatedSuccess": "Prescription created successfully",
+  "addNewMedication": "Add New Medication",
+  "newMedication": "New Medication",
+  "expandAll": "Expand All",
+  "collapseAll": "Collapse All",
+  "itemsCompleted0": " of  completed",
+  "itemsCompleted": "{completed} of {total} completed",
+    "@itemsCompleted": {
+      "description": "Shows progress of medication entries",
+      "placeholders": {
+        "completed": {
+          "type": "int",
+          "example": "2"
+        },
+        "total": {
+          "type": "int",
+          "example": "5"
+        }
+      }
+    },
+  "drugName": "Drug Name",
+  "quantity": "Quantity",
+  "dosageHint": "e.g., 500mg",
+  "frequencyHint": "e.g., Twice daily",
+  "durationHint": "e.g., 7 days",
+  "specialInstructions": "Special Instructions (Optional)",
+  "incompleteTapToEdit": "Incomplete • Tap to edit",
+  "emptyTapToAdd": "Empty • Tap to add details",
   "loginAsPatient": "Login as Patient",
   "notSpecified": "Not Specified",
   "error": "An error occurred",
@@ -391,19 +425,17 @@
   "@bmi": {
     "description": "Label for Body Mass Index field"
   },
-  "profilePage":"profile",
-  "activePrescriptions":"active Prescriptions",
-  "inactivePrescriptions":"inactive Prescriptions",
-
-  "partialDispensed":"partial Dispensed",
-  "canceled":"canceled",
-  "inReview":"inReview",
-  "dispensed":"dispensed",
-  "needConsultation":"need Consultation",
-  "emergencyPage":"emergency",
-  "totalPrescriptions":"total Prescriptions",
-  "pendingPrescriptions":"pending Prescriptions",
-
+  "profilePage": "profile",
+  "activePrescriptions": "active Prescriptions",
+  "inactivePrescriptions": "inactive Prescriptions",
+  "partialDispensed": "partial Dispensed",
+  "canceled": "canceled",
+  "inReview": "inReview",
+  "dispensed": "dispensed",
+  "needConsultation": "need Consultation",
+  "emergencyPage": "emergency",
+  "totalPrescriptions": "total Prescriptions",
+  "pendingPrescriptions": "pending Prescriptions",
   "isSmoker": "Smoker",
   "@isSmoker": {
     "description": "Label for smoking status toggle"
@@ -1005,14 +1037,12 @@
     "description": "Button text to reset filters"
   },
   "noPrescriptions": "No Prescriptions",
-    "noPrescriptionsDescription": "It looks like you haven’t added any prescriptions yet. Start by creating your first prescription.",
-    "createNewPrescription": "Create New Prescription",
-    "noMedicalRecords": "No Medical Records",
-      "noMedicalRecordsDescription": "It looks like you haven’t added any records yet. Start by creating your first medical profile.",
-      "createNewRecord": "Create New Record",
-      "serverDownMessage": "The server is currently unreachable. Please check your connection or try again later.",
-        "connectionError": "An error occurred while connecting. Please check your internet.",
-        "connecting": "Connecting to secure server...",
-        "retry": "Retry"
-
+  "noPrescriptionsDescription": "It looks like you haven’t added any prescriptions yet. Start by creating your first prescription.",
+  "createNewPrescription": "Create New Prescription",
+  "noMedicalRecords": "No Medical Records",
+  "noMedicalRecordsDescription": "It looks like you haven’t added any records yet. Start by creating your first medical profile.",
+  "createNewRecord": "Create New Record",
+  "serverDownMessage": "The server is currently unreachable. Please check your connection or try again later.",
+  "connectionError": "An error occurred while connecting. Please check your internet.",
+  "connecting": "Connecting to secure server..."
 }

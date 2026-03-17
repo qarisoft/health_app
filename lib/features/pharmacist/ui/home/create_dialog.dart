@@ -10,7 +10,6 @@ import 'package:health_app/features/pharmacist/data/providers/search_provider.da
 import 'package:health_app/shared/ex.dart' show AppEx, xlog;
 import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
-// import '../providers/prescription_provider.dart';
 
 class CreatePrescriptionPage extends ConsumerWidget {
   final int patientId;
@@ -34,21 +33,18 @@ class CreatePrescriptionPage extends ConsumerWidget {
     final formState = ref.watch(
       prescriptionFormProvider(patientId: patientId, doctorId: doctorId),
     );
-    // final key = GlobalKey<FormState>();
+
     whenComplete() {
       context.pop();
     }
 
-    Future<void> onSubmit(
-      // CreatePrescriptionRequest req,
-      // VoidCallback whenComplete,
-    ) async {
+    Future<void> onSubmit() async {
       final validation = formProvider.validate();
 
       if (validation != null) {
         AppDialog().show(
           type: DialogType.error,
-          title: 'Form is not valid ',
+          title: context.tr.formInvalid,
           message: validation,
         );
         return;
@@ -66,20 +62,16 @@ class CreatePrescriptionPage extends ConsumerWidget {
         );
         AppDialog().dismiss();
         final res2 = GeneralStatusResponse.fromJson(res.data);
-        // try {
-        // xlog(res.data);
         if (res2.success ?? false) {
           AppDialog()
-              .show(type: DialogType.success, message: 'Success')
+              .show(type: DialogType.success, message: context.tr.success)
               .whenComplete(whenComplete);
         } else {
-          // } catch (e) {
           AppDialog().show(
             type: DialogType.error,
-            message: res2.message ?? 'server error',
+            message: res2.message ?? context.tr.serverError,
           );
         }
-        // }
       } catch (e) {
         AppDialog().dismiss();
       }
@@ -87,9 +79,8 @@ class CreatePrescriptionPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Prescription'),
+        title: Text(context.tr.createPrescription),
         actions: [
-          // Expand/Collapse All Button
           if (formState.items.isNotEmpty)
             IconButton(
               icon: const Icon(Icons.unfold_more),
@@ -100,15 +91,14 @@ class CreatePrescriptionPage extends ConsumerWidget {
                   formProvider.collapseAllItems();
                 }
               },
-              tooltip: 'Expand/Collapse All',
+              tooltip: context.tr.expandCollapseAll,
             ),
-          // Save Button
           IconButton(
             icon: const Icon(Icons.save),
             onPressed: formProvider.isFormValid && !formState.isLoading
                 ? () => _submitPrescription(ref, context)
                 : null,
-            tooltip: 'Save Prescription',
+            tooltip: context.tr.savePrescription,
           ),
         ],
       ),
@@ -118,7 +108,6 @@ class CreatePrescriptionPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Info Widget
               _HeaderWidget(
                 patient: formState.patient,
                 doctor: formState.doctor,
@@ -126,8 +115,6 @@ class CreatePrescriptionPage extends ConsumerWidget {
                 onUpdatePatient: formProvider.updatePatient,
               ),
               const SizedBox(height: 24),
-
-              // Diagnosis Widget
               _DiagnosisWidget(
                 diagnosis: formState.diagnosis,
                 onDiagnosisChanged: (value) {
@@ -136,8 +123,6 @@ class CreatePrescriptionPage extends ConsumerWidget {
                 },
               ),
               const SizedBox(height: 32),
-
-              // Medications Widget
               _MedicationsWidget(
                 items: formState.items,
                 onToggleExpand: formProvider.toggleItemExpansion,
@@ -149,7 +134,6 @@ class CreatePrescriptionPage extends ConsumerWidget {
                     formProvider.updateItemDrug(index: index, drug1: idname),
                 onAddNew: () {
                   formProvider.addNewItem();
-                  // Expand the newly added item
                   final newIndex = formState.items.length - 1;
                   formProvider.closeItemExpansion(newIndex);
                 },
@@ -157,13 +141,8 @@ class CreatePrescriptionPage extends ConsumerWidget {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: onSubmit,
-                // if (key.currentState!.validate()) {
-                // onSubmitwhenComplete);
-                // }
-                child: Text('submit'),
+                child: Text(context.tr.submit),
               ),
-
-              // Error Message
               if (formState.errorMessage != null) ...[
                 _buildErrorMessage(formState.errorMessage!),
                 const SizedBox(height: 16),
@@ -196,15 +175,12 @@ class CreatePrescriptionPage extends ConsumerWidget {
   }
 
   void onSuccess(BuildContext context) {
-    // Show success
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Prescription created successfully'),
+        content: Text(context.tr.prescriptionCreatedSuccess),
         backgroundColor: Colors.green,
       ),
     );
-
-    // Navigate back
     Navigator.pop(context, true);
   }
 
@@ -217,22 +193,19 @@ class CreatePrescriptionPage extends ConsumerWidget {
     );
 
     try {
-      // Here you would call your repository/service
-      // final request =
       formProvider.toRequest();
-
-      // Simulate API call
       await Future.delayed(const Duration(seconds: 1));
     } catch (e) {
-      // Handle error
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text('${context.tr.error}: $e'),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
 }
 
-// Header Widget
 class _HeaderWidget extends StatefulWidget {
   final IdName patient;
   final IdName doctor;
@@ -251,10 +224,6 @@ class _HeaderWidget extends StatefulWidget {
 }
 
 class _HeaderWidgetState extends State<_HeaderWidget> {
-  int get patientId => widget.patient.id;
-
-  int get doctorId => widget.doctor.id;
-
   void _handelOnPatientSearch() {
     showDialog(
       context: context,
@@ -302,7 +271,7 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
                     return SizedBox(child: Text(error.toString()));
                   },
                   loading: () {
-                    return SizedBox(
+                    return const SizedBox(
                       child: Center(child: CircularProgressIndicator()),
                     );
                   },
@@ -324,8 +293,8 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
             padding: const EdgeInsets.all(8.0),
             child: Consumer(
               builder: (context, ref, child) {
-                final patients = ref.watch(searchDoctorsProvider);
-                return patients.when(
+                final doctors = ref.watch(searchDoctorsProvider);
+                return doctors.when(
                   data: (List<IdName> data) {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.70,
@@ -362,7 +331,7 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
                     return SizedBox(child: Text(error.toString()));
                   },
                   loading: () {
-                    return SizedBox(
+                    return const SizedBox(
                       child: Center(child: CircularProgressIndicator()),
                     );
                   },
@@ -383,7 +352,6 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            // Patient Section
             Expanded(
               child: GestureDetector(
                 onTap: _handelOnPatientSearch,
@@ -392,9 +360,12 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        'Patient',
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      Text(
+                        context.tr.patient,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Flexible(
@@ -414,14 +385,10 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
                 ),
               ),
             ),
-
-            // Divider
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Container(height: 40, width: 1, color: Colors.grey[300]),
             ),
-
-            // Doctor Section
             Expanded(
               child: GestureDetector(
                 onTap: handelOnDoctorSearch,
@@ -430,9 +397,12 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        'Doctor',
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      Text(
+                        context.tr.doctor,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Flexible(
@@ -459,7 +429,6 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
   }
 }
 
-// Diagnosis Widget
 class _DiagnosisWidget extends StatelessWidget {
   final String diagnosis;
   final ValueChanged<String> onDiagnosisChanged;
@@ -474,17 +443,17 @@ class _DiagnosisWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Diagnosis',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+        Text(
+          context.tr.diagnosis,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
         TextFormField(
           initialValue: diagnosis,
           maxLines: 3,
-          decoration: const InputDecoration(
-            hintText: 'Enter patient diagnosis...',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            hintText: context.tr.enterDiagnosisHint,
+            border: const OutlineInputBorder(),
             filled: true,
             fillColor: Colors.white,
           ),
@@ -495,7 +464,6 @@ class _DiagnosisWidget extends StatelessWidget {
   }
 }
 
-// Medications Widget
 class _MedicationsWidget extends StatefulWidget {
   final List<PrescriptionItemForm> items;
   final Function(int) onToggleExpand;
@@ -531,7 +499,6 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 10,
       children: [
-        // Medications Header
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -539,13 +506,16 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Medications',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                Text(
+                  context.tr.medications,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '$completedItems of $totalItems completed',
+                  context.tr.itemsCompleted(completedItems, totalItems),
                   style: TextStyle(
                     fontSize: 14,
                     color: completedItems == totalItems
@@ -555,12 +525,10 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
                 ),
               ],
             ),
-            // Quick Actions
             Row(
               children: [
-                // Expand All Button
                 Tooltip(
-                  message: 'Expand All',
+                  message: context.tr.expandAll,
                   child: IconButton(
                     icon: const Icon(Icons.expand, size: 20),
                     onPressed: widget.onExpandAll,
@@ -571,9 +539,8 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                // Collapse All Button
                 Tooltip(
-                  message: 'Collapse All',
+                  message: context.tr.collapseAll,
                   child: IconButton(
                     icon: const Icon(Icons.compress, size: 20),
                     onPressed: widget.onCollapseAll,
@@ -587,8 +554,6 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
             ),
           ],
         ),
-
-        // Medications List
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -598,13 +563,11 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
             return _buildCollapsibleMedicationCard(index, widget.items[index]);
           },
         ),
-
-        // Add Medication Button
         SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
             icon: const Icon(Icons.add_circle_outline, size: 20),
-            label: const Text('Add New Medication'),
+            label: Text(context.tr.addNewMedication),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),
               backgroundColor: Colors.blue[50],
@@ -635,10 +598,7 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
       ),
       child: Column(
         children: [
-          // Header (Always visible)
           _buildMedicationHeader(index, item),
-
-          // Collapsible Content
           if (item.isExpanded) _buildMedicationContent(index, item),
         ],
       ),
@@ -666,7 +626,7 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
                         child: Column(
                           spacing: 6,
                           children: [
-                            Row(children: [Text('search')]),
+                            Row(children: [Text(context.tr.search)]),
                             TextFormField(
                               controller: controller,
                               validator: notEmptyValidator,
@@ -674,37 +634,30 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () async {
                           if (k.currentState!.validate()) {
-                            // xlog('ssssssssssssssssssssssssssss');
-                            // ref.invalidate(searchMedicationProvider(identifier: ''));
                             final dio = getDio;
                             final res = await dio.get(
                               '/Pharmacist/search-drugs?query=${controller.text}',
                             );
                             final data = res.data;
-                            // xlog(data.toString());
-                            // xlog(data.runtimeType);
                             if (data.runtimeType == List) {
                               final d = (data as List<dynamic>)
                                   .map(
                                     (s) => MedicationSearchResult.fromJson(s),
                                   )
                                   .toList();
-                              if (d.runtimeType ==
-                                  List<MedicationSearchResult>) {
-                                ref
-                                    .read(
-                                      medicationSearchResultsProvider.notifier,
-                                    )
-                                    .init(d);
-                              }
+                              ref
+                                  .read(
+                                    medicationSearchResultsProvider.notifier,
+                                  )
+                                  .init(d);
                             }
                           }
                         },
-                        child: Text('search'),
+                        child: Text(context.tr.search),
                       ),
                       Expanded(
                         child: SingleChildScrollView(
@@ -721,7 +674,6 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
                                         id: m.drugId,
                                       ),
                                     );
-
                                     context.pop();
                                   },
                                   title: Padding(
@@ -755,26 +707,23 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
       child: Column(
         children: [
           _buildTextFieldRow(
-            label: 'Drug ID',
+            label: context.tr.drugName,
             value: item.drug.name,
             readOnly: true,
-
             icon: Icons.medication_outlined,
             onChanged: (value) => {},
-            // keyboardType: TextInputType.number,
             isRequired: true,
             labelLeading: IconButton(
               onPressed: () => handelSearchDialog(index),
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
             ),
           ),
           const SizedBox(height: 12),
-
           Row(
             children: [
               Expanded(
                 child: _buildTextFieldRow(
-                  label: 'Quantity',
+                  label: context.tr.quantity,
                   value: item.quantity,
                   icon: Icons.format_list_numbered,
                   onChanged: (value) =>
@@ -786,58 +735,54 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
               const SizedBox(width: 12),
               Expanded(
                 child: _buildTextFieldRow(
-                  label: 'Dosage',
+                  label: context.tr.dosage,
                   value: item.dosage,
                   icon: Icons.scale_outlined,
                   onChanged: (value) =>
                       widget.onUpdateField(index, 'dosage', value),
-                  hint: 'e.g., 500mg',
+                  hint: context.tr.dosageHint,
                   isRequired: true,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-
           Row(
             children: [
               Expanded(
                 child: _buildTextFieldRow(
-                  label: 'Frequency',
+                  label: context.tr.frequency,
                   value: item.frequency,
                   icon: Icons.schedule_outlined,
                   onChanged: (value) =>
                       widget.onUpdateField(index, 'frequency', value),
-                  hint: 'e.g., Twice daily',
+                  hint: context.tr.frequencyHint,
                   isRequired: true,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: _buildTextFieldRow(
-                  label: 'Duration',
+                  label: context.tr.duration,
                   value: item.duration,
                   icon: Icons.calendar_today_outlined,
                   onChanged: (value) =>
                       widget.onUpdateField(index, 'duration', value),
-                  hint: 'e.g., 7 days',
+                  hint: context.tr.durationHint,
                   isRequired: true,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-
           _buildTextFieldRow(
-            label: 'Special Instructions (Optional)',
+            label: context.tr.specialInstructions,
             value: item.instructions,
             icon: Icons.info_outline,
             onChanged: (value) =>
                 widget.onUpdateField(index, 'instructions', value),
             maxLines: 2,
           ),
-
-          // Quick Actions
           if (item.isExpanded)
             Padding(
               padding: const EdgeInsets.only(top: 16),
@@ -846,7 +791,7 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
                 children: [
                   OutlinedButton.icon(
                     icon: const Icon(Icons.check, size: 16),
-                    label: const Text('Done'),
+                    label: Text(context.tr.done),
                     onPressed: () => widget.onToggleExpand(index),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
@@ -932,7 +877,7 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
   Widget _buildMedicationTitle(int index, PrescriptionItemForm item) {
     final drugName = item.drug.name.isNotEmpty
         ? item.drug.name
-        : 'New Medication';
+        : context.tr.newMedication;
     return Text(
       '${index + 1}. $drugName',
       style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
@@ -949,13 +894,13 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
       );
     } else if (item.drugId.isNotEmpty || item.dosage.isNotEmpty) {
       return Text(
-        'Incomplete • Tap to edit',
+        context.tr.incompleteTapToEdit,
         style: TextStyle(fontSize: 12, color: Colors.orange[700]),
       );
     } else {
-      return const Text(
-        'Empty • Tap to add details',
-        style: TextStyle(fontSize: 12, color: Colors.grey),
+      return Text(
+        context.tr.emptyTapToAdd,
+        style: const TextStyle(fontSize: 12, color: Colors.grey),
       );
     }
   }

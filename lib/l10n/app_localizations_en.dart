@@ -9,6 +9,80 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get createPrescription => 'Create Prescription';
+
+  @override
+  String get savePrescription => 'Save Prescription';
+
+  @override
+  String get expandCollapseAll => 'Expand/Collapse All';
+
+  @override
+  String get submit => 'Submit';
+
+  @override
+  String get success => 'Success';
+
+  @override
+  String get diagnosis => 'Diagnosis';
+
+  @override
+  String get enterDiagnosisHint => 'Enter patient diagnosis...';
+
+  @override
+  String get formInvalid => 'Form is not valid';
+
+  @override
+  String get serverError => 'Server error';
+
+  @override
+  String get prescriptionCreatedSuccess => 'Prescription created successfully';
+
+  @override
+  String get addNewMedication => 'Add New Medication';
+
+  @override
+  String get newMedication => 'New Medication';
+
+  @override
+  String get expandAll => 'Expand All';
+
+  @override
+  String get collapseAll => 'Collapse All';
+
+  @override
+  String get itemsCompleted0 => ' of  completed';
+
+  @override
+  String itemsCompleted(int completed, int total) {
+    return '$completed of $total completed';
+  }
+
+  @override
+  String get drugName => 'Drug Name';
+
+  @override
+  String get quantity => 'Quantity';
+
+  @override
+  String get dosageHint => 'e.g., 500mg';
+
+  @override
+  String get frequencyHint => 'e.g., Twice daily';
+
+  @override
+  String get durationHint => 'e.g., 7 days';
+
+  @override
+  String get specialInstructions => 'Special Instructions (Optional)';
+
+  @override
+  String get incompleteTapToEdit => 'Incomplete • Tap to edit';
+
+  @override
+  String get emptyTapToAdd => 'Empty • Tap to add details';
+
+  @override
   String get loginAsPatient => 'Login as Patient';
 
   @override

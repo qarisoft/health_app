@@ -98,6 +98,150 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
+  /// No description provided for @createPrescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Prescription'**
+  String get createPrescription;
+
+  /// No description provided for @savePrescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Prescription'**
+  String get savePrescription;
+
+  /// No description provided for @expandCollapseAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand/Collapse All'**
+  String get expandCollapseAll;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
+
+  /// No description provided for @diagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnosis'**
+  String get diagnosis;
+
+  /// No description provided for @enterDiagnosisHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter patient diagnosis...'**
+  String get enterDiagnosisHint;
+
+  /// No description provided for @formInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Form is not valid'**
+  String get formInvalid;
+
+  /// No description provided for @serverError.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error'**
+  String get serverError;
+
+  /// No description provided for @prescriptionCreatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Prescription created successfully'**
+  String get prescriptionCreatedSuccess;
+
+  /// No description provided for @addNewMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Medication'**
+  String get addNewMedication;
+
+  /// No description provided for @newMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'New Medication'**
+  String get newMedication;
+
+  /// No description provided for @expandAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand All'**
+  String get expandAll;
+
+  /// No description provided for @collapseAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse All'**
+  String get collapseAll;
+
+  /// No description provided for @itemsCompleted0.
+  ///
+  /// In en, this message translates to:
+  /// **' of  completed'**
+  String get itemsCompleted0;
+
+  /// Shows progress of medication entries
+  ///
+  /// In en, this message translates to:
+  /// **'{completed} of {total} completed'**
+  String itemsCompleted(int completed, int total);
+
+  /// No description provided for @drugName.
+  ///
+  /// In en, this message translates to:
+  /// **'Drug Name'**
+  String get drugName;
+
+  /// No description provided for @quantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get quantity;
+
+  /// No description provided for @dosageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 500mg'**
+  String get dosageHint;
+
+  /// No description provided for @frequencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Twice daily'**
+  String get frequencyHint;
+
+  /// No description provided for @durationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 7 days'**
+  String get durationHint;
+
+  /// No description provided for @specialInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Special Instructions (Optional)'**
+  String get specialInstructions;
+
+  /// No description provided for @incompleteTapToEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Incomplete • Tap to edit'**
+  String get incompleteTapToEdit;
+
+  /// No description provided for @emptyTapToAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty • Tap to add details'**
+  String get emptyTapToAdd;
+
   /// No description provided for @loginAsPatient.
   ///
   /// In en, this message translates to:

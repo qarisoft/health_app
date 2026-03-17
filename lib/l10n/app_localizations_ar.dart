@@ -9,6 +9,80 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get createPrescription => 'إنشاء وصفة طبية';
+
+  @override
+  String get savePrescription => 'حفظ الوصفة الطبية';
+
+  @override
+  String get expandCollapseAll => 'توسيع/طي الكل';
+
+  @override
+  String get submit => 'إرسال';
+
+  @override
+  String get success => 'تم بنجاح';
+
+  @override
+  String get diagnosis => 'التشخيص';
+
+  @override
+  String get enterDiagnosisHint => 'أدخل تشخيص المريض...';
+
+  @override
+  String get formInvalid => 'النموذج غير صالح';
+
+  @override
+  String get serverError => 'خطأ في الخادم';
+
+  @override
+  String get prescriptionCreatedSuccess => 'تم إنشاء الوصفة بنجاح';
+
+  @override
+  String get addNewMedication => 'إضافة دواء جديد';
+
+  @override
+  String get newMedication => 'دواء جديد';
+
+  @override
+  String get expandAll => 'توسيع الكل';
+
+  @override
+  String get collapseAll => 'طي الكل';
+
+  @override
+  String get itemsCompleted0 => 'تم إكمال  من ';
+
+  @override
+  String itemsCompleted(int completed, int total) {
+    return 'تم إكمال $completed من $total';
+  }
+
+  @override
+  String get drugName => 'اسم الدواء';
+
+  @override
+  String get quantity => 'الكمية';
+
+  @override
+  String get dosageHint => 'مثل: ٥٠٠ ملجم';
+
+  @override
+  String get frequencyHint => 'مثل: مرتين يومياً';
+
+  @override
+  String get durationHint => 'مثل: ٧ أيام';
+
+  @override
+  String get specialInstructions => 'تعليمات خاصة (اختياري)';
+
+  @override
+  String get incompleteTapToEdit => 'غير مكتمل • اضغط للتعديل';
+
+  @override
+  String get emptyTapToAdd => 'فارغ • اضغط لإضافة تفاصيل';
+
+  @override
   String get loginAsPatient => 'تسجيل الدخول كمريض';
 
   @override

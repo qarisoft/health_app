@@ -4,6 +4,7 @@ import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/features/pharmacist/data/providers/prescription_queu.dart';
 import 'package:health_app/features/pharmacist/domain/models/prescription.dart';
 
+import '../../../../shared/ex.dart' show AppEx;
 import 'create_dialog.dart';
 
 class PharmacistHomePage extends StatelessWidget {
@@ -195,17 +196,6 @@ class PharmacistHomePage extends StatelessWidget {
       // Floating Action Button for major task
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          // final a = await di<AppRepositories>().getDio().get(
-          //   '/PharmacistDashboard/queue',
-          // );
-          // xlog(a.data);
-
-          // showDialog(
-          //   context: context,
-          //   builder: (context) {
-          //     return CreatePrescriptionDialog();
-          //   },
-          // );
           final result = await Navigator.push(
             context,
             MaterialPageRoute(
@@ -216,7 +206,7 @@ class PharmacistHomePage extends StatelessWidget {
         },
         backgroundColor: const Color(0xFF00796B),
         icon: const Icon(Icons.add),
-        label: const Text("New Prescription"),
+        label: Text(context.tr.createPrescription),
       ),
     );
   }
@@ -224,6 +214,7 @@ class PharmacistHomePage extends StatelessWidget {
 
 class _StatWidget extends StatelessWidget {
   final String label, value;
+
   const _StatWidget({required this.label, required this.value});
 
   @override

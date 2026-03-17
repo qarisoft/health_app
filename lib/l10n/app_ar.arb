@@ -1,6 +1,43 @@
 {
   "@@locale": "ar",
   "@@context": "General application strings",
+  "createPrescription": "إنشاء وصفة طبية",
+  "savePrescription": "حفظ الوصفة الطبية",
+  "expandCollapseAll": "توسيع/طي الكل",
+  "submit": "إرسال",
+  "success": "تم بنجاح",
+  "diagnosis": "التشخيص",
+  "enterDiagnosisHint": "أدخل تشخيص المريض...",
+  "formInvalid": "النموذج غير صالح",
+  "serverError": "خطأ في الخادم",
+  "prescriptionCreatedSuccess": "تم إنشاء الوصفة بنجاح",
+  "addNewMedication": "إضافة دواء جديد",
+  "newMedication": "دواء جديد",
+  "expandAll": "توسيع الكل",
+  "collapseAll": "طي الكل",
+  "itemsCompleted0": "تم إكمال  من ",
+  "itemsCompleted": "تم إكمال {completed} من {total}",
+    "@itemsCompleted": {
+      "description": "Shows progress of medication entries",
+      "placeholders": {
+        "completed": {
+          "type": "int",
+          "example": "2"
+        },
+        "total": {
+          "type": "int",
+          "example": "5"
+        }
+      }
+    },
+  "drugName": "اسم الدواء",
+  "quantity": "الكمية",
+  "dosageHint": "مثل: ٥٠٠ ملجم",
+  "frequencyHint": "مثل: مرتين يومياً",
+  "durationHint": "مثل: ٧ أيام",
+  "specialInstructions": "تعليمات خاصة (اختياري)",
+  "incompleteTapToEdit": "غير مكتمل • اضغط للتعديل",
+  "emptyTapToAdd": "فارغ • اضغط لإضافة تفاصيل",
 
   "loginAsPatient": "تسجيل الدخول كمريض",
   "specialization": "التخصص",
@@ -195,7 +232,6 @@
     "description": "Text shown during data loading"
   },
 
-  "retry": "إعادة المحاولة",
   "@retry": {
     "description": "Button text to retry a failed operation"
   },
@@ -1209,13 +1245,13 @@
     "description": "نص زر إعادة تعيين التصفية"
   },
   "noPrescriptions": "لا توجد وصفات طبية",
-    "noPrescriptionsDescription": "يبدو أنك لم تقم بإضافة أي وصفات طبية بعد. ابدأ بإنشاء وصفتك الأولى.",
-    "createNewPrescription": "إنشاء وصفة طبية جديدة",
-    "noMedicalRecords": "لا توجد سجلات طبية",
-      "noMedicalRecordsDescription": "يبدو أنك لم تقم بإضافة أي سجلات بعد. ابدأ بإنشاء ملفك الطبي الأول.",
-      "createNewRecord": "إنشاء سجل جديد",
-      "serverDownMessage": "الخادم غير متوفر حالياً. يرجى التحقق من اتصالك أو المحاولة لاحقاً.",
-        "connectionError": "حدث خطأ أثناء الاتصال. يرجى التحقق من الإنترنت.",
-        "connecting": "جاري الاتصال بالخادم الآمن...",
-        "retry": "إعادة المحاولة"
+  "noPrescriptionsDescription": "يبدو أنك لم تقم بإضافة أي وصفات طبية بعد. ابدأ بإنشاء وصفتك الأولى.",
+  "createNewPrescription": "إنشاء وصفة طبية جديدة",
+  "noMedicalRecords": "لا توجد سجلات طبية",
+  "noMedicalRecordsDescription": "يبدو أنك لم تقم بإضافة أي سجلات بعد. ابدأ بإنشاء ملفك الطبي الأول.",
+  "createNewRecord": "إنشاء سجل جديد",
+  "serverDownMessage": "الخادم غير متوفر حالياً. يرجى التحقق من اتصالك أو المحاولة لاحقاً.",
+  "connectionError": "حدث خطأ أثناء الاتصال. يرجى التحقق من الإنترنت.",
+  "connecting": "جاري الاتصال بالخادم الآمن...",
+  "retry": "إعادة المحاولة"
 }
