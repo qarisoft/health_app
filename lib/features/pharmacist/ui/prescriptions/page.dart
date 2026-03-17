@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/core/constants/app_strings.dart';
+import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/di.dart';
 // import 'package:health_app/features/auth/data/responses/user/user_response.dart';
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
@@ -10,6 +11,7 @@ import 'package:health_app/shared/ex.dart' show AppEx, xlog;
 // import 'package:health_app/shared/ex.dart' hide xlog;
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:health_app/shared/widgets/dialog/single_input_dialog.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../data/responses/prescription.dart' show PrescriptionsResponse;
 import '../../domain/models/prescription.dart'
@@ -78,31 +80,33 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
         ],
       ),
       body: prescriptions.isEmpty
-          ? _buildEmptyState()
-          : RefreshIndicator(
-              onRefresh: () async {
-                ref.read(prescriptionsProvider.notifier).refresh();
-                xlog('sssssssssssssssssssssss');
-              },
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: prescriptions.length,
-                itemBuilder: (context, index) =>
-                    PrescriptionCard(prescription: prescriptions[index]),
+          ? PrescriptionsEmptyScreen(onCreate: () => _handleSearchPress(ref))
+          : Scaffold(
+              floatingActionButton: Consumer(
+                builder: (context, ref, _) {
+                  return FloatingActionButton.extended(
+                    onPressed: () => _handleSearchPress(ref),
+                    label: Text(context.tr.clearSearch),
+                    icon: const Icon(Icons.search),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  );
+                },
+              ),
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  ref.read(prescriptionsProvider.notifier).refresh();
+                  xlog('sssssssssssssssssssssss');
+                },
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: prescriptions.length,
+                  itemBuilder: (context, index) =>
+                      PrescriptionCard(prescription: prescriptions[index]),
+                ),
               ),
             ),
-      floatingActionButton: Consumer(
-        builder: (context, ref, _) {
-          return FloatingActionButton.extended(
-            onPressed: () => _handleSearchPress(ref),
-            label: Text(context.tr.clearSearch),
-            icon: const Icon(Icons.search),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          );
-        },
-      ),
     );
   }
 
@@ -621,6 +625,57 @@ class InteractionResultDialog extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PrescriptionsEmptyScreen extends StatelessWidget {
+  const PrescriptionsEmptyScreen({super.key, required this.onCreate});
+
+  final VoidCallback onCreate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset(
+            AppAssets.prescriptionsEmpty,
+            width: 250,
+            height: 250,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(height: 24),
+          Text(
+            context.tr.noPrescriptions,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.tr.noPrescriptionsDescription,
+            textAlign: TextAlign.center,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+          ),
+          const SizedBox(height: 32),
+          ElevatedButton.icon(
+            onPressed: onCreate,
+            icon: const Icon(Icons.add),
+            label: Text(context.tr.createNewPrescription),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
