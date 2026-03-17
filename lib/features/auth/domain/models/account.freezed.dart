@@ -533,12 +533,12 @@ extension AccountStatePatterns on AccountState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( InitialAccountState value)?  initial,TResult Function( TAccountState value)?  acount,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( InitialAccountState value)?  initial,TResult Function( TAccountState value)?  account,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case InitialAccountState() when initial != null:
-return initial(_that);case TAccountState() when acount != null:
-return acount(_that);case _:
+return initial(_that);case TAccountState() when account != null:
+return account(_that);case _:
   return orElse();
 
 }
@@ -556,12 +556,12 @@ return acount(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( InitialAccountState value)  initial,required TResult Function( TAccountState value)  acount,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( InitialAccountState value)  initial,required TResult Function( TAccountState value)  account,}){
 final _that = this;
 switch (_that) {
 case InitialAccountState():
 return initial(_that);case TAccountState():
-return acount(_that);case _:
+return account(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -578,12 +578,12 @@ return acount(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( InitialAccountState value)?  initial,TResult? Function( TAccountState value)?  acount,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( InitialAccountState value)?  initial,TResult? Function( TAccountState value)?  account,}){
 final _that = this;
 switch (_that) {
 case InitialAccountState() when initial != null:
-return initial(_that);case TAccountState() when acount != null:
-return acount(_that);case _:
+return initial(_that);case TAccountState() when account != null:
+return account(_that);case _:
   return null;
 
 }
@@ -600,11 +600,11 @@ return acount(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( Account account)?  acount,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( Account account,  bool isLogInAsPatient)?  account,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case InitialAccountState() when initial != null:
-return initial();case TAccountState() when acount != null:
-return acount(_that.account);case _:
+return initial();case TAccountState() when account != null:
+return account(_that.account,_that.isLogInAsPatient);case _:
   return orElse();
 
 }
@@ -622,11 +622,11 @@ return acount(_that.account);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( Account account)  acount,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( Account account,  bool isLogInAsPatient)  account,}) {final _that = this;
 switch (_that) {
 case InitialAccountState():
 return initial();case TAccountState():
-return acount(_that.account);case _:
+return account(_that.account,_that.isLogInAsPatient);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -643,11 +643,11 @@ return acount(_that.account);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( Account account)?  acount,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( Account account,  bool isLogInAsPatient)?  account,}) {final _that = this;
 switch (_that) {
 case InitialAccountState() when initial != null:
-return initial();case TAccountState() when acount != null:
-return acount(_that.account);case _:
+return initial();case TAccountState() when account != null:
+return account(_that.account,_that.isLogInAsPatient);case _:
   return null;
 
 }
@@ -691,10 +691,11 @@ String toString() {
 
 
 class TAccountState implements AccountState {
-   TAccountState({required this.account});
+   TAccountState({required this.account, this.isLogInAsPatient = false});
   
 
  final  Account account;
+@JsonKey() final  bool isLogInAsPatient;
 
 /// Create a copy of AccountState
 /// with the given fields replaced by the non-null parameter values.
@@ -706,16 +707,16 @@ $TAccountStateCopyWith<TAccountState> get copyWith => _$TAccountStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TAccountState&&(identical(other.account, account) || other.account == account));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TAccountState&&(identical(other.account, account) || other.account == account)&&(identical(other.isLogInAsPatient, isLogInAsPatient) || other.isLogInAsPatient == isLogInAsPatient));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,account);
+int get hashCode => Object.hash(runtimeType,account,isLogInAsPatient);
 
 @override
 String toString() {
-  return 'AccountState.acount(account: $account)';
+  return 'AccountState.account(account: $account, isLogInAsPatient: $isLogInAsPatient)';
 }
 
 
@@ -726,7 +727,7 @@ abstract mixin class $TAccountStateCopyWith<$Res> implements $AccountStateCopyWi
   factory $TAccountStateCopyWith(TAccountState value, $Res Function(TAccountState) _then) = _$TAccountStateCopyWithImpl;
 @useResult
 $Res call({
- Account account
+ Account account, bool isLogInAsPatient
 });
 
 
@@ -743,10 +744,11 @@ class _$TAccountStateCopyWithImpl<$Res>
 
 /// Create a copy of AccountState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? account = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? account = null,Object? isLogInAsPatient = null,}) {
   return _then(TAccountState(
 account: null == account ? _self.account : account // ignore: cast_nullable_to_non_nullable
-as Account,
+as Account,isLogInAsPatient: null == isLogInAsPatient ? _self.isLogInAsPatient : isLogInAsPatient // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/shared/ex.dart' show AppEx;
-import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/core/constants/app_strings.dart';
 import 'package:health_app/di.dart';
 // import 'package:health_app/features/auth/data/responses/user/user_response.dart';
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/pharmacist/data/providers/prescriptions.dart';
 import 'package:health_app/features/pharmacist/data/responses/drugs_interaction.dart';
+import 'package:health_app/shared/ex.dart' show AppEx, xlog;
 // import 'package:health_app/shared/ex.dart' hide xlog;
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:health_app/shared/widgets/dialog/single_input_dialog.dart';
@@ -140,7 +139,6 @@ class _PrescriptionsPageState extends ConsumerState<PrescriptionsPage> {
   }
 }
 
-
 class PrescriptionCard extends StatelessWidget {
   final Prescription prescription;
 
@@ -176,7 +174,9 @@ class PrescriptionCard extends StatelessWidget {
           prescription.doctorName,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text("${context.tr.diagnosisLabel} ${prescription.diagnosis}"),
+        subtitle: Text(
+          "${context.tr.diagnosisLabel} ${prescription.diagnosis}",
+        ),
         trailing: _buildPopupMenu(context, prescription),
         children: [
           Padding(
@@ -246,7 +246,9 @@ class PrescriptionCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
+        color: Theme.of(
+          context,
+        ).colorScheme.surfaceContainerHighest.withOpacity(0.3),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -309,7 +311,10 @@ class PrescriptionCard extends StatelessWidget {
               value: 'delete',
               child: ListTile(
                 leading: const Icon(Icons.delete_outline, color: Colors.red),
-                title: Text(context.tr.delete, style: const TextStyle(color: Colors.red)),
+                title: Text(
+                  context.tr.delete,
+                  style: const TextStyle(color: Colors.red),
+                ),
                 contentPadding: EdgeInsets.zero,
                 visualDensity: VisualDensity.compact,
               ),
@@ -352,7 +357,7 @@ class PrescriptionCard extends StatelessWidget {
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-             SnackBar(
+            SnackBar(
               content: Text(context.tr.changesSavedSuccessfully),
               backgroundColor: Colors.green,
             ),
@@ -475,7 +480,10 @@ class _ChangeStatusDialogState extends State<ChangeStatusDialog> {
         TextButton(
           onPressed: () =>
               Navigator.of(context).pop(null), // Cancel returns null
-          child: Text(context.tr.cancel, style: const TextStyle(color: Colors.grey)),
+          child: Text(
+            context.tr.cancel,
+            style: const TextStyle(color: Colors.grey),
+          ),
         ),
         FilledButton(
           onPressed: () => Navigator.of(

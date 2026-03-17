@@ -33,6 +33,7 @@ import 'package:health_app/shared/ex.dart';
 class AppRepositories {
   final ApiService api;
   final AppStorage storage;
+
   AppRepositories({required this.api, required this.storage});
 
   Dio getDio() {
@@ -225,7 +226,7 @@ class AppRepositories {
         );
       }
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return ErrorOr.error(error: ServerError(msg: 'Login failed: $e'));
     }
   }
@@ -382,21 +383,24 @@ class AppRepositories {
         success: (res) async {
           final id = res.patient?.userId;
           if (id != null) {
-            await storage.setBool(
-              isInitializedKey(id),
-              res.patient?.isProfileInitialized ?? false,
-            );
+            final isKnown = storage.getBool(isInitializedKey(id));
+            if (!isKnown) {
+              await storage.setBool(
+                isInitializedKey(id),
+                res.patient?.isProfileInitialized ?? false,
+              );
+            }
           }
 
           if (res.success.isN() && res.patient != null) {
             final patient = res.patient!;
-
-            if (patient.isProfileInitialized) {
-              storage.sharedPreferences.setBool(
-                PATIENT_ACCOUNT_IS_INITIALIZED_KEY,
-                true,
-              );
-            }
+            //
+            // if (patient.isProfileInitialized) {
+            //   storage.sharedPreferences.setBool(
+            //     PATIENT_ACCOUNT_IS_INITIALIZED_KEY,
+            //     true,
+            //   );
+            // }
             final patientAccount = PatientAccount(
               patient: Patient.fromJson(patient.toJson()),
             );
@@ -596,6 +600,7 @@ class AppRepositories {
       fromJson: (data) => data,
     );
   }
+
   Future<ErrorOr<Map<String, dynamic>>> getPatientDashboardSummary() async {
     return handleDioRequest(
       request: () => api.getPatientDashboardSummary(),

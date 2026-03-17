@@ -22,7 +22,9 @@ class MainPatientPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // xlog('sssssssssssssss');
     final isInitialized = ref.watch(isInitializedProvider);
+
     if (isInitialized) {
       return HomePage();
     }

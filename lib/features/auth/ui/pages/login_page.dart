@@ -5,7 +5,6 @@ import 'package:health_app/core/constants/app_layout.dart';
 import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/di.dart';
-import 'package:health_app/features/auth/domain/models/auth_state.dart';
 // import 'package:health_app/core/user/user.dart' hide UserType;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/l10n/app_localizations.dart' show AppLocalizations;
@@ -51,21 +50,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final bool _isLoading = false;
 
-  void goHome(AuthRecord auth) {
-    switch (UserType.fromString(auth.role.toLowerCase())) {
-      case UserType.patient:
-        context.toNamed(AppRoutes.patientHome);
-        break;
-      case UserType.doctor:
-        context.toNamed(AppRoutes.doctorHome);
-        break;
-      case UserType.pharmacist:
-        context.toNamed(AppRoutes.pharmacistHome);
-        break;
-      default:
-    }
-  }
-
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       AppDialog().loading(message: context.tr.loading);
@@ -81,7 +65,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       auth.when(
         success: (succes) {
           // xlog(succes.toString());
-          goHome(succes);
+          // goHome(succes);
         },
         error: (e) {
           AppDialog().show(title: 'Error', message: e.msg);

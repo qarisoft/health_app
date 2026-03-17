@@ -40,7 +40,7 @@ final class IsDarkThemeProvider extends $NotifierProvider<IsDarkTheme, bool> {
   }
 }
 
-String _$isDarkThemeHash() => r'17f20101ff37554e14a87d62cdeb5f538a0e6040';
+String _$isDarkThemeHash() => r'5664b26cb7843333dcac7515cc4a0dbeaa561d84';
 
 abstract class _$IsDarkTheme extends $Notifier<bool> {
   bool build();

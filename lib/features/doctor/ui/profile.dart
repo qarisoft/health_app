@@ -13,6 +13,20 @@ import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:lottie/lottie.dart';
 
+class DoctorProfileScreen extends ConsumerStatefulWidget {
+  const DoctorProfileScreen({super.key});
+
+  @override
+  ConsumerState createState() => _DoctorProfileScreenState();
+}
+
+class _DoctorProfileScreenState extends ConsumerState<DoctorProfileScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
 class DoctorProfilePage extends ConsumerStatefulWidget {
   const DoctorProfilePage({super.key}); // Removed doctor parameter
 
@@ -31,7 +45,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
 
     // Extract doctor from provider
     final doctorAc = authState.whenOrNull(
-      acount: (account) => account.whenOrNull(doctor: (d) => d),
+      account: (account, _) => account.whenOrNull(doctor: (d) => d),
     );
 
     if (doctorAc != null) {
@@ -74,7 +88,9 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
             return TextButton(
               onPressed: () {
                 if (patientAc != null) {
-                  ref.read(accountProvider.notifier).changeAccount(patientAc);
+                  ref
+                      .read(accountProvider.notifier)
+                      .changeAccount(patientAc.patient);
                   context.to(patient_app.HomePage());
                 }
               },

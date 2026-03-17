@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart'
         ConsumerState,
         ConsumerStatefulWidget;
 import 'package:health_app/accounts_provider.dart';
-import 'package:health_app/auth_state.dart';
+import 'package:health_app/auth_state.dart' show accountProvider;
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart'
     show Pharmacist;
@@ -20,24 +20,8 @@ import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/pages/profile/profile_page.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
-import '../../../home/ui/pages/p.dart' as patient_app;
-
 // import 'package:freezed_annotation/freezed_annotation.dart';
 // import 'package:health_app/features/auth/domain/models/patient.dart';
-class PharmacistProfilePage1 extends ConsumerWidget {
-  const PharmacistProfilePage1({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final account = ref.watch(allAcountsProvider.select((s) => s.pharmacist));
-    final pharmacist = account?.pharmacist;
-    if (pharmacist != null) {
-      return PharmacistProfilePage(pharmacist: pharmacist);
-    }
-    return Scaffold(body: Column(children: [CircularProgressIndicator()]));
-    // return Container();
-  }
-}
 
 class PharmacistProfileScreen extends ConsumerStatefulWidget {
   const PharmacistProfileScreen({super.key});
@@ -50,9 +34,12 @@ class _PharmacistProfileScreenState
     extends ConsumerState<PharmacistProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final auth = ref.watch(allAcountsProvider.select((s) => s.pharmacist));
-    final pharmacist = auth?.pharmacist;
-    if (pharmacist == null) return NoAuthScreen();
+    final auth = ref.watch(allAcountsProvider);
+    final pharmacist = auth.pharmacist?.pharmacist;
+    if (pharmacist == null) {
+      return NoAuthScreen();
+    }
+    xlog(auth);
     return ProfilePageBuilder(
       account: ProfileAccount(
         userId: pharmacist.userId,
@@ -62,29 +49,27 @@ class _PharmacistProfileScreenState
       ),
       onEditProfile: () {},
       onLoginAsPatient: () {
-        final patientAc = ref.read(allAcountsProvider.select((s) => s.patient));
+        final patientAc = auth.patient?.patient;
         if (patientAc != null) {
+          // context.to(patient_app.HomePage());
           ref.read(accountProvider.notifier).changeAccount(patientAc);
-          context.to(patient_app.HomePage());
         }
       },
     );
   }
 }
 
-class PharmacistProfilePage extends ConsumerStatefulWidget {
+class EditPharmacistProfileScreen extends ConsumerStatefulWidget {
+  const EditPharmacistProfileScreen({super.key, required this.pharmacist});
+
   final Pharmacist pharmacist;
 
-  const PharmacistProfilePage({super.key, required this.pharmacist});
-
   @override
-  ConsumerState<PharmacistProfilePage> createState() =>
-      _PharmacistProfilePageState();
+  ConsumerState createState() => _EditPharmacistProfileScreenState();
 }
 
-class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
-  bool _isEditing = false;
-
+class _EditPharmacistProfileScreenState
+    extends ConsumerState<EditPharmacistProfileScreen> {
   // bool _isInitialized = false;
   late Pharmacist _editedPharmacist;
   final _formKey = GlobalKey<FormState>();
@@ -98,30 +83,6 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_isEditing ? 'تعديل الملف الشخصي' : 'الملف الشخصي للصيدلي'),
-        centerTitle: true,
-        actions: [
-          if (!_isEditing)
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                setState(() {
-                  _isEditing = true;
-                });
-              },
-            ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: _isEditing ? _buildEditForm() : _buildProfileView(),
-      ),
-    );
-  }
-
-  Widget _buildEditForm() {
     return Form(
       key: _formKey,
       child: Column(
@@ -245,8 +206,9 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
                 child: OutlinedButton(
                   onPressed: () {
                     setState(() {
-                      _isEditing = false;
+                      // _isEditing = false;
                       _editedPharmacist = widget.pharmacist; // Reset changes
+                      context.mayPop();
                     });
                   },
                   style: OutlinedButton.styleFrom(
@@ -260,247 +222,6 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
                 ),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProfileView() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 15,
-      children: [
-        // Profile Header
-        _buildProfileHeader(),
-        Consumer(
-          builder: (context, ref, _) {
-            final patientAc = ref.watch(
-              allAcountsProvider.select((s) => s.patient),
-            );
-            // xlog(patientAc);
-            return TextButton(
-              onPressed: () {
-                // xlog(patientAc);
-                if (patientAc != null) {
-                  ref.read(accountProvider.notifier).changeAccount(patientAc);
-                  context.to(patient_app.HomePage());
-                }
-              },
-              child: Text('login as patient'),
-            );
-          },
-        ),
-
-        // Personal Information
-        _buildSection(
-          title: 'المعلومات الشخصية',
-          children: [
-            _buildInfoItem(
-              icon: Icons.person,
-              label: 'الاسم الكامل',
-              value: _editedPharmacist.fullName,
-            ),
-            _buildInfoItem(
-              icon: Icons.phone,
-              label: 'رقم الهاتف',
-              value: _editedPharmacist.phoneNumber,
-            ),
-            _buildInfoItem(
-              icon: Icons.email,
-              label: 'البريد الإلكتروني',
-              value: _editedPharmacist.email,
-            ),
-          ],
-        ),
-
-        // Personal Information
-        _buildSection(
-          title: 'معلومات المهنة',
-          children: [
-            _buildInfoItem(
-              icon: Icons.person,
-              label: 'اسم الصيدلية',
-              value: _editedPharmacist.pharmacyName,
-            ),
-            _buildInfoItem(
-              icon: Icons.phone,
-              label: 'رقم الرخصة',
-              value: _editedPharmacist.licenseNumber,
-            ),
-            // _buildInfoItem(
-            //   icon: Icons.email,
-            //   label: 'البريد الإلكتروني',
-            //   value: _editedPharmacist.email,
-            // ),
-          ],
-        ),
-        // Professional Information
-
-        // Account Information
-        _buildSection(
-          title: 'معلومات الحساب',
-          children: [
-            _buildInfoItem(
-              icon: Icons.person_pin,
-              label: 'رقم المستخدم',
-              value: _editedPharmacist.userId.toString(),
-            ),
-            _buildInfoItem(
-              icon: Icons.calendar_today,
-              label: 'تاريخ الإنشاء',
-              value: _formatDate(_editedPharmacist.createdAt),
-            ),
-            _buildInfoItem(
-              icon: Icons.update,
-              label: 'آخر تحديث',
-              value: _formatDate(_editedPharmacist.updatedAt),
-            ),
-          ],
-        ),
-        Consumer(
-          builder: (context, ref, _) {
-            return ElevatedButton(
-              onPressed: () async {
-                await ref.read(authRecordStateProvider.notifier).logOut();
-                Navigator.of(context).maybePop();
-              },
-              child: Text('logout'),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildProfileHeader() {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Profile Avatar
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
-                border: Border.all(
-                  color: Theme.of(context).primaryColor,
-                  width: 2,
-                ),
-              ),
-              child: const Icon(Icons.person, size: 50, color: Colors.blue),
-            ),
-            const SizedBox(height: 16),
-
-            // Doctor Name
-            Text(
-              _editedPharmacist.fullName.isNotEmpty
-                  ? _editedPharmacist.fullName
-                  : 'الدكتور',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 8),
-
-            // // Specialization
-            // if (_editedPharmacist.specialization.isNotEmpty)
-            //   Text(
-            //     _editedPharmacist.specialization,
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //       color: Theme.of(context).primaryColor,
-            //       fontWeight: FontWeight.w500,
-            //     ),
-            //     textAlign: TextAlign.center,
-            //   ),
-
-            // const SizedBox(height: 8),
-
-            // // Hospital
-            // if (_editedPharmacist.hospital.isNotEmpty)
-            //   Text(
-            //     _editedPharmacist.hospital,
-            //     style: const TextStyle(fontSize: 16, color: Colors.grey),
-            //     textAlign: TextAlign.center,
-            //   ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSection({
-    required String title,
-    required List<Widget> children,
-  }) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Section Title
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // Divider
-            Container(height: 1, color: Colors.grey[300]),
-            const SizedBox(height: 12),
-
-            // Section Content
-            Column(children: children),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInfoItem({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: Colors.blue, size: 20),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value.isNotEmpty ? value : 'غير محدد',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
           ),
         ],
       ),
@@ -546,6 +267,11 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
     ScaffoldMessenger.of(context).showSnackBar(snak);
   }
 
+  void goBack() {
+    ref.invalidateAllAuthProviders();
+    context.mayPop();
+  }
+
   void _saveChanges() async {
     AppDialog().loading(message: 'جاري التعديل, الرجاء الانتضار');
     xlog('saving ${_editedPharmacist.toJson()}');
@@ -568,16 +294,10 @@ class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
                 message: "تم الحفض بنجاح!!",
                 type: DialogType.success,
               )
-              .whenComplete(() {
-                ref.invalidate(allAcountsProvider);
-              });
+              .whenComplete(goBack);
+          // context.mayPop();
         },
       );
-
-      // Update local state
-      setState(() {
-        _isEditing = false;
-      });
 
       _showSnak(
         const SnackBar(

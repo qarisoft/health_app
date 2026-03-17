@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/error/app_error.dart';
 import 'package:health_app/di.dart' show getDio, appRepo;
@@ -27,7 +26,6 @@ class RecentPatients extends _$RecentPatients {
 
       return data.map((a) => RecentPatient.fromJson(a)).toList();
     } on DioException catch (e) {
-      xlog('errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr${e.response?.statusCode}');
       return [];
     }
   }

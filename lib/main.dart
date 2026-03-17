@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart' show accountProvider;
+import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/di.dart' show initDi;
@@ -11,7 +12,7 @@ import 'package:health_app/features/home/ui/pages/p.dart' as patient_app;
 import 'package:health_app/features/pharmacist/ui/home/page.dart'
     as pharmacist_page;
 import 'package:health_app/l10n/app_localizations.dart';
-import 'package:health_app/shared/ex.dart' show AppEx;
+import 'package:health_app/shared/ex.dart' show AppEx, xlog;
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/providers/theme/theme_provider.dart';
 import 'package:health_app/shared/server_health_provider.dart';
@@ -68,93 +69,6 @@ class HealthCareApp extends StatelessWidget {
     );
   }
 }
-
-class NetworkAwareWrapper extends ConsumerWidget {
-  final Widget child;
-
-  const NetworkAwareWrapper({super.key, required this.child});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the server health state
-    final healthState = ref.watch(serverHealthProvider);
-
-    // Extract the boolean value (defaulting to true so we don't flash offline unnecessarily)
-    final isAlive = healthState.value ?? true;
-
-    return Column(
-      children: [
-        // The actual screen content
-        Expanded(child: child),
-
-        // The Offline Banner
-        // This will seamlessly slide up/down based on the server status
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          height: isAlive ? 0 : 40,
-          color: Colors.red,
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.wifi_off, color: Colors.white, size: 16),
-              const SizedBox(width: 8),
-              const Text(
-                'Server is unreachable. Check your connection.',
-                style: TextStyle(color: Colors.white, fontSize: 12),
-              ),
-              const SizedBox(width: 16),
-              // Give users a way to manually retry
-              TextButton(
-                onPressed: () {
-                  ref.read(serverHealthProvider.notifier).checkHealth();
-                },
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: const Size(40, 20),
-                ),
-                child: const Text(
-                  'RETRY',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// class SplashPage extends ConsumerWidget {
-//   const SplashPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final isAlive = ref.watch(serverHealthProvider);
-//
-//     return isAlive.when(
-//       data: (d) {
-//         if (d) {
-//           return SplashInnerPage();
-//         }
-//         return Scaffold(
-//           body: Column(children: [Lottie.asset(AppAssets.serverIsDown)]),
-//         );
-//       },
-//       error: (e, _) {
-//         return Scaffold(
-//           body: Column(children: [Lottie.asset(AppAssets.error)]),
-//         );
-//       },
-//       loading: () =>
-//           Scaffold(body: Column(children: [Lottie.asset(AppAssets.loading1)])),
-//     );
-//   }
-// }
 
 class SplashPage extends ConsumerWidget {
   const SplashPage({super.key});
@@ -262,9 +176,10 @@ class SplashInnerPage extends ConsumerWidget {
     // return const pharmacist_page.HomePage();
     // return const doctor_app.HomePage();
     // return const patient_app.MainPatientPage();
+    xlog('auth from splash $auth');
     return auth.when(
       initial: () => LoginPage(),
-      acount: (a) => a.when(
+      account: (a, _) => a.when(
         patient: (p) => patient_app.MainPatientPage(),
         doctor: (p) => const doctor_app.HomePage(),
         pharmacist: (p) => const pharmacist_page.HomePage(),
@@ -275,3 +190,62 @@ class SplashInnerPage extends ConsumerWidget {
 }
 
 // final GetIt di = GetIt.instance;
+class NetworkAwareWrapper extends ConsumerWidget {
+  final Widget child;
+
+  const NetworkAwareWrapper({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Watch the server health state
+    final healthState = ref.watch(serverHealthProvider);
+
+    // Extract the boolean value (defaulting to true so we don't flash offline unnecessarily)
+    final isAlive = healthState.value ?? true;
+
+    return Column(
+      children: [
+        // The actual screen content
+        Expanded(child: child),
+
+        // The Offline Banner
+        // This will seamlessly slide up/down based on the server status
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          height: isAlive ? 0 : 40,
+          color: Colors.red,
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.wifi_off, color: Colors.white, size: 16),
+              const SizedBox(width: 8),
+              const Text(
+                'Server is unreachable. Check your connection.',
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
+              const SizedBox(width: 16),
+              // Give users a way to manually retry
+              TextButton(
+                onPressed: () {
+                  ref.read(serverHealthProvider.notifier).checkHealth();
+                },
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(40, 20),
+                ),
+                child: const Text(
+                  'RETRY',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

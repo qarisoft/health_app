@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart';
 // import 'package:health_app/core/constants/_all.dart';
 import 'package:intl/intl.dart';
+
 import '../../../../../shared/ex.dart' show AppEx;
 import '../../../models/models.dart';
 import 'dialogs.dart';
@@ -253,7 +254,8 @@ class _InitializeProfilePageState extends ConsumerState<InitializeProfilePage> {
     if (ref.read(currentStepProvider) > 0) {
       ref.read(pProfileProvider.notifier).previousStep();
     } else {
-      Navigator.pop(context);
+      context.mayPop();
+      // Navigator.pop(context);
     }
   }
 
@@ -765,9 +767,8 @@ Widget _buildListStep(
                 itemBuilder: (c, i) => Card(
                   child: ListTile(
                     leading: Icon(icon, color: Colors.blue),
-                    title: Text(
-                      items[i].toString(),
-                    ), // Simplified: Models should have a descriptive toString or specific name field
+                    title: Text(items[i].toString()),
+                    // Simplified: Models should have a descriptive toString or specific name field
                     trailing: IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () => onDel(i),

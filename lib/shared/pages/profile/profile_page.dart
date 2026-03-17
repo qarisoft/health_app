@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/di.dart';
-import 'package:health_app/shared/ex.dart' show AppEx;
+import 'package:health_app/features/auth/domain/models/account.dart';
+import 'package:health_app/shared/ex.dart' show AppEx, LogOutExt;
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/providers/theme/theme_provider.dart';
 import 'package:iconsax/iconsax.dart';
@@ -38,7 +39,7 @@ class ProfilePageBuilder extends ConsumerStatefulWidget {
   });
 
   final Function() onEditProfile;
-  final Function()? onLoginAsPatient;
+  final VoidCallback? onLoginAsPatient;
 
   final ProfileAccount account;
 
@@ -85,6 +86,8 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
   @override
   Widget build(BuildContext context) {
     final isDark = ref.watch(isDarkThemeProvider);
+    final isLoggedInAsPatient =
+        ref.watch(accountProvider).whenOrNull(account: (_, a) => a) ?? false;
     final bgColor = isDark ? const Color(0xFF121212) : const Color(0xFFF8FAFD);
     final surfaceColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
     final textColor = isDark ? Colors.white : Colors.black87;
@@ -111,7 +114,14 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
             },
           ),
         ],
-        leading: null,
+        leading: isLoggedInAsPatient
+            ? IconButton(
+                onPressed: () {
+                  ref.invalidateAllAuthProviders();
+                },
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+              )
+            : null,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -129,9 +139,9 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                 children: [
                   _buildListTile(
                     icon: Iconsax.personalcard,
-                    title: context.tr.editProfile,
+                    title: context.tr.loginAsPatient,
                     textColor: textColor,
-                    onTap: widget.onLoginAsPatient?.call(),
+                    onTap: () => widget.onLoginAsPatient?.call(),
                   ),
                 ],
               ),
@@ -679,7 +689,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           content: Text(context.tr.logoutConfirmation),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: context.pop,
               child: Text(
                 context.tr.cancel,
                 style: const TextStyle(color: Colors.grey),
@@ -688,6 +698,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
             Consumer(
               builder: (context, ref, _) {
                 out() {
+                  ref.invalidateAllAuthProviders();
                   context.pop();
                   context.mayPop();
                 }

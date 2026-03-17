@@ -1,4 +1,3 @@
-import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
@@ -6,6 +5,7 @@ import 'package:health_app/features/auth/domain/models/auth_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import './features/auth/domain/models/account.dart' as Ac;
+import 'features/auth/domain/models/patient.dart' show Patient;
 
 export './di.dart' show di;
 
@@ -26,10 +26,7 @@ class AuthRecordState extends _$AuthRecordState {
 
   Future<void> logOut() async {
     await di<AppStorage>().clearAllAccounts();
-    ref.invalidate(allAcountsProvider);
-    ref.invalidate(accountProvider);
     ref.invalidateSelf();
-
   }
 }
 
@@ -46,11 +43,10 @@ class Account extends _$Account {
           'doctor' => di<AppStorage>().getDoctorAccount(),
           'pharmacist' => di<AppStorage>().getPharmacistAccount(),
           'patient' => di<AppStorage>().getPatientAccount(),
-          // de => di<AppStorage>().getPatientAccount(),
-          String() => di<AppStorage>().getPatientAccount(),
+          String() => null,
         };
         if (p != null) {
-          return AccountState.acount(account: p);
+          return AccountState.account(account: p);
         }
       }
     } catch (e) {
@@ -59,7 +55,7 @@ class Account extends _$Account {
     return AccountState.initial();
   }
 
-  AuthRecordData getAuthRecord(){
+  AuthRecordData getAuthRecord() {
     final auth = appStorage.getAuthRecord();
     // auth.log('authRecord');
     // return auth !=null?:;
@@ -70,8 +66,12 @@ class Account extends _$Account {
   }
 
   void getAccount(String s) {}
-  void changeAccount(Ac.Account a) {
-    state = AccountState.acount(account: a);
+
+  void changeAccount(Patient a) {
+    state = AccountState.account(
+      account: Ac.PatientAccount(patient: a),
+      isLogInAsPatient: true,
+    );
   }
 
   // void setAccount

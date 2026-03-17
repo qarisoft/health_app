@@ -1,14 +1,13 @@
 // lib/features/prescription/presentation/pages/create_prescription_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/core/constants/_all.dart';
-import 'package:health_app/shared/ex.dart' show AppEx;
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/data/responses/base/base_response.dart';
 import 'package:health_app/features/doctor/data/providers/search_patient.dart'
     show medicationSearchResultsProvider, MedicationSearchResult;
 import 'package:health_app/features/pharmacist/data/providers/create_rescription.dart';
 import 'package:health_app/features/pharmacist/data/providers/search_provider.dart';
+import 'package:health_app/shared/ex.dart' show AppEx, xlog;
 import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 // import '../providers/prescription_provider.dart';
@@ -253,7 +252,9 @@ class _HeaderWidget extends StatefulWidget {
 
 class _HeaderWidgetState extends State<_HeaderWidget> {
   int get patientId => widget.patient.id;
+
   int get doctorId => widget.doctor.id;
+
   void _handelOnPatientSearch() {
     showDialog(
       context: context,
