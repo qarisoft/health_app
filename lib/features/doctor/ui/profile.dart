@@ -10,6 +10,8 @@ import 'package:health_app/features/auth/domain/models/patient.dart'
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/home/ui/pages/p.dart' as patient_app;
 import 'package:health_app/shared/ex.dart';
+import 'package:health_app/shared/pages/profile/profile_page.dart'
+    show ProfilePageBuilder, ProfileAccount;
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:lottie/lottie.dart';
 
@@ -23,7 +25,28 @@ class DoctorProfileScreen extends ConsumerStatefulWidget {
 class _DoctorProfileScreenState extends ConsumerState<DoctorProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final auth = ref.watch(allAcountsProvider);
+    final doctor = auth.doctor?.doctor;
+    if (doctor == null) {
+      return NoAuthScreen();
+    }
+    xlog(auth);
+    return ProfilePageBuilder(
+      account: ProfileAccount(
+        userId: doctor.userId,
+        fullName: doctor.fullName,
+        email: doctor.email,
+        address: doctor.hospital,
+      ),
+      onEditProfile: () {},
+      onLoginAsPatient: () {
+        final patientAc = auth.patient?.patient;
+        if (patientAc != null) {
+          // context.to(patient_app.HomePage());
+          ref.read(accountProvider.notifier).changeAccount(patientAc);
+        }
+      },
+    );
   }
 }
 
