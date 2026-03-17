@@ -98,6 +98,36 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
+  /// No description provided for @loginAsPatient.
+  ///
+  /// In en, this message translates to:
+  /// **'Login as Patient'**
+  String get loginAsPatient;
+
+  /// No description provided for @notSpecified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Specified'**
+  String get notSpecified;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred'**
+  String get error;
+
+  /// No description provided for @readyToGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to get started?'**
+  String get readyToGetStarted;
+
+  /// No description provided for @loginDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in or create an account to sync your data across all your devices.'**
+  String get loginDescription;
+
   /// Main application title displayed in app bar and splash screen
   ///
   /// In en, this message translates to:
@@ -1951,6 +1981,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reset'**
   String get reset;
+
+  /// No description provided for @noPrescriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'No Prescriptions'**
+  String get noPrescriptions;
+
+  /// No description provided for @noPrescriptionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'It looks like you haven’t added any prescriptions yet. Start by creating your first prescription.'**
+  String get noPrescriptionsDescription;
+
+  /// No description provided for @createNewPrescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Prescription'**
+  String get createNewPrescription;
+
+  /// No description provided for @noMedicalRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'No Medical Records'**
+  String get noMedicalRecords;
+
+  /// No description provided for @noMedicalRecordsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'It looks like you haven’t added any records yet. Start by creating your first medical profile.'**
+  String get noMedicalRecordsDescription;
+
+  /// No description provided for @createNewRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Record'**
+  String get createNewRecord;
+
+  /// No description provided for @serverDownMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The server is currently unreachable. Please check your connection or try again later.'**
+  String get serverDownMessage;
+
+  /// No description provided for @connectionError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while connecting. Please check your internet.'**
+  String get connectionError;
+
+  /// No description provided for @connecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting to secure server...'**
+  String get connecting;
 }
 
 class _AppLocalizationsDelegate

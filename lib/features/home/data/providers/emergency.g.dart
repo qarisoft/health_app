@@ -48,4 +48,4 @@ final class PatientEmergencyProvider
   }
 }
 
-String _$patientEmergencyHash() => r'582ed7a2288a243882c4ebcccc69303b5757f589';
+String _$patientEmergencyHash() => r'a0693b33ff760e1332e7354bf2919e2c5904b1b7';

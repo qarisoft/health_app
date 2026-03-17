@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:health_app/core/constants/app_colors.dart' show AppColors;
+import 'package:health_app/core/constants/k.dart';
+import 'package:lottie/lottie.dart';
 
 // --- Placeholder for your existing AppColors ---
 // Remove this class if you import your own constants
@@ -41,13 +44,16 @@ class DialogAction {
 class DialogResponse<T> {
   final T? data;
   final bool confirmed;
+
   const DialogResponse({this.data, this.confirmed = false});
 }
 
 class AppDialog {
   // Singleton
   static final AppDialog _instance = AppDialog._internal();
+
   factory AppDialog() => _instance;
+
   AppDialog._internal();
 
   /// 1. SETUP: Assign this key to your MaterialApp -> navigatorKey
@@ -87,8 +93,8 @@ class AppDialog {
       barrierLabel: "Dismiss",
       barrierColor: barrierColor,
       transitionDuration: duration,
-      pageBuilder: (ctx, anim1, anim2) =>
-          const SizedBox(), // Unused, we use transitionBuilder
+      pageBuilder: (ctx, anim1, anim2) => const SizedBox(),
+      // Unused, we use transitionBuilder
       transitionBuilder: (ctx, anim1, anim2, child) {
         return _buildAnimatedDialog(
           animation: animation,
@@ -182,7 +188,7 @@ class AppDialog {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const CircularProgressIndicator(),
+          Lottie.asset(AppAssets.loading3, fit: BoxFit.fitWidth, width: 100),
           const SizedBox(height: 16),
           Text(message),
         ],
@@ -509,6 +515,7 @@ class _ToastRequest {
   final String message;
   final DialogType type;
   final Duration duration;
+
   _ToastRequest(this.message, this.type, this.duration);
 }
 

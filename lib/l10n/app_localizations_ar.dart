@@ -9,6 +9,22 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get loginAsPatient => 'تسجيل الدخول كمريض';
+
+  @override
+  String get notSpecified => 'غير محدد';
+
+  @override
+  String get error => 'حدث خطأ';
+
+  @override
+  String get readyToGetStarted => 'هل أنت مستعد للبدء؟';
+
+  @override
+  String get loginDescription =>
+      'سجل الدخول أو أنشئ حسابًا لمزامنة بياناتك عبر جميع أجهزتك.';
+
+  @override
   String get appTitle => 'الرعاية الصحية';
 
   @override
@@ -257,7 +273,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pleaseEnterLicenseNumber => 'Please enter license number';
 
   @override
-  String get specialization => 'Specialization';
+  String get specialization => 'التخصص';
 
   @override
   String get pleaseEnterSpecialization => 'Please enter specialization';
@@ -939,4 +955,35 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reset => 'إعادة تعيين';
+
+  @override
+  String get noPrescriptions => 'لا توجد وصفات طبية';
+
+  @override
+  String get noPrescriptionsDescription =>
+      'يبدو أنك لم تقم بإضافة أي وصفات طبية بعد. ابدأ بإنشاء وصفتك الأولى.';
+
+  @override
+  String get createNewPrescription => 'إنشاء وصفة طبية جديدة';
+
+  @override
+  String get noMedicalRecords => 'لا توجد سجلات طبية';
+
+  @override
+  String get noMedicalRecordsDescription =>
+      'يبدو أنك لم تقم بإضافة أي سجلات بعد. ابدأ بإنشاء ملفك الطبي الأول.';
+
+  @override
+  String get createNewRecord => 'إنشاء سجل جديد';
+
+  @override
+  String get serverDownMessage =>
+      'الخادم غير متوفر حالياً. يرجى التحقق من اتصالك أو المحاولة لاحقاً.';
+
+  @override
+  String get connectionError =>
+      'حدث خطأ أثناء الاتصال. يرجى التحقق من الإنترنت.';
+
+  @override
+  String get connecting => 'جاري الاتصال بالخادم الآمن...';
 }

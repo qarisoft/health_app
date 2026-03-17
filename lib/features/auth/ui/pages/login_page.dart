@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/auth_state.dart';
-import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/constants/app_colors.dart' show AppColors;
 import 'package:health_app/core/constants/app_layout.dart';
+import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
@@ -17,9 +16,10 @@ import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 // import 'package:health_app/shared/widgets/dialog/dialog_manager.dart'
 // show DialogManager;
 import 'package:health_app/shared/widgets/text_button.dart';
+
+import '../widgets/biometric_button.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/login_form.dart';
-import '../widgets/biometric_button.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -36,15 +36,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     text: PATIENT_KEY,
   );
   final TextEditingController _idCardNumberController = TextEditingController(
-    // text: DEV_ENV ? 'patient1234' : null,
-    text: DEV_ENV ? '5000000002' : null,
+    text: DEV_ENV ? 'patient1234' : null,
+    // text: DEV_ENV ? '5000000002' : null,
+    // text: DEV_ENV ? 'gdvtf54e4f543' : null,
     // text: DEV_ENV ? 'gdvtf54ef543' : null,
     // text: DEV_ENV ? '20000000010005' : null,
     // text: DEV_ENV ? '1234567899' : null,
   );
   final TextEditingController _passwordController = TextEditingController(
-    // text: DEV_ENV ? 'pa32543vssword' : null,
-    text: DEV_ENV ? 'Admin@123' : null,
+    text: DEV_ENV ? 'pa32543vssword' : null,
+    // text: DEV_ENV ? 'Admin@123' : null,
   );
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final bool _isLoading = false;
@@ -67,7 +68,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       AppDialog().loading(message: context.tr.loading);
-      await Future.delayed(Duration(seconds: 2));
 
       final auth = await appRepo.login(
         identifier: _idCardNumberController.text,
@@ -75,7 +75,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       );
 
       AppDialog().dismiss();
-      ref.invalidate(authRecordStateProvider);
+      ref.invalidateAllAuthProviders();
 
       auth.when(
         success: (succes) {
@@ -83,10 +83,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           goHome(succes);
         },
         error: (e) {
-          // AppDialog().info(title: 'Error', message: 'dsadsdsadsadsadsa');
           AppDialog().show(title: 'Error', message: e.msg);
-          // AppDialog().success(title: 'Error', message: 'dsadsdsadsadsadsa');
-          // AppDialog().toast(e.msg);
         },
       );
     }

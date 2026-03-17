@@ -21,6 +21,7 @@ enum UserType {
   admin(ADMIN_KEY);
 
   final String value;
+
   const UserType(this.value);
 
   String valueForApi() {
@@ -58,7 +59,8 @@ enum UserType {
   }
 }
 
-const api = '192.168.1.100';
+const api = '192.168.1.101';
+// const api = '192.168.1.102';
 
 class K {
   // TODO Change this Url
@@ -68,6 +70,7 @@ class K {
   static const String loginUrl = "/auth/login";
   static const String pingUrl = "/App_Check/ping";
   static const String registerUrl = "/auth/register";
+
   //
   static const String refreshTokenUrl = "/auth/refresh";
 
@@ -88,4 +91,26 @@ class AppHeaders {
 
 extension AppDevEnv<T> on T {
   T? get dev => DEV_ENV ? this : null;
+}
+
+final class AppAssets {
+  const AppAssets._();
+
+  static String basePath = 'assets/json';
+  static String loading1 = '$basePath/loading1.json';
+  static String loading3 = '$basePath/loading3.json';
+  static String loading2 = '$basePath/loading_heart.json';
+
+  //
+  static String medicalRecordsEmpty = '$basePath/medical_info.json';
+  static String prescriptionsEmpty = '$basePath/medical_record_empty.json';
+
+  // static String loading2 = '$basePath/loading_heart.json';
+  static String pleaseLoginAgain = '$basePath/login_again.json';
+
+  // static String loading2 = '$basePath/loading_heart.json';
+
+  //
+  static String serverIsDown = '$basePath/no_net.json';
+  static String error = '$basePath/no_net.json';
 }

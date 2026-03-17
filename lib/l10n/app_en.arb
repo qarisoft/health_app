@@ -1,6 +1,14 @@
 {
   "@@locale": "en",
   "@@context": "General application strings",
+
+
+
+  "loginAsPatient": "Login as Patient",
+  "notSpecified": "Not Specified",
+  "error": "An error occurred",
+  "readyToGetStarted": "Ready to get started?",
+  "loginDescription": "Log in or create an account to sync your data across all your devices.",
   "appTitle": "HealthCare Pro",
   "@appTitle": {
     "description": "Main application title displayed in app bar and splash screen"
@@ -392,7 +400,7 @@
   "inReview":"inReview",
   "dispensed":"dispensed",
   "needConsultation":"need Consultation",
-"emergencyPage":"emergency",
+  "emergencyPage":"emergency",
   "totalPrescriptions":"total Prescriptions",
   "pendingPrescriptions":"pending Prescriptions",
 
@@ -995,5 +1003,16 @@
   "reset": "Reset",
   "@reset": {
     "description": "Button text to reset filters"
-  }
+  },
+  "noPrescriptions": "No Prescriptions",
+    "noPrescriptionsDescription": "It looks like you haven’t added any prescriptions yet. Start by creating your first prescription.",
+    "createNewPrescription": "Create New Prescription",
+    "noMedicalRecords": "No Medical Records",
+      "noMedicalRecordsDescription": "It looks like you haven’t added any records yet. Start by creating your first medical profile.",
+      "createNewRecord": "Create New Record",
+      "serverDownMessage": "The server is currently unreachable. Please check your connection or try again later.",
+        "connectionError": "An error occurred while connecting. Please check your internet.",
+        "connecting": "Connecting to secure server...",
+        "retry": "Retry"
+
 }

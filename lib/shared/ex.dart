@@ -5,6 +5,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/l10n/app_localizations.dart';
@@ -122,7 +124,7 @@ extension JsEncoder on Map<String, dynamic> {
   String jsencode() => jsonEncode(this);
 }
 
-extension LogOutExt on Ref {
+extension LogOutExt on WidgetRef {
   void invalidateAllAuthProviders() {
     invalidate(authRecordStateProvider);
     invalidate(accountProvider);

@@ -49,4 +49,4 @@ final class PatientDashboardSummaryProvider
 }
 
 String _$patientDashboardSummaryHash() =>
-    r'b0f19b1e2feb32fc8a2314e7ce8941f5f01344a2';
+    r'6a1729b6321fa93a1393122ac2b667f47919c867';

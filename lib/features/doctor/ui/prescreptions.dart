@@ -10,7 +10,11 @@ import 'package:health_app/features/doctor/data/responses/patient_response.dart'
 import 'package:health_app/features/doctor/ui/create_prescription.dart';
 import 'package:health_app/features/doctor/ui/medical_record.dart';
 import 'package:health_app/features/doctor/ui/widgets/prescreption_card.dart';
+import 'package:health_app/shared/ex.dart' show AppEx;
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:lottie/lottie.dart';
+
+import '../../../core/constants/k.dart';
 
 class PrescreptionsPage extends ConsumerStatefulWidget {
   const PrescreptionsPage({super.key});
@@ -26,12 +30,6 @@ class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
       context: context,
       builder: (context) => CreatePrescriptionDialog(patientId: patientId),
     );
-
-    // If a prescription was added, the provider should auto-update
-    // via the notifier in your submit logic.
-    // if (result == true) {
-    //   xlog("Prescription added for patient: $patientId");
-    // }
   }
 
   /// Opens search dialog and finds patient by ID or Code
@@ -85,39 +83,27 @@ class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
         elevation: 0,
       ),
       body: data.prescriptions.isEmpty
-          ? _buildEmptyState()
-          : ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              itemCount: patientIds.length,
-              itemBuilder: (context, index) {
-                final patientId = patientIds[index];
-                final records = groupedPrescriptions[patientId]!;
+          ? PrescriptionsEmptyScreen(onCreate: _handleSearchPress)
+          : Scaffold(
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: _handleSearchPress,
+                label: const Text('New Prescription'),
+                icon: const Icon(Icons.add_moderator),
+              ),
+              body: ListView.builder(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                itemCount: patientIds.length,
+                itemBuilder: (context, index) {
+                  final patientId = patientIds[index];
+                  final records = groupedPrescriptions[patientId]!;
 
-                return _buildPatientGroup(patientId, records);
-              },
+                  return _buildPatientGroup(patientId, records);
+                },
+              ),
             ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _handleSearchPress,
-        label: const Text('New Prescription'),
-        icon: const Icon(Icons.add_moderator),
-      ),
-    );
-  }
-
-  /// UI for empty state
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.history_edu, size: 64, color: Colors.grey[300]),
-          const SizedBox(height: 16),
-          Text(
-            'No prescriptions found.',
-            style: TextStyle(color: Colors.grey[600], fontSize: 16),
-          ),
-        ],
-      ),
     );
   }
 
@@ -168,6 +154,118 @@ class _PrescreptionsPageState extends ConsumerState<PrescreptionsPage> {
         ...records.map((r) => PrescriptionCard(prescription: r)),
         const SizedBox(height: 20), // Separation before next patient
       ],
+    );
+  }
+}
+
+// class PrescriptionsEmptyScreen extends StatelessWidget {
+//   const PrescriptionsEmptyScreen({super.key, required this.onCreate});
+//
+//   final VoidCallback onCreate;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 32.0),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           // 1. Adjusted Lottie size (since we removed the padding in the JSON)
+//           Lottie.asset(
+//             AppAssets.prescriptionsEmpty,
+//             width: 250,
+//             height: 250,
+//             fit: BoxFit.contain,
+//           ),
+//
+//           const SizedBox(height: 24),
+//
+//           // 2. Added a clear Title
+//           Text(
+//             'No Prescriptions',
+//             style: Theme.of(
+//               context,
+//             ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+//           ),
+//
+//           const SizedBox(height: 12),
+//
+//           // 3. Added descriptive Subtitle for better UX
+//           Text(
+//             'It looks like you haven’t added any prescriptions yet. Start by creating your first prescription.',
+//             textAlign: TextAlign.center,
+//             style: Theme.of(
+//               context,
+//             ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+//           ),
+//
+//           const SizedBox(height: 32),
+//
+//           // 4. Added a primary Action Button
+//           ElevatedButton.icon(
+//             onPressed: onCreate,
+//             icon: const Icon(Icons.add),
+//             label: const Text('Create New Prescription'),
+//             style: ElevatedButton.styleFrom(
+//               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(12),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+class PrescriptionsEmptyScreen extends StatelessWidget {
+  const PrescriptionsEmptyScreen({super.key, required this.onCreate});
+
+  final VoidCallback onCreate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset(
+            AppAssets.prescriptionsEmpty,
+            width: 250,
+            height: 250,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(height: 24),
+          Text(
+            context.tr.noPrescriptions,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.tr.noPrescriptionsDescription,
+            textAlign: TextAlign.center,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+          ),
+          const SizedBox(height: 32),
+          ElevatedButton.icon(
+            onPressed: onCreate,
+            icon: const Icon(Icons.add),
+            label: Text(context.tr.createNewPrescription),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

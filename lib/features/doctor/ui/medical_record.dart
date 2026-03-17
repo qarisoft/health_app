@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/error/app_error.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/data/responses/user/user_response.dart';
@@ -10,6 +11,7 @@ import 'package:health_app/features/doctor/data/requests/medical_record.dart';
 import 'package:health_app/features/doctor/ui/create_medical_record.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
 class DoctorMedicalRecord extends ConsumerStatefulWidget {
   const DoctorMedicalRecord({super.key});
@@ -67,24 +69,78 @@ class _DoctorMedicalRecordState extends ConsumerState<DoctorMedicalRecord> {
     return Scaffold(
       appBar: AppBar(title: const Text('Medical Records'), centerTitle: true),
       body: dataState.records.isEmpty
-          ? const Center(child: Text('No records found.'))
-          : ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: patientIds.length,
-              itemBuilder: (context, index) {
-                final patientId = patientIds[index];
-                final recordsForPatient = groupedRecords[patientId]!;
+          ? MedicalRecordEmptyScreen(onCreate: handelOnPress)
+          : Scaffold(
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: handelOnPress,
+                label: const Text('Create'),
+                icon: const Icon(Icons.person_search),
+              ),
+              body: ListView.builder(
+                padding: const EdgeInsets.all(12),
+                itemCount: patientIds.length,
+                itemBuilder: (context, index) {
+                  final patientId = patientIds[index];
+                  final recordsForPatient = groupedRecords[patientId]!;
 
-                return _PatientRecordGroup(
-                  patientId: patientId,
-                  records: recordsForPatient,
-                );
-              },
+                  return _PatientRecordGroup(
+                    patientId: patientId,
+                    records: recordsForPatient,
+                  );
+                },
+              ),
             ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: handelOnPress,
-        label: const Text('Create'),
-        icon: const Icon(Icons.person_search),
+      // floatingActionButton: ,
+    );
+  }
+}
+
+class MedicalRecordEmptyScreen extends StatelessWidget {
+  const MedicalRecordEmptyScreen({super.key, required this.onCreate});
+
+  final VoidCallback onCreate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset(
+            AppAssets.medicalRecordsEmpty,
+            width: 250,
+            height: 250,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(height: 24),
+          Text(
+            context.tr.noMedicalRecords,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.tr.noMedicalRecordsDescription,
+            textAlign: TextAlign.center,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+          ),
+          const SizedBox(height: 32),
+          ElevatedButton.icon(
+            onPressed: onCreate,
+            icon: const Icon(Icons.add),
+            label: Text(context.tr.createNewRecord),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -135,6 +191,7 @@ class _PatientRecordGroup extends StatelessWidget {
 
 class _MedicalRecordCard extends StatelessWidget {
   final MedicalRecordRequest record;
+
   const _MedicalRecordCard({required this.record});
 
   @override

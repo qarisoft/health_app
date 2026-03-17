@@ -49,4 +49,4 @@ final class PatientPrescriptionsProvider
 }
 
 String _$patientPrescriptionsHash() =>
-    r'25cd36f1a1ce1714f4eaf5166e7ff7faaf4aeaec';
+    r'5733ffdebbb6e5cf2e86ed9efddc1ab625e49866';

@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
+import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart'
     show Doctor;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
-import 'package:health_app/features/doctor/data/providers/patient_acount.dart';
+import 'package:health_app/features/home/ui/pages/p.dart' as patient_app;
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
-import 'package:health_app/features/home/ui/pages/p.dart' as patient_app;
-// import 'package:freezed_annotation/freezed_annotation.dart';
-// import 'package:health_app/features/auth/domain/models/patient.dart';
+import 'package:lottie/lottie.dart';
 
 class DoctorProfilePage extends ConsumerStatefulWidget {
-  final Doctor doctor;
-
-  const DoctorProfilePage({super.key, required this.doctor});
+  const DoctorProfilePage({super.key}); // Removed doctor parameter
 
   @override
   ConsumerState<DoctorProfilePage> createState() => _DoctorProfilePageState();
@@ -24,59 +22,31 @@ class DoctorProfilePage extends ConsumerStatefulWidget {
 
 class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
   bool _isEditing = false;
-  late Doctor _editedDoctor;
+  Doctor? _editedDoctor; // Made nullable to handle initialization
   final _formKey = GlobalKey<FormState>();
-  bool isInitialized = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _editedDoctor = widget.doctor;
-  }
 
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(accountProvider);
-    // final authState2 = ref.watch(authRecordStateProvider);
 
-    // xlog('authstate' + authState.toString());
-
+    // Extract doctor from provider
     final doctorAc = authState.whenOrNull(
       acount: (account) => account.whenOrNull(doctor: (d) => d),
     );
+
     if (doctorAc != null) {
-      if (!isInitialized) {
-        xlog('!isInitialized');
-        xlog(doctorAc);
-        setState(() {
-          _editedDoctor = _editedDoctor.copyWith(
-            email: doctorAc.email,
-            fullName: doctorAc.fullName,
-            hospital: doctorAc.hospital,
-            id: doctorAc.id,
-            userId: doctorAc.userId,
-            specialization: doctorAc.specialization,
-            licenseNumber: doctorAc.licenseNumber,
-            phoneNumber: doctorAc.phoneNumber,
-          );
-          isInitialized = true;
-        });
-      }
+      // Initialize internal state from provider if not already done
+      _editedDoctor ??= doctorAc;
+
       return Scaffold(
         appBar: AppBar(
-          title: Text(
-            _isEditing ? context.tr.editProfile : context.tr.profile,
-          ),
+          title: Text(_isEditing ? context.tr.editProfile : context.tr.profile),
           centerTitle: true,
           actions: [
             if (!_isEditing)
               IconButton(
                 icon: const Icon(Icons.edit),
-                onPressed: () {
-                  setState(() {
-                    _isEditing = true;
-                  });
-                },
+                onPressed: () => setState(() => _isEditing = true),
               ),
           ],
         ),
@@ -86,109 +56,112 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
         ),
       );
     }
-    return Scaffold(body: Text(authState.toString()));
+    return const NoAuthScreen();
   }
 
   Widget _buildProfileView() {
+    final doctor = _editedDoctor!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Profile Header
-        _buildProfileHeader(_editedDoctor.fullName),
+        _buildProfileHeader(doctor.fullName),
         const SizedBox(height: 24),
         Consumer(
           builder: (context, ref, _) {
-            final patientAc = ref.watch(patientAccountProvider);
-            xlog(patientAc);
+            final patientAc = ref.watch(
+              allAcountsProvider.select((s) => s.patient),
+            );
             return TextButton(
               onPressed: () {
-                xlog(patientAc);
                 if (patientAc != null) {
                   ref.read(accountProvider.notifier).changeAccount(patientAc);
                   context.to(patient_app.HomePage());
                 }
               },
-              child: const Text('login as patient'),
+              child: Text(context.tr.loginAsPatient),
             );
           },
         ),
-
         _buildSection(
           title: context.tr.personalInformation,
           children: [
             _buildInfoItem(
               icon: Icons.person,
               label: context.tr.name,
-              value: _editedDoctor.fullName,
+              value: doctor.fullName,
             ),
             _buildInfoItem(
               icon: Icons.phone,
               label: context.tr.phoneNumber,
-              value: _editedDoctor.phoneNumber,
+              value: doctor.phoneNumber,
             ),
             _buildInfoItem(
               icon: Icons.email,
               label: context.tr.email,
-              value: _editedDoctor.email,
+              value: doctor.email,
             ),
           ],
         ),
-
         const SizedBox(height: 20),
-
-        // Professional Information
         _buildSection(
           title: context.tr.medicalInformation,
           children: [
             _buildInfoItem(
               icon: Icons.medical_services,
-              label: context.tr.doctor, // Should be specialization if available
-              value: _editedDoctor.specialization,
+              label: context.tr.specialization,
+              value: doctor.specialization,
             ),
             _buildInfoItem(
               icon: Icons.badge,
               label: context.tr.idCardNumber,
-              value: _editedDoctor.licenseNumber,
+              value: doctor.licenseNumber,
             ),
             _buildInfoItem(
               icon: Icons.local_hospital,
               label: context.tr.hospitalName,
-              value: _editedDoctor.hospital,
+              value: doctor.hospital,
             ),
           ],
         ),
-
         const SizedBox(height: 20),
-
-        // Account Information
         _buildSection(
           title: context.tr.settings,
           children: [
             _buildInfoItem(
               icon: Icons.person_pin,
               label: context.tr.patientId,
-              value: _editedDoctor.userId.toString(),
+              value: doctor.userId.toString(),
             ),
             _buildInfoItem(
               icon: Icons.calendar_today,
               label: context.tr.createdAt,
-              value: _formatDate(_editedDoctor.createdAt),
+              value: _formatDate(doctor.createdAt),
             ),
             _buildInfoItem(
               icon: Icons.update,
               label: context.tr.lastUpdated,
-              value: _formatDate(_editedDoctor.updatedAt),
+              value: _formatDate(doctor.updatedAt),
             ),
           ],
         ),
+        const SizedBox(height: 20),
         Consumer(
           builder: (context, ref, _) {
-            return ElevatedButton(
-              onPressed: () async {
-                await ref.read(authRecordStateProvider.notifier).logOut();
-                Navigator.of(context).maybePop();
-              },
-              child: Text(context.tr.logout),
+            return SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await ref.read(authRecordStateProvider.notifier).logOut();
+                  if (context.mounted) Navigator.of(context).maybePop();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red[50],
+                ),
+                child: Text(
+                  context.tr.logout,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
             );
           },
         ),
@@ -197,6 +170,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
   }
 
   Widget _buildProfileHeader(String? name) {
+    final doctor = _editedDoctor!;
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -205,7 +179,6 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Profile Avatar
             Container(
               width: 100,
               height: 100,
@@ -220,23 +193,18 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
               child: const Icon(Icons.person, size: 50, color: Colors.blue),
             ),
             const SizedBox(height: 16),
-
-            // Doctor Name
             Text(
               name ??
-                  (_editedDoctor.fullName.isNotEmpty
-                      ? _editedDoctor.fullName
+                  (doctor.fullName.isNotEmpty
+                      ? doctor.fullName
                       : context.tr.doctor),
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-
             const SizedBox(height: 8),
-
-            // Specialization
-            if (_editedDoctor.specialization.isNotEmpty)
+            if (doctor.specialization.isNotEmpty)
               Text(
-                _editedDoctor.specialization,
+                doctor.specialization,
                 style: TextStyle(
                   fontSize: 18,
                   color: Theme.of(context).primaryColor,
@@ -244,13 +212,10 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-
             const SizedBox(height: 8),
-
-            // Hospital
-            if (_editedDoctor.hospital.isNotEmpty)
+            if (doctor.hospital.isNotEmpty)
               Text(
-                _editedDoctor.hospital,
+                doctor.hospital,
                 style: const TextStyle(fontSize: 16, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
@@ -272,7 +237,6 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Section Title
             Text(
               title,
               style: const TextStyle(
@@ -282,12 +246,8 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
               ),
             ),
             const SizedBox(height: 12),
-
-            // Divider
             Container(height: 1, color: Colors.grey[300]),
             const SizedBox(height: 12),
-
-            // Section Content
             Column(children: children),
           ],
         ),
@@ -317,7 +277,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  value.isNotEmpty ? value : 'غير محدد',
+                  value.isNotEmpty ? value : context.tr.notSpecified,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -332,143 +292,89 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
   }
 
   Widget _buildEditForm() {
-    // Doctor _d = d;
+    final doctor = _editedDoctor!;
     return Form(
       key: _formKey,
       child: Column(
-        spacing: 20,
         children: [
-          // Full Name Field
           _buildTextField(
             label: context.tr.name,
-            value: _editedDoctor.fullName,
+            value: doctor.fullName,
             icon: Icons.person,
-            onChanged: (value) {
-              xlog(value);
-              setState(() {
-                _editedDoctor = _editedDoctor.copyWith(fullName: value);
-              });
-            },
-            validator: (value) {
-              // if (value == null || value.isEmpty) {
-              //   return 'الرجاء إدخال الاسم الكامل';
-              // }
-              return null;
-            },
+            onChanged: (v) =>
+                setState(() => _editedDoctor = doctor.copyWith(fullName: v)),
+            validator: (v) =>
+                (v == null || v.isEmpty) ? context.tr.requiredField : null,
           ),
-
-          // Specialization Field
+          const SizedBox(height: 16),
           _buildTextField(
-            label: context.tr.doctor, // Should be specialization
-            value: _editedDoctor.specialization,
+            label: context.tr.specialization,
+            value: doctor.specialization,
             icon: Icons.medical_services,
-            onChanged: (value) {
-              setState(() {
-                _editedDoctor = _editedDoctor.copyWith(specialization: value);
-              });
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return context.tr.requiredField;
-              }
-              return null;
-            },
+            onChanged: (v) => setState(
+              () => _editedDoctor = doctor.copyWith(specialization: v),
+            ),
+            validator: (v) =>
+                (v == null || v.isEmpty) ? context.tr.requiredField : null,
           ),
-
-          // Phone Number Field
+          const SizedBox(height: 16),
           _buildTextField(
             label: context.tr.phoneNumber,
-            value: _editedDoctor.phoneNumber,
+            value: doctor.phoneNumber,
             icon: Icons.phone,
             keyboardType: TextInputType.phone,
-            onChanged: (value) {
-              setState(() {
-                _editedDoctor = _editedDoctor.copyWith(phoneNumber: value);
-              });
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return context.tr.requiredField;
-              }
-              if (!RegExp(r'^[0-9]{10,15}$').hasMatch(value)) {
+            onChanged: (v) =>
+                setState(() => _editedDoctor = doctor.copyWith(phoneNumber: v)),
+            validator: (v) {
+              if (v == null || v.isEmpty) return context.tr.requiredField;
+              if (!RegExp(r'^[0-9]{10,15}$').hasMatch(v))
                 return context.tr.invalidPhone;
-              }
               return null;
             },
           ),
-
-          // Email Field
+          const SizedBox(height: 16),
           _buildTextField(
             label: context.tr.email,
-            value: _editedDoctor.email,
+            value: doctor.email,
             icon: Icons.email,
             keyboardType: TextInputType.emailAddress,
-            onChanged: (value) {
-              setState(() {
-                _editedDoctor = _editedDoctor.copyWith(email: value);
-              });
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return context.tr.requiredField;
-              }
-              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+            onChanged: (v) =>
+                setState(() => _editedDoctor = doctor.copyWith(email: v)),
+            validator: (v) {
+              if (v == null || v.isEmpty) return context.tr.requiredField;
+              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(v))
                 return context.tr.invalidEmail;
-              }
               return null;
             },
           ),
-
-          // License Number Field
+          const SizedBox(height: 16),
           _buildTextField(
             label: context.tr.idCardNumber,
-            value: _editedDoctor.licenseNumber,
+            value: doctor.licenseNumber,
             icon: Icons.badge,
-            onChanged: (value) {
-              setState(() {
-                _editedDoctor = _editedDoctor.copyWith(licenseNumber: value);
-              });
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return context.tr.requiredField;
-              }
-              return null;
-            },
+            onChanged: (v) => setState(
+              () => _editedDoctor = doctor.copyWith(licenseNumber: v),
+            ),
+            validator: (v) =>
+                (v == null || v.isEmpty) ? context.tr.requiredField : null,
           ),
-
-          // Hospital Field
+          const SizedBox(height: 16),
           _buildTextField(
             label: context.tr.hospitalName,
-            value: _editedDoctor.hospital,
+            value: doctor.hospital,
             icon: Icons.local_hospital,
-            onChanged: (value) {
-              xlog('dsdasdsadsa');
-              setState(() {
-                 _editedDoctor = _editedDoctor.copyWith(hospital: value);
-              });
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return context.tr.requiredField;
-              }
-              return null;
-            },
+            onChanged: (v) =>
+                setState(() => _editedDoctor = doctor.copyWith(hospital: v)),
+            validator: (v) =>
+                (v == null || v.isEmpty) ? context.tr.requiredField : null,
           ),
-
-          const SizedBox(height: 16),
-
-          // Action Buttons
+          const SizedBox(height: 24),
           Row(
             children: [
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Save changes here
-                      // You would typically call an API to update the doctor profile
-                      _saveChanges();
-                    }
+                    if (_formKey.currentState!.validate()) _saveChanges();
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -476,26 +382,21 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
                   ),
                   child: Text(
                     context.tr.saveChanges,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      _isEditing = false;
-                      // _editedDoctor = widget.doctor; // Reset changes
-                    });
-                  },
+                  onPressed: () => setState(() => _isEditing = false),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     side: const BorderSide(color: Colors.red),
                   ),
                   child: Text(
                     context.tr.cancel,
-                    style: const TextStyle(fontSize: 16, color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ),
               ),
@@ -530,8 +431,7 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
   }
 
   String _formatDate(String dateString) {
-    if (dateString.isEmpty) return 'غير محدد';
-
+    if (dateString.isEmpty) return context.tr.notSpecified;
     try {
       final date = DateTime.parse(dateString);
       return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
@@ -541,90 +441,109 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
   }
 
   void _saveChanges() async {
-    // Show loading dialog
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   builder: (context) => const Center(
-    //     child: CircularProgressIndicator(),
-    //   ),
-    // );
+    if (_editedDoctor == null) return;
+
     AppDialog().loading(message: context.tr.loading);
-
     try {
-      // Simulate API call
       await Future.delayed(const Duration(seconds: 1));
-      final a = await appRepo.updateDoctorProfile(_editedDoctor.toJson());
-
+      final a = await appRepo.updateDoctorProfile(_editedDoctor!.toJson());
       AppDialog().dismiss();
-      // log(a.data)
+
       a.when(
-        error: (error) {},
+        error: (error) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${context.tr.error}: $error'),
+            backgroundColor: Colors.red,
+          ),
+        ),
         success: (data) {
           setState(() {
             _editedDoctor = Doctor.fromJson(
-              data.doctor?.toJson() ?? _editedDoctor.toJson(),
+              data.doctor?.toJson() ?? _editedDoctor!.toJson(),
             );
+            _isEditing = false;
           });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.tr.changesSavedSuccessfully),
+              backgroundColor: Colors.green,
+            ),
+          );
         },
       );
-
-      // Update local state
-      setState(() {
-        _isEditing = false;
-      });
-
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.tr.changesSavedSuccessfully),
-          backgroundColor: Colors.green,
-        ),
-      );
     } catch (e) {
-      // Show error message
+      AppDialog().dismiss();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${context.tr.noMedicalHistoryFound}: $e'),
+          content: Text('${context.tr.error}: $e'),
           backgroundColor: Colors.red,
         ),
       );
-    } finally {
-      // Hide loading dialog
-      // if (context.mounted) {
-      //   Navigator.of(context, rootNavigator: true).pop();
-      // }
     }
   }
 }
 
-// Example usage in another file:
-class DoctorProfileScreen extends StatelessWidget {
-  final Doctor doctor = Doctor(
-    id: 1,
-    userId: 106,
-    fullName: 'د. أحمد محمد',
-    specialization: 'أمراض القلب',
-    phoneNumber: '0551234567',
-    email: 'ahmed.mohamed@example.com',
-    licenseNumber: 'MED-123456',
-    hospital: 'مستشفى الملك فهد',
-    createdAt: '2025-12-16T19:49:28.853Z',
-    updatedAt: '2025-12-16T19:52:21.197Z',
-  );
-
-  DoctorProfileScreen({super.key});
+// NoAuthScreen class stays the same...
+class NoAuthScreen extends StatelessWidget {
+  const NoAuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.blue,
-        fontFamily: 'Almarai', // Arabic font
-      ),
-      home: Directionality(
-        textDirection: TextDirection.rtl,
-        child: DoctorProfilePage(doctor: doctor),
+    final textTheme = Theme.of(context).textTheme;
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(),
+              Lottie.asset(
+                AppAssets.pleaseLoginAgain,
+                height: 250,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 40),
+              Text(
+                context.tr.readyToGetStarted,
+                style: textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                context.tr.loginDescription,
+                style: textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+                textAlign: TextAlign.center,
+              ),
+              const Spacer(),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pushNamed(context, '/login'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: Text(context.tr.login),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.pushNamed(context, '/register'),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: Text(context.tr.createAccount),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
       ),
     );
   }

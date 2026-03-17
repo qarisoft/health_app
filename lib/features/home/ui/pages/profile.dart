@@ -1,17 +1,21 @@
 // profile_page.dart
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
+import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../../shared/ex.dart';
 import '../../../auth/domain/models/patient.dart';
 import 'p.dart' show InitializedProfilePage2;
-// import 'package:iconsax/iconsax.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -21,12 +25,7 @@ class ProfilePage extends ConsumerWidget {
     final auth = ref.watch(allAcountsProvider.select((s) => s.patient));
     xlog(auth);
     if (auth == null) {
-      return const Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Center(child: CircularProgressIndicator())],
-        ),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     return ProfilePageBuilder(account: auth);
   }
@@ -48,21 +47,52 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
 
   late Patient patient;
 
+  // --- Image Picker State ---
+  File? _selectedImage;
+  final ImagePicker _imagePicker = ImagePicker();
+
   @override
   void initState() {
     patient = widget.account.patient;
     super.initState();
+    _loadSavedImage(); // Load the local image when the page opens
+  }
+
+  Future<void> _loadSavedImage() async {
+    final prefs = appStorage.sharedPreferences;
+    final savedImagePath = prefs.getString('profile_image_path_${patient.id}');
+
+    if (savedImagePath != null) {
+      final file = File(savedImagePath);
+      if (await file.exists()) {
+        setState(() {
+          _selectedImage = file;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = _isDarkMode;
+    final bgColor = isDark ? const Color(0xFF121212) : const Color(0xFFF8FAFD);
+    final surfaceColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final textColor = isDark ? Colors.white : Colors.black87;
+
     return Scaffold(
-      backgroundColor: _isDarkMode ? Colors.grey[900] : Colors.grey[50],
+      backgroundColor: bgColor,
       appBar: AppBar(
-        title: Text(context.tr.profile),
+        backgroundColor: surfaceColor,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        title: Text(
+          context.tr.profile,
+          style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
+            icon: Icon(isDark ? Iconsax.sun_1 : Iconsax.moon, color: textColor),
             onPressed: () {
               setState(() {
                 _isDarkMode = !_isDarkMode;
@@ -73,34 +103,163 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
         leading: null,
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
-          spacing: 10,
           children: [
             // Profile Header Section
-            _buildProfileHeader(),
+            _buildProfileHeader(surfaceColor, textColor),
 
-            _buildSettingsSection(),
+            const SizedBox(height: 16),
+
+            // Settings Groups
+            _buildSettingsGroup(
+              title: context.tr.settings ?? 'Preferences',
+              surfaceColor: surfaceColor,
+              textColor: textColor,
+              children: [
+                _buildListTile(
+                  icon: Iconsax.personalcard,
+                  title: context.tr.editProfile,
+                  textColor: textColor,
+                  onTap: _navigateToEditProfile,
+                ),
+                _buildDivider(),
+                _buildSwitchTile(
+                  icon: Iconsax.notification,
+                  title: context.tr.notifications,
+                  subtitle: context.tr.notificationsDescription,
+                  value: _notificationsEnabled,
+                  textColor: textColor,
+                  onChanged: (val) =>
+                      setState(() => _notificationsEnabled = val),
+                ),
+                _buildDivider(),
+                _buildListTile(
+                  icon: Iconsax.language_square,
+                  title: context.tr.language,
+                  subtitle: _language,
+                  textColor: textColor,
+                  onTap: _changeLanguage,
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            _buildSettingsGroup(
+              title: context.tr.aboutApp ?? 'More',
+              surfaceColor: surfaceColor,
+              textColor: textColor,
+              children: [
+                _buildListTile(
+                  icon: Iconsax.security,
+                  title: context.tr.privacyAndSecurity,
+                  textColor: textColor,
+                  onTap: () {},
+                ),
+                _buildDivider(),
+                _buildListTile(
+                  icon: Iconsax.info_circle,
+                  title: context.tr.aboutApp,
+                  textColor: textColor,
+                  onTap: () {},
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 24),
 
             // Logout Button
             _buildLogoutButton(),
+
+            const SizedBox(height: 40), // Bottom padding
           ],
         ),
       ),
     );
   }
 
-  Widget _buildProfileHeader() {
+  Future<void> _pickImage(ImageSource source) async {
+    // Close the bottom sheet first
+    Navigator.pop(context);
+
+    try {
+      final XFile? pickedFile = await _imagePicker.pickImage(
+        source: source,
+        imageQuality: 80,
+        maxWidth: 800,
+      );
+
+      if (pickedFile != null) {
+        // 1. Get the app's local document directory
+        final directory = await getApplicationDocumentsDirectory();
+
+        // 2. Create a unique file name (using patient ID prevents overwriting other users' avatars)
+        final String fileName = 'avatar_${patient.id}.jpg';
+        final String localPath = '${directory.path}/$fileName';
+
+        // 3. Copy the picked file to the local path
+        final File localImage = await File(pickedFile.path).copy(localPath);
+
+        // 4. Save the path to SharedPreferences
+        final prefs = appStorage.sharedPreferences;
+        await prefs.setString('profile_image_path_${patient.id}', localPath);
+
+        // 5. Update the UI
+        setState(() {
+          _selectedImage = localImage;
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error saving image: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _removePhoto() async {
+    Navigator.pop(context);
+
+    try {
+      if (_selectedImage != null && await _selectedImage!.exists()) {
+        await _selectedImage!
+            .delete(); // Delete the actual file from local storage
+      }
+
+      final prefs = appStorage.sharedPreferences;
+      await prefs.remove(
+        'profile_image_path_${patient.id}',
+      ); // Remove the saved path
+
+      setState(() {
+        _selectedImage = null;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error removing image: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Widget _buildProfileHeader(Color surfaceColor, Color textColor) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      width: double.infinity,
+      padding: const EdgeInsets.only(bottom: 30, top: 20),
       decoration: BoxDecoration(
-        color: _isDarkMode ? Colors.grey[800] : Colors.white,
+        color: surfaceColor,
         borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
+          bottomLeft: Radius.circular(32),
+          bottomRight: Radius.circular(32),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withOpacity(0.03),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -109,225 +268,319 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
       child: Column(
         children: [
           Stack(
+            alignment: Alignment.bottomRight,
             children: [
               Container(
-                width: 120,
-                height: 120,
+                width: 110,
+                height: 110,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.blueAccent, width: 3),
+                  border: Border.all(
+                    color: Colors.blue.withOpacity(0.2),
+                    width: 4,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withOpacity(0.1),
+                      blurRadius: 20,
+                      spreadRadius: 5,
+                    ),
+                  ],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
-                  child: Image.network(
-                    'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue[100],
-                          shape: BoxShape.circle,
+                  child: _selectedImage != null
+                      ? Image.file(_selectedImage!)
+                      : Image.network(
+                          'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: Colors.blue[50],
+                              child: Icon(
+                                Iconsax.user,
+                                size: 50,
+                                color: Colors.blue[300],
+                              ),
+                            );
+                          },
                         ),
-                        child: const Icon(
-                          Icons.person,
-                          size: 60,
-                          color: Colors.blue,
-                        ),
-                      );
-                    },
-                  ),
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: GestureDetector(
-                  onTap: _changeProfilePicture,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                    child: const Icon(
-                      Icons.camera_alt,
-                      size: 20,
-                      color: Colors.white,
-                    ),
+              GestureDetector(
+                onTap: _changeProfilePicture,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: surfaceColor, width: 3),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Iconsax.camera,
+                    size: 16,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 16),
           Text(
             patient.fullName,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+            ),
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 4),
           Text(
             patient.email,
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            style: const TextStyle(fontSize: 14, color: Colors.grey),
           ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.location_on, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 5),
-              Text(
-                patient.address,
-                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-              ),
-            ],
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Iconsax.location, size: 14, color: Colors.blue),
+                const SizedBox(width: 6),
+                Text(
+                  patient.address,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSettingsSection() {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: _isDarkMode ? Colors.grey[800] : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
+  Widget _buildSettingsGroup({
+    required String title,
+    required Color surfaceColor,
+    required Color textColor,
+    required List<Widget> children,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            context.tr.settings,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: _isDarkMode ? Colors.white : Colors.black,
+          Padding(
+            padding: const EdgeInsets.only(left: 8, bottom: 8),
+            child: Text(
+              title.toUpperCase(),
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                letterSpacing: 1.2,
+              ),
             ),
           ),
-          const SizedBox(height: 15),
-          ListTile(
-            leading: const Icon(Iconsax.personalcard),
-            title: Text(context.tr.editProfile),
-            // subtitle: Text(_language),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: _navigateToEditProfile,
-          ),
-          SwitchListTile(
-            title: Text(context.tr.darkMode),
-            subtitle: Text(context.tr.themeDescription),
-            value: _isDarkMode,
-            onChanged: (value) {
-              setState(() {
-                _isDarkMode = value;
-              });
-            },
-            secondary: const Icon(Iconsax.moon),
-          ),
-          SwitchListTile(
-            title: Text(context.tr.notifications),
-            subtitle: Text(context.tr.notificationsDescription),
-            value: _notificationsEnabled,
-            onChanged: (value) {
-              setState(() {
-                _notificationsEnabled = value;
-              });
-            },
-            secondary: const Icon(Iconsax.notification),
-          ),
-          ListTile(
-            leading: const Icon(Iconsax.language_circle),
-            title: Text(context.tr.language),
-            subtitle: Text(_language),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: _changeLanguage,
-          ),
-          ListTile(
-            leading: const Icon(Iconsax.security),
-            title: Text(context.tr.privacyAndSecurity),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Iconsax.info_circle),
-            title: Text(context.tr.aboutApp),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {},
+          Container(
+            decoration: BoxDecoration(
+              color: surfaceColor,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.02),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(children: children),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildListTile({
+    required IconData icon,
+    required String title,
+    String? subtitle,
+    required Color textColor,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.blue.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(icon, color: Colors.blue, size: 20),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(fontWeight: FontWeight.w500, color: textColor),
+      ),
+      subtitle: subtitle != null
+          ? Text(
+              subtitle,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            )
+          : null,
+      trailing: const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+      onTap: onTap,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    );
+  }
+
+  Widget _buildSwitchTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required bool value,
+    required Color textColor,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return SwitchListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      secondary: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.blue.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(icon, color: Colors.blue, size: 20),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(fontWeight: FontWeight.w500, color: textColor),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(fontSize: 12, color: Colors.grey),
+      ),
+      value: value,
+      onChanged: onChanged,
+      activeColor: Colors.blue,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Divider(
+      height: 1,
+      thickness: 1,
+      color: Colors.grey.withOpacity(0.1),
+      indent: 60,
+      endIndent: 20,
     );
   }
 
   Widget _buildLogoutButton() {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: _showLogoutDialog,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: _showLogoutDialog,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red.withOpacity(0.1),
+            foregroundColor: Colors.red,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
           ),
-          elevation: 0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Iconsax.logout),
-            const SizedBox(width: 10),
-            Text(context.tr.logout, style: const TextStyle(fontSize: 16)),
-          ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Iconsax.logout, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                context.tr.logout,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
+  // --- Dialogs and Navigations remain mostly the same ---
+
   void _changeProfilePicture() {
     showModalBottomSheet(
       context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: Text(context.tr.takePhoto),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Implement camera functionality
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: Text(context.tr.chooseFromGallery),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Implement gallery picker
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.delete),
-                title: Text(context.tr.removePhoto),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Remove profile photo
-                },
-              ),
-            ],
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40,
+                  height: 4,
+                  margin: EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Iconsax.camera),
+                  title: Text(context.tr.takePhoto ?? 'Take Photo'),
+                  onTap: () {
+                    // Navigator.pop(context);
+                    _pickImage(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Iconsax.gallery),
+                  title: Text(
+                    context.tr.chooseFromGallery ?? 'Choose from Gallery',
+                  ),
+                  onTap: () {
+                    // Navigator.pop(context);
+                    _pickImage(ImageSource.gallery);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Iconsax.trash, color: Colors.red),
+                  title: Text(
+                    context.tr.removePhoto ?? 'Remove Photo',
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -352,6 +605,9 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           title: Text(context.tr.selectLanguage),
           content: SizedBox(
             width: double.maxFinite,
@@ -364,7 +620,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                       ref.read(localProvider.notifier).setLocalEnglish(),
                 ),
                 _buildLanguageOption(
-                  'arabic',
+                  'Arabic',
                   onTap: () =>
                       ref.read(localProvider.notifier).setLocalArabic(),
                 ),
@@ -377,11 +633,19 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
   }
 
   Widget _buildLanguageOption(String language, {Function()? onTap}) {
+    final isSelected = _language.toLowerCase() == language.toLowerCase();
     return ListTile(
-      title: Text(language),
-      trailing: _language == language
-          ? const Icon(Icons.check, color: Colors.blue)
+      title: Text(
+        language,
+        style: TextStyle(
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          color: isSelected ? Colors.blue : null,
+        ),
+      ),
+      trailing: isSelected
+          ? const Icon(Icons.check_circle, color: Colors.blue)
           : null,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       onTap: () {
         onTap?.call();
         setState(() {
@@ -397,39 +661,42 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           title: Text(context.tr.logout),
           content: Text(context.tr.logoutConfirmation),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text(context.tr.cancel),
+              child: Text(
+                context.tr.cancel,
+                style: const TextStyle(color: Colors.grey),
+              ),
             ),
             Consumer(
               builder: (context, ref, _) {
                 out() {
-                  // ref.invalidate(accountProvider);
-
                   context.pop();
                   context.mayPop();
                 }
 
-                return TextButton(
+                return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   onPressed: () async {
-                    // await appStorage.clearAllAccounts();
-                    // ref.invalidate(accountProvider);
-                    // ref.invalidate(allAcountsProvider);
-
                     ref
                         .read(authRecordStateProvider.notifier)
                         .logOut()
                         .whenComplete(out);
-
-                    // Implement logout logic
                   },
-                  child: Text(
-                    context.tr.logout,
-                    style: const TextStyle(color: Colors.red),
-                  ),
+                  child: Text(context.tr.logout),
                 );
               },
             ),

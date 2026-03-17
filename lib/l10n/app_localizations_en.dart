@@ -9,6 +9,22 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get loginAsPatient => 'Login as Patient';
+
+  @override
+  String get notSpecified => 'Not Specified';
+
+  @override
+  String get error => 'An error occurred';
+
+  @override
+  String get readyToGetStarted => 'Ready to get started?';
+
+  @override
+  String get loginDescription =>
+      'Log in or create an account to sync your data across all your devices.';
+
+  @override
   String get appTitle => 'HealthCare Pro';
 
   @override
@@ -942,4 +958,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reset => 'Reset';
+
+  @override
+  String get noPrescriptions => 'No Prescriptions';
+
+  @override
+  String get noPrescriptionsDescription =>
+      'It looks like you haven’t added any prescriptions yet. Start by creating your first prescription.';
+
+  @override
+  String get createNewPrescription => 'Create New Prescription';
+
+  @override
+  String get noMedicalRecords => 'No Medical Records';
+
+  @override
+  String get noMedicalRecordsDescription =>
+      'It looks like you haven’t added any records yet. Start by creating your first medical profile.';
+
+  @override
+  String get createNewRecord => 'Create New Record';
+
+  @override
+  String get serverDownMessage =>
+      'The server is currently unreachable. Please check your connection or try again later.';
+
+  @override
+  String get connectionError =>
+      'An error occurred while connecting. Please check your internet.';
+
+  @override
+  String get connecting => 'Connecting to secure server...';
 }

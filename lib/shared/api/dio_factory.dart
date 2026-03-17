@@ -47,6 +47,31 @@ Dio dioFactory() {
 }
 
 class DioFactory {
+  Future<bool> isServerAlive() async {
+    // 1. Get a guest Dio instance (no auth token needed)
+    final dio = getDio(geust: true);
+
+    try {
+      // 2. Call your ping endpoint.
+      // We use the Options object to override the timeout just for this request.
+      // 3 seconds is usually plenty of time for a simple ping.
+      final response = await dio.get(
+        '/App_Check/ping', // <-- Replace this with your actual endpoint path
+        options: Options(
+          receiveTimeout: const Duration(seconds: 3),
+          sendTimeout: const Duration(seconds: 3),
+        ),
+      );
+
+      // 3. If the server returns a 200 OK, it's alive.
+      return response.statusCode == 200;
+    } catch (e) {
+      // If a DioException occurs (e.g., connection timeout, network error, 502 Bad Gateway)
+      // we catch it and return false.
+      return false;
+    }
+  }
+
   final AppStorage _storage;
 
   DioFactory(this._storage);
@@ -59,7 +84,7 @@ class DioFactory {
     String? token = _storage.getUserToken();
 
     // 2. Define Timeouts
-    // Duration timeOut = const Duration(minutes: 10); // 60 seconds
+    Duration timeOut = const Duration(seconds: 60); // 60 seconds
 
     // 3. Set Base Options
     Map<String, String> headers = {
@@ -78,9 +103,9 @@ class DioFactory {
     dio.options = BaseOptions(
       baseUrl: K.baseUrl,
       headers: headers,
-      // receiveTimeout: timeOut,
-      // sendTimeout: timeOut,
-      // connectTimeout: timeOut,
+      receiveTimeout: timeOut,
+      sendTimeout: timeOut,
+      connectTimeout: timeOut,
       validateStatus: (int? status) {
         // Return true to handle errors manually in your Repository,
         // or let Dio throw exceptions for status > 400.
