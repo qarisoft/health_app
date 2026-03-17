@@ -9,7 +9,10 @@ import '../responses/prescriptions.dart';
 part 'prescriptions.g.dart';
 
 @riverpod
-Future<PrescriptionsResponse> patientPrescriptions(Ref ref) async {
+Future<PrescriptionsResponse> patientPrescriptions(
+  Ref ref, {
+  required int userId,
+}) async {
   ref.cacheTheState();
   final a = await appRepo.getPatientPrescriptions();
   return a.when(

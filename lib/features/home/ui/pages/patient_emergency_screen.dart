@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/shared/ex.dart';
+import 'package:health_app/shared/widgets/app_bar_leading.dart';
 
+import '../../../../auth_state.dart' show authRecordStateProvider;
+import '../../../auth/domain/models/auth_state.dart';
 import '../../data/providers/emergency.dart' show patientEmergencyProvider;
 import 'qr.dart';
 
@@ -79,7 +82,10 @@ class _EmergenciesScreenState extends ConsumerState<EmergenciesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final res = ref.watch(patientEmergencyProvider);
+    final userId =
+        ref.watch(authRecordStateProvider).whenOrNull(auth: (a) => a)?.userId ??
+        0;
+    final res = ref.watch(patientEmergencyProvider(userId: userId));
 
     return Scaffold(
       appBar: AppBar(
@@ -107,7 +113,7 @@ class _EmergenciesScreenState extends ConsumerState<EmergenciesScreen> {
               ),
             ),
         ],
-        leading: null,
+        leading: AppBarReturnButton(),
       ),
       body: res.when(
         data: (data) {

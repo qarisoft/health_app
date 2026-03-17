@@ -9,12 +9,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
+import 'package:health_app/features/home/data/providers/dashboard_summary.dart';
 import 'package:health_app/l10n/app_localizations.dart';
 
 // extension AppEx on BuildContext {
 //   // Navigations
 //
 // }
+
 extension CacheExtension on Ref {
   /// Keeps the provider alive for a specified [duration] after the last listener is removed.
   /// If a new listener is added before the timer completes, the timer is canceled and the state is kept.
@@ -68,12 +70,6 @@ extension AppEx on BuildContext {
     return MediaQuery.heightOf(this) * fr * 0.01;
   }
 
-  // Future<T?> toNamed<T>(String routeName) async =>
-  //     await Navigator.of(this).pushNamed(routeName);
-  //
-  // Future<T?> to<T>(Widget w) async =>
-  //     await Navigator.of(this).push(MaterialPageRoute(builder: (context) => w));
-
   void pop<T extends Object?>([T? results]) {
     Navigator.of(this).maybePop(results);
   }
@@ -81,14 +77,6 @@ extension AppEx on BuildContext {
   Future<bool> mayPop<T extends Object?>([T? results]) {
     return Navigator.of(this).maybePop(results);
   }
-
-  //
-  //
-  // AppLocalizations get tr => AppLocalizations.of(this)!;
-  //
-  // ThemeData get theme => Theme.of(this);
-  //
-  // bool get isArabic => tr.localeName == 'ar';
 }
 
 extension BoolEx on bool? {
@@ -129,5 +117,7 @@ extension LogOutExt on WidgetRef {
     invalidate(authRecordStateProvider);
     invalidate(accountProvider);
     invalidate(allAcountsProvider);
+    invalidate(patientDashboardSummaryProvider);
+    // invalidate(pa);
   }
 }

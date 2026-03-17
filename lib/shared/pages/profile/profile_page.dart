@@ -6,13 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/di.dart';
-import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/shared/ex.dart' show AppEx, LogOutExt;
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/providers/theme/theme_provider.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../../widgets/app_bar_leading.dart';
 
 part 'profile_page.freezed.dart';
 part 'profile_page.g.dart';
@@ -86,8 +87,6 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
   @override
   Widget build(BuildContext context) {
     final isDark = ref.watch(isDarkThemeProvider);
-    final isLoggedInAsPatient =
-        ref.watch(accountProvider).whenOrNull(account: (_, a) => a) ?? false;
     final bgColor = isDark ? const Color(0xFF121212) : const Color(0xFFF8FAFD);
     final surfaceColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
     final textColor = isDark ? Colors.white : Colors.black87;
@@ -114,14 +113,8 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
             },
           ),
         ],
-        leading: isLoggedInAsPatient
-            ? IconButton(
-                onPressed: () {
-                  ref.invalidateAllAuthProviders();
-                },
-                icon: Icon(Icons.arrow_back, color: Colors.black),
-              )
-            : null,
+
+        leading: AppBarReturnButton(),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),

@@ -2,8 +2,11 @@ import 'dart:async'; // Added for Timer
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/auth_state.dart';
+import 'package:health_app/features/auth/domain/models/auth_state.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/functions.dart';
+import 'package:health_app/shared/widgets/app_bar_leading.dart';
 import 'package:intl/intl.dart';
 
 // Adjust these imports to match your actual file structure
@@ -88,7 +91,13 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final dashboardAsyncValue = ref.watch(patientDashboardSummaryProvider);
+    final userId = ref
+        .watch(authRecordStateProvider)
+        .whenOrNull(auth: (a) => a)
+        ?.userId;
+    final dashboardAsyncValue = ref.watch(
+      patientDashboardSummaryProvider(userId: userId ?? 0),
+    );
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
@@ -274,7 +283,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
+            // spacing: 4,
             children: [
+              AppBarReturnButton(),
+              SizedBox(width: 4),
               const CircleAvatar(
                 radius: 24,
                 backgroundColor: Color(0xFF4A6FFF),

@@ -10,7 +10,7 @@ part of 'prescriptions.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(patientPrescriptions)
-const patientPrescriptionsProvider = PatientPrescriptionsProvider._();
+const patientPrescriptionsProvider = PatientPrescriptionsFamily._();
 
 final class PatientPrescriptionsProvider
     extends
@@ -22,19 +22,26 @@ final class PatientPrescriptionsProvider
     with
         $FutureModifier<PrescriptionsResponse>,
         $FutureProvider<PrescriptionsResponse> {
-  const PatientPrescriptionsProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'patientPrescriptionsProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  const PatientPrescriptionsProvider._({
+    required PatientPrescriptionsFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'patientPrescriptionsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$patientPrescriptionsHash();
+
+  @override
+  String toString() {
+    return r'patientPrescriptionsProvider'
+        ''
+        '($argument)';
+  }
 
   @$internal
   @override
@@ -44,9 +51,38 @@ final class PatientPrescriptionsProvider
 
   @override
   FutureOr<PrescriptionsResponse> create(Ref ref) {
-    return patientPrescriptions(ref);
+    final argument = this.argument as int;
+    return patientPrescriptions(ref, userId: argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PatientPrescriptionsProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
   }
 }
 
 String _$patientPrescriptionsHash() =>
-    r'5733ffdebbb6e5cf2e86ed9efddc1ab625e49866';
+    r'4e4eacb3a11c25cad4cfd658b172fbe770ebe51c';
+
+final class PatientPrescriptionsFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<PrescriptionsResponse>, int> {
+  const PatientPrescriptionsFamily._()
+    : super(
+        retry: null,
+        name: r'patientPrescriptionsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  PatientPrescriptionsProvider call({required int userId}) =>
+      PatientPrescriptionsProvider._(argument: userId, from: this);
+
+  @override
+  String toString() => r'patientPrescriptionsProvider';
+}

@@ -7,7 +7,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'emergency.g.dart';
 
 @riverpod
-Future<EmergencyResponse> patientEmergency(Ref ref) async {
+Future<EmergencyResponse> patientEmergency(
+  Ref ref, {
+  required int userId,
+}) async {
   ref.cacheTheState();
   final a = await appRepo.getEmergencyScreen();
 

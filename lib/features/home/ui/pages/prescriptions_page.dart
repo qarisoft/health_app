@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/features/home/data/providers/prescriptions.dart';
 import 'package:health_app/shared/ex.dart';
+import 'package:health_app/shared/widgets/app_bar_leading.dart';
 
+import '../../../../auth_state.dart';
+import '../../../auth/domain/models/auth_state.dart';
 import '../../../pharmacist/domain/models/prescription.dart';
 
 // Converted to ConsumerWidget for cleaner code
@@ -11,11 +14,14 @@ class PatientPrescriptionsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final res = ref.watch(patientPrescriptionsProvider);
+    final userId =
+        ref.watch(authRecordStateProvider).whenOrNull(auth: (a) => a)?.userId ??
+        0;
+    final res = ref.watch(patientPrescriptionsProvider(userId: userId));
 
     return Scaffold(
       appBar: AppBar(
-        leading: null,
+        leading: AppBarReturnButton(),
         title: Text(
           context.tr.prescriptions,
           style: const TextStyle(fontWeight: FontWeight.bold),

@@ -7,7 +7,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'dashboard_summary.g.dart';
 
 @riverpod
-Future<DashboardSummaryPageResponse> patientDashboardSummary(Ref ref) async {
+Future<DashboardSummaryPageResponse> patientDashboardSummary(
+  Ref ref, {
+  required int userId,
+}) async {
   ref.cacheTheState();
   final res = await appRepo.getPatientDashboardSummary();
   return res.when(
