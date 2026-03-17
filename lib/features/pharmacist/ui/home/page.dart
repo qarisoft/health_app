@@ -3,6 +3,7 @@ import 'package:health_app/features/pharmacist/ui/profile/page.dart';
 
 import '../prescriptions/page.dart';
 import './home_page.dart';
+
 // import '../data/repositories/patient_repo.dart' show PatientRepository;
 // import '../domain/patient.dart' show Patient;
 // import '../widgets/patient_form_dialog.dart';
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           PharmacistHomePage(),
           // PrescriptionsPage(),
           PrescriptionsPage(),
-          PharmacistProfilePage1(
+          PharmacistProfileScreen(
             // pharmacist: Pharmacist(
             //   email: 'dsadsa@dsads.sa',
             //   fullName: 'Pharmacist name',

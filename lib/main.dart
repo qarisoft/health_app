@@ -13,6 +13,7 @@ import 'package:health_app/features/pharmacist/ui/home/page.dart'
 import 'package:health_app/l10n/app_localizations.dart';
 import 'package:health_app/shared/ex.dart' show AppEx;
 import 'package:health_app/shared/providers/local/local_provider.dart';
+import 'package:health_app/shared/providers/theme/theme_provider.dart';
 import 'package:health_app/shared/server_health_provider.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:lottie/lottie.dart';
@@ -35,10 +36,13 @@ class HealthCareApp extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final LocalState local = ref.watch(localProvider);
+        final isDark = ref.watch(isDarkThemeProvider);
         return MaterialApp(
           navigatorKey: AppDialog.navigatorKey,
           // title: 'HealthCare Pro',
           theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.lightTheme,
+          themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(local.code),
@@ -64,9 +68,6 @@ class HealthCareApp extends StatelessWidget {
     );
   }
 }
-
-// njfdhjs84367467323hn98sd9s9mdsm8d9s79
-// "v=DMARC1; p=none; rua=mailto:dc1298f39eb34d1abd26d597b47c0a51@dmarc-reports.cloudflare.net"
 
 class NetworkAwareWrapper extends ConsumerWidget {
   final Widget child;

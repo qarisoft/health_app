@@ -1,13 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:intl/intl.dart';
+
 import 'p.dart';
 
 class InitializeProfilePage2 extends ConsumerStatefulWidget {
   const InitializeProfilePage2({super.key, this.pprofile, this.onBackPressed});
+
   final VoidCallback? onBackPressed;
 
   final Patient? pprofile;
@@ -67,7 +68,7 @@ class _InitializeProfilePage2State
       appBar: AppBar(
         title: const Text(
           'إنشاء الملف الشخصي',
-          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         centerTitle: true,
         elevation: 0,
@@ -77,7 +78,9 @@ class _InitializeProfilePage2State
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             // _goBack()
-            widget.onBackPressed?.call();
+            context.mayPop().whenComplete(() {
+              widget.onBackPressed?.call();
+            });
           },
         ),
       ),
@@ -97,7 +100,6 @@ class _InitializeProfilePage2State
                     addressController: _addressController,
                   ),
                   MedicalInfoStep(),
-
                 ],
               ),
             ),
@@ -217,7 +219,7 @@ class _InitializeProfilePage2State
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),
                     child: Text(
-                      currentStep == 1 ? context.tr.confirm:context.tr.next,
+                      currentStep == 1 ? context.tr.confirm : context.tr.next,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -566,9 +568,8 @@ Widget _buildListStep(
                 itemBuilder: (c, i) => Card(
                   child: ListTile(
                     leading: Icon(icon, color: Colors.blue),
-                    title: Text(
-                      items[i].toString(),
-                    ), // Simplified: Models should have a descriptive toString or specific name field
+                    title: Text(items[i].toString()),
+                    // Simplified: Models should have a descriptive toString or specific name field
                     trailing: IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () => onDel(i),

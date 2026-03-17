@@ -75,7 +75,7 @@ extension AppEx on BuildContext {
   //     await Navigator.of(this).push(MaterialPageRoute(builder: (context) => w));
 
   void pop<T extends Object?>([T? results]) {
-    Navigator.of(this).pop(results);
+    Navigator.of(this).maybePop(results);
   }
 
   Future<bool> mayPop<T extends Object?>([T? results]) {

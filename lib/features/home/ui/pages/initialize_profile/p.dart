@@ -262,13 +262,7 @@ class PProfile extends _$PProfile {
       final js = await appRepo.api.initializePatientProfile(
         state.profile.toJson(),
       );
-      // xlog(js);
-      // ║    {
-      // ║         "success": true,
-      // ║         "message": "تم تهيئة الملف الطبي بنجاح",
-      // ║         "patientId": 3131
-      // ║    }
-      // ║
+
       final id = ref
           .read(authRecordStateProvider)
           .whenOrNull(auth: (r) => r)
@@ -318,6 +312,7 @@ class PProfile extends _$PProfile {
         await di<AppStorage>().setPatientAccount(patientAccount);
         ref.invalidate(authRecordStateProvider);
         ref.invalidate(accountProvider);
+        ref.invalidate(allAcountsProvider);
       }
       // di<AppStorage>().set
 

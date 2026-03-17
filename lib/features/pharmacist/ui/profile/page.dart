@@ -13,9 +13,11 @@ import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart'
     show Pharmacist;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:health_app/features/doctor/ui/profile.dart';
 import 'package:health_app/features/pharmacist/data/requests/profile.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/functions.dart';
+import 'package:health_app/shared/pages/profile/profile_page.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
 import '../../../home/ui/pages/p.dart' as patient_app;
@@ -37,6 +39,39 @@ class PharmacistProfilePage1 extends ConsumerWidget {
   }
 }
 
+class PharmacistProfileScreen extends ConsumerStatefulWidget {
+  const PharmacistProfileScreen({super.key});
+
+  @override
+  ConsumerState createState() => _PharmacistProfileScreenState();
+}
+
+class _PharmacistProfileScreenState
+    extends ConsumerState<PharmacistProfileScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final auth = ref.watch(allAcountsProvider.select((s) => s.pharmacist));
+    final pharmacist = auth?.pharmacist;
+    if (pharmacist == null) return NoAuthScreen();
+    return ProfilePageBuilder(
+      account: ProfileAccount(
+        userId: pharmacist.userId,
+        fullName: pharmacist.fullName,
+        email: pharmacist.email,
+        address: pharmacist.pharmacyName,
+      ),
+      onEditProfile: () {},
+      onLoginAsPatient: () {
+        final patientAc = ref.read(allAcountsProvider.select((s) => s.patient));
+        if (patientAc != null) {
+          ref.read(accountProvider.notifier).changeAccount(patientAc);
+          context.to(patient_app.HomePage());
+        }
+      },
+    );
+  }
+}
+
 class PharmacistProfilePage extends ConsumerStatefulWidget {
   final Pharmacist pharmacist;
 
@@ -49,6 +84,7 @@ class PharmacistProfilePage extends ConsumerStatefulWidget {
 
 class _PharmacistProfilePageState extends ConsumerState<PharmacistProfilePage> {
   bool _isEditing = false;
+
   // bool _isInitialized = false;
   late Pharmacist _editedPharmacist;
   final _formKey = GlobalKey<FormState>();

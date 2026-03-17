@@ -33,7 +33,7 @@ final class ServerHealthProvider
   ServerHealth create() => ServerHealth();
 }
 
-String _$serverHealthHash() => r'df9cb721a7156ba1e761600eb05d09f12ff8fc6b';
+String _$serverHealthHash() => r'e41e06ddedc58d35f0606ad643c6511ecae134e9';
 
 abstract class _$ServerHealth extends $AsyncNotifier<bool> {
   FutureOr<bool> build();

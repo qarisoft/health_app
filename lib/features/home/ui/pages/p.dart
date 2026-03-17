@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/error/app_error.dart';
 import 'package:health_app/di.dart';
-import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/home/ui/pages/initialize_profile/p.dart';
 import 'package:health_app/features/home/ui/pages/initialize_profile/page.dart';
-import 'package:health_app/features/home/ui/pages/initialize_profile/page2.dart';
 import 'package:health_app/features/home/ui/pages/prescriptions_page.dart';
 import 'package:health_app/features/home/ui/pages/qr.dart';
 import 'package:health_app/shared/ex.dart';
@@ -33,22 +30,22 @@ class MainPatientPage extends ConsumerWidget {
   }
 }
 
-class InitializedProfilePage2 extends ConsumerWidget {
-  const InitializedProfilePage2({super.key, this.onBackPressed});
-
-  final VoidCallback? onBackPressed;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ac = ref.watch(accountProvider);
-    final patient = ac.whenOrNull(
-      acount: (account) => account.whenOrNull(patient: (p) => p),
-    );
-    // xlog(patient);
-
-    return InitializeProfilePage2(onBackPressed: onBackPressed);
-  }
-}
+// class InitializedProfilePage2 extends ConsumerWidget {
+//   const InitializedProfilePage2({super.key, this.onBackPressed});
+//
+//   final VoidCallback? onBackPressed;
+//
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final ac = ref.watch(accountProvider);
+//     final patient = ac.whenOrNull(
+//       acount: (account) => account.whenOrNull(patient: (p) => p),
+//     );
+//     // xlog(patient);
+//
+//     return InitializeProfilePage2(onBackPressed: onBackPressed);
+//   }
+// }
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
