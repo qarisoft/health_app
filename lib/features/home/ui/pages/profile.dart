@@ -40,16 +40,3 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 }
-
-// void _navigateToEditProfile() {
-//   Navigator.push(
-//     context,
-//     MaterialPageRoute(
-//       builder: (context) => InitializedProfilePage2(
-//         onBackPressed: () {
-//           context.pop();
-//         },
-//       ),
-//     ),
-//   );
-// }

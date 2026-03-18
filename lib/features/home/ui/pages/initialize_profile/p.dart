@@ -8,6 +8,8 @@ import 'package:health_app/features/auth/domain/models/account.dart'
     hide Account;
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart';
+import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:health_app/features/home/data/responses/initialize_profile_response.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -247,6 +249,20 @@ class PProfile extends _$PProfile {
     }
   }
 
+  Future<void> _updatePatientProfile(InitializeProfileResponse data) async {
+    if (data.wasSuccesfull) {
+      final id = ref
+          .read(authRecordStateProvider)
+          .whenOrNull(auth: (r) => r)
+          ?.userId;
+      if (id != null) {
+        await di<AppStorage>().setBool(isInitializedKey(id), true);
+        ref.invalidate(isInitializedProvider);
+        ref.read(accountProvider.notifier).updateAccountAsPatientAccount();
+      }
+    }
+  }
+
   // API actions
   Future<void> submitProfile() async {
     // await di<AppStorage>().setBool(PATIENT_ACCOUNT_IS_INITIALIZED_KEY, true);
@@ -259,18 +275,23 @@ class PProfile extends _$PProfile {
       // final json = await appRepo.initializePatientProfile(
       //   state.profile.toJson(),
       // );
-      final js = await appRepo.api.initializePatientProfile(
+      final res = await appRepo.initializePatientProfile(
         state.profile.toJson(),
       );
+      await res.when(
+        success: _updatePatientProfile,
+        error: (AppError error) {},
+      );
+      // if(res.when(success: (s)=>s.wasSuccesfull,error: (e)=>false))
 
-      final id = ref
-          .read(authRecordStateProvider)
-          .whenOrNull(auth: (r) => r)
-          ?.userId;
-      if (id != null) {
-        await di<AppStorage>().setBool(isInitializedKey(id), true);
-        ref.invalidate(isInitializedProvider);
-      }
+      // if(js.wa)
+      // try {
+      //   final response = InitializeProfileResponse.fromJson(js);
+      //   if (response.wasSuccesfull) {
+      //     ref.read(accountProvider.notifier).updateAccountAsPatientAccount();
+      //     // ref.invalidateAllAuthProviders();
+      //   }
+      // } catch (e) {}
 
       // Here you would make the actual API call
       // final response = await ApiService().initializePatientProfile(state.profile);

@@ -218,6 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // final localizations = context.tr;
 
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: AppLayout.paddingAllLarge,

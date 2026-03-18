@@ -11,24 +11,24 @@ import 'package:health_app/features/auth/domain/models/patient.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const int version = 290;
-const String appLocalKey = 'appLocalKey$version';
-const String userTokenKey = 'userTokenKey$version';
-const String userRefreshTokenKey = 'userRefreshTokenKey$version';
+const int version = 291;
+const String appLocalKey = 'appLocalKey_version_$version';
+const String userTokenKey = 'userTokenKey_version_$version';
+const String userRefreshTokenKey = 'userRefreshTokenKey_version_$version';
 //
-const String PATIENT_ACCOUNT_KEY = 'patient-account$version';
+const String PATIENT_ACCOUNT_KEY = 'patient-account_version_$version';
 const String PATIENT_ACCOUNT_IS_INITIALIZED_KEY =
-    'patient-is-initialized-account$version';
+    'patient-is-initialized-account_version_$version';
 
 String isInitializedKey(int id) =>
-    '${PATIENT_ACCOUNT_IS_INITIALIZED_KEY}_userId_$id';
-const String DOCTOR_ACCOUNT_KEY = 'doctor-account$version';
-const String PHARMACIST_ACCOUNT_KEY = 'pharmacist-account$version';
-const String ADMIN_ACCOUNT_KEY = 'admin-account$version';
+    '${PATIENT_ACCOUNT_IS_INITIALIZED_KEY}_userId_${id}_version_$version';
+const String DOCTOR_ACCOUNT_KEY = 'doctor-account_version_$version';
+const String PHARMACIST_ACCOUNT_KEY = 'pharmacist-account_version_$version';
+const String ADMIN_ACCOUNT_KEY = 'admin-account_version_$version';
 //
-const String AUTH_RECORD_KEY = 'AUTH_RECORD_KEY$version';
-const String MedicalRecordList_Key = 'MedicalRecordList$version';
-const String PrescriptionsList_KEY = 'PrescriptionsList_KEY0$version';
+const String AUTH_RECORD_KEY = 'AUTH_RECORD_KEY_version_$version';
+const String MedicalRecordList_Key = 'MedicalRecordList_version_$version';
+const String PrescriptionsList_KEY = 'PrescriptionsList_KEY0_version_$version';
 
 class AppStorage {
   Future<void> clearAllAccounts() async {

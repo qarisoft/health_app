@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/shared/ex.dart' show AppEx, LogOutExt;
@@ -14,22 +12,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../widgets/app_bar_leading.dart';
+import 'data/entity.dart' show ProfileAccount;
 
-part 'profile_page.freezed.dart';
-part 'profile_page.g.dart';
-
-@freezed
-abstract class ProfileAccount with _$ProfileAccount {
-  const factory ProfileAccount({
-    required int userId,
-    required String fullName,
-    required String email,
-    required String address,
-  }) = _ProfileAccount;
-
-  factory ProfileAccount.fromJson(Map<String, dynamic> json) =>
-      _$ProfileAccountFromJson(json);
-}
+export 'data/entity.dart' show ProfileAccount;
 
 class ProfilePageBuilder extends ConsumerStatefulWidget {
   const ProfilePageBuilder({

@@ -23,6 +23,7 @@ import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/features/doctor/data/requests/home.dart'
     show RecentPatient;
 import 'package:health_app/features/doctor/data/responses/insights.dart';
+import 'package:health_app/features/home/data/responses/initialize_profile_response.dart';
 import 'package:health_app/features/pharmacist/data/requests/profile.dart';
 import 'package:health_app/features/pharmacist/data/responses/drugs_interaction.dart';
 import 'package:health_app/features/pharmacist/data/responses/prescription.dart';
@@ -386,6 +387,8 @@ class AppRepositories {
     }
   }
 
+  Future<void> fetchPatientProfile() async {}
+
   Future<void> _getPatientProfile() async {
     try {
       final result = await handleDioRequest(
@@ -568,18 +571,23 @@ class AppRepositories {
     );
   }
 
-  Future<ErrorOr<bool>> initializePatientProfile(
+  Future<ErrorOr<InitializeProfileResponse>> initializePatientProfile(
     Map<String, dynamic> data,
   ) async {
-    return handleDioRequest(
+    final a = await handleDioRequest(
       request: () => api.initializePatientProfile(data),
       fromJson: (data) {
-        final success = data['success'] ?? false;
-        if (success) {
-          _getPatientProfile();
-        }
-        return success;
+        return InitializeProfileResponse.fromJson(data);
       },
+    );
+    return await a.when(
+      success: (s) async {
+        if (s.wasSuccesfull) {
+          await _getPatientProfile();
+        }
+        return ErrorOr.success(data: s);
+      },
+      error: (e) => ErrorOr.error(error: e),
     );
   }
 

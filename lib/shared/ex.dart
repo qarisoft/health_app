@@ -121,3 +121,13 @@ extension LogOutExt on WidgetRef {
     // invalidate(pa);
   }
 }
+
+extension UpdateAccount on Ref {
+  void updateAccount() {
+    invalidate(authRecordStateProvider);
+    invalidate(accountProvider);
+    invalidate(allAcountsProvider);
+    invalidate(patientDashboardSummaryProvider);
+    // invalidate(pa);
+  }
+}

@@ -1,4 +1,3 @@
-import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
@@ -23,7 +22,7 @@ class AuthRecordState extends _$AuthRecordState {
   }
 
   Future<void> logOut() async {
-    await di<AppStorage>().clearAllAccounts();
+    await appStorage.clearAllAccounts();
     ref.invalidateSelf();
   }
 }
@@ -37,10 +36,10 @@ class Account extends _$Account {
     try {
       if (authRecord is TAuthRecordData) {
         final p = switch (authRecord.record.role) {
-          'admin' => di<AppStorage>().getAdminAccount(),
-          'doctor' => di<AppStorage>().getDoctorAccount(),
-          'pharmacist' => di<AppStorage>().getPharmacistAccount(),
-          'patient' => di<AppStorage>().getPatientAccount(),
+          'admin' => appStorage.getAdminAccount(),
+          'doctor' => appStorage.getDoctorAccount(),
+          'pharmacist' => appStorage.getPharmacistAccount(),
+          'patient' => appStorage.getPatientAccount(),
           String() => null,
         };
         if (p != null) {
@@ -67,6 +66,20 @@ class Account extends _$Account {
     state = AccountState.account(
       account: Ac.PatientAccount(patient: a),
       isLogInAsPatient: true,
+    );
+  }
+
+  void updateAccountAsPatientAccount() {
+    final s = state;
+    s.whenOrNull(
+      account: (a, i) {
+        if (a is Ac.PatientAccount) {
+          final p = appStorage.getPatientAccount();
+          if (p != null) {
+            state = AccountState.account(account: p, isLogInAsPatient: i);
+          }
+        }
+      },
     );
   }
 
