@@ -9,7 +9,7 @@ import 'package:health_app/features/auth/domain/models/patient.dart'
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/pages/profile/profile_page.dart'
-    show ProfilePageBuilder, ProfileAccount;
+    show ProfilePageBuilder, ProfileAccount, ProfileAvatar;
 import 'package:health_app/shared/widgets/custom_text_field.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:lottie/lottie.dart';
@@ -77,47 +77,8 @@ class _EditDoctorProfilePageState extends ConsumerState<EditDoctorProfilePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // --- Profile Picture Placeholder ---
-                Center(
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(
-                            context,
-                          ).primaryColor.withOpacity(0.1),
-                          border: Border.all(
-                            color: Theme.of(
-                              context,
-                            ).primaryColor.withOpacity(0.2),
-                            width: 2,
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.person_outline,
-                          size: 50,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                        child: const Icon(
-                          Icons.camera_alt,
-                          size: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                Center(child: ProfileAvatar(userId: widget.doctor.userId)),
+
                 const SizedBox(height: 32),
 
                 // --- Personal Information Section ---

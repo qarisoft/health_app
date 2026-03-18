@@ -44,30 +44,12 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
   Function() get onEditProfile => widget.onEditProfile;
 
   // --- Image Picker State ---
-  File? _selectedImage;
-  final ImagePicker _imagePicker = ImagePicker();
 
   @override
   void initState() {
     patient = widget.account;
     super.initState();
-    _loadSavedImage(); // Load the local image when the page opens
-  }
-
-  Future<void> _loadSavedImage() async {
-    final prefs = appStorage.sharedPreferences;
-    final savedImagePath = prefs.getString(
-      'profile_image_path_${patient.userId}',
-    );
-
-    if (savedImagePath != null) {
-      final file = File(savedImagePath);
-      if (await file.exists()) {
-        setState(() {
-          _selectedImage = file;
-        });
-      }
-    }
+    // _loadSavedImage(); // Load the local image when the page opens
   }
 
   @override
@@ -108,7 +90,6 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           children: [
             // Profile Header Section
             _buildProfileHeader(surfaceColor, textColor),
-
             if (widget.onLoginAsPatient != null) ...[
               const SizedBox(height: 16),
               _buildSettingsGroup(
@@ -204,77 +185,6 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
     );
   }
 
-  Future<void> _pickImage(ImageSource source) async {
-    // Close the bottom sheet first
-    Navigator.pop(context);
-
-    try {
-      final XFile? pickedFile = await _imagePicker.pickImage(
-        source: source,
-        imageQuality: 80,
-        maxWidth: 800,
-      );
-
-      if (pickedFile != null) {
-        // 1. Get the app's local document directory
-        final directory = await getApplicationDocumentsDirectory();
-
-        // 2. Create a unique file name (using patient ID prevents overwriting other users' avatars)
-        final String fileName = 'avatar_${patient.userId}.jpg';
-        final String localPath = '${directory.path}/$fileName';
-
-        // 3. Copy the picked file to the local path
-        final File localImage = await File(pickedFile.path).copy(localPath);
-
-        // 4. Save the path to SharedPreferences
-        final prefs = appStorage.sharedPreferences;
-        await prefs.setString(
-          'profile_image_path_${patient.userId}',
-          localPath,
-        );
-
-        // 5. Update the UI
-        setState(() {
-          _selectedImage = localImage;
-        });
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error saving image: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
-  Future<void> _removePhoto() async {
-    Navigator.pop(context);
-
-    try {
-      if (_selectedImage != null && await _selectedImage!.exists()) {
-        await _selectedImage!
-            .delete(); // Delete the actual file from local storage
-      }
-
-      final prefs = appStorage.sharedPreferences;
-      await prefs.remove(
-        'profile_image_path_${patient.userId}',
-      ); // Remove the saved path
-
-      setState(() {
-        _selectedImage = null;
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error removing image: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
   Widget _buildProfileHeader(Color surfaceColor, Color textColor) {
     return Container(
       width: double.infinity,
@@ -295,65 +205,8 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
       ),
       child: Column(
         children: [
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              Container(
-                width: 110,
-                height: 110,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.blue.withOpacity(0.2),
-                    width: 4,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blue.withOpacity(0.1),
-                      blurRadius: 20,
-                      spreadRadius: 5,
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(60),
-                  child: _selectedImage != null
-                      ? Image.file(_selectedImage!)
-                      : Container(
-                          color: Colors.blue[50],
-                          child: Icon(
-                            Iconsax.user,
-                            size: 50,
-                            color: Colors.blue[300],
-                          ),
-                        ),
-                ),
-              ),
-              GestureDetector(
-                onTap: _changeProfilePicture,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: surfaceColor, width: 3),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 5,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Iconsax.camera,
-                    size: 16,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          ProfileAvatar(userId: patient.userId, surfaceColor: surfaceColor),
+
           const SizedBox(height: 16),
           Text(
             patient.fullName,
@@ -561,64 +414,6 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
   }
 
   // --- Dialogs and Navigations remain mostly the same ---
-
-  void _changeProfilePicture() {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 40,
-                  height: 4,
-                  margin: EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                ListTile(
-                  leading: const Icon(Iconsax.camera),
-                  title: Text(context.tr.takePhoto ?? 'Take Photo'),
-                  onTap: () {
-                    // Navigator.pop(context);
-                    _pickImage(ImageSource.camera);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Iconsax.gallery),
-                  title: Text(
-                    context.tr.chooseFromGallery ?? 'Choose from Gallery',
-                  ),
-                  onTap: () {
-                    // Navigator.pop(context);
-                    _pickImage(ImageSource.gallery);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Iconsax.trash, color: Colors.red),
-                  title: Text(
-                    context.tr.removePhoto ?? 'Remove Photo',
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   void _changeLanguage() {
     showDialog(
@@ -850,6 +645,228 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           ],
         );
       },
+    );
+  }
+}
+
+class ProfileAvatar extends ConsumerStatefulWidget {
+  const ProfileAvatar({super.key, required this.userId, this.surfaceColor});
+
+  final int userId;
+  final Color? surfaceColor;
+
+  @override
+  ConsumerState createState() => _ProfileAvatarState();
+}
+
+class _ProfileAvatarState extends ConsumerState<ProfileAvatar> {
+  File? _selectedImage;
+
+  int get userId => widget.userId;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedImage(); // Load the local image when the page opens
+  }
+
+  Future<void> _loadSavedImage() async {
+    final prefs = appStorage.sharedPreferences;
+    final savedImagePath = prefs.getString('profile_image_path_${userId}');
+
+    if (savedImagePath != null) {
+      final file = File(savedImagePath);
+      if (await file.exists()) {
+        setState(() {
+          _selectedImage = file;
+        });
+      }
+    }
+  }
+
+  final ImagePicker _imagePicker = ImagePicker();
+
+  void _changeProfilePicture() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40,
+                  height: 4,
+                  margin: EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Iconsax.camera),
+                  title: Text(context.tr.takePhoto ?? 'Take Photo'),
+                  onTap: () {
+                    // Navigator.pop(context);
+                    _pickImage(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Iconsax.gallery),
+                  title: Text(
+                    context.tr.chooseFromGallery ?? 'Choose from Gallery',
+                  ),
+                  onTap: () {
+                    // Navigator.pop(context);
+                    _pickImage(ImageSource.gallery);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Iconsax.trash, color: Colors.red),
+                  title: Text(
+                    context.tr.removePhoto ?? 'Remove Photo',
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    // Close the bottom sheet first
+    Navigator.pop(context);
+
+    try {
+      final XFile? pickedFile = await _imagePicker.pickImage(
+        source: source,
+        imageQuality: 80,
+        maxWidth: 800,
+      );
+
+      if (pickedFile != null) {
+        // 1. Get the app's local document directory
+        final directory = await getApplicationDocumentsDirectory();
+
+        // 2. Create a unique file name (using patient ID prevents overwriting other users' avatars)
+        final String fileName = 'avatar_${userId}.jpg';
+        final String localPath = '${directory.path}/$fileName';
+
+        // 3. Copy the picked file to the local path
+        final File localImage = await File(pickedFile.path).copy(localPath);
+
+        // 4. Save the path to SharedPreferences
+        final prefs = appStorage.sharedPreferences;
+        await prefs.setString('profile_image_path_${userId}', localPath);
+
+        // 5. Update the UI
+        setState(() {
+          _selectedImage = localImage;
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error saving image: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _removePhoto() async {
+    Navigator.pop(context);
+
+    try {
+      if (_selectedImage != null && await _selectedImage!.exists()) {
+        await _selectedImage!
+            .delete(); // Delete the actual file from local storage
+      }
+
+      final prefs = appStorage.sharedPreferences;
+      await prefs.remove(
+        'profile_image_path_${userId}',
+      ); // Remove the saved path
+
+      setState(() {
+        _selectedImage = null;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error removing image: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Color get surfaceColor => widget.surfaceColor ?? Colors.white;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        Container(
+          width: 110,
+          height: 110,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.blue.withOpacity(0.2), width: 4),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blue.withOpacity(0.1),
+                blurRadius: 20,
+                spreadRadius: 5,
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(60),
+            child: _selectedImage != null
+                ? Image.file(_selectedImage!)
+                : Container(
+                    color: Colors.blue[50],
+                    child: Icon(
+                      Iconsax.user,
+                      size: 50,
+                      color: Colors.blue[300],
+                    ),
+                  ),
+          ),
+        ),
+        GestureDetector(
+          onTap: _changeProfilePicture,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              shape: BoxShape.circle,
+              border: Border.all(color: surfaceColor, width: 3),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: const Icon(Iconsax.camera, size: 16, color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 }
