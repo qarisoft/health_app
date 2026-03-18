@@ -9,7 +9,8 @@ import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/di.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-const apiUrlKey = 'apiUrlKey';
+const apiUrlKey = 'apiUrlKey_1';
+
 String get _getUrl =>
     appStorage.getString(apiUrlKey) ?? 'http://10.0.2.2:7164/api';
 

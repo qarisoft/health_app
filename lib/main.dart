@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart' show accountProvider;
+import 'package:health_app/change_url.dart';
 import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/router/app_routes.dart';
@@ -17,7 +18,6 @@ import 'package:health_app/shared/ex.dart' show AppEx, xlog;
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/providers/theme/theme_provider.dart';
 import 'package:health_app/shared/server_health_provider.dart';
-import 'package:health_app/shared/widgets/custom_text_field.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:lottie/lottie.dart';
 
@@ -101,7 +101,7 @@ class SplashPage extends ConsumerWidget {
           context: context,
           lottieAsset: AppAssets.error,
           message: 'please enter the api url',
-          onRetryText: 'enter api url',
+          // onRetryText: 'enter api url',
           onRetry: () => onChangeTheUrl(context),
         );
       },
@@ -185,66 +185,66 @@ class SplashPage extends ConsumerWidget {
   }
 }
 
-class EnterApiUrlDialog extends StatefulWidget {
-  const EnterApiUrlDialog({super.key});
-
-  @override
-  State<EnterApiUrlDialog> createState() => _EnterApiUrlDialogState();
-}
-
-class _EnterApiUrlDialogState extends State<EnterApiUrlDialog> {
-  final _controller = TextEditingController();
-  final _key = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Form(
-        key: _key,
-        child: Localizations.override(
-          context: context,
-          locale: Locale('en'),
-
-          child: CustomTextField(
-            labelText: 'api url',
-            validator: (String? s) {
-              if (s == null || s.isEmpty) {
-                return 'please enter the api url';
-              }
-              if (!s.startsWith('http')) {
-                return 'https://xxx || http://xxx';
-              }
-              if (s.endsWith('/')) {
-                return 'https://xxx no / at the end';
-              }
-              return null;
-            },
-            controller: _controller,
-          ),
-        ),
-      ),
-      actions: [
-        Consumer(
-          builder: (context, ref, _) {
-            return ElevatedButton(
-              onPressed: () async {
-                if (_key.currentState!.validate()) {
-                  await appStorage.setString(
-                    apiUrlKey,
-                    '${_controller.text}/api',
-                  );
-                  ref.invalidate(serverHealthProvider);
-                  context.mayPop();
-                }
-              },
-              child: const Text('save'),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
+// class EnterApiUrlDialog extends StatefulWidget {
+//   const EnterApiUrlDialog({super.key});
+//
+//   @override
+//   State<EnterApiUrlDialog> createState() => _EnterApiUrlDialogState();
+// }
+//
+// class _EnterApiUrlDialogState extends State<EnterApiUrlDialog> {
+//   final _controller = TextEditingController();
+//   final _key = GlobalKey<FormState>();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return AlertDialog(
+//       content: Form(
+//         key: _key,
+//         child: Localizations.override(
+//           context: context,
+//           locale: Locale('en'),
+//
+//           child: CustomTextField(
+//             labelText: 'api url',
+//             validator: (String? s) {
+//               if (s == null || s.isEmpty) {
+//                 return 'please enter the api url';
+//               }
+//               if (!s.startsWith('http')) {
+//                 return 'https://xxx || http://xxx';
+//               }
+//               if (s.endsWith('/')) {
+//                 return 'https://xxx no / at the end';
+//               }
+//               return null;
+//             },
+//             controller: _controller,
+//           ),
+//         ),
+//       ),
+//       actions: [
+//         Consumer(
+//           builder: (context, ref, _) {
+//             return ElevatedButton(
+//               onPressed: () async {
+//                 if (_key.currentState!.validate()) {
+//                   await appStorage.setString(
+//                     apiUrlKey,
+//                     '${_controller.text}/api',
+//                   );
+//                   ref.invalidate(serverHealthProvider);
+//                   context.mayPop();
+//                 }
+//               },
+//               child: const Text('save'),
+//             );
+//           },
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class SplashInnerPage extends ConsumerWidget {
   const SplashInnerPage({super.key});
