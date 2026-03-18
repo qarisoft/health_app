@@ -103,7 +103,7 @@ class _EditDoctorProfilePageState extends ConsumerState<EditDoctorProfilePage> {
                   keyboardType: TextInputType.phone,
                   validator: (v) {
                     if (v == null || v.isEmpty) return context.tr.requiredField;
-                    if (!RegExp(r'^[0-9]{10,15}$').hasMatch(v)) {
+                    if (!RegExp(r'^[0-9]{9,15}$').hasMatch(v)) {
                       return context.tr.invalidPhone;
                     }
                     return null;
