@@ -149,6 +149,23 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
               textColor: textColor,
               children: [
                 _buildListTile(
+                  icon: Iconsax.info_circle,
+                  title: context.tr.aboutApp,
+                  textColor: textColor,
+                  onTap: () {
+                    showAboutDialog(context: context);
+                  },
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 24),
+            _buildSettingsGroup(
+              title: context.tr.changePassword ?? 'More',
+              surfaceColor: surfaceColor,
+              textColor: textColor,
+              children: [
+                _buildListTile(
                   icon: Iconsax.lock,
                   title: context.tr.changePassword,
                   textColor: Colors.red,
@@ -162,14 +179,6 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                   },
                 ),
                 _buildDivider(),
-                _buildListTile(
-                  icon: Iconsax.info_circle,
-                  title: context.tr.aboutApp,
-                  textColor: textColor,
-                  onTap: () {
-                    showAboutDialog(context: context);
-                  },
-                ),
               ],
             ),
 
