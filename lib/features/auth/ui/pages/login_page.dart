@@ -40,7 +40,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     // text: DEV_ENV ? 'gdvtf54e4f543' : null,
     // text: DEV_ENV ? 'gdvtf54ef543' : null,
     // text: DEV_ENV ? '20000000010005' : null,
-    text: DEV_ENV ? '3000000001' : null,
+    // text: DEV_ENV ? '3000000001' : null,
+    text: DEV_ENV ? '2000000102' : null,
     // text: DEV_ENV ? '1234567899' : null,
   );
   final TextEditingController _passwordController = TextEditingController(

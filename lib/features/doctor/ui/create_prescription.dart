@@ -11,6 +11,7 @@ import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
 class CreatePrescriptionDialog extends ConsumerStatefulWidget {
   const CreatePrescriptionDialog({super.key, required this.patientId});
+
   final int patientId;
 
   @override
@@ -72,7 +73,7 @@ class _CreatePrescriptionDialogState
   Widget build(BuildContext context) {
     final List<String> stepTitles = [
       '${context.tr.diagnosisLabel} & ${context.tr.notes}',
-      context.tr.medications
+      context.tr.medications,
     ];
 
     return AlertDialog(
@@ -267,7 +268,8 @@ class _CreatePrescriptionDialogState
                 CustomTextField(
                   controller: medNameController,
                   labelText: context.tr.medicineName,
-                  validator: (v) => v!.isEmpty ? context.tr.requiredField : null,
+                  validator: (v) =>
+                      v!.isEmpty ? context.tr.requiredField : null,
                 ),
                 const SizedBox(height: 8),
                 Row(
@@ -276,7 +278,8 @@ class _CreatePrescriptionDialogState
                       child: CustomTextField(
                         controller: dosageController,
                         labelText: context.tr.dosage,
-                        validator: (v) => v!.isEmpty ? context.tr.requiredField : null,
+                        validator: (v) =>
+                            v!.isEmpty ? context.tr.requiredField : null,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -284,7 +287,8 @@ class _CreatePrescriptionDialogState
                       child: CustomTextField(
                         controller: freqController,
                         labelText: context.tr.frequency,
-                        validator: (v) => v!.isEmpty ? context.tr.requiredField : null,
+                        validator: (v) =>
+                            v!.isEmpty ? context.tr.requiredField : null,
                       ),
                     ),
                   ],
@@ -334,9 +338,9 @@ class _CreatePrescriptionDialogState
 
   Future<void> _submitPrescription() async {
     if (_items.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(content: Text(context.tr.requiredField)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.tr.requiredField)));
       return;
     }
 
@@ -372,6 +376,6 @@ class _CreatePrescriptionDialogState
   void showSuccess() {
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text(context.tr.loginSuccess)));
+    ).showSnackBar(SnackBar(content: Text(context.tr.success)));
   }
 }

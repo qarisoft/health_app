@@ -42,7 +42,6 @@ class _DoctorProfileScreenState extends ConsumerState<DoctorProfileScreen> {
       onLoginAsPatient: () {
         final patientAc = auth.patient?.patient;
         if (patientAc != null) {
-          // context.to(patient_app.HomePage());
           ref.read(accountProvider.notifier).changeAccount(patientAc);
         }
       },
@@ -521,6 +520,131 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
     }
   }
 }
+
+// class EditDoctorProfilePage extends ConsumerStatefulWidget {
+//   const EditDoctorProfilePage({super.key});
+//
+//   @override
+//   ConsumerState createState() => _EditDoctorProfilePageState();
+// }
+//
+// class _EditDoctorProfilePageState extends ConsumerState<EditDoctorProfilePage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return  Form(
+//       key: _formKey,
+//       child: Column(
+//         children: [
+//           _buildTextField(
+//             label: context.tr.name,
+//             value: doctor.fullName,
+//             icon: Icons.person,
+//             onChanged: (v) =>
+//                 setState(() => _editedDoctor = doctor.copyWith(fullName: v)),
+//             validator: (v) =>
+//             (v == null || v.isEmpty) ? context.tr.requiredField : null,
+//           ),
+//           const SizedBox(height: 16),
+//           _buildTextField(
+//             label: context.tr.specialization,
+//             value: doctor.specialization,
+//             icon: Icons.medical_services,
+//             onChanged: (v) => setState(
+//                   () => _editedDoctor = doctor.copyWith(specialization: v),
+//             ),
+//             validator: (v) =>
+//             (v == null || v.isEmpty) ? context.tr.requiredField : null,
+//           ),
+//           const SizedBox(height: 16),
+//           _buildTextField(
+//             label: context.tr.phoneNumber,
+//             value: doctor.phoneNumber,
+//             icon: Icons.phone,
+//             keyboardType: TextInputType.phone,
+//             onChanged: (v) =>
+//                 setState(() => _editedDoctor = doctor.copyWith(phoneNumber: v)),
+//             validator: (v) {
+//               if (v == null || v.isEmpty) return context.tr.requiredField;
+//               if (!RegExp(r'^[0-9]{10,15}$').hasMatch(v))
+//                 return context.tr.invalidPhone;
+//               return null;
+//             },
+//           ),
+//           const SizedBox(height: 16),
+//           _buildTextField(
+//             label: context.tr.email,
+//             value: doctor.email,
+//             icon: Icons.email,
+//             keyboardType: TextInputType.emailAddress,
+//             onChanged: (v) =>
+//                 setState(() => _editedDoctor = doctor.copyWith(email: v)),
+//             validator: (v) {
+//               if (v == null || v.isEmpty) return context.tr.requiredField;
+//               if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(v))
+//                 return context.tr.invalidEmail;
+//               return null;
+//             },
+//           ),
+//           const SizedBox(height: 16),
+//           _buildTextField(
+//             label: context.tr.idCardNumber,
+//             value: doctor.licenseNumber,
+//             icon: Icons.badge,
+//             onChanged: (v) => setState(
+//                   () => _editedDoctor = doctor.copyWith(licenseNumber: v),
+//             ),
+//             validator: (v) =>
+//             (v == null || v.isEmpty) ? context.tr.requiredField : null,
+//           ),
+//           const SizedBox(height: 16),
+//           _buildTextField(
+//             label: context.tr.hospitalName,
+//             value: doctor.hospital,
+//             icon: Icons.local_hospital,
+//             onChanged: (v) =>
+//                 setState(() => _editedDoctor = doctor.copyWith(hospital: v)),
+//             validator: (v) =>
+//             (v == null || v.isEmpty) ? context.tr.requiredField : null,
+//           ),
+//           const SizedBox(height: 24),
+//           Row(
+//             children: [
+//               Expanded(
+//                 child: ElevatedButton(
+//                   onPressed: () {
+//                     if (_formKey.currentState!.validate()) _saveChanges();
+//                   },
+//                   style: ElevatedButton.styleFrom(
+//                     padding: const EdgeInsets.symmetric(vertical: 16),
+//                     backgroundColor: Colors.green,
+//                   ),
+//                   child: Text(
+//                     context.tr.saveChanges,
+//                     style: const TextStyle(fontWeight: FontWeight.bold),
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(width: 12),
+//               Expanded(
+//                 child: OutlinedButton(
+//                   onPressed: () => setState(() => _isEditing = false),
+//                   style: OutlinedButton.styleFrom(
+//                     padding: const EdgeInsets.symmetric(vertical: 16),
+//                     side: const BorderSide(color: Colors.red),
+//                   ),
+//                   child: Text(
+//                     context.tr.cancel,
+//                     style: const TextStyle(color: Colors.red),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 // NoAuthScreen class stays the same...
 class NoAuthScreen extends StatelessWidget {

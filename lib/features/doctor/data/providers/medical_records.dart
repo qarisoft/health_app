@@ -27,7 +27,7 @@ class MedicalRecordsStore extends _$MedicalRecordsStore {
     final newState = state.copyWith(records: [...state.records, record]);
 
     await di<AppStorage>().setString(
-      'MedicalRecordList',
+      MedicalRecordList_Key,
       jsonEncode(newState.toJson()),
     );
     ref.invalidateSelf();

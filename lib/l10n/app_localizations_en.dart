@@ -12,13 +12,79 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createPrescription => 'Create Prescription';
 
   @override
+  String get medicalRecords => 'Medical Records';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get noMedicalRecords => 'No Medical Records';
+
+  @override
+  String get noMedicalRecordsDescription =>
+      'No records found in the system. Search for a patient to start.';
+
+  @override
+  String get createNewRecord => 'Create New Record';
+
+  @override
+  String get identifier => 'Identifier';
+
+  @override
+  String get submit => 'Submit';
+
+  @override
+  String get symptoms => 'Symptoms';
+
+  @override
+  String get treatment => 'Treatment';
+
+  @override
+  String patientIdLabel(int id) {
+    return 'Patient ID: $id';
+  }
+
+  @override
+  String recordsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count records',
+      one: '1 record',
+      zero: 'No records',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String patientNotFound(String error) {
+    return 'Patient not found: $error';
+  }
+
+  @override
+  String stepProgress(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get enterSymptomsHint => 'What symptoms is the patient showing?';
+
+  @override
+  String get enterTreatmentHint => 'Outline the recommended treatment plan...';
+
+  @override
+  String get successCreateRecord => 'Medical record created successfully';
+
+  @override
+  String errorCreateRecord(String msg) {
+    return 'Error: $msg';
+  }
+
+  @override
   String get savePrescription => 'Save Prescription';
 
   @override
   String get expandCollapseAll => 'Expand/Collapse All';
-
-  @override
-  String get submit => 'Submit';
 
   @override
   String get success => 'Success';
@@ -1042,16 +1108,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createNewPrescription => 'Create New Prescription';
-
-  @override
-  String get noMedicalRecords => 'No Medical Records';
-
-  @override
-  String get noMedicalRecordsDescription =>
-      'It looks like you haven’t added any records yet. Start by creating your first medical profile.';
-
-  @override
-  String get createNewRecord => 'Create New Record';
 
   @override
   String get serverDownMessage =>

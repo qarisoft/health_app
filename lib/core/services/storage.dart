@@ -19,6 +19,7 @@ const String userRefreshTokenKey = 'userRefreshTokenKey$version';
 const String PATIENT_ACCOUNT_KEY = 'patient-account$version';
 const String PATIENT_ACCOUNT_IS_INITIALIZED_KEY =
     'patient-is-initialized-account$version';
+
 String isInitializedKey(int id) =>
     '${PATIENT_ACCOUNT_IS_INITIALIZED_KEY}_userId_$id';
 const String DOCTOR_ACCOUNT_KEY = 'doctor-account$version';
@@ -27,7 +28,7 @@ const String ADMIN_ACCOUNT_KEY = 'admin-account$version';
 //
 const String AUTH_RECORD_KEY = 'AUTH_RECORD_KEY$version';
 const String MedicalRecordList_Key = 'MedicalRecordList$version';
-const String PrescriptionsList_KEY = 'PrescriptionsList_KEY$version';
+const String PrescriptionsList_KEY = 'PrescriptionsList_KEY0$version';
 
 class AppStorage {
   Future<void> clearAllAccounts() async {
@@ -49,6 +50,7 @@ class AppStorage {
   final SharedPreferences sharedPreferences;
 
   AppStorage(this.sharedPreferences);
+
   Future<void> clearAuthToken() async {
     await sharedPreferences.remove(userTokenKey);
   }
@@ -82,11 +84,15 @@ class AppStorage {
   }
 
   String getappLoale() => sharedPreferences.getString(appLocalKey) ?? 'ar';
+
   String? getUserToken() => sharedPreferences.getString(userTokenKey);
+
   Future<bool?> setUserToken(String val) async =>
       await sharedPreferences.setString(userTokenKey, val);
+
   Future<bool?> setUserRefreshToken(String val) async =>
       await sharedPreferences.setString(userRefreshTokenKey, val);
+
   String? getUserRefreshToken() =>
       sharedPreferences.getString(userRefreshTokenKey);
 

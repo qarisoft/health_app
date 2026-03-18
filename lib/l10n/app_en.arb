@@ -2,9 +2,67 @@
   "@@locale": "en",
   "@@context": "General application strings",
   "createPrescription": "Create Prescription",
+  "medicalRecords": "Medical Records",
+  "create": "Create",
+  "noMedicalRecords": "No Medical Records",
+  "noMedicalRecordsDescription": "No records found in the system. Search for a patient to start.",
+  "createNewRecord": "Create New Record",
+  "identifier": "Identifier",
+  "submit": "Submit",
+  "symptoms": "Symptoms",
+  "treatment": "Treatment",
+  "patientIdLabel": "Patient ID: {id}",
+  "@patientIdLabel": {
+    "placeholders": {
+      "id": {
+        "type": "int",
+        "example": "101"
+      }
+    }
+  },
+  "recordsCount": "{count, plural, =0{No records} =1{1 record} other{{count} records}}",
+  "@recordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "patientNotFound": "Patient not found: {error}",
+  "@patientNotFound": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "stepProgress": "Step {current} of {total}",
+  "@stepProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "enterSymptomsHint": "What symptoms is the patient showing?",
+  "enterTreatmentHint": "Outline the recommended treatment plan...",
+  "successCreateRecord": "Medical record created successfully",
+  "errorCreateRecord": "Error: {msg}",
+  "@errorCreateRecord": {
+    "placeholders": {
+      "msg": {
+        "type": "String"
+      }
+    }
+  },
+
+
   "savePrescription": "Save Prescription",
   "expandCollapseAll": "Expand/Collapse All",
-  "submit": "Submit",
   "success": "Success",
   "diagnosis": "Diagnosis",
   "enterDiagnosisHint": "Enter patient diagnosis...",
@@ -17,19 +75,19 @@
   "collapseAll": "Collapse All",
   "itemsCompleted0": " of  completed",
   "itemsCompleted": "{completed} of {total} completed",
-    "@itemsCompleted": {
-      "description": "Shows progress of medication entries",
-      "placeholders": {
-        "completed": {
-          "type": "int",
-          "example": "2"
-        },
-        "total": {
-          "type": "int",
-          "example": "5"
-        }
+  "@itemsCompleted": {
+    "description": "Shows progress of medication entries",
+    "placeholders": {
+      "completed": {
+        "type": "int",
+        "example": "2"
+      },
+      "total": {
+        "type": "int",
+        "example": "5"
       }
-    },
+    }
+  },
   "drugName": "Drug Name",
   "quantity": "Quantity",
   "dosageHint": "e.g., 500mg",
@@ -1039,9 +1097,6 @@
   "noPrescriptions": "No Prescriptions",
   "noPrescriptionsDescription": "It looks like you haven’t added any prescriptions yet. Start by creating your first prescription.",
   "createNewPrescription": "Create New Prescription",
-  "noMedicalRecords": "No Medical Records",
-  "noMedicalRecordsDescription": "It looks like you haven’t added any records yet. Start by creating your first medical profile.",
-  "createNewRecord": "Create New Record",
   "serverDownMessage": "The server is currently unreachable. Please check your connection or try again later.",
   "connectionError": "An error occurred while connecting. Please check your internet.",
   "connecting": "Connecting to secure server..."

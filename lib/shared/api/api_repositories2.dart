@@ -124,6 +124,19 @@ class AppRepositories {
     }
   }
 
+  Future<ErrorOr<bool>> addMedicalRecord(Map<String, dynamic> data) async {
+    try {
+      await Future.delayed(Duration(seconds: 2));
+      final res = await api.addMedicalRecord(data);
+      return ErrorOr.success(data: res['success'] ?? false);
+    } catch (e) {
+      debugPrint('Add medical record error: $e');
+      return ErrorOr.error(
+        error: ServerError(msg: 'Failed to add medical record: $e'),
+      );
+    }
+  }
+
   Future<ErrorOr<bool>> addPrescription(Map<String, dynamic> data) async {
     return handleDioRequest(
       request: () => api.addPrescription(data),

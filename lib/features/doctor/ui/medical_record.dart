@@ -32,9 +32,6 @@ class _DoctorMedicalRecordState extends ConsumerState<DoctorMedicalRecord> {
   }
 
   void handelOnPress() async {
-    // final dio = di<AppRepositories>().api.factory.getDio();
-    // dio.get('');
-
     final id = await showDialog<String>(
       context: context,
       builder: (context) => const SingleInputDialog(),
@@ -58,8 +55,6 @@ class _DoctorMedicalRecordState extends ConsumerState<DoctorMedicalRecord> {
   Widget build(BuildContext context) {
     final dataState = ref.watch(medicalRecordsStoreProvider);
 
-    // --- Grouping Logic ---
-    // Convert List<MedicalRecordRequest> to Map<int, List<MedicalRecordRequest>>
     final Map<int, List<MedicalRecordRequest>> groupedRecords = {};
     for (var record in dataState.records) {
       groupedRecords.putIfAbsent(record.patientId, () => []).add(record);
@@ -67,13 +62,13 @@ class _DoctorMedicalRecordState extends ConsumerState<DoctorMedicalRecord> {
     final patientIds = groupedRecords.keys.toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Medical Records'), centerTitle: true),
+      appBar: AppBar(title: Text(context.tr.medicalRecords), centerTitle: true),
       body: dataState.records.isEmpty
           ? MedicalRecordEmptyScreen(onCreate: handelOnPress)
           : Scaffold(
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: handelOnPress,
-                label: const Text('Create'),
+                label: Text(context.tr.create),
                 icon: const Icon(Icons.person_search),
               ),
               body: ListView.builder(
@@ -90,7 +85,6 @@ class _DoctorMedicalRecordState extends ConsumerState<DoctorMedicalRecord> {
                 },
               ),
             ),
-      // floatingActionButton: ,
     );
   }
 }
@@ -146,7 +140,6 @@ class MedicalRecordEmptyScreen extends StatelessWidget {
   }
 }
 
-/// A wrapper widget to show the Patient Header and their specific records
 class _PatientRecordGroup extends StatelessWidget {
   final int patientId;
   final List<MedicalRecordRequest> records;
@@ -158,7 +151,6 @@ class _PatientRecordGroup extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Patient Header
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
           child: Row(
@@ -166,7 +158,8 @@ class _PatientRecordGroup extends StatelessWidget {
               const Icon(Icons.person, size: 20, color: Colors.blueGrey),
               const SizedBox(width: 8),
               Text(
-                'Patient ID: $patientId',
+                context.tr.patientIdLabel(patientId),
+                // Placeholder for "Patient ID: {id}"
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -175,13 +168,13 @@ class _PatientRecordGroup extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                '${records.length} records',
+                context.tr.recordsCount(records.length),
+                // Placeholder for "{count} records"
                 style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ],
           ),
         ),
-        // List of specific records for this patient
         ...records.map((record) => _MedicalRecordCard(record: record)),
         const Divider(height: 32, thickness: 1),
       ],
@@ -221,11 +214,15 @@ class _MedicalRecordCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _infoRow(Icons.sick, 'Symptoms', record.symptoms),
+                _infoRow(Icons.sick, context.tr.symptoms, record.symptoms),
                 const Divider(),
-                _infoRow(Icons.medical_services, 'Treatment', record.treatment),
+                _infoRow(
+                  Icons.medical_services,
+                  context.tr.treatment,
+                  record.treatment,
+                ),
                 const Divider(),
-                _infoRow(Icons.note, 'Notes', record.notes),
+                _infoRow(Icons.note, context.tr.notes, record.notes),
               ],
             ),
           ),
@@ -280,11 +277,11 @@ class _SingleInputDialogState extends State<SingleInputDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Find Patient'),
+      title: Text(context.tr.findPatient),
       content: TextField(
         controller: _controller,
         decoration: InputDecoration(
-          labelText: 'Identifier',
+          labelText: context.tr.identifier,
           prefixIcon: const Icon(Icons.person),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         ),
@@ -292,7 +289,7 @@ class _SingleInputDialogState extends State<SingleInputDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(context.tr.cancel),
         ),
         ElevatedButton(
           onPressed: () {
@@ -300,7 +297,7 @@ class _SingleInputDialogState extends State<SingleInputDialog> {
               Navigator.pop(context, _controller.text);
             }
           },
-          child: const Text('Submit'),
+          child: Text(context.tr.submit),
         ),
       ],
     );

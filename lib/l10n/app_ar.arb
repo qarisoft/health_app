@@ -4,10 +4,7 @@
   "createPrescription": "إنشاء وصفة طبية",
   "savePrescription": "حفظ الوصفة الطبية",
   "expandCollapseAll": "توسيع/طي الكل",
-  "submit": "إرسال",
   "success": "تم بنجاح",
-  "diagnosis": "التشخيص",
-  "enterDiagnosisHint": "أدخل تشخيص المريض...",
   "formInvalid": "النموذج غير صالح",
   "serverError": "خطأ في الخادم",
   "prescriptionCreatedSuccess": "تم إنشاء الوصفة بنجاح",
@@ -15,21 +12,49 @@
   "newMedication": "دواء جديد",
   "expandAll": "توسيع الكل",
   "collapseAll": "طي الكل",
+
+
+  "medicalRecords": "السجلات الطبية",
+  "create": "إنشاء",
+  "noMedicalRecords": "لا توجد سجلات طبية",
+  "noMedicalRecordsDescription": "لا توجد سجلات في النظام. ابحث عن مريض للبدء.",
+  "createNewRecord": "إنشاء سجل جديد",
+  "identifier": "المعرف",
+  "submit": "إرسال",
+  "treatment": "العلاج",
+
+  "patientIdLabel": "رقم المريض: {id}",
+
+  "recordsCount": "{count, plural, =0{لا توجد سجلات} =1{سجل واحد} =2{سجلان} few{{count} سجلات} many{{count} سجلاً} other{{count} سجل}}",
+
+  "patientNotFound": "لم يتم العثور على المريض: {error}",
+  "stepProgress": "الخطوة {current} من {total}",
+  "diagnosis": "التشخيص",
+  "symptoms": "الأعراض",
+  "enterDiagnosisHint": "صف حالة المريض...",
+  "enterSymptomsHint": "ما هي الأعراض التي تظهر على المريض؟",
+  "enterTreatmentHint": "حدد خطة العلاج الموصى بها...",
+  "successCreateRecord": "تم إنشاء السجل الطبي بنجاح",
+  "errorCreateRecord": "خطأ: {msg}",
+
+
+
+
   "itemsCompleted0": "تم إكمال  من ",
   "itemsCompleted": "تم إكمال {completed} من {total}",
-    "@itemsCompleted": {
-      "description": "Shows progress of medication entries",
-      "placeholders": {
-        "completed": {
-          "type": "int",
-          "example": "2"
-        },
-        "total": {
-          "type": "int",
-          "example": "5"
-        }
+  "@itemsCompleted": {
+    "description": "Shows progress of medication entries",
+    "placeholders": {
+      "completed": {
+        "type": "int",
+        "example": "2"
+      },
+      "total": {
+        "type": "int",
+        "example": "5"
       }
-    },
+    }
+  },
   "drugName": "اسم الدواء",
   "quantity": "الكمية",
   "dosageHint": "مثل: ٥٠٠ ملجم",
@@ -1247,9 +1272,6 @@
   "noPrescriptions": "لا توجد وصفات طبية",
   "noPrescriptionsDescription": "يبدو أنك لم تقم بإضافة أي وصفات طبية بعد. ابدأ بإنشاء وصفتك الأولى.",
   "createNewPrescription": "إنشاء وصفة طبية جديدة",
-  "noMedicalRecords": "لا توجد سجلات طبية",
-  "noMedicalRecordsDescription": "يبدو أنك لم تقم بإضافة أي سجلات بعد. ابدأ بإنشاء ملفك الطبي الأول.",
-  "createNewRecord": "إنشاء سجل جديد",
   "serverDownMessage": "الخادم غير متوفر حالياً. يرجى التحقق من اتصالك أو المحاولة لاحقاً.",
   "connectionError": "حدث خطأ أثناء الاتصال. يرجى التحقق من الإنترنت.",
   "connecting": "جاري الاتصال بالخادم الآمن...",

@@ -104,6 +104,108 @@ abstract class AppLocalizations {
   /// **'Create Prescription'**
   String get createPrescription;
 
+  /// No description provided for @medicalRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Records'**
+  String get medicalRecords;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @noMedicalRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'No Medical Records'**
+  String get noMedicalRecords;
+
+  /// No description provided for @noMedicalRecordsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No records found in the system. Search for a patient to start.'**
+  String get noMedicalRecordsDescription;
+
+  /// No description provided for @createNewRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Record'**
+  String get createNewRecord;
+
+  /// No description provided for @identifier.
+  ///
+  /// In en, this message translates to:
+  /// **'Identifier'**
+  String get identifier;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @symptoms.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptoms'**
+  String get symptoms;
+
+  /// No description provided for @treatment.
+  ///
+  /// In en, this message translates to:
+  /// **'Treatment'**
+  String get treatment;
+
+  /// No description provided for @patientIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient ID: {id}'**
+  String patientIdLabel(int id);
+
+  /// No description provided for @recordsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No records} =1{1 record} other{{count} records}}'**
+  String recordsCount(int count);
+
+  /// No description provided for @patientNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient not found: {error}'**
+  String patientNotFound(String error);
+
+  /// No description provided for @stepProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String stepProgress(int current, int total);
+
+  /// No description provided for @enterSymptomsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What symptoms is the patient showing?'**
+  String get enterSymptomsHint;
+
+  /// No description provided for @enterTreatmentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Outline the recommended treatment plan...'**
+  String get enterTreatmentHint;
+
+  /// No description provided for @successCreateRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical record created successfully'**
+  String get successCreateRecord;
+
+  /// No description provided for @errorCreateRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {msg}'**
+  String errorCreateRecord(String msg);
+
   /// No description provided for @savePrescription.
   ///
   /// In en, this message translates to:
@@ -115,12 +217,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expand/Collapse All'**
   String get expandCollapseAll;
-
-  /// No description provided for @submit.
-  ///
-  /// In en, this message translates to:
-  /// **'Submit'**
-  String get submit;
 
   /// No description provided for @success.
   ///
@@ -2143,24 +2239,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create New Prescription'**
   String get createNewPrescription;
-
-  /// No description provided for @noMedicalRecords.
-  ///
-  /// In en, this message translates to:
-  /// **'No Medical Records'**
-  String get noMedicalRecords;
-
-  /// No description provided for @noMedicalRecordsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'It looks like you haven’t added any records yet. Start by creating your first medical profile.'**
-  String get noMedicalRecordsDescription;
-
-  /// No description provided for @createNewRecord.
-  ///
-  /// In en, this message translates to:
-  /// **'Create New Record'**
-  String get createNewRecord;
 
   /// No description provided for @serverDownMessage.
   ///

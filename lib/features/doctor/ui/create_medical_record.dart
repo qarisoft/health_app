@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/di.dart';
 import 'package:health_app/features/doctor/data/requests/medical_record.dart';
+import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/custom_text_field.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
-import 'package:health_app/shared/ex.dart';
+
+import '../../../core/error/app_error.dart';
+import '../data/providers/medical_records.dart';
 
 class CreateMedicalRecordDialog extends ConsumerStatefulWidget {
   const CreateMedicalRecordDialog({super.key, required this.patientId});
+
   final int patientId;
 
   @override
@@ -16,19 +21,16 @@ class CreateMedicalRecordDialog extends ConsumerStatefulWidget {
 
 class _CreateMedicalRecordDialogState
     extends ConsumerState<CreateMedicalRecordDialog> {
-  final TextEditingController diagnosisController = TextEditingController();
-  final TextEditingController notesController = TextEditingController();
-  final TextEditingController symptomsController = TextEditingController();
-  final TextEditingController treatmentController = TextEditingController();
+  final diagnosisController = TextEditingController();
+  final notesController = TextEditingController();
+  final symptomsController = TextEditingController();
+  final treatmentController = TextEditingController();
 
-  // Step tracking
   int _currentStep = 0;
-  final List<GlobalKey<FormState>> _formKeys = [
-    GlobalKey<FormState>(),
-    GlobalKey<FormState>(),
-    GlobalKey<FormState>(),
-    GlobalKey<FormState>(),
-  ];
+  final List<GlobalKey<FormState>> _formKeys = List.generate(
+    4,
+    (_) => GlobalKey<FormState>(),
+  );
 
   @override
   void dispose() {
@@ -39,215 +41,244 @@ class _CreateMedicalRecordDialogState
     super.dispose();
   }
 
+  void _nextStep() {
+    if (_formKeys[_currentStep].currentState!.validate()) {
+      if (_currentStep < 3) setState(() => _currentStep++);
+    }
+  }
+
+  void _previousStep() {
+    if (_currentStep > 0) setState(() => _currentStep--);
+  }
+
+  Future<void> _submitRecord() async {
+    if (!_formKeys[_currentStep].currentState!.validate()) return;
+
+    final record = MedicalRecordRequest(
+      patientId: widget.patientId,
+      diagnosis: diagnosisController.text,
+      notes: notesController.text,
+      symptoms: symptomsController.text,
+      treatment: treatmentController.text,
+      recordDate: DateTime.now(),
+    );
+
+    AppDialog().loading(message: context.tr.loading);
+    final res = await appRepo.addMedicalRecord(record.toJson());
+    AppDialog().dismiss();
+
+    res.when(
+      success: (s) {
+        ref.read(medicalRecordsStoreProvider.notifier).addMedicalRecord(record);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.tr.successCreateRecord),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.pop(context, true);
+      },
+      error: (er) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.tr.errorCreateRecord(er.msg)),
+            backgroundColor: Colors.red,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Step titles using localizations
     final List<String> stepTitles = [
-      context.tr.medicalRecord, // Using 'Medical Record' for Diagnosis step title if specific one doesn't exist
-      context.tr.medicalInformation, // Using 'Medical Information' for Symptoms
-      context.tr.treatmentDetails, // 'Treatment Plan' -> 'Treatment Details'
-      context.tr.additionalNotes, // 'Additional Notes'
+      context.tr.diagnosis,
+      context.tr.symptoms,
+      context.tr.treatmentDetails,
+      context.tr.additionalNotes,
     ];
 
-    return AlertDialog(
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${context.tr.createMedicalHistory} - ${context.tr.status} ${_currentStep + 1}/${stepTitles.length}',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            stepTitles[_currentStep],
-            style: TextStyle(
-              fontSize: 14,
-              color: Theme.of(context).primaryColor,
-              fontWeight: FontWeight.w500,
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 500),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // --- Header Section ---
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.tr.createMedicalHistory,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        context.tr.stepProgress(
+                          _currentStep + 1,
+                          stepTitles.length,
+                        ),
+                        style: TextStyle(
+                          color: Colors.blue[700],
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close, color: Colors.grey),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 8),
-          LinearProgressIndicator(
-            value: (_currentStep + 1) / stepTitles.length,
-            backgroundColor: Colors.grey[200],
-            color: Theme.of(context).primaryColor,
-          ),
-        ],
+            const SizedBox(height: 16),
+            LinearProgressIndicator(
+              value: (_currentStep + 1) / stepTitles.length,
+              backgroundColor: Colors.blue[50],
+              borderRadius: BorderRadius.circular(10),
+              minHeight: 6,
+            ),
+            const SizedBox(height: 24),
+
+            // --- Animated Content ---
+            Flexible(
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: KeyedSubtree(
+                  key: ValueKey(_currentStep),
+                  child: SingleChildScrollView(child: _buildStepContent()),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 32),
+
+            // --- Action Buttons ---
+            Row(
+              children: [
+                if (_currentStep > 0)
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: _previousStep,
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(context.tr.previous),
+                    ),
+                  ),
+                if (_currentStep > 0) const SizedBox(width: 12),
+                Expanded(
+                  flex: 2,
+                  child: ElevatedButton(
+                    onPressed: _currentStep < stepTitles.length - 1
+                        ? _nextStep
+                        : _submitRecord,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[700],
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      _currentStep < stepTitles.length - 1
+                          ? context.tr.next
+                          : context.tr.confirm,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-      content: SizedBox(width: double.maxFinite, child: _buildStepContent()),
-      actions: _buildActions(stepTitles.length),
-      scrollable: true,
     );
   }
 
   Widget _buildStepContent() {
     switch (_currentStep) {
-      case 0: // Diagnosis
-        return Form(
-          key: _formKeys[0],
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomTextField(
-                controller: diagnosisController,
-                labelText: context.tr.medicalRecord,
-                hintText: context.tr.enterNotes,
-                maxLines: 3,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return context.tr.requiredField;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 8),
-              Text(
-                context.tr.medicalInformation,
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-              ),
-            ],
-          ),
+      case 0:
+        return _stepWrapper(
+          0,
+          context.tr.diagnosis,
+          diagnosisController,
+          context.tr.enterDiagnosisHint,
+          isRequired: true,
         );
-
-      case 1: // Symptoms
-        return Form(
-          key: _formKeys[1],
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomTextField(
-                controller: symptomsController,
-                labelText: context.tr.medicalInformation,
-                hintText: context.tr.enterNotes,
-                maxLines: 4,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return context.tr.requiredField;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 8),
-              Text(
-                context.tr.medicalInformation,
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-              ),
-            ],
-          ),
+      case 1:
+        return _stepWrapper(
+          1,
+          context.tr.symptoms,
+          symptomsController,
+          context.tr.enterSymptomsHint,
+          isRequired: true,
         );
-
-      case 2: // Treatment Plan
-        return Form(
-          key: _formKeys[2],
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomTextField(
-                controller: treatmentController,
-                labelText: context.tr.treatmentDetails,
-                hintText: context.tr.enterNotes,
-                maxLines: 4,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return context.tr.requiredField;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 8),
-              Text(
-                context.tr.treatmentDetails,
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-              ),
-            ],
-          ),
+      case 2:
+        return _stepWrapper(
+          2,
+          context.tr.treatmentDetails,
+          treatmentController,
+          context.tr.enterTreatmentHint,
+          isRequired: true,
         );
-
-      case 3: // Additional Notes
-        return Form(
-          key: _formKeys[3],
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomTextField(
-                controller: notesController,
-                labelText: context.tr.additionalNotes,
-                hintText: context.tr.additionalNotesHint,
-                maxLines: 4,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                context.tr.additionalNotes,
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-              ),
-            ],
-          ),
+      case 3:
+        return _stepWrapper(
+          3,
+          context.tr.additionalNotes,
+          notesController,
+          context.tr.additionalNotesHint,
         );
-
       default:
-        return Container();
+        return const SizedBox.shrink();
     }
   }
 
-  List<Widget> _buildActions(int totalSteps) {
-    return [
-      // Cancel button
-      TextButton(
-        onPressed: () => Navigator.pop(context),
-        child: Text(context.tr.cancel),
+  Widget _stepWrapper(
+    int stepIdx,
+    String label,
+    TextEditingController controller,
+    String hint, {
+    bool isRequired = false,
+  }) {
+    return Form(
+      key: _formKeys[stepIdx],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+          CustomTextField(
+            controller: controller,
+            hintText: hint,
+            maxLines: 5,
+            validator: isRequired
+                ? (value) => (value == null || value.isEmpty)
+                      ? context.tr.requiredField
+                      : null
+                : null,
+            labelText: '',
+          ),
+        ],
       ),
-
-      // Previous button (show only if not on first step)
-      if (_currentStep > 0)
-        TextButton(onPressed: _previousStep, child: Text(context.tr.previous)),
-
-      // Next/Submit button
-      ElevatedButton(
-        onPressed: _currentStep < totalSteps - 1
-            ? _nextStep
-            : _submitRecord,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-        child: Text(
-          _currentStep < totalSteps - 1 ? context.tr.next : context.tr.confirm,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ),
-    ];
-  }
-
-  void _nextStep() {
-    if (_formKeys[_currentStep].currentState!.validate()) {
-      setState(() {
-        if (_currentStep < 3) {
-          _currentStep++;
-        }
-      });
-    }
-  }
-
-  void _previousStep() {
-    setState(() {
-      if (_currentStep > 0) {
-        _currentStep--;
-      }
-    });
-  }
-
-  Future<void> _submitRecord() async {
-    if (_formKeys[_currentStep].currentState!.validate()) {
-      final record = MedicalRecordRequest(
-        patientId: widget.patientId,
-        diagnosis: diagnosisController.text,
-        notes: notesController.text,
-        symptoms: symptomsController.text,
-        treatment: treatmentController.text,
-        recordDate: DateTime.now(),
-      );
-
-      AppDialog().loading(message: context.tr.loading);
-      // TODO: Submit record logic
-    }
+    );
   }
 }

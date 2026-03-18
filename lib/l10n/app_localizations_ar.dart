@@ -12,13 +12,82 @@ class AppLocalizationsAr extends AppLocalizations {
   String get createPrescription => 'إنشاء وصفة طبية';
 
   @override
+  String get medicalRecords => 'السجلات الطبية';
+
+  @override
+  String get create => 'إنشاء';
+
+  @override
+  String get noMedicalRecords => 'لا توجد سجلات طبية';
+
+  @override
+  String get noMedicalRecordsDescription =>
+      'لا توجد سجلات في النظام. ابحث عن مريض للبدء.';
+
+  @override
+  String get createNewRecord => 'إنشاء سجل جديد';
+
+  @override
+  String get identifier => 'المعرف';
+
+  @override
+  String get submit => 'إرسال';
+
+  @override
+  String get symptoms => 'الأعراض';
+
+  @override
+  String get treatment => 'العلاج';
+
+  @override
+  String patientIdLabel(int id) {
+    return 'رقم المريض: $id';
+  }
+
+  @override
+  String recordsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count سجل',
+      many: '$count سجلاً',
+      few: '$count سجلات',
+      two: 'سجلان',
+      one: 'سجل واحد',
+      zero: 'لا توجد سجلات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String patientNotFound(String error) {
+    return 'لم يتم العثور على المريض: $error';
+  }
+
+  @override
+  String stepProgress(int current, int total) {
+    return 'الخطوة $current من $total';
+  }
+
+  @override
+  String get enterSymptomsHint => 'ما هي الأعراض التي تظهر على المريض؟';
+
+  @override
+  String get enterTreatmentHint => 'حدد خطة العلاج الموصى بها...';
+
+  @override
+  String get successCreateRecord => 'تم إنشاء السجل الطبي بنجاح';
+
+  @override
+  String errorCreateRecord(String msg) {
+    return 'خطأ: $msg';
+  }
+
+  @override
   String get savePrescription => 'حفظ الوصفة الطبية';
 
   @override
   String get expandCollapseAll => 'توسيع/طي الكل';
-
-  @override
-  String get submit => 'إرسال';
 
   @override
   String get success => 'تم بنجاح';
@@ -27,7 +96,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get diagnosis => 'التشخيص';
 
   @override
-  String get enterDiagnosisHint => 'أدخل تشخيص المريض...';
+  String get enterDiagnosisHint => 'صف حالة المريض...';
 
   @override
   String get formInvalid => 'النموذج غير صالح';
@@ -1039,16 +1108,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get createNewPrescription => 'إنشاء وصفة طبية جديدة';
-
-  @override
-  String get noMedicalRecords => 'لا توجد سجلات طبية';
-
-  @override
-  String get noMedicalRecordsDescription =>
-      'يبدو أنك لم تقم بإضافة أي سجلات بعد. ابدأ بإنشاء ملفك الطبي الأول.';
-
-  @override
-  String get createNewRecord => 'إنشاء سجل جديد';
 
   @override
   String get serverDownMessage =>

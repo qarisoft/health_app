@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
           const DoctorHome(),
           const DoctorMedicalRecord(),
           const PrescreptionsPage(),
-          DoctorProfilePage(), // Use a proper constructor
+          DoctorProfileScreen(), // Use a proper constructor
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

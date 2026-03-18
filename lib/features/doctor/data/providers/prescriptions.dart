@@ -31,7 +31,7 @@ class PrescriptionsStore extends _$PrescriptionsStore {
     );
 
     await di<AppStorage>().setString(
-      'PrescriptionsList',
+      PrescriptionsList_KEY,
       jsonEncode(newState.toJson()),
     );
     ref.invalidateSelf();
