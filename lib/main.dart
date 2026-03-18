@@ -102,7 +102,7 @@ class SplashPage extends ConsumerWidget {
           lottieAsset: AppAssets.error,
           message: 'please enter the api url',
           // onRetryText: 'enter api url',
-          onRetry: () => onChangeTheUrl(context),
+          onRetry: () => ref.read(serverHealthProvider.notifier).checkHealth(),
         );
       },
     );
