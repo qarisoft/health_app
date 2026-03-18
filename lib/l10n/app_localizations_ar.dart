@@ -1122,4 +1122,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get patientCode => 'الكود';
+
+  @override
+  String get newPassword => 'كلمة السر الجديدة';
+
+  @override
+  String get oldPassword => 'كلمة السر القديمة';
+
+  @override
+  String get changePassword => 'تغير كلمة السر';
 }

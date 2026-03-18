@@ -332,7 +332,7 @@ class PProfile extends _$PProfile {
         );
         await di<AppStorage>().setPatientAccount(patientAccount);
         ref.invalidate(authRecordStateProvider);
-        ref.invalidate(accountProvider);
+        ref.read(accountProvider.notifier).updateAccountAsPatientAccount();
         ref.invalidate(allAcountsProvider);
       }
       // di<AppStorage>().set

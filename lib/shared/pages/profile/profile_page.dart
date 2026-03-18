@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/shared/ex.dart' show AppEx, LogOutExt;
+import 'package:health_app/shared/pages/profile/change_password.dart';
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/providers/theme/theme_provider.dart';
 import 'package:iconsax/iconsax.dart';
@@ -168,9 +169,14 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
               children: [
                 _buildListTile(
                   icon: Iconsax.security,
-                  title: context.tr.privacyAndSecurity,
+                  title: context.tr.changePassword,
                   textColor: textColor,
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (c) => ChangePasswordPage(),
+                    );
+                  },
                 ),
                 _buildDivider(),
                 _buildListTile(

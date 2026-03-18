@@ -59,8 +59,6 @@
       }
     }
   },
-
-
   "savePrescription": "Save Prescription",
   "expandCollapseAll": "Expand/Collapse All",
   "success": "Success",
@@ -1100,5 +1098,8 @@
   "serverDownMessage": "The server is currently unreachable. Please check your connection or try again later.",
   "connectionError": "An error occurred while connecting. Please check your internet.",
   "connecting": "Connecting to secure server...",
-  "patientCode":"Patient Code"
+  "patientCode": "Patient Code",
+  "newPassword": "New Password",
+  "oldPassword": "Old Password",
+  "changePassword": "Change Password"
 }

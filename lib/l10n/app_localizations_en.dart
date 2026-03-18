@@ -1122,4 +1122,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get patientCode => 'Patient Code';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get oldPassword => 'Old Password';
+
+  @override
+  String get changePassword => 'Change Password';
 }
