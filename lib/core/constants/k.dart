@@ -59,7 +59,7 @@ enum UserType {
   }
 }
 
-const api = '192.168.1.101';
+const api = '192.168.43.183';
 // const api = '192.168.1.102';
 
 class K {

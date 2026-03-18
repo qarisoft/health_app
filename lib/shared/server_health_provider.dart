@@ -1,18 +1,27 @@
-import 'package:health_app/di.dart';
+// import 'package:health_app/di.dart';
+import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../di.dart' show di;
 import 'api/dio_factory.dart'; // Ensure this points to where your 'di' is located
 
 part 'server_health_provider.g.dart';
 
-@Riverpod(
-  keepAlive: true,
-) // keepAlive: true ensures this state lives as long as the app runs
+// @riverpod
+// Future<bool> serverHealth(Ref ref) async {
+//   final dioFactory = di<DioFactory>();
+//   return await dioFactory.isServerAlive();
+//   // return ;
+// }
+
+@riverpod
 class ServerHealth extends _$ServerHealth {
   @override
   FutureOr<bool> build() async {
     // Perform an initial check when the app starts
-    return await _pingServer();
+    ref.cacheTheState(forever: true);
+    final a = await _pingServer();
+    return a;
   }
 
   Future<bool> _pingServer() async {

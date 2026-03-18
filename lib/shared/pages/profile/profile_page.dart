@@ -168,13 +168,15 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
               textColor: textColor,
               children: [
                 _buildListTile(
-                  icon: Iconsax.security,
+                  icon: Iconsax.lock,
                   title: context.tr.changePassword,
-                  textColor: textColor,
+                  textColor: Colors.red,
+                  iconColor: Colors.red,
+
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (c) => ChangePasswordPage(),
+                      builder: (c) => ChangePasswordDialog(),
                     );
                   },
                 ),
@@ -183,7 +185,9 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                   icon: Iconsax.info_circle,
                   title: context.tr.aboutApp,
                   textColor: textColor,
-                  onTap: () {},
+                  onTap: () {
+                    showAboutDialog(context: context);
+                  },
                 ),
               ],
             ),
@@ -439,6 +443,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
     required String title,
     String? subtitle,
     required Color textColor,
+    Color? iconColor,
     required VoidCallback onTap,
   }) {
     return ListTile(
@@ -449,7 +454,7 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
           color: Colors.blue.withOpacity(0.1),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(icon, color: Colors.blue, size: 20),
+        child: Icon(icon, color: iconColor ?? Colors.blue, size: 20),
       ),
       title: Text(
         title,
@@ -461,7 +466,11 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
               style: const TextStyle(fontSize: 12, color: Colors.grey),
             )
           : null,
-      trailing: const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+      trailing: Icon(
+        Icons.chevron_right,
+        color: iconColor ?? Colors.grey,
+        size: 20,
+      ),
       onTap: onTap,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     );

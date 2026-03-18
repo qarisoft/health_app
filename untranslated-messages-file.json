@@ -1,19 +1,17 @@
 {
   "ar": [
     "enterPassword",
-    "passwordTooShort",
-    "passwordsDoNotMatch",
-    "pleaseSelectUserType",
-    "pleaseEnterName",
-    "pleaseEnterEmail",
-    "pleaseEnterPhoneNumber",
+    "errorPickingFile",
+    "inactivePrescriptions",
     "invalidDate",
     "licenseNumber",
-    "pleaseEnterLicenseNumber",
-    "pleaseEnterSpecialization",
     "pharmacyName",
+    "pleaseEnterEmail",
+    "pleaseEnterLicenseNumber",
+    "pleaseEnterName",
     "pleaseEnterPharmacyName",
-    "errorPickingFile",
-    "inactivePrescriptions"
+    "pleaseEnterPhoneNumber",
+    "pleaseEnterSpecialization",
+    "pleaseSelectUserType"
   ]
 }

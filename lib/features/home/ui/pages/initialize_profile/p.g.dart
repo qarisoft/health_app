@@ -45,7 +45,7 @@ final class PProfileProvider
   }
 }
 
-String _$pProfileHash() => r'fa6eb14140ca06fb9d454050938589258f28ad36';
+String _$pProfileHash() => r'f53bd0f8a9e3a2a00cbd9867fe3698b4abf3fc09';
 
 abstract class _$PProfile extends $Notifier<PatientProfileState> {
   PatientProfileState build();

@@ -1,28 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:health_app/di.dart';
-import 'package:health_app/features/auth/data/responses/user/user_response.dart';
 import 'package:health_app/shared/ex.dart';
-import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/widgets/custom_text_field.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
-class ChangePasswordPage extends ConsumerStatefulWidget {
-  const ChangePasswordPage({super.key});
+import 'data/change_password_provider.dart';
+
+class ChangePasswordDialog extends ConsumerStatefulWidget {
+  const ChangePasswordDialog({super.key});
 
   @override
-  ConsumerState createState() => _ChangePasswordPageState();
+  ConsumerState createState() => _ChangePasswordDialogState();
 }
 
-class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
-  final TextEditingController _currentPassword = TextEditingController();
-  final TextEditingController _newPassword = TextEditingController();
-  final TextEditingController _confirmPassword = TextEditingController();
-  final _key = GlobalKey<FormState>();
+class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
+  final formKey = GlobalKey<FormState>();
+  final currentPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
-  String? _passwordValidator(String? s) {
-    if (s == null || s.isEmpty) return context.tr.enterPassword;
-    if (s != _newPassword.text || s != _confirmPassword.text) {
+  @override
+  void dispose() {
+    currentPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> onSubmit() async {
+    if (!formKey.currentState!.validate()) return;
+
+    // Using the Riverpod generator provider from the previous step
+    final success = await ref
+        .read(changePasswordProvider.notifier)
+        .submit(
+          currentPassword: currentPasswordController.text,
+          newPassword: newPasswordController.text,
+          confirmPassword: confirmPasswordController.text,
+        );
+
+    if (!mounted) return;
+
+    if (success) {
+      AppDialog()
+          .show(
+            type: DialogType.success,
+            title: context.tr.success,
+            message: context.tr.passwordChangedSuccessfully,
+          )
+          .then((_) => context.mayPop());
+    } else {
+      final error = ref.read(changePasswordProvider).error;
+      AppDialog().show(
+        type: DialogType.error,
+        title: context.tr.error,
+        message: error?.toString() ?? context.tr.somethingWentWrong,
+      );
+    }
+  }
+
+  String? passwordValidator(String? v) {
+    if (v == null || v.length < 8) {
+      return context.tr.passwordTooShort;
+    }
+
+    return null;
+  }
+
+  String? passwordConfirmValidator(String? v) {
+    if (v != newPasswordController.text ||
+        v != confirmPasswordController.text) {
       return context.tr.passwordsDoNotMatch;
     }
     return null;
@@ -30,95 +77,158 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AlertDialog(
-          title: Text('change Password '),
+    return _DialogContent(
+      formKey: formKey,
+      currentPasswordController: currentPasswordController,
+      newPasswordController: newPasswordController,
+      confirmPasswordController: confirmPasswordController,
+      onSubmit: onSubmit,
+      passwordValidator: passwordValidator,
+      passwordConfirmValidator: passwordConfirmValidator,
+    );
+  }
+}
 
-          content: Form(
-            key: _key,
+class _DialogContent extends ConsumerWidget {
+  const _DialogContent({
+    super.key,
+    required this.formKey,
+    required this.currentPasswordController,
+    required this.newPasswordController,
+    required this.confirmPasswordController,
+    required this.onSubmit,
+    required this.passwordValidator,
+    required this.passwordConfirmValidator,
+  });
+
+  final GlobalKey<FormState> formKey;
+  final TextEditingController currentPasswordController;
+  final TextEditingController newPasswordController;
+  final TextEditingController confirmPasswordController;
+
+  final Function() onSubmit;
+  final String? Function(String?) passwordValidator;
+  final String? Function(String?) passwordConfirmValidator;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(changePasswordProvider);
+
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
+      elevation: 8,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: formKey,
             child: Column(
-              spacing: 10,
+              mainAxisSize: MainAxisSize.min, // Keeps dialog compact
               children: [
-                CustomTextField(
-                  controller: _currentPassword,
-                  labelText: context.tr.oldPassword,
-                  validator: notEmptyValidator,
-                  obscureText: true,
-                  showPasswordToggle: true,
+                // --- Header Icon & Title ---
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.lock_reset_rounded,
+                    size: 40,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
+                const SizedBox(height: 16),
+                Text(
+                  context.tr.changePassword,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  context.tr.changePasswordInstruction,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade600),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
 
-                CustomTextField(
-                  controller: _newPassword,
-                  labelText: context.tr.newPassword,
-                  validator: _passwordValidator,
-                  obscureText: true,
-                  showPasswordToggle: true,
+                // --- Form Fields ---
+                Column(
+                  spacing: 16, // Requires Flutter 3.24+
+                  children: [
+                    CustomTextField(
+                      isCompact: true,
+                      controller: currentPasswordController,
+                      labelText: context.tr.oldPassword,
+                      obscureText: true,
+                      showPasswordToggle: true,
+                      validator: (v) =>
+                          v!.isEmpty ? context.tr.fieldRequired : null,
+                    ),
+                    CustomTextField(
+                      isCompact: true,
+                      controller: newPasswordController,
+                      labelText: context.tr.newPassword,
+                      obscureText: true,
+                      showPasswordToggle: true,
+                      validator: passwordValidator,
+                    ),
+                    CustomTextField(
+                      isCompact: true,
+                      controller: confirmPasswordController,
+                      labelText: context.tr.confirmPassword,
+                      obscureText: true,
+                      showPasswordToggle: true,
+                      validator: passwordConfirmValidator,
+                    ),
+                  ],
                 ),
-                CustomTextField(
-                  controller: _confirmPassword,
-                  labelText: context.tr.passwordConfirmation,
-                  validator: _passwordValidator,
-                  obscureText: true,
-                  showPasswordToggle: true,
+                const SizedBox(height: 32),
+
+                // --- Action Buttons ---
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: authState.isLoading ? null : onSubmit,
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: authState.isLoading
+                        ? const CircularProgressIndicator.adaptive()
+                        : Text(
+                            context.tr.updatePassword,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: authState.isLoading
+                        ? null
+                        : () => context.mayPop(),
+                    child: Text(
+                      context.tr.cancel,
+                      style: TextStyle(color: Colors.grey.shade700),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          actions: [
-            ElevatedButton(onPressed: _submit, child: Text(context.tr.confirm)),
-            SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: TextButton(
-                onPressed: context.mayPop,
-                child: Text(context.tr.cancel),
-              ),
-            ),
-          ],
         ),
-      ],
+      ),
     );
-  }
-
-  Future<bool> _goBack() => context.mayPop();
-
-  Future<void> _submit() async {
-    if (_key.currentState!.validate()) {
-      AppDialog().loading();
-      final res = await getDio.post(
-        '/auth/change-password',
-        data: {
-          'currentPassword': _currentPassword.text,
-          'newPassword': _newPassword.text,
-          'confirmNewPassword': _confirmPassword.text,
-        },
-      );
-      AppDialog().dismiss();
-      final response = GeneralResponse.fromJson(res.data);
-      if (response.wasSuccesfull) {
-        AppDialog()
-            .show(
-              type: DialogType.success,
-              title: 'Success',
-              message: response.message,
-            )
-            .whenComplete(() {
-              _confirmPassword.clear();
-              _currentPassword.clear();
-              _newPassword.clear();
-              _goBack();
-            });
-      } else {
-        AppDialog().show(
-          type: DialogType.error,
-          title: 'Error',
-          message: response.message,
-        );
-      }
-
-      xlog(res);
-    }
   }
 }

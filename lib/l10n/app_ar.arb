@@ -1,38 +1,333 @@
 {
-  "@@locale": "ar",
   "@@context": "General application strings",
-  "createPrescription": "إنشاء وصفة طبية",
-  "savePrescription": "حفظ الوصفة الطبية",
-  "expandCollapseAll": "توسيع/طي الكل",
-  "success": "تم بنجاح",
-  "formInvalid": "النموذج غير صالح",
-  "serverError": "خطأ في الخادم",
-  "prescriptionCreatedSuccess": "تم إنشاء الوصفة بنجاح",
-  "addNewMedication": "إضافة دواء جديد",
-  "newMedication": "دواء جديد",
-  "expandAll": "توسيع الكل",
-  "collapseAll": "طي الكل",
-  "medicalRecords": "السجلات الطبية",
-  "create": "إنشاء",
-  "noMedicalRecords": "لا توجد سجلات طبية",
-  "noMedicalRecordsDescription": "لا توجد سجلات في النظام. ابحث عن مريض للبدء.",
-  "createNewRecord": "إنشاء سجل جديد",
-  "identifier": "المعرف",
-  "submit": "إرسال",
-  "treatment": "العلاج",
-  "patientIdLabel": "رقم المريض: {id}",
-  "recordsCount": "{count, plural, =0{لا توجد سجلات} =1{سجل واحد} =2{سجلان} few{{count} سجلات} many{{count} سجلاً} other{{count} سجل}}",
-  "patientNotFound": "لم يتم العثور على المريض: {error}",
-  "stepProgress": "الخطوة {current} من {total}",
-  "diagnosis": "التشخيص",
-  "symptoms": "الأعراض",
-  "enterDiagnosisHint": "صف حالة المريض...",
-  "enterSymptomsHint": "ما هي الأعراض التي تظهر على المريض؟",
-  "enterTreatmentHint": "حدد خطة العلاج الموصى بها...",
-  "successCreateRecord": "تم إنشاء السجل الطبي بنجاح",
-  "errorCreateRecord": "خطأ: {msg}",
-  "itemsCompleted0": "تم إكمال  من ",
-  "itemsCompleted": "تم إكمال {completed} من {total}",
+  "@@locale": "ar",
+  "@actions": {
+    "description": "عنوان عمود الإجراءات في الجداول"
+  },
+  "@active": {
+    "description": "قيمة الحالة النشطة للمريض"
+  },
+  "@activeOnly": {
+    "description": "خيار عرض المرضى النشطين فقط"
+  },
+  "@activePatients": {
+    "description": "عنوان إحصائيات المرضى النشطين"
+  },
+  "@add": {
+    "description": "نص زر الإضافة في النماذج"
+  },
+  "@addCondition": {
+    "description": "Button text to add new medical condition"
+  },
+  "@addHospitalization": {
+    "description": "Button text to add new hospitalization record"
+  },
+  "@addNewPatient": {
+    "description": "نص زر الإجراء السريع لإضافة مريض"
+  },
+  "@addPatient": {
+    "description": "نص زر إضافة مريض جديد"
+  },
+  "@addSurgery": {
+    "description": "Button text to add new surgery record"
+  },
+  "@addVaccination": {
+    "description": "Button text to add new vaccination record"
+  },
+  "@additionalInformation": {
+    "description": "Section title for additional information in forms"
+  },
+  "@additionalNotes": {
+    "description": "Section title for extra notes"
+  },
+  "@additionalNotesHint": {
+    "description": "Hint text for additional notes input"
+  },
+  "@address": {
+    "description": "Label for residential address field"
+  },
+  "@admin": {
+    "description": "خيار نوع المستخدم للمديرين"
+  },
+  "@administeringFacility": {
+    "description": "Label for vaccine administering facility field"
+  },
+  "@admissionDate": {
+    "description": "Label for hospital admission date field"
+  },
+  "@age": {
+    "description": "Label for calculated age field"
+  },
+  "@alcoholFrequency": {
+    "description": "Label for alcohol consumption frequency field"
+  },
+  "@allStatus": {
+    "description": "خيار عرض جميع الحالات"
+  },
+  "@allergies": {
+    "description": "Label for allergies field"
+  },
+  "@allergiesHint": {
+    "description": "Hint text for allergies input"
+  },
+  "@appTitle": {
+    "description": "Main application title displayed in app bar and splash screen"
+  },
+  "@apply": {
+    "description": "نص زر تطبيق التصفية"
+  },
+  "@appointments": {
+    "description": "عنوان قائمة التنقل للمواعيد"
+  },
+  "@ascending": {
+    "description": "خيار الترتيب التصاعدي"
+  },
+  "@attachments": {
+    "description": "تسمية قسم المرفقات والصور"
+  },
+  "@biometricAuth": {
+    "description": "Title for biometric authentication section"
+  },
+  "@bloodType": {
+    "description": "Label for blood type field"
+  },
+  "@bloodTypeA": {
+    "description": "فصيلة الدم أ"
+  },
+  "@bloodTypeAB": {
+    "description": "فصيلة الدم AB"
+  },
+  "@bloodTypeB": {
+    "description": "فصيلة الدم ب"
+  },
+  "@bloodTypeO": {
+    "description": "فصيلة الدم O"
+  },
+  "@bmi": {
+    "description": "Label for Body Mass Index field"
+  },
+  "@byDate": {
+    "description": "خيار الترتيب حسب التاريخ"
+  },
+  "@byName": {
+    "description": "خيار الترتيب حسب الاسم"
+  },
+  "@byStatus": {
+    "description": "خيار الترتيب حسب الحالة"
+  },
+  "@cancel": {
+    "description": "Button text to cancel an action"
+  },
+  "@cancelled": {
+    "description": "حالة الموعد الملغى"
+  },
+  "@chronicConditions": {
+    "description": "Label for chronic medical conditions field"
+  },
+  "@chronicConditionsHint": {
+    "description": "Hint text for chronic conditions input"
+  },
+  "@chronicDiseases": {
+    "description": "Alternative label for chronic conditions"
+  },
+  "@chronicDiseasesHint": {
+    "description": "Hint text for chronic diseases input"
+  },
+  "@cigarettesPerDay": {
+    "description": "Label for daily cigarette consumption field"
+  },
+  "@clearSearch": {
+    "description": "نص زر مسح نص البحث"
+  },
+  "@completed": {
+    "description": "حالة الموعد المكتمل"
+  },
+  "@complications": {
+    "description": "Label for surgery complications field"
+  },
+  "@confirm": {
+    "description": "Button text to confirm an action"
+  },
+  "@confirmDelete": {
+    "description": "عنوان نافذة تأكيد الحذف"
+  },
+  "@confirmVisit": {
+    "description": "Button text to confirm a doctor visit"
+  },
+  "@contactInformation": {
+    "description": "Section title for contact details"
+  },
+  "@createAccount": {
+    "description": "Title for account creation page"
+  },
+  "@createMedicalHistory": {
+    "description": "Button text to create new medical history"
+  },
+  "@createdAt": {
+    "description": "Label for creation timestamp"
+  },
+  "@currentMedications": {
+    "description": "Label for current medications field"
+  },
+  "@currentMedicationsHint": {
+    "description": "Hint text for current medications input"
+  },
+  "@currentTherapist": {
+    "description": "Label for current therapist name field"
+  },
+  "@customRange": {
+    "description": "خيار مدى تاريخ مخصص"
+  },
+  "@dashboard": {
+    "description": "عنوان قائمة التنقل للوحة التحكم"
+  },
+  "@dateAdministered": {
+    "description": "Label for vaccine administration date field"
+  },
+  "@dateOfBirth": {
+    "description": "Label for birth date field"
+  },
+  "@delete": {
+    "description": "Button text to delete an item"
+  },
+  "@deletePatientMessage": {
+    "description": "رسالة تأكيد قبل حذف المريض"
+  },
+  "@descending": {
+    "description": "خيار الترتيب التنازلي"
+  },
+  "@dietaryPreferences": {
+    "description": "Label for dietary preferences field"
+  },
+  "@dischargeDate": {
+    "description": "Label for hospital discharge date field"
+  },
+  "@doctor": {
+    "description": "خيار نوع المستخدم للأطباء"
+  },
+  "@done": {
+    "description": "نص زر الإكمال في النوافذ المنبثقة"
+  },
+  "@edit": {
+    "description": "Button text to edit information"
+  },
+  "@editMedicalHistory": {
+    "description": "Button/text for editing medical history"
+  },
+  "@editPatient": {
+    "description": "عنوان نافذة تعديل بيانات المريض"
+  },
+  "@email": {
+    "description": "Label for email address field"
+  },
+  "@emergencyContact": {
+    "description": "تسمية قسم جهة الاتصال في حالات الطوارئ"
+  },
+  "@emergencyContactName": {
+    "description": "Label for emergency contact person's name"
+  },
+  "@emergencyContactPhone": {
+    "description": "Label for emergency contact phone number"
+  },
+  "@emergencyContactRelationship": {
+    "description": "Label for relationship to emergency contact"
+  },
+  "@enterNotes": {
+    "description": "نص تلميح لحقل إدخال الملاحظات"
+  },
+  "@exerciseFrequency": {
+    "description": "Label for exercise frequency field"
+  },
+  "@expirationDate": {
+    "description": "Label for vaccine expiration date field"
+  },
+  "@exportData": {
+    "description": "نص زر تصدير بيانات المريض"
+  },
+  "@familyHistory": {
+    "description": "Alternative label for family medical history"
+  },
+  "@familyHistoryHint": {
+    "description": "Hint text for family history input"
+  },
+  "@familyMedicalHistory": {
+    "description": "Section title for family medical background"
+  },
+  "@female": {
+    "description": "Gender option for female"
+  },
+  "@filter": {
+    "description": "نص زر التصفية"
+  },
+  "@forgotPassword": {
+    "description": "Link text for password recovery"
+  },
+  "@from": {
+    "description": "تسمية حقل التاريخ من"
+  },
+  "@gender": {
+    "description": "Label for gender selection field"
+  },
+  "@height": {
+    "description": "Label for height measurement field"
+  },
+  "@heightUnit": {
+    "description": "Unit of measurement for height (centimeters)"
+  },
+  "@home": {
+    "description": "عنوان صفحة الرئيسية وقائمة التنقل"
+  },
+  "@hospitalName": {
+    "description": "Label for hospital name field"
+  },
+  "@hospitalization": {
+    "description": "Generic label for hospital stay"
+  },
+  "@hospitalizationReason": {
+    "description": "Label for hospitalization reason field"
+  },
+  "@idCardNumber": {
+    "description": "Label for ID card number input field"
+  },
+  "@inactive": {
+    "description": "قيمة الحالة غير النشطة للمريض"
+  },
+  "@inactiveOnly": {
+    "description": "خيار عرض المرضى غير النشطين فقط"
+  },
+  "@inactivePatients": {
+    "description": "عنوان إحصائيات المرضى غير النشطين"
+  },
+  "@insuranceInfo": {
+    "description": "تسمية قسم معلومات التأمين"
+  },
+  "@invalidCredentials": {
+    "description": "Error message for incorrect login credentials"
+  },
+  "@invalidEmail": {
+    "description": "رسالة خطأ لبريد إلكتروني غير صحيح"
+  },
+  "@invalidHeight": {
+    "description": "Validation error for invalid height input"
+  },
+  "@invalidNationalId": {
+    "description": "رسالة خطأ لرقم هوية غير صحيح"
+  },
+  "@invalidPhone": {
+    "description": "Validation error for invalid phone number"
+  },
+  "@invalidWeight": {
+    "description": "Validation error for invalid weight input"
+  },
+  "@isAlcoholConsumer": {
+    "description": "Label for alcohol consumption status toggle"
+  },
+  "@isPregnant": {
+    "description": "Label for pregnancy status toggle"
+  },
+  "@isSmoker": {
+    "description": "Label for smoking status toggle"
+  },
   "@itemsCompleted": {
     "description": "Shows progress of medication entries",
     "placeholders": {
@@ -46,172 +341,219 @@
       }
     }
   },
-  "drugName": "اسم الدواء",
-  "quantity": "الكمية",
-  "dosageHint": "مثل: ٥٠٠ ملجم",
-  "frequencyHint": "مثل: مرتين يومياً",
-  "durationHint": "مثل: ٧ أيام",
-  "specialInstructions": "تعليمات خاصة (اختياري)",
-  "incompleteTapToEdit": "غير مكتمل • اضغط للتعديل",
-  "emptyTapToAdd": "فارغ • اضغط لإضافة تفاصيل",
-  "loginAsPatient": "تسجيل الدخول كمريض",
-  "specialization": "التخصص",
-  "notSpecified": "غير محدد",
-  "error": "حدث خطأ",
-  "readyToGetStarted": "هل أنت مستعد للبدء؟",
-  "loginDescription": "سجل الدخول أو أنشئ حسابًا لمزامنة بياناتك عبر جميع أجهزتك.",
-  "appTitle": "الرعاية الصحية",
-  "@appTitle": {
-    "description": "Main application title displayed in app bar and splash screen"
+  "@labResults": {
+    "description": "تسمية قسم نتائج المختبر"
   },
-  "next": "التالي",
-  "profilePage": "البروفايل",
-  "activePrescriptions": "احدث الوصفات",
-  "loginTitle": "مرحبًا بعودتك",
-  "@loginTitle": {
-    "description": "Title displayed on the login screen"
+  "@lastMenstrualPeriod": {
+    "description": "Label for last menstrual period date field"
   },
-  "phoneNumber": "رقم الهاتف",
-  "@phoneNumber": {
-    "description": "Label for phone number input field"
+  "@lastUpdated": {
+    "description": "Label for last update timestamp"
   },
-  "password": "كلمة المرور",
-  "@password": {
-    "description": "Label for password input field"
+  "@lastVisit": {
+    "description": "تسمية حقل تاريخ آخر زيارة"
   },
-  "passwordConfirmation": "تاكيد كلمة المرور",
-  "@passwordConfirmation": {
-    "description": "Label for password confirmation input field during registration"
+  "@lifestyle": {
+    "description": "Section title for lifestyle information"
   },
-  "login": "تسجيل الدخول",
+  "@liveBirths": {
+    "description": "Label for number of live births field"
+  },
+  "@loading": {
+    "description": "Text shown during data loading"
+  },
   "@login": {
     "description": "Text for login button"
   },
-  "forgotPassword": "نسيت كلمة المرور؟",
-  "@forgotPassword": {
-    "description": "Link text for password recovery"
-  },
-  "biometricAuth": "المصادقة البيومترية",
-  "@biometricAuth": {
-    "description": "Title for biometric authentication section"
-  },
-  "useFingerprint": "استخدام بصمة الإصبع",
-  "@useFingerprint": {
-    "description": "Label for fingerprint authentication toggle"
-  },
-  "loginSuccess": "تم تسجيل الدخول بنجاح!",
-  "@loginSuccess": {
-    "description": "Success message shown after successful login"
-  },
-  "loginFailed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
   "@loginFailed": {
     "description": "Error message shown when login fails"
   },
-  "invalidCredentials": "رقم الهاتف أو كلمة المرور غير صحيحة",
-  "@invalidCredentials": {
-    "description": "Error message for incorrect login credentials"
+  "@loginSuccess": {
+    "description": "Success message shown after successful login"
   },
-  "welcome": "مرحبًا، {name}",
-  "@welcome": {
-    "description": "Welcome message on dashboard with user's name",
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John Doe"
-      }
-    }
+  "@loginTitle": {
+    "description": "Title displayed on the login screen"
   },
-  "failedToLoadDashboard": "فشل تحميل لوحة التحكم",
-  "noDashboardData": "لا توجد بيانات لوحة تحكم متاحة.",
-  "overview": "نظرة عامة",
-  "visits": "الزيارات",
-  "doctors": "الأطباء",
-  "latestDiagnosis": "أحدث تشخيص",
-  "seeHistory": "عرض السجل",
-  "medicationsLabel": "الأدوية:",
-  "recentActivities": "الأنشطة الأخيرة",
-  "emergencyInfo": "معلومات الطوارئ",
-  "scanForMedicalProfile": "مسح للملف الطبي",
-  "failedToLoadEmergencyData": "فشل تحميل بيانات الطوارئ.",
-  "createMedicalRecordStep": "إنشاء سجل طبي - خطوة",
-  "saveChanges": "حفظ التغييرات",
-  "addHealthData": "إضافة بيانات صحية",
-  "medicationPlan": "خطة العلاج",
-  "healthSummary": "ملخص الصحة",
-  "goodMorning": "صباح الخير،",
-  "goodAfternoon": "طاب مساؤك،",
-  "goodEvening": "مساء الخير،",
-  "viewDetailedReport": "عرض تقرير مفصل",
-  "search": "بحث",
-  "dispense": "صرف",
-  "dispensed": "مصروفة",
-  "myPrescriptions": "وصفاتي الطبية",
-  "addPrescription": "إضافة وصفة طبية",
-  "diagnosisLabel": "التشخيص:",
-  "aboutApp": "عن التطبيق",
-  "darkMode": "الوضع الداكن",
-  "privacyAndSecurity": "الخصوصية والأمان",
-  "selectLanguage": "اختر اللغة",
-  "language": "اللغة",
-  "removePhoto": "إزالة الصورة",
-  "takePhoto": "التقاط صورة",
-  "chooseFromGallery": "اختر من المعرض",
-  "themeDescription": "التبديل بين المظهر الداكن والفاتح",
-  "notificationsDescription": "تفعيل أو تعطيل التنبيهات",
-  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
-  "patientDigitalId": "الهوية الرقمية للمريض",
-  "dataTooLargeQr": "البيانات كبيرة جداً لرمز QR",
-  "failedToLoadImage": "فشل تحميل الصورة",
-  "invalidImageData": "بيانات صورة غير صالحة",
-  "findPatient": "البحث عن مريض",
-  "patientPrescriptions": "وصفات المريض",
-  "newPrescription": "وصفة جديدة",
-  "addToList": "إضافة إلى القائمة",
-  "editPrescription": "تعديل الوصفة",
-  "allergenName": "اسم المادة المسببة للحساسية",
-  "frequency": "التكرار",
-  "duration": "المدة",
-  "reaction": "رد الفعل",
-  "allergySeverity": "شدة الحساسية",
-  "createProfile": "إنشاء الملف الشخصي",
-  "medicineName": "اسم الدواء",
-  "dosage": "الجرعة",
-  "changesSavedSuccessfully": "تم حفظ التغييرات بنجاح",
-  "previous": "السابق",
-  "editProfile": "تعديل البروفايل",
-  "notifications": "اشعارات",
-  "medicalHistory": "السجل الطبي",
+  "@logout": {
+    "description": "Button text to logout from the app"
+  },
+  "@lotNumber": {
+    "description": "Label for vaccine lot number field"
+  },
+  "@male": {
+    "description": "Gender option for male"
+  },
   "@medicalHistory": {
     "description": "Title for medical history section and page"
   },
-  "emergencyPage": "الطوارئ",
-  "totalPrescriptions": "الوصفات (الكل)",
-  "pendingPrescriptions": "الوصفات (غير مصروفه)",
-  "todaysMedicine": "أدوية اليوم",
-  "@todaysMedicine": {
-    "description": "Title for today's medication schedule section"
+  "@medicalHistorySaved": {
+    "description": "Success message after saving medical history"
   },
-  "upcomingVisits": "زيارات الطبيب القادمة",
-  "@upcomingVisits": {
-    "description": "Title for upcoming appointments section"
+  "@medicalInformation": {
+    "description": "Section title for medical details"
   },
-  "viewAll": "عرض الكل",
-  "@viewAll": {
-    "description": "Button text to view all items in a list"
+  "@medicalRecord": {
+    "description": "تسمية للسجل الطبي للمريض"
   },
-  "takeMedicine": "تناول الدواء",
-  "@takeMedicine": {
-    "description": "Button text to mark medicine as taken"
+  "@medications": {
+    "description": "عنوان قائمة التنقل للأدوية"
   },
-  "medicineTaken": "تم تناول الدواء",
+  "@medicationsHint": {
+    "description": "Hint text for medications input"
+  },
   "@medicineTaken": {
     "description": "Confirmation message when medicine is taken"
   },
-  "confirmVisit": "تأكيد الزيارة",
-  "@confirmVisit": {
-    "description": "Button text to confirm a doctor visit"
+  "@mentalHealth": {
+    "description": "Section title for mental health information"
   },
-  "scheduledFor": "مجدولة لـ {time}",
+  "@mentalHealthConditions": {
+    "description": "Label for mental health conditions field"
+  },
+  "@name": {
+    "description": "Label for name input field"
+  },
+  "@nationalId": {
+    "description": "تسمية حقل رقم الهوية الوطنية"
+  },
+  "@no": {
+    "description": "Negative response option"
+  },
+  "@noMedicalHistory": {
+    "description": "Message shown when no medical history exists"
+  },
+  "@noMedicalHistoryFound": {
+    "description": "رسالة تعرض عند عدم وجود سجل طبي للمريض"
+  },
+  "@noMedicineScheduled": {
+    "description": "Message shown when no medication is scheduled"
+  },
+  "@noPatientsFound": {
+    "description": "رسالة تعرض عند عدم العثور على مرضى"
+  },
+  "@noUpcomingVisits": {
+    "description": "Message shown when no appointments are scheduled"
+  },
+  "@notes": {
+    "description": "Alternative label for additional notes"
+  },
+  "@ok": {
+    "description": "نص زر الموافقة"
+  },
+  "@other": {
+    "description": "Gender option for other/unspecified"
+  },
+  "@password": {
+    "description": "Label for password input field"
+  },
+  "@passwordConfirmation": {
+    "description": "Label for password confirmation input field during registration"
+  },
+  "@pastMedications": {
+    "description": "Label for past medications field"
+  },
+  "@pastMedicationsHint": {
+    "description": "Hint text for past medications input"
+  },
+  "@patient": {
+    "description": "خيار نوع المستخدم للمرضى"
+  },
+  "@patientAdded": {
+    "description": "رسالة نجاح بعد إضافة مريض جديد"
+  },
+  "@patientDeleted": {
+    "description": "رسالة نجاح بعد حذف المريض"
+  },
+  "@patientDetails": {
+    "description": "عنوان نافذة عرض تفاصيل المريض"
+  },
+  "@patientId": {
+    "description": "تسمية حقل رقم تعريف المريض"
+  },
+  "@patientName": {
+    "description": "تسمية حقل اسم المريض في النماذج والعرض"
+  },
+  "@patientUpdated": {
+    "description": "رسالة نجاح بعد تحديث بيانات المريض"
+  },
+  "@patients": {
+    "description": "عنوان قسم المرضى وقائمة التنقل"
+  },
+  "@pending": {
+    "description": "حالة الموعد قيد الانتظار"
+  },
+  "@personalInformation": {
+    "description": "Section title for personal details in medical history"
+  },
+  "@pharmacist": {
+    "description": "خيار نوع المستخدم للصيادلة"
+  },
+  "@phoneNumber": {
+    "description": "Label for phone number input field"
+  },
+  "@preferNotToSay": {
+    "description": "Gender option for preferring not to disclose"
+  },
+  "@pregnancies": {
+    "description": "Label for number of pregnancies field"
+  },
+  "@prescribeMedication": {
+    "description": "نص زر وصف دواء للمريض"
+  },
+  "@prescriptions": {
+    "description": "تسمية قسم الوصفات الطبية"
+  },
+  "@previousSurgeries": {
+    "description": "Alternative label for surgical history"
+  },
+  "@print": {
+    "description": "نص زر الطباعة"
+  },
+  "@procedureName": {
+    "description": "Label for surgical procedure name field"
+  },
+  "@profile": {
+    "description": "عنوان قائمة التنقل للملف الشخصي"
+  },
+  "@quickActions": {
+    "description": "عنوان قسم الإجراءات السريعة"
+  },
+  "@recentPatients": {
+    "description": "عنوان قسم المرضى المضافين حديثاً"
+  },
+  "@recreationalDrugsDetails": {
+    "description": "Label for recreational drugs details field"
+  },
+  "@refresh": {
+    "description": "نص زر تحديث البيانات"
+  },
+  "@register": {
+    "description": "Button text for registration"
+  },
+  "@registrationDate": {
+    "description": "تسمية حقل تاريخ تسجيل المريض"
+  },
+  "@reports": {
+    "description": "عنوان قائمة التنقل للتقارير"
+  },
+  "@requiredField": {
+    "description": "Validation error message for required fields"
+  },
+  "@reset": {
+    "description": "نص زر إعادة تعيين التصفية"
+  },
+  "@retry": {
+    "description": "Button text to retry a failed operation"
+  },
+  "@save": {
+    "description": "Button text to save changes"
+  },
+  "@saveMedicalHistory": {
+    "description": "Button text to save medical history form"
+  },
+  "@scheduleAppointment": {
+    "description": "نص زر جدولة موعد للمريض"
+  },
   "@scheduledFor": {
     "description": "Text showing scheduled time for appointments",
     "placeholders": {
@@ -221,830 +563,499 @@
       }
     }
   },
-  "loading": "جاري التحميل...",
-  "@loading": {
-    "description": "Text shown during data loading"
-  },
-  "@retry": {
-    "description": "Button text to retry a failed operation"
-  },
-  "cancel": "إلغاء",
-  "@cancel": {
-    "description": "Button text to cancel an action"
-  },
-  "confirm": "تأكيد",
-  "@confirm": {
-    "description": "Button text to confirm an action"
-  },
-  "save": "حفظ",
-  "@save": {
-    "description": "Button text to save changes"
-  },
-  "edit": "تعديل",
-  "@edit": {
-    "description": "Button text to edit information"
-  },
-  "delete": "حذف",
-  "@delete": {
-    "description": "Button text to delete an item"
-  },
-  "settings": "الإعدادات",
-  "@settings": {
-    "description": "Title for settings page/menu"
-  },
-  "logout": "تسجيل الخروج",
-  "@logout": {
-    "description": "Button text to logout from the app"
-  },
-  "noMedicalHistory": "لا يوجد سجل طبي متاح",
-  "@noMedicalHistory": {
-    "description": "Message shown when no medical history exists"
-  },
-  "noMedicineScheduled": "لا توجد أدوية مجدولة لهذا اليوم",
-  "@noMedicineScheduled": {
-    "description": "Message shown when no medication is scheduled"
-  },
-  "noUpcomingVisits": "لا توجد زيارات طبيب قادمة",
-  "@noUpcomingVisits": {
-    "description": "Message shown when no appointments are scheduled"
-  },
-  "name": "الاسم",
-  "@name": {
-    "description": "Label for name input field"
-  },
-  "register": "تسجيل",
-  "@register": {
-    "description": "Button text for registration"
-  },
-  "createAccount": "انشاء حساب",
-  "@createAccount": {
-    "description": "Title for account creation page"
-  },
-  "userType": "نوع المستخدم",
-  "@userType": {
-    "description": "تسمية لقائمة نوع المستخدم"
-  },
-  "selectUserType": "اختر نوع المستخدم",
-  "@selectUserType": {
-    "description": "نص تلميح لقائمة نوع المستخدم"
-  },
-  "patient": "مريض",
-  "@patient": {
-    "description": "خيار نوع المستخدم للمرضى"
-  },
-  "pharmacist": "صيدلي",
-  "@pharmacist": {
-    "description": "خيار نوع المستخدم للصيادلة"
-  },
-  "doctor": "طبيب",
-  "@doctor": {
-    "description": "خيار نوع المستخدم للأطباء"
-  },
-  "admin": "مدير",
-  "@admin": {
-    "description": "خيار نوع المستخدم للمديرين"
-  },
-  "idCardNumber": "رقم الهويه",
-  "@idCardNumber": {
-    "description": "Label for ID card number input field"
-  },
-  "personalInformation": "المعلومات الشخصية",
-  "@personalInformation": {
-    "description": "Section title for personal details in medical history"
-  },
-  "medicalInformation": "المعلومات الطبية",
-  "@medicalInformation": {
-    "description": "Section title for medical details"
-  },
-  "additionalNotes": "ملاحظات إضافية",
-  "@additionalNotes": {
-    "description": "Section title for extra notes"
-  },
-  "contactInformation": "معلومات الاتصال",
-  "@contactInformation": {
-    "description": "Section title for contact details"
-  },
-  "emergencyContact": "جهة الاتصال في حالات الطوارئ",
-  "@emergencyContact": {
-    "description": "تسمية قسم جهة الاتصال في حالات الطوارئ"
-  },
-  "vitalStatistics": "الإحصائيات الحيوية",
-  "@vitalStatistics": {
-    "description": "Section title for height, weight, BMI, etc."
-  },
-  "lifestyle": "نمط الحياة",
-  "@lifestyle": {
-    "description": "Section title for lifestyle information"
-  },
-  "familyMedicalHistory": "التاريخ الطبي العائلي",
-  "@familyMedicalHistory": {
-    "description": "Section title for family medical background"
-  },
-  "surgicalHistory": "التاريخ الجراحي",
-  "@surgicalHistory": {
-    "description": "Section title for past surgeries"
-  },
-  "vaccinationHistory": "تاريخ التطعيم",
-  "@vaccinationHistory": {
-    "description": "Section title for immunization records"
-  },
-  "mentalHealth": "الصحة النفسية",
-  "@mentalHealth": {
-    "description": "Section title for mental health information"
-  },
-  "womensHealth": "صحة المرأة",
-  "@womensHealth": {
-    "description": "Section title for women's specific health information"
-  },
-  "patientName": "اسم المريض",
-  "@patientName": {
-    "description": "تسمية حقل اسم المريض في النماذج والعرض"
-  },
-  "dateOfBirth": "تاريخ الميلاد",
-  "@dateOfBirth": {
-    "description": "Label for birth date field"
-  },
-  "gender": "الجنس",
-  "@gender": {
-    "description": "Label for gender selection field"
-  },
-  "male": "ذكر",
-  "@male": {
-    "description": "Gender option for male"
-  },
-  "female": "أنثى",
-  "@female": {
-    "description": "Gender option for female"
-  },
-  "other": "آخر",
-  "@other": {
-    "description": "Gender option for other/unspecified"
-  },
-  "preferNotToSay": "أفضل عدم الإفصاح",
-  "@preferNotToSay": {
-    "description": "Gender option for preferring not to disclose"
-  },
-  "age": "العمر",
-  "@age": {
-    "description": "Label for calculated age field"
-  },
-  "email": "البريد الإلكتروني",
-  "@email": {
-    "description": "Label for email address field"
-  },
-  "address": "العنوان",
-  "@address": {
-    "description": "Label for residential address field"
-  },
-  "emergencyContactName": "اسم جهة الاتصال في حالات الطوارئ",
-  "@emergencyContactName": {
-    "description": "Label for emergency contact person's name"
-  },
-  "emergencyContactPhone": "هاتف جهة الاتصال في حالات الطوارئ",
-  "@emergencyContactPhone": {
-    "description": "Label for emergency contact phone number"
-  },
-  "emergencyContactRelationship": "العلاقة",
-  "@emergencyContactRelationship": {
-    "description": "Label for relationship to emergency contact"
-  },
-  "height": "الطول",
-  "@height": {
-    "description": "Label for height measurement field"
-  },
-  "heightUnit": "سم",
-  "@heightUnit": {
-    "description": "Unit of measurement for height (centimeters)"
-  },
-  "weight": "الوزن",
-  "@weight": {
-    "description": "Label for weight measurement field"
-  },
-  "weightUnit": "كجم",
-  "@weightUnit": {
-    "description": "Unit of measurement for weight (kilograms)"
-  },
-  "bloodType": "فصيلة الدم",
-  "@bloodType": {
-    "description": "Label for blood type field"
-  },
-  "bmi": "مؤشر كتلة الجسم",
-  "@bmi": {
-    "description": "Label for Body Mass Index field"
-  },
-  "isSmoker": "مدخن",
-  "@isSmoker": {
-    "description": "Label for smoking status toggle"
-  },
-  "yes": "نعم",
-  "@yes": {
-    "description": "Affirmative response option"
-  },
-  "no": "لا",
-  "@no": {
-    "description": "Negative response option"
-  },
-  "cigarettesPerDay": "عدد السجائر يومياً",
-  "@cigarettesPerDay": {
-    "description": "Label for daily cigarette consumption field"
-  },
-  "isAlcoholConsumer": "يتناول الكحول",
-  "@isAlcoholConsumer": {
-    "description": "Label for alcohol consumption status toggle"
-  },
-  "alcoholFrequency": "تكرار تناول الكحول",
-  "@alcoholFrequency": {
-    "description": "Label for alcohol consumption frequency field"
-  },
-  "usesRecreationalDrugs": "يتناول مخدرات ترفيهية",
-  "@usesRecreationalDrugs": {
-    "description": "Label for recreational drug use toggle"
-  },
-  "recreationalDrugsDetails": "تفاصيل المخدرات الترفيهية",
-  "@recreationalDrugsDetails": {
-    "description": "Label for recreational drugs details field"
-  },
-  "exerciseFrequency": "تكرار التمرين",
-  "@exerciseFrequency": {
-    "description": "Label for exercise frequency field"
-  },
-  "dietaryPreferences": "التفضيلات الغذائية",
-  "@dietaryPreferences": {
-    "description": "Label for dietary preferences field"
-  },
-  "chronicConditions": "الأمراض المزمنة",
-  "@chronicConditions": {
-    "description": "Label for chronic medical conditions field"
-  },
-  "chronicConditionsHint": "أدخل الأمراض المزمنة (مفصولة بفاصلة)",
-  "@chronicConditionsHint": {
-    "description": "Hint text for chronic conditions input"
-  },
-  "allergies": "الحساسيات",
-  "@allergies": {
-    "description": "Label for allergies field"
-  },
-  "allergiesHint": "اذكر أي حساسيات (مثل البنسلين، الفول السوداني)",
-  "@allergiesHint": {
-    "description": "Hint text for allergies input"
-  },
-  "currentMedications": "الأدوية الحالية",
-  "@currentMedications": {
-    "description": "Label for current medications field"
-  },
-  "currentMedicationsHint": "أدخل الأدوية الحالية (مفصولة بفاصلة)",
-  "@currentMedicationsHint": {
-    "description": "Hint text for current medications input"
-  },
-  "pastMedications": "الأدوية السابقة",
-  "@pastMedications": {
-    "description": "Label for past medications field"
-  },
-  "pastMedicationsHint": "أدخل الأدوية السابقة (مفصولة بفاصلة)",
-  "@pastMedicationsHint": {
-    "description": "Hint text for past medications input"
-  },
-  "procedureName": "اسم الإجراء",
-  "@procedureName": {
-    "description": "Label for surgical procedure name field"
-  },
-  "surgeryDate": "التاريخ",
-  "@surgeryDate": {
-    "description": "Label for surgery date field"
-  },
-  "hospitalName": "اسم المستشفى",
-  "@hospitalName": {
-    "description": "Label for hospital name field"
-  },
-  "surgeonName": "اسم الجراح",
-  "@surgeonName": {
-    "description": "Label for surgeon's name field"
-  },
-  "complications": "المضاعفات",
-  "@complications": {
-    "description": "Label for surgery complications field"
-  },
-  "admissionDate": "تاريخ الدخول",
-  "@admissionDate": {
-    "description": "Label for hospital admission date field"
-  },
-  "dischargeDate": "تاريخ الخروج",
-  "@dischargeDate": {
-    "description": "Label for hospital discharge date field"
-  },
-  "hospitalizationReason": "السبب",
-  "@hospitalizationReason": {
-    "description": "Label for hospitalization reason field"
-  },
-  "treatmentDetails": "تفاصيل العلاج",
-  "@treatmentDetails": {
-    "description": "Label for treatment details field"
-  },
-  "vaccineName": "اسم اللقاح",
-  "@vaccineName": {
-    "description": "Label for vaccine name field"
-  },
-  "dateAdministered": "تاريخ التطعيم",
-  "@dateAdministered": {
-    "description": "Label for vaccine administration date field"
-  },
-  "expirationDate": "تاريخ الانتهاء",
-  "@expirationDate": {
-    "description": "Label for vaccine expiration date field"
-  },
-  "administeringFacility": "المنشأة المقدمة",
-  "@administeringFacility": {
-    "description": "Label for vaccine administering facility field"
-  },
-  "lotNumber": "رقم الدفعة",
-  "@lotNumber": {
-    "description": "Label for vaccine lot number field"
-  },
-  "lastMenstrualPeriod": "آخر دورة شهرية",
-  "@lastMenstrualPeriod": {
-    "description": "Label for last menstrual period date field"
-  },
-  "isPregnant": "حامل",
-  "@isPregnant": {
-    "description": "Label for pregnancy status toggle"
-  },
-  "pregnancies": "عدد مرات الحمل",
-  "@pregnancies": {
-    "description": "Label for number of pregnancies field"
-  },
-  "liveBirths": "الولادات الحية",
-  "@liveBirths": {
-    "description": "Label for number of live births field"
-  },
-  "mentalHealthConditions": "حالات الصحة النفسية",
-  "@mentalHealthConditions": {
-    "description": "Label for mental health conditions field"
-  },
-  "currentTherapist": "المعالج الحالي",
-  "@currentTherapist": {
-    "description": "Label for current therapist name field"
-  },
-  "lastUpdated": "آخر تحديث",
-  "@lastUpdated": {
-    "description": "Label for last update timestamp"
-  },
-  "createdAt": "تم الإنشاء في",
-  "@createdAt": {
-    "description": "Label for creation timestamp"
-  },
-  "saveMedicalHistory": "حفظ السجل الطبي",
-  "@saveMedicalHistory": {
-    "description": "Button text to save medical history form"
-  },
-  "editMedicalHistory": "تعديل التاريخ الطبي",
-  "@editMedicalHistory": {
-    "description": "Button/text for editing medical history"
-  },
-  "createMedicalHistory": "إنشاء سجل طبي",
-  "@createMedicalHistory": {
-    "description": "Button text to create new medical history"
-  },
-  "medicalHistorySaved": "تم حفظ السجل الطبي بنجاح",
-  "@medicalHistorySaved": {
-    "description": "Success message after saving medical history"
-  },
-  "noMedicalHistoryFound": "لم يتم العثور على سجل طبي",
-  "@noMedicalHistoryFound": {
-    "description": "رسالة تعرض عند عدم وجود سجل طبي للمريض"
-  },
-  "requiredField": "هذا الحقل مطلوب",
-  "@requiredField": {
-    "description": "Validation error message for required fields"
-  },
-  "invalidHeight": "الرجاء إدخال طول صحيح (1-300 سم)",
-  "@invalidHeight": {
-    "description": "Validation error for invalid height input"
-  },
-  "invalidWeight": "الرجاء إدخال وزن صحيح (1-500 كجم)",
-  "@invalidWeight": {
-    "description": "Validation error for invalid weight input"
-  },
-  "invalidPhone": "الرجاء إدخال رقم هاتف صحيح",
-  "@invalidPhone": {
-    "description": "Validation error for invalid phone number"
-  },
-  "surgery": "عملية جراحية",
-  "@surgery": {
-    "description": "Generic label for surgery"
-  },
-  "hospitalization": "الإقامة في المستشفى",
-  "@hospitalization": {
-    "description": "Generic label for hospital stay"
-  },
-  "vaccination": "تطعيم",
-  "@vaccination": {
-    "description": "Generic label for immunization"
-  },
-  "addSurgery": "إضافة عملية جراحية",
-  "@addSurgery": {
-    "description": "Button text to add new surgery record"
-  },
-  "addHospitalization": "إضافة إقامة في المستشفى",
-  "@addHospitalization": {
-    "description": "Button text to add new hospitalization record"
-  },
-  "addVaccination": "إضافة تطعيم",
-  "@addVaccination": {
-    "description": "Button text to add new vaccination record"
-  },
-  "addCondition": "إضافة حالة",
-  "@addCondition": {
-    "description": "Button text to add new medical condition"
-  },
-  "viewMedicalHistory": "عرض التاريخ الطبي",
-  "@viewMedicalHistory": {
-    "description": "نص زر عرض السجل الطبي للمريض"
-  },
-  "chronicDiseases": "الأمراض المزمنة",
-  "@chronicDiseases": {
-    "description": "Alternative label for chronic conditions"
-  },
-  "chronicDiseasesHint": "اذكر الأمراض المزمنة (مثل السكري، ارتفاع الضغط)",
-  "@chronicDiseasesHint": {
-    "description": "Hint text for chronic diseases input"
-  },
-  "previousSurgeries": "العمليات الجراحية السابقة",
-  "@previousSurgeries": {
-    "description": "Alternative label for surgical history"
-  },
-  "surgeriesHint": "اذكر العمليات الجراحية السابقة",
-  "@surgeriesHint": {
-    "description": "Hint text for surgeries input"
-  },
-  "familyHistory": "التاريخ العائلي",
-  "@familyHistory": {
-    "description": "Alternative label for family medical history"
-  },
-  "familyHistoryHint": "التاريخ الطبي العائلي المهم",
-  "@familyHistoryHint": {
-    "description": "Hint text for family history input"
-  },
-  "partialDispensed": "صرفت جزئيا",
-  "canceled": "ملغية",
-  "inReview": "تحت المراجعة",
-  "needConsultation": "تحتاج الى استشارة",
-  "notes": "ملاحظات",
-  "@notes": {
-    "description": "Alternative label for additional notes"
-  },
-  "additionalNotesHint": "أي معلومات طبية أخرى ذات صلة",
-  "@additionalNotesHint": {
-    "description": "Hint text for additional notes input"
-  },
-  "medicationsHint": "اذكر الأدوية الحالية والجرعات",
-  "@medicationsHint": {
-    "description": "Hint text for medications input"
-  },
-  "bloodTypeA": "A",
-  "@bloodTypeA": {
-    "description": "فصيلة الدم أ"
-  },
-  "bloodTypeB": "B",
-  "@bloodTypeB": {
-    "description": "فصيلة الدم ب"
-  },
-  "bloodTypeAB": "AB",
-  "@bloodTypeAB": {
-    "description": "فصيلة الدم AB"
-  },
-  "bloodTypeO": "O",
-  "@bloodTypeO": {
-    "description": "فصيلة الدم O"
-  },
-  "selectBloodType": "اختر فصيلة الدم",
-  "@selectBloodType": {
-    "description": "نص التلميح لقائمة فصيلة الدم"
-  },
-  "additionalInformation": "معلومات إضافية",
-  "@additionalInformation": {
-    "description": "Section title for additional information in forms"
-  },
-  "home": "الرئيسية",
-  "@home": {
-    "description": "عنوان صفحة الرئيسية وقائمة التنقل"
-  },
-  "patients": "المرضى",
-  "@patients": {
-    "description": "عنوان قسم المرضى وقائمة التنقل"
-  },
-  "addPatient": "إضافة مريض",
-  "@addPatient": {
-    "description": "نص زر إضافة مريض جديد"
-  },
-  "editPatient": "تعديل بيانات المريض",
-  "@editPatient": {
-    "description": "عنوان نافذة تعديل بيانات المريض"
-  },
-  "patientDetails": "تفاصيل المريض",
-  "@patientDetails": {
-    "description": "عنوان نافذة عرض تفاصيل المريض"
-  },
-  "searchPatients": "ابحث عن المرضى...",
   "@searchPatients": {
     "description": "نص تلميح حقل البحث عن المرضى"
   },
-  "noPatientsFound": "لم يتم العثور على مرضى",
-  "@noPatientsFound": {
-    "description": "رسالة تعرض عند عدم العثور على مرضى"
+  "@selectBloodType": {
+    "description": "نص التلميح لقائمة فصيلة الدم"
   },
-  "totalPatients": "إجمالي المرضى",
-  "@totalPatients": {
-    "description": "عنوان إحصائيات إجمالي عدد المرضى"
-  },
-  "activePatients": "المرضى النشطين",
-  "@activePatients": {
-    "description": "عنوان إحصائيات المرضى النشطين"
-  },
-  "inactivePatients": "المرضى غير النشطين",
-  "@inactivePatients": {
-    "description": "عنوان إحصائيات المرضى غير النشطين"
-  },
-  "todayVisits": "زيارات اليوم",
-  "@todayVisits": {
-    "description": "عنوان قسم زيارات اليوم"
-  },
-  "nationalId": "رقم الهوية",
-  "@nationalId": {
-    "description": "تسمية حقل رقم الهوية الوطنية"
-  },
-  "status": "الحالة",
-  "@status": {
-    "description": "عنوان عمود الحالة في جداول المرضى"
-  },
-  "active": "نشط",
-  "@active": {
-    "description": "قيمة الحالة النشطة للمريض"
-  },
-  "inactive": "غير نشط",
-  "@inactive": {
-    "description": "قيمة الحالة غير النشطة للمريض"
-  },
-  "actions": "الإجراءات",
-  "@actions": {
-    "description": "عنوان عمود الإجراءات في الجداول"
-  },
-  "view": "عرض",
-  "@view": {
-    "description": "نص زر عرض التفاصيل"
-  },
-  "confirmDelete": "تأكيد الحذف",
-  "@confirmDelete": {
-    "description": "عنوان نافذة تأكيد الحذف"
-  },
-  "deletePatientMessage": "هل أنت متأكد من حذف هذا المريض؟",
-  "@deletePatientMessage": {
-    "description": "رسالة تأكيد قبل حذف المريض"
-  },
-  "patientDeleted": "تم حذف المريض بنجاح",
-  "@patientDeleted": {
-    "description": "رسالة نجاح بعد حذف المريض"
-  },
-  "patientAdded": "تم إضافة المريض بنجاح",
-  "@patientAdded": {
-    "description": "رسالة نجاح بعد إضافة مريض جديد"
-  },
-  "patientUpdated": "تم تحديث بيانات المريض بنجاح",
-  "@patientUpdated": {
-    "description": "رسالة نجاح بعد تحديث بيانات المريض"
-  },
-  "add": "إضافة",
-  "@add": {
-    "description": "نص زر الإضافة في النماذج"
-  },
-  "update": "تحديث",
-  "@update": {
-    "description": "نص زر التحديث في النماذج"
-  },
-  "ok": "موافق",
-  "@ok": {
-    "description": "نص زر الموافقة"
-  },
-  "selectGender": "اختر الجنس",
-  "@selectGender": {
-    "description": "نص تلميح لقائمة اختيار الجنس"
-  },
-  "enterNotes": "أدخل الملاحظات...",
-  "@enterNotes": {
-    "description": "نص تلميح لحقل إدخال الملاحظات"
-  },
-  "invalidNationalId": "الرجاء إدخال رقم هوية صحيح",
-  "@invalidNationalId": {
-    "description": "رسالة خطأ لرقم هوية غير صحيح"
-  },
-  "invalidEmail": "الرجاء إدخال بريد إلكتروني صحيح",
-  "@invalidEmail": {
-    "description": "رسالة خطأ لبريد إلكتروني غير صحيح"
-  },
-  "statistics": "الإحصائيات",
-  "@statistics": {
-    "description": "عنوان قسم الإحصائيات"
-  },
-  "recentPatients": "المرضى الحديثين",
-  "@recentPatients": {
-    "description": "عنوان قسم المرضى المضافين حديثاً"
-  },
-  "viewAllPatients": "عرض جميع المرضى",
-  "@viewAllPatients": {
-    "description": "نص زر عرض جميع المرضى"
-  },
-  "quickActions": "إجراءات سريعة",
-  "@quickActions": {
-    "description": "عنوان قسم الإجراءات السريعة"
-  },
-  "addNewPatient": "إضافة مريض جديد",
-  "@addNewPatient": {
-    "description": "نص زر الإجراء السريع لإضافة مريض"
-  },
-  "scheduleAppointment": "جدولة موعد",
-  "@scheduleAppointment": {
-    "description": "نص زر جدولة موعد للمريض"
-  },
-  "prescribeMedication": "وصف دواء",
-  "@prescribeMedication": {
-    "description": "نص زر وصف دواء للمريض"
-  },
-  "dashboard": "لوحة التحكم",
-  "@dashboard": {
-    "description": "عنوان قائمة التنقل للوحة التحكم"
-  },
-  "appointments": "المواعيد",
-  "@appointments": {
-    "description": "عنوان قائمة التنقل للمواعيد"
-  },
-  "medications": "الأدوية",
-  "@medications": {
-    "description": "عنوان قائمة التنقل للأدوية"
-  },
-  "reports": "التقارير",
-  "@reports": {
-    "description": "عنوان قائمة التنقل للتقارير"
-  },
-  "profile": "الملف الشخصي",
-  "@profile": {
-    "description": "عنوان قائمة التنقل للملف الشخصي"
-  },
-  "todaysSchedule": "جدول اليوم",
-  "@todaysSchedule": {
-    "description": "عنوان قسم جدول اليوم"
-  },
-  "upcomingAppointments": "المواعيد القادمة",
-  "@upcomingAppointments": {
-    "description": "عنوان قسم المواعيد القادمة"
-  },
-  "completed": "مكتمل",
-  "@completed": {
-    "description": "حالة الموعد المكتمل"
-  },
-  "pending": "قيد الانتظار",
-  "@pending": {
-    "description": "حالة الموعد قيد الانتظار"
-  },
-  "cancelled": "ملغى",
-  "@cancelled": {
-    "description": "حالة الموعد الملغى"
-  },
-  "clearSearch": "مسح البحث",
-  "@clearSearch": {
-    "description": "نص زر مسح نص البحث"
-  },
-  "refresh": "تحديث",
-  "@refresh": {
-    "description": "نص زر تحديث البيانات"
-  },
-  "done": "تم",
-  "@done": {
-    "description": "نص زر الإكمال في النوافذ المنبثقة"
-  },
-  "selectDate": "اختر تاريخ",
   "@selectDate": {
     "description": "نص تلميح لاختيار التاريخ"
   },
-  "patientId": "رقم المريض",
-  "@patientId": {
-    "description": "تسمية حقل رقم تعريف المريض"
+  "@selectGender": {
+    "description": "نص تلميح لقائمة اختيار الجنس"
   },
-  "registrationDate": "تاريخ التسجيل",
-  "@registrationDate": {
-    "description": "تسمية حقل تاريخ تسجيل المريض"
+  "@selectUserType": {
+    "description": "نص تلميح لقائمة نوع المستخدم"
   },
-  "lastVisit": "آخر زيارة",
-  "@lastVisit": {
-    "description": "تسمية حقل تاريخ آخر زيارة"
+  "@settings": {
+    "description": "Title for settings page/menu"
   },
-  "medicalRecord": "السجل الطبي",
-  "@medicalRecord": {
-    "description": "تسمية للسجل الطبي للمريض"
-  },
-  "prescriptions": "الوصفات",
-  "@prescriptions": {
-    "description": "تسمية قسم الوصفات الطبية"
-  },
-  "labResults": "نتائج المختبر",
-  "@labResults": {
-    "description": "تسمية قسم نتائج المختبر"
-  },
-  "insuranceInfo": "معلومات التأمين",
-  "@insuranceInfo": {
-    "description": "تسمية قسم معلومات التأمين"
-  },
-  "attachments": "المرفقات",
-  "@attachments": {
-    "description": "تسمية قسم المرفقات والصور"
-  },
-  "exportData": "تصدير البيانات",
-  "@exportData": {
-    "description": "نص زر تصدير بيانات المريض"
-  },
-  "print": "طباعة",
-  "@print": {
-    "description": "نص زر الطباعة"
-  },
-  "filter": "تصفية",
-  "@filter": {
-    "description": "نص زر التصفية"
-  },
-  "sort": "ترتيب",
   "@sort": {
     "description": "نص زر الترتيب"
   },
-  "byName": "حسب الاسم",
-  "@byName": {
-    "description": "خيار الترتيب حسب الاسم"
+  "@statistics": {
+    "description": "عنوان قسم الإحصائيات"
   },
-  "byDate": "حسب التاريخ",
-  "@byDate": {
-    "description": "خيار الترتيب حسب التاريخ"
+  "@status": {
+    "description": "عنوان عمود الحالة في جداول المرضى"
   },
-  "byStatus": "حسب الحالة",
-  "@byStatus": {
-    "description": "خيار الترتيب حسب الحالة"
+  "@surgeonName": {
+    "description": "Label for surgeon's name field"
   },
-  "ascending": "تصاعدي",
-  "@ascending": {
-    "description": "خيار الترتيب التصاعدي"
+  "@surgeriesHint": {
+    "description": "Hint text for surgeries input"
   },
-  "descending": "تنازلي",
-  "@descending": {
-    "description": "خيار الترتيب التنازلي"
+  "@surgery": {
+    "description": "Generic label for surgery"
   },
-  "allStatus": "جميع الحالات",
-  "@allStatus": {
-    "description": "خيار عرض جميع الحالات"
+  "@surgeryDate": {
+    "description": "Label for surgery date field"
   },
-  "activeOnly": "النشطين فقط",
-  "@activeOnly": {
-    "description": "خيار عرض المرضى النشطين فقط"
+  "@surgicalHistory": {
+    "description": "Section title for past surgeries"
   },
-  "inactiveOnly": "غير النشطين فقط",
-  "@inactiveOnly": {
-    "description": "خيار عرض المرضى غير النشطين فقط"
+  "@takeMedicine": {
+    "description": "Button text to mark medicine as taken"
   },
-  "today": "اليوم",
-  "@today": {
-    "description": "خيار تاريخ اليوم"
-  },
-  "thisWeek": "هذا الأسبوع",
-  "@thisWeek": {
-    "description": "خيار تاريخ هذا الأسبوع"
-  },
-  "thisMonth": "هذا الشهر",
   "@thisMonth": {
     "description": "خيار تاريخ هذا الشهر"
   },
-  "customRange": "مدى مخصص",
-  "@customRange": {
-    "description": "خيار مدى تاريخ مخصص"
+  "@thisWeek": {
+    "description": "خيار تاريخ هذا الأسبوع"
   },
-  "from": "من",
-  "@from": {
-    "description": "تسمية حقل التاريخ من"
-  },
-  "newPassword": "كلمة السر الجديدة",
-  "oldPassword": "كلمة السر القديمة",
-  "changePassword": "تغير كلمة السر",
-  "to": "إلى",
   "@to": {
     "description": "تسمية حقل التاريخ إلى"
   },
+  "@today": {
+    "description": "خيار تاريخ اليوم"
+  },
+  "@todayVisits": {
+    "description": "عنوان قسم زيارات اليوم"
+  },
+  "@todaysMedicine": {
+    "description": "Title for today's medication schedule section"
+  },
+  "@todaysSchedule": {
+    "description": "عنوان قسم جدول اليوم"
+  },
+  "@totalPatients": {
+    "description": "عنوان إحصائيات إجمالي عدد المرضى"
+  },
+  "@treatmentDetails": {
+    "description": "Label for treatment details field"
+  },
+  "@upcomingAppointments": {
+    "description": "عنوان قسم المواعيد القادمة"
+  },
+  "@upcomingVisits": {
+    "description": "Title for upcoming appointments section"
+  },
+  "@update": {
+    "description": "نص زر التحديث في النماذج"
+  },
+  "@useFingerprint": {
+    "description": "Label for fingerprint authentication toggle"
+  },
+  "@userType": {
+    "description": "تسمية لقائمة نوع المستخدم"
+  },
+  "@usesRecreationalDrugs": {
+    "description": "Label for recreational drug use toggle"
+  },
+  "@vaccination": {
+    "description": "Generic label for immunization"
+  },
+  "@vaccinationHistory": {
+    "description": "Section title for immunization records"
+  },
+  "@vaccineName": {
+    "description": "Label for vaccine name field"
+  },
+  "@view": {
+    "description": "نص زر عرض التفاصيل"
+  },
+  "@viewAll": {
+    "description": "Button text to view all items in a list"
+  },
+  "@viewAllPatients": {
+    "description": "نص زر عرض جميع المرضى"
+  },
+  "@viewMedicalHistory": {
+    "description": "نص زر عرض السجل الطبي للمريض"
+  },
+  "@vitalStatistics": {
+    "description": "Section title for height, weight, BMI, etc."
+  },
+  "@weight": {
+    "description": "Label for weight measurement field"
+  },
+  "@weightUnit": {
+    "description": "Unit of measurement for weight (kilograms)"
+  },
+  "@welcome": {
+    "description": "Welcome message on dashboard with user's name",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John Doe"
+      }
+    }
+  },
+  "@womensHealth": {
+    "description": "Section title for women's specific health information"
+  },
+  "@yes": {
+    "description": "Affirmative response option"
+  },
+  "aboutApp": "عن التطبيق",
+  "actions": "الإجراءات",
+  "active": "نشط",
+  "activeOnly": "النشطين فقط",
+  "activePatients": "المرضى النشطين",
+  "activePrescriptions": "احدث الوصفات",
+  "add": "إضافة",
+  "addCondition": "إضافة حالة",
+  "addHealthData": "إضافة بيانات صحية",
+  "addHospitalization": "إضافة إقامة في المستشفى",
+  "addNewMedication": "إضافة دواء جديد",
+  "addNewPatient": "إضافة مريض جديد",
+  "addPatient": "إضافة مريض",
+  "addPrescription": "إضافة وصفة طبية",
+  "addSurgery": "إضافة عملية جراحية",
+  "addToList": "إضافة إلى القائمة",
+  "addVaccination": "إضافة تطعيم",
+  "additionalInformation": "معلومات إضافية",
+  "additionalNotes": "ملاحظات إضافية",
+  "additionalNotesHint": "أي معلومات طبية أخرى ذات صلة",
+  "address": "العنوان",
+  "admin": "مدير",
+  "administeringFacility": "المنشأة المقدمة",
+  "admissionDate": "تاريخ الدخول",
+  "age": "العمر",
+  "alcoholFrequency": "تكرار تناول الكحول",
+  "allStatus": "جميع الحالات",
+  "allergenName": "اسم المادة المسببة للحساسية",
+  "allergies": "الحساسيات",
+  "allergiesHint": "اذكر أي حساسيات (مثل البنسلين، الفول السوداني)",
+  "allergySeverity": "شدة الحساسية",
+  "appTitle": "الرعاية الصحية",
   "apply": "تطبيق",
-  "@apply": {
-    "description": "نص زر تطبيق التصفية"
-  },
-  "reset": "إعادة تعيين",
-  "@reset": {
-    "description": "نص زر إعادة تعيين التصفية"
-  },
+  "appointments": "المواعيد",
+  "ascending": "تصاعدي",
+  "attachments": "المرفقات",
+  "biometricAuth": "المصادقة البيومترية",
+  "bloodType": "فصيلة الدم",
+  "bloodTypeA": "A",
+  "bloodTypeAB": "AB",
+  "bloodTypeB": "B",
+  "bloodTypeO": "O",
+  "bmi": "مؤشر كتلة الجسم",
+  "byDate": "حسب التاريخ",
+  "byName": "حسب الاسم",
+  "byStatus": "حسب الحالة",
+  "cancel": "إلغاء",
+  "canceled": "ملغية",
+  "cancelled": "ملغى",
+  "changePassword": "تغيير كلمة المرور",
+  "changePasswordInstruction": "يرجى إدخال كلمة المرور الحالية واختيار كلمة مرور جديدة قوية.",
+  "changesSavedSuccessfully": "تم حفظ التغييرات بنجاح",
+  "chooseFromGallery": "اختر من المعرض",
+  "chronicConditions": "الأمراض المزمنة",
+  "chronicConditionsHint": "أدخل الأمراض المزمنة (مفصولة بفاصلة)",
+  "chronicDiseases": "الأمراض المزمنة",
+  "chronicDiseasesHint": "اذكر الأمراض المزمنة (مثل السكري، ارتفاع الضغط)",
+  "cigarettesPerDay": "عدد السجائر يومياً",
+  "clearSearch": "مسح البحث",
+  "collapseAll": "طي الكل",
+  "completed": "مكتمل",
+  "complications": "المضاعفات",
+  "confirm": "تأكيد",
+  "confirmDelete": "تأكيد الحذف",
+  "confirmPassword": "تأكيد كلمة المرور الجديدة",
+  "confirmVisit": "تأكيد الزيارة",
+  "connecting": "جاري الاتصال بالخادم الآمن...",
+  "connectionError": "حدث خطأ أثناء الاتصال. يرجى التحقق من الإنترنت.",
+  "contactInformation": "معلومات الاتصال",
+  "create": "إنشاء",
+  "createAccount": "انشاء حساب",
+  "createMedicalHistory": "إنشاء سجل طبي",
+  "createMedicalRecordStep": "إنشاء سجل طبي - خطوة",
+  "createNewPrescription": "إنشاء وصفة طبية جديدة",
+  "createNewRecord": "إنشاء سجل جديد",
+  "createPrescription": "إنشاء وصفة طبية",
+  "createProfile": "إنشاء الملف الشخصي",
+  "createdAt": "تم الإنشاء في",
+  "currentMedications": "الأدوية الحالية",
+  "currentMedicationsHint": "أدخل الأدوية الحالية (مفصولة بفاصلة)",
+  "currentTherapist": "المعالج الحالي",
+  "customRange": "مدى مخصص",
+  "darkMode": "الوضع الداكن",
+  "dashboard": "لوحة التحكم",
+  "dataTooLargeQr": "البيانات كبيرة جداً لرمز QR",
+  "dateAdministered": "تاريخ التطعيم",
+  "dateOfBirth": "تاريخ الميلاد",
+  "delete": "حذف",
+  "deletePatientMessage": "هل أنت متأكد من حذف هذا المريض؟",
+  "descending": "تنازلي",
+  "diagnosis": "التشخيص",
+  "diagnosisLabel": "التشخيص:",
+  "dietaryPreferences": "التفضيلات الغذائية",
+  "dischargeDate": "تاريخ الخروج",
+  "dispense": "صرف",
+  "dispensed": "مصروفة",
+  "doctor": "طبيب",
+  "doctors": "الأطباء",
+  "done": "تم",
+  "dosage": "الجرعة",
+  "dosageHint": "مثل: ٥٠٠ ملجم",
+  "drugName": "اسم الدواء",
+  "duration": "المدة",
+  "durationHint": "مثل: ٧ أيام",
+  "edit": "تعديل",
+  "editMedicalHistory": "تعديل التاريخ الطبي",
+  "editPatient": "تعديل بيانات المريض",
+  "editPrescription": "تعديل الوصفة",
+  "editProfile": "تعديل البروفايل",
+  "email": "البريد الإلكتروني",
+  "emergencyContact": "جهة الاتصال في حالات الطوارئ",
+  "emergencyContactName": "اسم جهة الاتصال في حالات الطوارئ",
+  "emergencyContactPhone": "هاتف جهة الاتصال في حالات الطوارئ",
+  "emergencyContactRelationship": "العلاقة",
+  "emergencyInfo": "معلومات الطوارئ",
+  "emergencyPage": "الطوارئ",
+  "emptyTapToAdd": "فارغ • اضغط لإضافة تفاصيل",
+  "enterDiagnosisHint": "صف حالة المريض...",
+  "enterNotes": "أدخل الملاحظات...",
+  "enterSymptomsHint": "ما هي الأعراض التي تظهر على المريض؟",
+  "enterTreatmentHint": "حدد خطة العلاج الموصى بها...",
+  "error": "حدث خطأ",
+  "errorCreateRecord": "خطأ: {msg}",
+  "exerciseFrequency": "تكرار التمرين",
+  "expandAll": "توسيع الكل",
+  "expandCollapseAll": "توسيع/طي الكل",
+  "expirationDate": "تاريخ الانتهاء",
+  "exportData": "تصدير البيانات",
+  "failedToLoadDashboard": "فشل تحميل لوحة التحكم",
+  "failedToLoadEmergencyData": "فشل تحميل بيانات الطوارئ.",
+  "failedToLoadImage": "فشل تحميل الصورة",
+  "familyHistory": "التاريخ العائلي",
+  "familyHistoryHint": "التاريخ الطبي العائلي المهم",
+  "familyMedicalHistory": "التاريخ الطبي العائلي",
+  "female": "أنثى",
+  "fieldRequired": "هذا الحقل مطلوب",
+  "filter": "تصفية",
+  "findPatient": "البحث عن مريض",
+  "forgotPassword": "نسيت كلمة المرور؟",
+  "formInvalid": "النموذج غير صالح",
+  "frequency": "التكرار",
+  "frequencyHint": "مثل: مرتين يومياً",
+  "from": "من",
+  "gender": "الجنس",
+  "goodAfternoon": "طاب مساؤك،",
+  "goodEvening": "مساء الخير،",
+  "goodMorning": "صباح الخير،",
+  "healthSummary": "ملخص الصحة",
+  "height": "الطول",
+  "heightUnit": "سم",
+  "home": "الرئيسية",
+  "hospitalName": "اسم المستشفى",
+  "hospitalization": "الإقامة في المستشفى",
+  "hospitalizationReason": "السبب",
+  "idCardNumber": "رقم الهويه",
+  "identifier": "المعرف",
+  "inReview": "تحت المراجعة",
+  "inactive": "غير نشط",
+  "inactiveOnly": "غير النشطين فقط",
+  "inactivePatients": "المرضى غير النشطين",
+  "incompleteTapToEdit": "غير مكتمل • اضغط للتعديل",
+  "insuranceInfo": "معلومات التأمين",
+  "invalidCredentials": "رقم الهاتف أو كلمة المرور غير صحيحة",
+  "invalidEmail": "الرجاء إدخال بريد إلكتروني صحيح",
+  "invalidHeight": "الرجاء إدخال طول صحيح (1-300 سم)",
+  "invalidImageData": "بيانات صورة غير صالحة",
+  "invalidNationalId": "الرجاء إدخال رقم هوية صحيح",
+  "invalidPhone": "الرجاء إدخال رقم هاتف صحيح",
+  "invalidWeight": "الرجاء إدخال وزن صحيح (1-500 كجم)",
+  "isAlcoholConsumer": "يتناول الكحول",
+  "isPregnant": "حامل",
+  "isSmoker": "مدخن",
+  "itemsCompleted": "تم إكمال {completed} من {total}",
+  "itemsCompleted0": "تم إكمال  من ",
+  "labResults": "نتائج المختبر",
+  "language": "اللغة",
+  "lastMenstrualPeriod": "آخر دورة شهرية",
+  "lastUpdated": "آخر تحديث",
+  "lastVisit": "آخر زيارة",
+  "latestDiagnosis": "أحدث تشخيص",
+  "lifestyle": "نمط الحياة",
+  "liveBirths": "الولادات الحية",
+  "loading": "جاري التحميل...",
+  "login": "تسجيل الدخول",
+  "loginAsPatient": "تسجيل الدخول كمريض",
+  "loginDescription": "سجل الدخول أو أنشئ حسابًا لمزامنة بياناتك عبر جميع أجهزتك.",
+  "loginFailed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+  "loginSuccess": "تم تسجيل الدخول بنجاح!",
+  "loginTitle": "مرحبًا بعودتك",
+  "logout": "تسجيل الخروج",
+  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "lotNumber": "رقم الدفعة",
+  "male": "ذكر",
+  "medicalHistory": "السجل الطبي",
+  "medicalHistorySaved": "تم حفظ السجل الطبي بنجاح",
+  "medicalInformation": "المعلومات الطبية",
+  "medicalRecord": "السجل الطبي",
+  "medicalRecords": "السجلات الطبية",
+  "medicationPlan": "خطة العلاج",
+  "medications": "الأدوية",
+  "medicationsHint": "اذكر الأدوية الحالية والجرعات",
+  "medicationsLabel": "الأدوية:",
+  "medicineName": "اسم الدواء",
+  "medicineTaken": "تم تناول الدواء",
+  "mentalHealth": "الصحة النفسية",
+  "mentalHealthConditions": "حالات الصحة النفسية",
+  "myPrescriptions": "وصفاتي الطبية",
+  "name": "الاسم",
+  "nationalId": "رقم الهوية",
+  "needConsultation": "تحتاج الى استشارة",
+  "newMedication": "دواء جديد",
+  "newPassword": "كلمة المرور الجديدة",
+  "newPrescription": "وصفة جديدة",
+  "next": "التالي",
+  "no": "لا",
+  "noDashboardData": "لا توجد بيانات لوحة تحكم متاحة.",
+  "noMedicalHistory": "لا يوجد سجل طبي متاح",
+  "noMedicalHistoryFound": "لم يتم العثور على سجل طبي",
+  "noMedicalRecords": "لا توجد سجلات طبية",
+  "noMedicalRecordsDescription": "لا توجد سجلات في النظام. ابحث عن مريض للبدء.",
+  "noMedicineScheduled": "لا توجد أدوية مجدولة لهذا اليوم",
+  "noPatientsFound": "لم يتم العثور على مرضى",
   "noPrescriptions": "لا توجد وصفات طبية",
   "noPrescriptionsDescription": "يبدو أنك لم تقم بإضافة أي وصفات طبية بعد. ابدأ بإنشاء وصفتك الأولى.",
-  "createNewPrescription": "إنشاء وصفة طبية جديدة",
-  "serverDownMessage": "الخادم غير متوفر حالياً. يرجى التحقق من اتصالك أو المحاولة لاحقاً.",
-  "connectionError": "حدث خطأ أثناء الاتصال. يرجى التحقق من الإنترنت.",
-  "connecting": "جاري الاتصال بالخادم الآمن...",
+  "noUpcomingVisits": "لا توجد زيارات طبيب قادمة",
+  "notSpecified": "غير محدد",
+  "notes": "ملاحظات",
+  "notifications": "اشعارات",
+  "notificationsDescription": "تفعيل أو تعطيل التنبيهات",
+  "ok": "موافق",
+  "oldPassword": "كلمة المرور الحالية",
+  "other": "آخر",
+  "overview": "نظرة عامة",
+  "partialDispensed": "صرفت جزئيا",
+  "password": "كلمة المرور",
+  "passwordChangedSuccessfully": "تم تحديث كلمة المرور الخاصة بك بنجاح.",
+  "passwordConfirmation": "تاكيد كلمة المرور",
+  "passwordTooShort": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+  "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+  "pastMedications": "الأدوية السابقة",
+  "pastMedicationsHint": "أدخل الأدوية السابقة (مفصولة بفاصلة)",
+  "patient": "مريض",
+  "patientAdded": "تم إضافة المريض بنجاح",
+  "patientCode": "الكود",
+  "patientDeleted": "تم حذف المريض بنجاح",
+  "patientDetails": "تفاصيل المريض",
+  "patientDigitalId": "الهوية الرقمية للمريض",
+  "patientId": "رقم المريض",
+  "patientIdLabel": "رقم المريض: {id}",
+  "patientName": "اسم المريض",
+  "patientNotFound": "لم يتم العثور على المريض: {error}",
+  "patientPrescriptions": "وصفات المريض",
+  "patientUpdated": "تم تحديث بيانات المريض بنجاح",
+  "patients": "المرضى",
+  "pending": "قيد الانتظار",
+  "pendingPrescriptions": "الوصفات (غير مصروفه)",
+  "personalInformation": "المعلومات الشخصية",
+  "pharmacist": "صيدلي",
+  "phoneNumber": "رقم الهاتف",
+  "preferNotToSay": "أفضل عدم الإفصاح",
+  "pregnancies": "عدد مرات الحمل",
+  "prescribeMedication": "وصف دواء",
+  "prescriptionCreatedSuccess": "تم إنشاء الوصفة بنجاح",
+  "prescriptions": "الوصفات",
+  "previous": "السابق",
+  "previousSurgeries": "العمليات الجراحية السابقة",
+  "print": "طباعة",
+  "privacyAndSecurity": "الخصوصية والأمان",
+  "procedureName": "اسم الإجراء",
+  "profile": "الملف الشخصي",
+  "profilePage": "البروفايل",
+  "quantity": "الكمية",
+  "quickActions": "إجراءات سريعة",
+  "reaction": "رد الفعل",
+  "readyToGetStarted": "هل أنت مستعد للبدء؟",
+  "recentActivities": "الأنشطة الأخيرة",
+  "recentPatients": "المرضى الحديثين",
+  "recordsCount": "{count, plural, =0{لا توجد سجلات} =1{سجل واحد} =2{سجلان} few{{count} سجلات} many{{count} سجلاً} other{{count} سجل}}",
+  "recreationalDrugsDetails": "تفاصيل المخدرات الترفيهية",
+  "refresh": "تحديث",
+  "register": "تسجيل",
+  "registrationDate": "تاريخ التسجيل",
+  "removePhoto": "إزالة الصورة",
+  "reports": "التقارير",
+  "requiredField": "هذا الحقل مطلوب",
+  "reset": "إعادة تعيين",
   "retry": "إعادة المحاولة",
-  "patientCode": "الكود"
+  "sameAsOldPassword": "لا يمكن أن تكون كلمة المرور الجديدة مطابقة للقديمة",
+  "save": "حفظ",
+  "saveChanges": "حفظ التغييرات",
+  "saveMedicalHistory": "حفظ السجل الطبي",
+  "savePrescription": "حفظ الوصفة الطبية",
+  "scanForMedicalProfile": "مسح للملف الطبي",
+  "scheduleAppointment": "جدولة موعد",
+  "scheduledFor": "مجدولة لـ {time}",
+  "search": "بحث",
+  "searchPatients": "ابحث عن المرضى...",
+  "seeHistory": "عرض السجل",
+  "selectBloodType": "اختر فصيلة الدم",
+  "selectDate": "اختر تاريخ",
+  "selectGender": "اختر الجنس",
+  "selectLanguage": "اختر اللغة",
+  "selectUserType": "اختر نوع المستخدم",
+  "serverDownMessage": "الخادم غير متوفر حالياً. يرجى التحقق من اتصالك أو المحاولة لاحقاً.",
+  "serverError": "خطأ في الخادم",
+  "settings": "الإعدادات",
+  "somethingWentWrong": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+  "sort": "ترتيب",
+  "specialInstructions": "تعليمات خاصة (اختياري)",
+  "specialization": "التخصص",
+  "statistics": "الإحصائيات",
+  "status": "الحالة",
+  "stepProgress": "الخطوة {current} من {total}",
+  "submit": "إرسال",
+  "success": "تم بنجاح",
+  "successCreateRecord": "تم إنشاء السجل الطبي بنجاح",
+  "surgeonName": "اسم الجراح",
+  "surgeriesHint": "اذكر العمليات الجراحية السابقة",
+  "surgery": "عملية جراحية",
+  "surgeryDate": "التاريخ",
+  "surgicalHistory": "التاريخ الجراحي",
+  "symptoms": "الأعراض",
+  "takeMedicine": "تناول الدواء",
+  "takePhoto": "التقاط صورة",
+  "themeDescription": "التبديل بين المظهر الداكن والفاتح",
+  "thisMonth": "هذا الشهر",
+  "thisWeek": "هذا الأسبوع",
+  "to": "إلى",
+  "today": "اليوم",
+  "todayVisits": "زيارات اليوم",
+  "todaysMedicine": "أدوية اليوم",
+  "todaysSchedule": "جدول اليوم",
+  "totalPatients": "إجمالي المرضى",
+  "totalPrescriptions": "الوصفات (الكل)",
+  "treatment": "العلاج",
+  "treatmentDetails": "تفاصيل العلاج",
+  "upcomingAppointments": "المواعيد القادمة",
+  "upcomingVisits": "زيارات الطبيب القادمة",
+  "update": "تحديث",
+  "updatePassword": "تحديث كلمة المرور",
+  "useFingerprint": "استخدام بصمة الإصبع",
+  "userType": "نوع المستخدم",
+  "usesRecreationalDrugs": "يتناول مخدرات ترفيهية",
+  "vaccination": "تطعيم",
+  "vaccinationHistory": "تاريخ التطعيم",
+  "vaccineName": "اسم اللقاح",
+  "view": "عرض",
+  "viewAll": "عرض الكل",
+  "viewAllPatients": "عرض جميع المرضى",
+  "viewDetailedReport": "عرض تقرير مفصل",
+  "viewMedicalHistory": "عرض التاريخ الطبي",
+  "visits": "الزيارات",
+  "vitalStatistics": "الإحصائيات الحيوية",
+  "weight": "الوزن",
+  "weightUnit": "كجم",
+  "welcome": "مرحبًا، {name}",
+  "womensHealth": "صحة المرأة",
+  "yes": "نعم",
+  "personalInfo": "المعلومات الشخصية",
+  "professionalInfo": "التفاصيل المهنية"
 }

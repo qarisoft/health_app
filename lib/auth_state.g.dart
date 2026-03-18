@@ -41,7 +41,7 @@ final class AuthRecordStateProvider
   }
 }
 
-String _$authRecordStateHash() => r'1e22d7d6c319284ff27c27d1bf29c995a4ee5ecc';
+String _$authRecordStateHash() => r'0583d09cebd4825302eee360b6419d7db1691d91';
 
 abstract class _$AuthRecordState extends $Notifier<AuthRecordData> {
   AuthRecordData build();
@@ -93,7 +93,7 @@ final class AccountProvider extends $NotifierProvider<Account, AccountState> {
   }
 }
 
-String _$accountHash() => r'a91fad390131b0cb83be748c7bd7229da393da64';
+String _$accountHash() => r'f053517c17d38c22a25069ff994e49a0722312be';
 
 abstract class _$Account extends $Notifier<AccountState> {
   AccountState build();

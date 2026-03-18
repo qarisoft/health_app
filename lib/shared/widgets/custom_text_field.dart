@@ -28,6 +28,9 @@ class CustomTextField extends StatefulWidget {
   final Widget? suffix;
   final Color? fillColor;
 
+  // New property for dialogs or tight spaces
+  final bool isCompact;
+
   const CustomTextField({
     super.key,
     required this.controller,
@@ -55,6 +58,7 @@ class CustomTextField extends StatefulWidget {
     this.contentPadding,
     this.suffix,
     this.fillColor,
+    this.isCompact = false, // Defaults to false for normal screens
   });
 
   @override
@@ -79,7 +83,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
     );
 
     if (picked != null) {
-      // Formats date to YYYY-MM-DD
       widget.controller.text = DateFormat('yyyy-MM-dd').format(picked);
       if (widget.onChanged != null) {
         widget.onChanged!(widget.controller.text);
@@ -89,38 +92,49 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final bool shouldShowPasswordToggle = widget.showPasswordToggle && widget.obscureText;
+    final bool shouldShowPasswordToggle =
+        widget.showPasswordToggle && widget.obscureText;
+
+    // --- Dynamic Sizing Logic ---
+    final double targetIconSize = widget.isCompact ? 20.0 : 24.0;
+    final double targetFontSize = widget.isCompact ? 13.0 : 15.0;
+    final EdgeInsetsGeometry targetPadding =
+        widget.contentPadding ??
+        (widget.isCompact
+            ? const EdgeInsets.symmetric(horizontal: 12, vertical: 12)
+            : const EdgeInsets.symmetric(horizontal: 16, vertical: 16));
 
     Widget? finalSuffixIcon;
 
     // Handle Password Toggle Icon
     if (shouldShowPasswordToggle) {
       finalSuffixIcon = IconButton(
+        iconSize: targetIconSize,
+        splashRadius: widget.isCompact ? 18 : 24, // Smaller splash radius
         icon: Icon(
           _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
           color: Colors.grey.shade600,
         ),
-        onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
-        splashRadius: 20,
+        onPressed: () =>
+            setState(() => _isPasswordVisible = !_isPasswordVisible),
       );
-    } 
+    }
     // Handle Date Picker Icon
     else if (widget.isDatePicker) {
-      finalSuffixIcon = const Icon(Icons.calendar_today, size: 20);
+      finalSuffixIcon = Icon(Icons.calendar_today, size: targetIconSize);
     }
     // Handle Standard Suffix Icon
     else if (widget.suffixIcon != null) {
-      finalSuffixIcon = Icon(widget.suffixIcon);
+      finalSuffixIcon = Icon(widget.suffixIcon, size: targetIconSize);
     }
 
     return TextFormField(
       controller: widget.controller,
-      // Logic: Password visibility state vs base obscure setting
-      obscureText: shouldShowPasswordToggle ? !_isPasswordVisible : widget.obscureText,
-      // Logic: If date picker, prevent keyboard from appearing
+      obscureText: shouldShowPasswordToggle
+          ? !_isPasswordVisible
+          : widget.obscureText,
       readOnly: widget.isDatePicker || widget.readOnly,
       onTap: widget.isDatePicker ? _handleDateSelection : widget.onTap,
-      
       keyboardType: widget.keyboardType,
       validator: widget.validator,
       onChanged: widget.onChanged,
@@ -131,16 +145,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
       focusNode: widget.focusNode,
       enabled: widget.enabled,
       textCapitalization: widget.textCapitalization,
-      
+
+      // Optionally scale down the input text itself
+      style: TextStyle(fontSize: widget.isCompact ? 14.0 : 16.0),
+
       decoration: InputDecoration(
         labelText: widget.labelText,
         hintText: widget.hintText,
-        prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
+        // Apply dynamic font sizes to hints and labels
+        labelStyle: TextStyle(fontSize: targetFontSize),
+        hintStyle: TextStyle(fontSize: targetFontSize),
+        prefixIcon: widget.prefixIcon != null
+            ? Icon(widget.prefixIcon, size: targetIconSize)
+            : null,
         suffixIcon: finalSuffixIcon,
         suffix: widget.suffix,
         filled: widget.fillColor != null,
         fillColor: widget.fillColor,
-        contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: targetPadding,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
@@ -148,7 +170,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
+          borderSide: BorderSide(
+            color: Theme.of(context).primaryColor,
+            width: 2,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),

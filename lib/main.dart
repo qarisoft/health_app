@@ -87,7 +87,8 @@ class SplashPage extends ConsumerWidget {
           lottieAsset: AppAssets.serverIsDown,
           message: context.tr.serverDownMessage,
           // Invalidate forces Riverpod to re-run the build() method of the provider
-          onRetry: () => ref.invalidate(serverHealthProvider),
+          // onRetry: () => ref.invalidate(serverHealthProvider),
+          onRetry: () => ref.read(serverHealthProvider.notifier).checkHealth(),
         );
       },
       error: (e, _) {
@@ -95,7 +96,8 @@ class SplashPage extends ConsumerWidget {
           context: context,
           lottieAsset: AppAssets.error,
           message: context.tr.connectionError,
-          onRetry: () => ref.invalidate(serverHealthProvider),
+          // onRetry: () => ref.invalidate(serverHealthProvider),
+          onRetry: () => ref.read(serverHealthProvider.notifier).checkHealth(),
         );
       },
       loading: () => _buildStateScreen(
@@ -228,7 +230,7 @@ class NetworkAwareWrapper extends ConsumerWidget {
               // Give users a way to manually retry
               TextButton(
                 onPressed: () {
-                  ref.read(serverHealthProvider.notifier).checkHealth();
+                  // ref.read(serverHealthProvider.notifier).checkHealth();
                 },
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,

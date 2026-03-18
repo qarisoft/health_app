@@ -20,7 +20,7 @@ import 'package:health_app/l10n/app_localizations.dart';
 extension CacheExtension on Ref {
   /// Keeps the provider alive for a specified [duration] after the last listener is removed.
   /// If a new listener is added before the timer completes, the timer is canceled and the state is kept.
-  void cacheTheState([Duration? duration]) {
+  void cacheTheState({Duration? duration, bool forever = false}) {
     // Prevent the provider from being disposed immediately
     final link = keepAlive();
     Timer? timer;
@@ -34,6 +34,9 @@ extension CacheExtension on Ref {
       });
     });
 
+    if (forever) {
+      return;
+    }
     // Triggered if a new UI element starts listening before the timer finishes
     onResume(() {
       timer?.cancel();
