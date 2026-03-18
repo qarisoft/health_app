@@ -1057,5 +1057,7 @@
   "womensHealth": "صحة المرأة",
   "yes": "نعم",
   "personalInfo": "المعلومات الشخصية",
-  "professionalInfo": "التفاصيل المهنية"
+  "professionalInfo": "التفاصيل المهنية",
+  "pharmacyName": "اسم الصيدلية",
+  "licenseNumber": "رقم الترخيص"
 }

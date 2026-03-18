@@ -568,7 +568,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get latestDiagnosis => 'أحدث تشخيص';
 
   @override
-  String get licenseNumber => 'License Number';
+  String get licenseNumber => 'رقم الترخيص';
 
   @override
   String get lifestyle => 'نمط الحياة';
@@ -813,7 +813,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pharmacist => 'صيدلي';
 
   @override
-  String get pharmacyName => 'Pharmacy Name';
+  String get pharmacyName => 'اسم الصيدلية';
 
   @override
   String get phoneNumber => 'رقم الهاتف';
