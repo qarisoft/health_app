@@ -252,7 +252,7 @@ class _EditDoctorProfilePageState extends ConsumerState<EditDoctorProfilePage> {
         success: (data) {
           _showSnackBar(context.tr.changesSavedSuccessfully, isError: false);
           // Optional: Pop the screen after successful save
-          // context.mayPop();
+          context.mayPop();
         },
       );
     } catch (e) {
