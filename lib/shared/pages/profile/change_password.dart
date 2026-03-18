@@ -45,17 +45,23 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
                   controller: _currentPassword,
                   labelText: context.tr.oldPassword,
                   validator: notEmptyValidator,
+                  obscureText: true,
+                  showPasswordToggle: true,
                 ),
 
                 CustomTextField(
                   controller: _newPassword,
                   labelText: context.tr.newPassword,
                   validator: _passwordValidator,
+                  obscureText: true,
+                  showPasswordToggle: true,
                 ),
                 CustomTextField(
                   controller: _confirmPassword,
                   labelText: context.tr.passwordConfirmation,
                   validator: _passwordValidator,
+                  obscureText: true,
+                  showPasswordToggle: true,
                 ),
               ],
             ),
