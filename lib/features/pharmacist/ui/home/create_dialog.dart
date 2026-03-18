@@ -105,7 +105,7 @@ class CreatePrescriptionPage extends ConsumerWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -370,18 +370,18 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Flexible(
-                        child: Text(
-                          widget.patient.name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                      widget.patient.id == 0
+                          ? Icon(Icons.add)
+                          : Text(
+                              widget.patient.name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
                     ],
                   ),
                 ),
@@ -407,18 +407,18 @@ class _HeaderWidgetState extends State<_HeaderWidget> {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Flexible(
-                        child: Text(
-                          widget.doctor.name,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                      widget.doctor.id == 0
+                          ? Icon(Icons.add)
+                          : Text(
+                              widget.doctor.name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
                     ],
                   ),
                 ),
