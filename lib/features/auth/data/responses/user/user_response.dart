@@ -78,6 +78,27 @@ class GeneralResponse extends BaseResponse {
       _$GeneralResponseFromJson(json);
 }
 
+@JsonSerializable()
+class PatientRegisteredRes {
+  final String patientCode;
+  final int userId;
+
+  PatientRegisteredRes({required this.patientCode, required this.userId});
+
+  factory PatientRegisteredRes.fromJson(Map<String, dynamic> json) =>
+      _$PatientRegisteredResFromJson(json);
+}
+
+@JsonSerializable()
+class PatientRegisteredResponse extends BaseResponse {
+  final PatientRegisteredRes? data;
+
+  PatientRegisteredResponse({required super.success, super.message, this.data});
+
+  factory PatientRegisteredResponse.fromJson(Map<String, dynamic> json) =>
+      _$PatientRegisteredResponseFromJson(json);
+}
+
 // ================= DOCTOR RESPONSES =================
 
 // {

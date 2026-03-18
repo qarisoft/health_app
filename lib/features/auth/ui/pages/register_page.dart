@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/constants/app_colors.dart' show AppColors;
 import 'package:health_app/core/constants/app_layout.dart';
+import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/data/requests/doctor.dart';
@@ -12,12 +12,11 @@ import 'package:health_app/features/auth/data/requests/pharmacist.dart';
 import 'package:health_app/features/auth/data/responses/user/user_response.dart';
 import 'package:health_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:health_app/features/auth/ui/widgets/register_form.dart';
-// import 'package:health_app/l10n/app_context.tr.dart' show AppLocalizations;
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:health_app/shared/widgets/text_button.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -89,8 +88,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
       final permanentPath = p.join(permanentPath_, fileName);
 
-      // 4. Copy the file to the new path
-      // copy() returns a new File object pointing to the new location
       final savedFile = await file.copy(permanentPath);
 
       setState(() {
@@ -136,17 +133,21 @@ class _RegisterPageState extends State<RegisterPage> {
             AppDialog()
                 .show(
                   type: DialogType.success,
-                  title: 'Success',
-                  message: succes.message ?? '',
+                  title: context.tr.success,
+                  message: '${succes.message} ',
+                  content: Column(
+                    children: [
+                      Text(context.tr.patientCode),
+                      if (succes is PatientRegisteredResponse)
+                        Text(succes.data?.patientCode ?? ''),
+                      // Text(succes),
+                    ],
+                  ),
                 )
                 .whenComplete(goBack);
-            // goHome(succes);
           },
           error: (e) {
-            // AppDialog().info(title: 'Error', message: 'dsadsdsadsadsadsa');
             AppDialog().show(title: 'Error', message: e.msg);
-            // AppDialog().success(title: 'Error', message: 'dsadsdsadsadsadsa');
-            // AppDialog().toast(e.msg);
           },
         );
       }
@@ -157,7 +158,7 @@ class _RegisterPageState extends State<RegisterPage> {
     context.pop();
   }
 
-  Future<ErrorOr<GeneralResponse>> _registerPatient() async {
+  Future<ErrorOr<PatientRegisteredResponse>> _registerPatient() async {
     final data = PatientRegisterRequest(
       confirmPassword: passwordConfirmController.text,
       nationalId: _idCardController.text,

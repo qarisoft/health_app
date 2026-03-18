@@ -2257,6 +2257,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connecting to secure server...'**
   String get connecting;
+
+  /// No description provided for @patientCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Code'**
+  String get patientCode;
 }
 
 class _AppLocalizationsDelegate

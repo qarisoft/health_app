@@ -16,8 +16,6 @@ class AuthRecordState extends _$AuthRecordState {
   @override
   AuthRecordData build() {
     final auth = appStorage.getAuthRecord();
-    // auth.log('authRecord');
-    // return auth !=null?:;
     if (auth != null) {
       return AuthRecordData.auth(record: auth);
     }
@@ -57,8 +55,6 @@ class Account extends _$Account {
 
   AuthRecordData getAuthRecord() {
     final auth = appStorage.getAuthRecord();
-    // auth.log('authRecord');
-    // return auth !=null?:;
     if (auth != null) {
       return AuthRecordData.auth(record: auth);
     }

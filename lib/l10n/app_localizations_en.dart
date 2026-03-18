@@ -1119,4 +1119,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get connecting => 'Connecting to secure server...';
+
+  @override
+  String get patientCode => 'Patient Code';
 }

@@ -11,7 +11,8 @@ import 'package:health_app/features/auth/data/responses/user/user_response.dart'
         LoginResponse,
         PatientProfileResponse,
         PharmacistAsPatientResponse,
-        PharmacistProfileResponse;
+        PharmacistProfileResponse,
+        PatientRegisteredResponse;
 import 'package:health_app/features/auth/domain/models/account.dart'
     show PatientAccount, DoctorAccount, PharmacistAccount;
 import 'package:health_app/features/auth/domain/models/auth_state.dart'
@@ -244,12 +245,12 @@ class AppRepositories {
     }
   }
 
-  Future<ErrorOr<GeneralResponse>> registerPatient(
+  Future<ErrorOr<PatientRegisteredResponse>> registerPatient(
     Map<String, dynamic> data,
   ) async {
     try {
       final json = await api.registerPatient(data);
-      final res = GeneralResponse.fromJson(json);
+      final res = PatientRegisteredResponse.fromJson(json);
       if (res.success.isN()) {
         return ErrorOr.success(data: res);
       }

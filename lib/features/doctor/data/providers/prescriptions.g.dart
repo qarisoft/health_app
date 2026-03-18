@@ -42,7 +42,7 @@ final class PrescriptionsStoreProvider
 }
 
 String _$prescriptionsStoreHash() =>
-    r'25220adaae69ee0223c1380e918724c0c170b8ec';
+    r'a5750a9856b3de87e2cd21bd666c13e131021357';
 
 abstract class _$PrescriptionsStore extends $Notifier<PrescriptionsList> {
   PrescriptionsList build();

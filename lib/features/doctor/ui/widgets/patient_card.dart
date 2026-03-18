@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_app/features/doctor/data/requests/home.dart';
 import 'package:health_app/shared/ex.dart';
+
 //
 // import '../../domain/patient.dart' show Patient;
 // import '../models/patient.dart';
@@ -124,18 +125,18 @@ class PatientCard extends StatelessWidget {
             ),
 
             ...[
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(Icons.bloodtype, size: 16, color: Colors.grey[600]),
-                const SizedBox(width: 8),
-                Text(
-                  '${localizations.bloodType}: ${patient.bloodType}',
-                  style: TextStyle(color: Colors.grey[700]),
-                ),
-              ],
-            ),
-          ],
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.bloodtype, size: 16, color: Colors.grey[600]),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${localizations.bloodType}: ${patient.bloodType.symbol}',
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                ],
+              ),
+            ],
 
             // if (patient.dateOfBirth != null) ...[
             //   const SizedBox(height: 8),

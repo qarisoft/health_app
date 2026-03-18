@@ -1099,5 +1099,6 @@
   "createNewPrescription": "Create New Prescription",
   "serverDownMessage": "The server is currently unreachable. Please check your connection or try again later.",
   "connectionError": "An error occurred while connecting. Please check your internet.",
-  "connecting": "Connecting to secure server..."
+  "connecting": "Connecting to secure server...",
+  "patientCode":"Patient Code"
 }

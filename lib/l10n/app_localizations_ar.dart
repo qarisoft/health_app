@@ -1119,4 +1119,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get connecting => 'جاري الاتصال بالخادم الآمن...';
+
+  @override
+  String get patientCode => 'الكود';
 }

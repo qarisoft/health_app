@@ -79,7 +79,6 @@ class _DoctorHomeState extends ConsumerState<DoctorHome> {
         children: [
           _buildSearchBar(tr),
 
-          // Display stats if we have loaded data successfully
           if (patientsAsync.hasValue) _buildStatistics(tr, patients.length),
 
           Expanded(

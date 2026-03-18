@@ -85,6 +85,38 @@ GeneralResponse _$GeneralResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$GeneralResponseToJson(GeneralResponse instance) =>
     <String, dynamic>{'success': instance.success, 'message': instance.message};
 
+PatientRegisteredRes _$PatientRegisteredResFromJson(
+  Map<String, dynamic> json,
+) => PatientRegisteredRes(
+  patientCode: json['patientCode'] as String,
+  userId: (json['userId'] as num).toInt(),
+);
+
+Map<String, dynamic> _$PatientRegisteredResToJson(
+  PatientRegisteredRes instance,
+) => <String, dynamic>{
+  'patientCode': instance.patientCode,
+  'userId': instance.userId,
+};
+
+PatientRegisteredResponse _$PatientRegisteredResponseFromJson(
+  Map<String, dynamic> json,
+) => PatientRegisteredResponse(
+  success: json['success'] as bool?,
+  message: json['message'] as String? ?? '',
+  data: json['data'] == null
+      ? null
+      : PatientRegisteredRes.fromJson(json['data'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$PatientRegisteredResponseToJson(
+  PatientRegisteredResponse instance,
+) => <String, dynamic>{
+  'success': instance.success,
+  'message': instance.message,
+  'data': instance.data,
+};
+
 DoctorProfileResponse _$DoctorProfileResponseFromJson(
   Map<String, dynamic> json,
 ) => DoctorProfileResponse(

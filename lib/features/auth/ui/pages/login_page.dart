@@ -64,10 +64,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       ref.invalidateAllAuthProviders();
 
       auth.when(
-        success: (succes) {
-          // xlog(succes.toString());
-          // goHome(succes);
-        },
+        success: (succes) {},
         error: (e) {
           AppDialog().show(title: 'Error', message: e.msg);
         },
