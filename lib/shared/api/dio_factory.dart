@@ -57,25 +57,25 @@ class DioFactory {
     // 1. Get a guest Dio instance (no auth token needed)
     final dio = getDio(geust: true);
 
-    try {
-      // 2. Call your ping endpoint.
-      // We use the Options object to override the timeout just for this request.
-      // 3 seconds is usually plenty of time for a simple ping.
-      final response = await dio.get(
-        '/App_Check/ping', // <-- Replace this with your actual endpoint path
-        options: Options(
-          receiveTimeout: const Duration(seconds: 3),
-          sendTimeout: const Duration(seconds: 3),
-        ),
-      );
+    // try {
+    // 2. Call your ping endpoint.
+    // We use the Options object to override the timeout just for this request.
+    // 3 seconds is usually plenty of time for a simple ping.
+    final response = await dio.get(
+      '/App_Check/ping', // <-- Replace this with your actual endpoint path
+      options: Options(
+        receiveTimeout: const Duration(seconds: 3),
+        sendTimeout: const Duration(seconds: 3),
+      ),
+    );
 
-      // 3. If the server returns a 200 OK, it's alive.
-      return response.statusCode == 200;
-    } catch (e) {
-      // If a DioException occurs (e.g., connection timeout, network error, 502 Bad Gateway)
-      // we catch it and return false.
-      return false;
-    }
+    // 3. If the server returns a 200 OK, it's alive.
+    return response.statusCode == 200;
+    // } catch (e) {
+    // If a DioException occurs (e.g., connection timeout, network error, 502 Bad Gateway)
+    // we catch it and return false.
+    // return false;
+    // }
   }
 
   final AppStorage _storage;

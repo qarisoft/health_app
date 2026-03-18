@@ -53,11 +53,15 @@ class ServerHealth extends _$ServerHealth {
     }
     // Access your DioFactory via your dependency injection setup
     final dioFactory = di<DioFactory>();
-    final res = await dioFactory.isServerAlive();
-    if (res) {
-      state = ServerHealthState.alive();
-    } else {
-      state = ServerHealthState.error(msg: 'Server is down');
+    try {
+      final res = await dioFactory.isServerAlive();
+      if (res) {
+        state = ServerHealthState.alive();
+      } else {
+        state = ServerHealthState.error(msg: 'Server is down');
+      }
+    } catch (e) {
+      state = ServerHealthState.error(msg: e.toString());
     }
   }
 

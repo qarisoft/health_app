@@ -85,7 +85,8 @@ class SplashPage extends ConsumerWidget {
         return _buildStateScreen(
           context: context,
           lottieAsset: AppAssets.error,
-          message: context.tr.connectionError,
+          message: e,
+          // context.tr.connectionError,
           // onRetry: () => ref.invalidate(serverHealthProvider),
           onRetry: () => ref.read(serverHealthProvider.notifier).checkHealth(),
         );
