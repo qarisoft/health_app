@@ -2335,6 +2335,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Professional Details'**
   String get professionalInfo;
+
+  /// No description provided for @checkInteraction.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Interactions'**
+  String get checkInteraction;
 }
 
 class _AppLocalizationsDelegate

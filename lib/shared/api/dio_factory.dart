@@ -6,7 +6,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/services/storage.dart';
+import 'package:health_app/di.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+
+const apiUrlKey = 'apiUrlKey';
+String get _getUrl =>
+    appStorage.getString(apiUrlKey) ?? 'http://10.0.2.2:7164/api';
 
 Dio dioFactory() {
   Dio dio = Dio();
@@ -20,7 +25,7 @@ Dio dioFactory() {
   };
 
   dio.options = BaseOptions(
-    baseUrl: K.baseUrl,
+    baseUrl: _getUrl,
     headers: headers,
     receiveTimeout: timeOut,
     sendTimeout: timeOut,
@@ -101,7 +106,7 @@ class DioFactory {
     //     : 'http://localhost:7164/api';
 
     dio.options = BaseOptions(
-      baseUrl: K.baseUrl,
+      baseUrl: _getUrl,
       headers: headers,
       receiveTimeout: timeOut,
       sendTimeout: timeOut,

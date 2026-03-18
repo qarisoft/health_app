@@ -4,7 +4,7 @@ import 'package:health_app/auth_state.dart' show accountProvider;
 import 'package:health_app/core/constants/_all.dart';
 import 'package:health_app/core/constants/k.dart';
 import 'package:health_app/core/router/app_routes.dart';
-import 'package:health_app/di.dart' show initDi;
+import 'package:health_app/di.dart' show initDi, appStorage;
 import 'package:health_app/features/auth/domain/models/account.dart';
 import 'package:health_app/features/auth/ui/pages/register_page.dart';
 import 'package:health_app/features/doctor/ui/home.dart' as doctor_app;
@@ -12,10 +12,12 @@ import 'package:health_app/features/home/ui/pages/p.dart' as patient_app;
 import 'package:health_app/features/pharmacist/ui/home/page.dart'
     as pharmacist_page;
 import 'package:health_app/l10n/app_localizations.dart';
+import 'package:health_app/shared/api/dio_factory.dart';
 import 'package:health_app/shared/ex.dart' show AppEx, xlog;
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/providers/theme/theme_provider.dart';
 import 'package:health_app/shared/server_health_provider.dart';
+import 'package:health_app/shared/widgets/custom_text_field.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:lottie/lottie.dart';
 
@@ -76,22 +78,10 @@ class SplashPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isAliveAsync = ref.watch(serverHealthProvider);
+    xlog('isAlive is $isAliveAsync');
 
     return isAliveAsync.when(
-      data: (isAlive) {
-        if (isAlive) {
-          return const SplashInnerPage();
-        }
-        return _buildStateScreen(
-          context: context,
-          lottieAsset: AppAssets.serverIsDown,
-          message: context.tr.serverDownMessage,
-          // Invalidate forces Riverpod to re-run the build() method of the provider
-          // onRetry: () => ref.invalidate(serverHealthProvider),
-          onRetry: () => ref.read(serverHealthProvider.notifier).checkHealth(),
-        );
-      },
-      error: (e, _) {
+      error: (e) {
         return _buildStateScreen(
           context: context,
           lottieAsset: AppAssets.error,
@@ -105,6 +95,25 @@ class SplashPage extends ConsumerWidget {
         lottieAsset: AppAssets.loading2,
         message: context.tr.connecting,
       ),
+      alive: () => const SplashInnerPage(),
+      noApiUrl: () {
+        return _buildStateScreen(
+          context: context,
+          lottieAsset: AppAssets.error,
+          message: 'please enter the api url',
+          onRetryText: 'enter api url',
+          onRetry: () => onChangeTheUrl(context),
+        );
+      },
+    );
+  }
+
+  void onChangeTheUrl(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return EnterApiUrlDialog();
+      },
     );
   }
 
@@ -113,6 +122,7 @@ class SplashPage extends ConsumerWidget {
     required BuildContext context,
     required String lottieAsset,
     required String message,
+    String? onRetryText,
     VoidCallback? onRetry,
   }) {
     return Scaffold(
@@ -148,7 +158,7 @@ class SplashPage extends ConsumerWidget {
                   ElevatedButton.icon(
                     onPressed: onRetry,
                     icon: const Icon(Icons.refresh),
-                    label: Text(context.tr.retry),
+                    label: Text(onRetryText ?? context.tr.retry),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
@@ -160,11 +170,78 @@ class SplashPage extends ConsumerWidget {
                     ),
                   ),
                 ],
+                SizedBox(height: 10),
+                TextButton(
+                  onPressed: () => onChangeTheUrl(context),
+                  child: Text('change api url'),
+                ),
+                Text(appStorage.getString(apiUrlKey) ?? ''),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class EnterApiUrlDialog extends StatefulWidget {
+  const EnterApiUrlDialog({super.key});
+
+  @override
+  State<EnterApiUrlDialog> createState() => _EnterApiUrlDialogState();
+}
+
+class _EnterApiUrlDialogState extends State<EnterApiUrlDialog> {
+  final _controller = TextEditingController();
+  final _key = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Form(
+        key: _key,
+        child: Localizations.override(
+          context: context,
+          locale: Locale('en'),
+
+          child: CustomTextField(
+            labelText: 'api url',
+            validator: (String? s) {
+              if (s == null || s.isEmpty) {
+                return 'please enter the api url';
+              }
+              if (!s.startsWith('http')) {
+                return 'https://xxx || http://xxx';
+              }
+              if (s.endsWith('/')) {
+                return 'https://xxx no / at the end';
+              }
+              return null;
+            },
+            controller: _controller,
+          ),
+        ),
+      ),
+      actions: [
+        Consumer(
+          builder: (context, ref, _) {
+            return ElevatedButton(
+              onPressed: () async {
+                if (_key.currentState!.validate()) {
+                  await appStorage.setString(
+                    apiUrlKey,
+                    '${_controller.text}/api',
+                  );
+                  ref.invalidate(serverHealthProvider);
+                  context.mayPop();
+                }
+              },
+              child: const Text('save'),
+            );
+          },
+        ),
+      ],
     );
   }
 }
@@ -187,67 +264,6 @@ class SplashInnerPage extends ConsumerWidget {
         pharmacist: (p) => const pharmacist_page.HomePage(),
         admin: (p) => patient_app.HomePage(),
       ),
-    );
-  }
-}
-
-// final GetIt di = GetIt.instance;
-class NetworkAwareWrapper extends ConsumerWidget {
-  final Widget child;
-
-  const NetworkAwareWrapper({super.key, required this.child});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the server health state
-    final healthState = ref.watch(serverHealthProvider);
-
-    // Extract the boolean value (defaulting to true so we don't flash offline unnecessarily)
-    final isAlive = healthState.value ?? true;
-
-    return Column(
-      children: [
-        // The actual screen content
-        Expanded(child: child),
-
-        // The Offline Banner
-        // This will seamlessly slide up/down based on the server status
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          height: isAlive ? 0 : 40,
-          color: Colors.red,
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.wifi_off, color: Colors.white, size: 16),
-              const SizedBox(width: 8),
-              const Text(
-                'Server is unreachable. Check your connection.',
-                style: TextStyle(color: Colors.white, fontSize: 12),
-              ),
-              const SizedBox(width: 16),
-              // Give users a way to manually retry
-              TextButton(
-                onPressed: () {
-                  // ref.read(serverHealthProvider.notifier).checkHealth();
-                },
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: const Size(40, 20),
-                ),
-                child: const Text(
-                  'RETRY',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

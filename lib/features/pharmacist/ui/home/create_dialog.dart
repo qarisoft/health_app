@@ -4,12 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/data/responses/base/base_response.dart';
 import 'package:health_app/features/doctor/data/providers/search_patient.dart'
-    show medicationSearchResultsProvider, MedicationSearchResult;
+    show MedicationSearchResult;
 import 'package:health_app/features/pharmacist/data/providers/create_rescription.dart';
 import 'package:health_app/features/pharmacist/data/providers/search_provider.dart';
 import 'package:health_app/shared/ex.dart' show AppEx, xlog;
-import 'package:health_app/shared/functions.dart';
+import 'package:health_app/shared/widgets/custom_text_field.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+
+import '../widgets/search_drugs_dialog.dart' show SearchDrugsDialog;
 
 class CreatePrescriptionPage extends ConsumerWidget {
   final int patientId;
@@ -103,7 +105,7 @@ class CreatePrescriptionPage extends ConsumerWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -605,105 +607,30 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
     );
   }
 
-  void handelSearchDialog(int index) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        final controller = TextEditingController();
-        final k = GlobalKey<FormState>();
-        return Dialog(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Consumer(
-              builder: (context, ref, child) {
-                final drugs = ref.watch(medicationSearchResultsProvider);
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.70,
-                  child: Column(
-                    children: [
-                      Form(
-                        key: k,
-                        child: Column(
-                          spacing: 6,
-                          children: [
-                            Row(children: [Text(context.tr.search)]),
-                            TextFormField(
-                              controller: controller,
-                              validator: notEmptyValidator,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (k.currentState!.validate()) {
-                            final dio = getDio;
-                            final res = await dio.get(
-                              '/Pharmacist/search-drugs?query=${controller.text}',
-                            );
-                            final data = res.data;
-                            if (data.runtimeType == List) {
-                              final d = (data as List<dynamic>)
-                                  .map(
-                                    (s) => MedicationSearchResult.fromJson(s),
-                                  )
-                                  .toList();
-                              ref
-                                  .read(
-                                    medicationSearchResultsProvider.notifier,
-                                  )
-                                  .init(d);
-                            }
-                          }
-                        },
-                        child: Text(context.tr.search),
-                      ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              ...drugs.map(
-                                (m) => ListTile(
-                                  onTap: () {
-                                    widget.onUpdateItemDrug(
-                                      index,
-                                      IdName(
-                                        name:
-                                            m.brandName ?? m.chemicalName ?? '',
-                                        id: m.drugId,
-                                      ),
-                                    );
-                                    context.pop();
-                                  },
-                                  title: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 3,
-                                    ),
-                                    child: Row(
-                                      children: [Text(m.brandName ?? '')],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+  void handelSearchDialog(int index) async {
+    final MedicationSearchResult? selectedDrug =
+        await showDialog<MedicationSearchResult>(
+          context: context,
+          builder: (context) => const SearchDrugsDialog(),
         );
-      },
-    );
+
+    // If the user tapped outside the dialog or hit the close button, it returns null
+    if (selectedDrug != null) {
+      print('User selected: ${selectedDrug.brandName}');
+      widget.onUpdateItemDrug(
+        index,
+        IdName(
+          name: selectedDrug.brandName ?? selectedDrug.chemicalName ?? '',
+          id: selectedDrug.drugId,
+        ),
+      );
+      // Do something with the selected drug (e.g., add to a prescription list)
+    }
   }
 
   Widget _buildMedicationContent(int index, PrescriptionItemForm item) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: Column(
         children: [
           _buildTextFieldRow(
@@ -937,22 +864,27 @@ class _MedicationsWidgetState extends State<_MedicationsWidget> {
         const SizedBox(height: 4),
         if (readOnly) Row(children: [Text(value.isNotEmpty ? value : '...')]),
         if (!readOnly)
-          TextFormField(
+          CustomTextField(
             initialValue: value,
-            decoration: InputDecoration(
-              hintText: hint,
-              prefixIcon: Icon(icon, size: 20),
-              border: const OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: maxLines > 1 ? 12 : 0,
-              ),
-              filled: true,
-              fillColor: Colors.white,
-            ),
+            isCompact: true,
+            prefixIcon: icon,
+
+            // decoration: InputDecoration(
+            //   hintText: hint,
+            //   prefixIcon: Icon(icon, size: 20),
+            //   border: const OutlineInputBorder(),
+            //   contentPadding: EdgeInsets.symmetric(
+            //     horizontal: 12,
+            //     vertical: maxLines > 1 ? 12 : 0,
+            //   ),
+            //   filled: true,
+            //   fillColor: Colors.white,
+            // ),
             keyboardType: keyboardType,
             maxLines: maxLines,
             onChanged: onChanged,
+            // labelText: label ?? '',
+            hintText: hint ?? label,
           ),
       ],
     );

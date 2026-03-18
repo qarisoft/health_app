@@ -96,7 +96,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get allergies => 'الحساسيات';
 
   @override
-  String get allergiesHint => 'اذكر أي حساسيات (مثل البنسلين، الفول السوداني)';
+  String get allergiesHint => 'اذكر أي حساسيات ( البنسلين، الفول السوداني)';
 
   @override
   String get allergySeverity => 'شدة الحساسية';
@@ -179,7 +179,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chronicDiseasesHint =>
-      'اذكر الأمراض المزمنة (مثل السكري، ارتفاع الضغط)';
+      'اذكر الأمراض المزمنة ( السكري، ارتفاع الضغط)';
 
   @override
   String get cigarettesPerDay => 'عدد السجائر يومياً';
@@ -312,7 +312,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dosage => 'الجرعة';
 
   @override
-  String get dosageHint => 'مثل: ٥٠٠ ملجم';
+  String get dosageHint => ' ٥٠٠ ملجم';
 
   @override
   String get drugName => 'اسم الدواء';
@@ -321,7 +321,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get duration => 'المدة';
 
   @override
-  String get durationHint => 'مثل: ٧ أيام';
+  String get durationHint => ' ٧ أيام';
 
   @override
   String get edit => 'تعديل';
@@ -443,7 +443,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get frequency => 'التكرار';
 
   @override
-  String get frequencyHint => 'مثل: مرتين يومياً';
+  String get frequencyHint => ' مرتين يومياً';
 
   @override
   String get from => 'من';
@@ -1161,4 +1161,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get professionalInfo => 'التفاصيل المهنية';
+
+  @override
+  String get checkInteraction => 'فحص التفاعلات الدوائية';
 }

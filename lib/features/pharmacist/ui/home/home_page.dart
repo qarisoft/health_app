@@ -3,12 +3,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/features/pharmacist/data/providers/prescription_queu.dart';
 import 'package:health_app/features/pharmacist/domain/models/prescription.dart';
+import 'package:health_app/shared/ex.dart';
 
-import '../../../../shared/ex.dart' show AppEx;
+import '../../../doctor/data/providers/search_patient.dart'
+    show MedicationSearchResult;
+import '../widgets/search_drugs_dialog.dart' show SearchDrugsDialog;
 import 'create_dialog.dart';
 
 class PharmacistHomePage extends StatelessWidget {
   const PharmacistHomePage({super.key});
+  Future<void> _openDrugSearch(BuildContext context) async {
+    // Wait for the dialog to close and capture the returned result
+    final MedicationSearchResult? selectedDrug =
+        await showDialog<MedicationSearchResult>(
+          context: context,
+          builder: (context) => const SearchDrugsDialog(),
+        );
+
+    // If the user tapped outside the dialog or hit the close button, it returns null
+    if (selectedDrug != null) {
+      print('User selected: ${selectedDrug.brandName}');
+      // Do something with the selected drug (e.g., add to a prescription list)
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,13 +126,19 @@ class PharmacistHomePage extends StatelessWidget {
                         icon: Icons.qr_code_scanner,
                         label: "Scan Rx",
                         color: Colors.blue,
-                        onTap: () {},
+                        onTap: () {
+                          _openDrugSearch(context);
+                        },
                       ),
                       _QuickActionCard(
                         icon: Icons.add_circle_outline,
-                        label: "Manual Entry",
+                        label: context.tr.newPrescription,
                         color: Colors.orange,
-                        onTap: () {},
+                        onTap: () {
+                          context.to(
+                            CreatePrescriptionPage(patientId: 1, doctorId: 1),
+                          );
+                        },
                       ),
                       _QuickActionCard(
                         icon: Icons.inventory_2_outlined,
@@ -194,20 +217,20 @@ class PharmacistHomePage extends StatelessWidget {
       ),
 
       // Floating Action Button for major task
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  CreatePrescriptionPage(patientId: 1, doctorId: 1),
-            ),
-          );
-        },
-        backgroundColor: const Color(0xFF00796B),
-        icon: const Icon(Icons.add),
-        label: Text(context.tr.createPrescription),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () async {
+      //     final result = await Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) =>
+      //             CreatePrescriptionPage(patientId: 1, doctorId: 1),
+      //       ),
+      //     );
+      //   },
+      //   backgroundColor: const Color(0xFF00796B),
+      //   icon: const Icon(Icons.add),
+      //   label: Text(context.tr.createPrescription),
+      // ),
     );
   }
 }

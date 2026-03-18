@@ -297,7 +297,7 @@ class PrescriptionCard extends StatelessWidget {
               enabled: prescription.status != 2,
               child: ListTile(
                 leading: const Icon(Icons.security, color: Colors.green),
-                title: Text(context.tr.privacyAndSecurity),
+                title: Text(context.tr.checkInteraction),
                 contentPadding: EdgeInsets.zero,
                 visualDensity: VisualDensity.compact,
               ),

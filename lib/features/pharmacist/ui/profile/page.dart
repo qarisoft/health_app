@@ -109,19 +109,12 @@ class _EditPharmacistProfileScreenState
                 ),
                 const SizedBox(height: 16),
                 CustomTextField(
-                  // controller: _emailCtrl,
+                  controller: _emailCtrl,
                   labelText: context.tr.email,
                   prefixIcon: Icons.email_rounded,
                   keyboardType: TextInputType.emailAddress,
                   initialValue: _emailCtrl.text,
                   readOnly: true,
-                  // validator: (v) {
-                  //   if (v == null || v.isEmpty) return context.tr.requiredField;
-                  //   if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(v)) {
-                  //     return context.tr.invalidEmail;
-                  //   }
-                  //   return null;
-                  // },
                 ),
                 const SizedBox(height: 32),
 

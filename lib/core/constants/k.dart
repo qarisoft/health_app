@@ -60,11 +60,12 @@ enum UserType {
 }
 
 const api = '192.168.43.183';
+// const api = 'http://192.168.43.183:5137';
 // const api = '192.168.1.102';
 
 class K {
   // TODO Change this Url
-  static const String baseUrl = "http://$api:5137/api";
+  // static const String baseUrl = "http://$api:5137/api";
 
   //
   static const String loginUrl = "/auth/login";

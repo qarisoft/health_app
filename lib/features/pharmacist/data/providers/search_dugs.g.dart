@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'server_health_provider.dart';
+part of 'search_dugs.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,52 +9,52 @@ part of 'server_health_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(ServerHealth)
-const serverHealthProvider = ServerHealthProvider._();
+@ProviderFor(SearchDrugs)
+const searchDrugsProvider = SearchDrugsProvider._();
 
-final class ServerHealthProvider
-    extends $NotifierProvider<ServerHealth, ServerHealthState> {
-  const ServerHealthProvider._()
+final class SearchDrugsProvider
+    extends $NotifierProvider<SearchDrugs, SearchDrugsState> {
+  const SearchDrugsProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'serverHealthProvider',
+        name: r'searchDrugsProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$serverHealthHash();
+  String debugGetCreateSourceHash() => _$searchDrugsHash();
 
   @$internal
   @override
-  ServerHealth create() => ServerHealth();
+  SearchDrugs create() => SearchDrugs();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ServerHealthState value) {
+  Override overrideWithValue(SearchDrugsState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<ServerHealthState>(value),
+      providerOverride: $SyncValueProvider<SearchDrugsState>(value),
     );
   }
 }
 
-String _$serverHealthHash() => r'a969332cfd998b04504aa504212cd69c46e49f8a';
+String _$searchDrugsHash() => r'68229b38334433b3aaebaf0943ff13245a89d1c1';
 
-abstract class _$ServerHealth extends $Notifier<ServerHealthState> {
-  ServerHealthState build();
+abstract class _$SearchDrugs extends $Notifier<SearchDrugsState> {
+  SearchDrugsState build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<ServerHealthState, ServerHealthState>;
+    final ref = this.ref as $Ref<SearchDrugsState, SearchDrugsState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<ServerHealthState, ServerHealthState>,
-              ServerHealthState,
+              AnyNotifier<SearchDrugsState, SearchDrugsState>,
+              SearchDrugsState,
               Object?,
               Object?
             >;

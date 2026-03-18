@@ -5,17 +5,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/features/home/data/providers/dashboard_summary.dart';
 import 'package:health_app/l10n/app_localizations.dart';
-
-// extension AppEx on BuildContext {
-//   // Navigations
-//
-// }
 
 extension CacheExtension on Ref {
   /// Keeps the provider alive for a specified [duration] after the last listener is removed.
@@ -28,15 +21,17 @@ extension CacheExtension on Ref {
 
     // Triggered when the last UI element stops listening to this provider
     onCancel(() {
+      if (forever) return;
+      timer?.cancel();
       timer = Timer(duration_, () {
         // Timer completed without new listeners. Allow the provider to be destroyed.
         link.close();
       });
     });
 
-    if (forever) {
-      return;
-    }
+    // if (forever) {
+    //   return;
+    // }
     // Triggered if a new UI element starts listening before the timer finishes
     onResume(() {
       timer?.cancel();

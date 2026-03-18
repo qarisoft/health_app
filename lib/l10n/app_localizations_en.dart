@@ -1162,4 +1162,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get professionalInfo => 'Professional Details';
+
+  @override
+  String get checkInteraction => 'Check Interactions';
 }
