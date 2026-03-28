@@ -16,10 +16,6 @@ import 'patient_emergency_screen.dart' show EmergenciesScreen;
 
 part 'p.g.dart';
 
-// medicalrec
-// emergency
-// prescriptions
-
 class MainPatientPage extends ConsumerWidget {
   const MainPatientPage({super.key});
 
@@ -34,27 +30,6 @@ class MainPatientPage extends ConsumerWidget {
     return InitializeProfilePage();
   }
 }
-
-// class InitializedProfilePage2 extends ConsumerWidget {
-//   const InitializedProfilePage2({super.key, this.onBackPressed});
-//
-//   final VoidCallback? onBackPressed;
-//
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final ac = ref.watch(accountProvider);
-//     final patient = ac.whenOrNull(
-//       acount: (account) => account.whenOrNull(patient: (p) => p),
-//     );
-//     // xlog(patient);
-//
-//     return InitializeProfilePage2(onBackPressed: onBackPressed);
-//   }
-// }
-// @riverpod
-// int patientSelectedPageIndex (Ref ref) {
-//   return 0;
-// }
 
 @riverpod
 class PatientSelectedPageIndex extends _$PatientSelectedPageIndex {
@@ -98,6 +73,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       // backgroundColor: Color(0xFFF8FAFD),
       body: [
         MyHomePage(),
+        // a.HomePage(userName: 'ssss'),
         EmergenciesScreen(),
 
         PatientPrescriptionsScreen(),

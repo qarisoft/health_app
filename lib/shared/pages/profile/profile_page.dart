@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart';
+import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/shared/ex.dart' show AppEx, LogOutExt;
 import 'package:health_app/shared/pages/profile/change_password.dart';
@@ -533,7 +534,11 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                   builder: (context, ref, _) {
                     void out() {
                       ref.invalidateAllAuthProviders();
-                      Navigator.of(context).pop(); // Close dialog
+                      ref.invalidate(accountProvider);
+                      Navigator.of(
+                        context,
+                      ).pushReplacementNamed(AppRoutes.splash);
+                      // Navigator.of(context).pop(); // Close dialog
                     }
 
                     return SizedBox(

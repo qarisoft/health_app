@@ -28,15 +28,7 @@ class ProfilePage extends ConsumerWidget {
         address: patient.address,
       ),
       onEditProfile: () {
-        context.to(
-          PatientFullProfilePage(),
-          // InitializeProfilePage2(
-          //   onBackPressed: () {
-          //     ref.invalidateAllAuthProviders();
-          //     // context.pop();
-          //   },
-          // ),
-        );
+        context.to(PatientFullProfilePage());
       },
     );
   }
