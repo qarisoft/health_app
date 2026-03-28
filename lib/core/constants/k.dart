@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
-const bool DEV_ENV = false;
-// const bool DEV_ENV = true;
+// const bool DEV_ENV = false;
+const bool DEV_ENV = true;
 
 const version = 1087;
 const String AUTH_KEY = 'AUTH_KEY$version';

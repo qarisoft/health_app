@@ -26,7 +26,7 @@ class _EmergenciesScreenState extends ConsumerState<EmergenciesScreen> {
   final GlobalKey _globalKey = GlobalKey();
   bool _isCapturing = false;
 
-  Future<void> _captureAndSaveImage() async {
+  Future<void> _captureAndSaveImage0() async {
     setState(() => _isCapturing = true);
 
     try {
@@ -72,6 +72,61 @@ class _EmergenciesScreenState extends ConsumerState<EmergenciesScreen> {
             backgroundColor: Colors.red,
           ),
         );
+        xlog(e);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isCapturing = false);
+      }
+    }
+  }
+
+  Future<void> _captureAndSaveImage() async {
+    setState(() => _isCapturing = true);
+
+    try {
+      // Find the boundary and convert it to an image
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext!.findRenderObject()
+              as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData? byteData = await image.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+      // Pass the 'bytes' directly to the saveFile method.
+      // The native OS will handle writing the file to the chosen location.
+      String? outputFile = await FilePicker.platform.saveFile(
+        dialogTitle: 'Save Emergency Profile',
+        fileName: 'emergency_profile.png',
+        type: FileType.image,
+        bytes: pngBytes, // <-- FIX: Add the bytes here
+      );
+
+      // If the user picked a location and the file was successfully saved by the OS
+      if (outputFile != null) {
+        // NOTE: We removed File(outputFile).writeAsBytes() because
+        // the file_picker plugin already handled it natively.
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Image saved successfully!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error saving image: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        xlog(e); // Assuming xlog is your custom logging function
       }
     } finally {
       if (mounted) {

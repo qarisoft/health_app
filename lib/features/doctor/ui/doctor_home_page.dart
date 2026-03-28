@@ -12,10 +12,8 @@ import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 
 import '../../../core/error/app_error.dart';
-import 'medical_record.dart' show SingleInputDialog;
-
-// Import your generated providers here
-// import 'providers/recent_patients_provider.dart';
+import '../../../shared/widgets/dialog/single_input_dialog.dart'
+    show SingleInputDialog;
 
 class DoctorHome extends ConsumerStatefulWidget {
   const DoctorHome({super.key});
@@ -235,7 +233,7 @@ class _DoctorHomeState extends ConsumerState<DoctorHome> {
   void _handleSearchPress() async {
     final identifier = await showDialog<String>(
       context: context,
-      builder: (context) => const SingleInputDialog(),
+      builder: (context) => const SingleInputDialog(title: '', label: ''),
     );
 
     if (identifier != null && identifier.isNotEmpty) {

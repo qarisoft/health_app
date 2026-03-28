@@ -74,147 +74,158 @@ class _EnterApiUrlDialogState extends State<EnterApiUrlDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Configure API Server'),
-      // Using SingleChildScrollView prevents overflow errors when the keyboard opens
-      content: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Localizations.override(
-            context: context,
-            locale: const Locale('en'),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 5,
-              children: [
-                SizedBox(
-                  // width: 90,
-                  child: DropdownButtonFormField<String>(
-                    value: _schema,
-                    decoration: const InputDecoration(labelText: 'Schema'),
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'http://',
-                        child: Text('http://'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'https://',
-                        child: Text('https://'),
-                      ),
-                    ],
-                    onChanged: (val) {
-                      if (val != null) setState(() => _schema = val);
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                // 2. Host / IP Field
-                CustomTextField(
-                  controller: _hostController,
-                  labelText: 'Host / IP',
-                  keyboardType: TextInputType.url,
-                  validator: (String? s) {
-                    if (s == null || s.trim().isEmpty) {
-                      return 'Please enter the host';
-                    }
-                    final input = s.trim();
-                    if (input.startsWith('http')) {
-                      return 'Remove http/https';
-                    }
-                    if (input.contains(':')) {
-                      return 'Remove port (use checkbox)';
-                    }
-                    if (input.endsWith('/')) {
-                      return 'Remove trailing slash';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-
-                // 3. Checkbox to toggle port
-                Row(
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Localizations.override(
+                context: context,
+                locale: const Locale('en'),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 5,
                   children: [
-                    Checkbox(
-                      value: _usePort,
-                      onChanged: (val) {
-                        setState(() {
-                          _usePort = val ?? false;
-                          // Clear the port if the user unchecks the box
-                          if (!_usePort) _portController.clear();
-                        });
+                    SizedBox(height: 15),
+
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(child: const Text('Configure API Server')),
+                    ),
+
+                    SizedBox(
+                      // width: 90,
+                      child: DropdownButtonFormField<String>(
+                        value: _schema,
+                        decoration: const InputDecoration(labelText: 'Schema'),
+                        items: const [
+                          DropdownMenuItem(
+                            value: 'http://',
+                            child: Text('http://'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'https://',
+                            child: Text('https://'),
+                          ),
+                        ],
+                        onChanged: (val) {
+                          if (val != null) setState(() => _schema = val);
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    // 2. Host / IP Field
+                    CustomTextField(
+                      controller: _hostController,
+                      labelText: 'Host / IP',
+                      keyboardType: TextInputType.url,
+                      validator: (String? s) {
+                        if (s == null || s.trim().isEmpty) {
+                          return 'Please enter the host';
+                        }
+                        final input = s.trim();
+                        if (input.startsWith('http')) {
+                          return 'Remove http/https';
+                        }
+                        if (input.contains(':')) {
+                          return 'Remove port (use checkbox)';
+                        }
+                        if (input.endsWith('/')) {
+                          return 'Remove trailing slash';
+                        }
+                        return null;
                       },
                     ),
-                    const Text('Specify Custom Port'),
+                    const SizedBox(height: 16),
+
+                    // 3. Checkbox to toggle port
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _usePort,
+                          onChanged: (val) {
+                            setState(() {
+                              _usePort = val ?? false;
+                              // Clear the port if the user unchecks the box
+                              if (!_usePort) _portController.clear();
+                            });
+                          },
+                        ),
+                        const Text('Specify Custom Port'),
+                      ],
+                    ),
+
+                    // 4. Conditional Port Field
+                    if (_usePort) ...[
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        // Used standard TextFormField to easily add inputFormatters
+                        controller: _portController,
+                        // labelText: 'Port',
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'e.g. 8080',
+                        ),
+                        validator: (String? s) {
+                          if (!_usePort) return null;
+                          if (s == null || s.trim().isEmpty) {
+                            return 'Please enter a port';
+                          }
+                          final port = int.tryParse(s.trim());
+                          if (port == null || port <= 0 || port > 65535) {
+                            return 'Invalid port (1-65535)';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                    TextButton(
+                      onPressed: () => Navigator.of(context).maybePop(),
+                      child: const Text('Cancel'),
+                    ),
+                    Consumer(
+                      builder: (context, ref, _) {
+                        return ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              final host = _hostController.text.trim();
+
+                              // 5. Safely construct the final URL
+                              String finalUrl = '$_schema$host';
+
+                              if (_usePort &&
+                                  _portController.text.trim().isNotEmpty) {
+                                finalUrl += ':${_portController.text.trim()}';
+                              }
+
+                              finalUrl += '/api';
+
+                              await appStorage.setString(apiUrlKey, finalUrl);
+
+                              if (!context.mounted) return;
+
+                              ref.invalidate(serverHealthProvider);
+                              context.mayPop();
+                            }
+                          },
+                          child: const Text('Save'),
+                        );
+                      },
+                    ),
                   ],
                 ),
-
-                // 4. Conditional Port Field
-                if (_usePort) ...[
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    // Used standard TextFormField to easily add inputFormatters
-                    controller: _portController,
-                    // labelText: 'Port',
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'e.g. 8080',
-                    ),
-                    validator: (String? s) {
-                      if (!_usePort) return null;
-                      if (s == null || s.trim().isEmpty) {
-                        return 'Please enter a port';
-                      }
-                      final port = int.tryParse(s.trim());
-                      if (port == null || port <= 0 || port > 65535) {
-                        return 'Invalid port (1-65535)';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
-              ],
+              ),
             ),
           ),
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).maybePop(),
-          child: const Text('Cancel'),
-        ),
-        Consumer(
-          builder: (context, ref, _) {
-            return ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  final host = _hostController.text.trim();
-
-                  // 5. Safely construct the final URL
-                  String finalUrl = '$_schema$host';
-
-                  if (_usePort && _portController.text.trim().isNotEmpty) {
-                    finalUrl += ':${_portController.text.trim()}';
-                  }
-
-                  finalUrl += '/api';
-
-                  await appStorage.setString(apiUrlKey, finalUrl);
-
-                  if (!context.mounted) return;
-
-                  ref.invalidate(serverHealthProvider);
-                  context.mayPop();
-                }
-              },
-              child: const Text('Save'),
-            );
-          },
-        ),
-      ],
     );
   }
 }

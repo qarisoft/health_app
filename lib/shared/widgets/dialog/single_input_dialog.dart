@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../ex.dart' show AppEx;
+
 /// The Search Input Dialog
 class SingleInputDialog extends StatefulWidget {
   const SingleInputDialog({
     super.key,
-    required this.title,
-    required this.label,
+    this.title = '',
+    this.label = '',
     this.initialValue,
   });
+
   final String title;
   final String label;
   final String? initialValue;
@@ -18,6 +21,7 @@ class SingleInputDialog extends StatefulWidget {
 
 class _SingleInputDialogState extends State<SingleInputDialog> {
   final TextEditingController _controller = TextEditingController();
+
   // late final String title;
 
   // _SingleInputDialogState();
@@ -53,13 +57,9 @@ class _SingleInputDialogState extends State<SingleInputDialog> {
         onSubmitted: (val) => Navigator.pop(context, val),
       ),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
         ElevatedButton(
           onPressed: () => Navigator.pop(context, _controller.text),
-          child: const Text('Search'),
+          child: Text(context.tr.submit),
         ),
       ],
     );

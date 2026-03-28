@@ -10,6 +10,8 @@ import 'package:health_app/features/doctor/data/providers/medical_records.dart';
 import 'package:health_app/features/doctor/data/requests/medical_record.dart';
 import 'package:health_app/features/doctor/ui/create_medical_record.dart';
 import 'package:health_app/shared/ex.dart';
+import 'package:health_app/shared/widgets/dialog/single_input_dialog.dart'
+    show SingleInputDialog;
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
@@ -256,50 +258,50 @@ class _MedicalRecordCard extends StatelessWidget {
   }
 }
 
-class SingleInputDialog extends StatefulWidget {
-  const SingleInputDialog({super.key});
-
-  @override
-  State<SingleInputDialog> createState() => _SingleInputDialogState();
-}
-
-class _SingleInputDialogState extends State<SingleInputDialog> {
-  final TextEditingController _controller = TextEditingController(
-    text: 'pm-49a89a7b',
-  );
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(context.tr.findPatient),
-      content: TextField(
-        controller: _controller,
-        decoration: InputDecoration(
-          labelText: context.tr.identifier,
-          prefixIcon: const Icon(Icons.person),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(context.tr.cancel),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (_controller.text.isNotEmpty) {
-              Navigator.pop(context, _controller.text);
-            }
-          },
-          child: Text(context.tr.submit),
-        ),
-      ],
-    );
-  }
-}
+// class SingleInputDialog extends StatefulWidget {
+//   const SingleInputDialog({super.key});
+//
+//   @override
+//   State<SingleInputDialog> createState() => _SingleInputDialogState();
+// }
+//
+// class _SingleInputDialogState extends State<SingleInputDialog> {
+//   final TextEditingController _controller = TextEditingController(
+//     text: 'pm-49a89a7b',
+//   );
+//
+//   @override
+//   void dispose() {
+//     _controller.dispose();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return AlertDialog(
+//       title: Text(context.tr.findPatient),
+//       content: TextField(
+//         controller: _controller,
+//         decoration: InputDecoration(
+//           labelText: context.tr.identifier,
+//           prefixIcon: const Icon(Icons.person),
+//           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+//         ),
+//       ),
+//       actions: [
+//         TextButton(
+//           onPressed: () => Navigator.pop(context),
+//           child: Text(context.tr.cancel),
+//         ),
+//         ElevatedButton(
+//           onPressed: () {
+//             if (_controller.text.isNotEmpty) {
+//               Navigator.pop(context, _controller.text);
+//             }
+//           },
+//           child: Text(context.tr.submit),
+//         ),
+//       ],
+//     );
+//   }
+// }

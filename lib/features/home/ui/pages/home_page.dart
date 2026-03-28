@@ -99,34 +99,32 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       patientDashboardSummaryProvider(userId: userId ?? 0),
     );
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
-        child: dashboardAsyncValue.when(
-          data: (pageResponse) {
-            final summaryData = pageResponse.data;
+    return SizedBox(
+      // backgroundColor: const Color(0xFFF8F9FA),
+      child: dashboardAsyncValue.when(
+        data: (pageResponse) {
+          final summaryData = pageResponse.data;
 
-            if (summaryData == null) {
-              return _buildEmptyState();
-            }
+          if (summaryData == null) {
+            return _buildEmptyState();
+          }
 
-            return _buildDashboardContent(summaryData);
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.error_outline, color: Colors.red, size: 48),
-                const SizedBox(height: 16),
-                Text(context.tr.failedToLoadDashboard),
-                TextButton(
-                  onPressed: () =>
-                      ref.invalidate(patientDashboardSummaryProvider),
-                  child: Text(context.tr.retry),
-                ),
-              ],
-            ),
+          return _buildDashboardContent(summaryData);
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, color: Colors.red, size: 48),
+              const SizedBox(height: 16),
+              Text(context.tr.failedToLoadDashboard),
+              TextButton(
+                onPressed: () =>
+                    ref.invalidate(patientDashboardSummaryProvider),
+                child: Text(context.tr.retry),
+              ),
+            ],
           ),
         ),
       ),
@@ -289,7 +287,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               SizedBox(width: 4),
               const CircleAvatar(
                 radius: 24,
-                backgroundColor: Color(0xFF4A6FFF),
+                // backgroundColor: Color(0xFF4A6FFF),
                 child: Icon(Icons.person, color: Colors.white),
               ),
               const SizedBox(width: 12),

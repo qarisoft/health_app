@@ -114,117 +114,118 @@ class _DialogContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(changePasswordProvider);
 
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
-      elevation: 8,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min, // Keeps dialog compact
-              children: [
-                // --- Header Icon & Title ---
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
-                    shape: BoxShape.circle,
+    return Scaffold(
+      appBar: AppBar(title: Text('Change Password')),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // Keeps dialog compact
+                children: [
+                  // --- Header Icon & Title ---
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.lock_reset_rounded,
+                      size: 40,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
-                  child: Icon(
-                    Icons.lock_reset_rounded,
-                    size: 40,
-                    color: Theme.of(context).primaryColor,
+                  const SizedBox(height: 16),
+                  Text(
+                    context.tr.changePassword,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  context.tr.changePassword,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  context.tr.changePasswordInstruction,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade600),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
+                  const SizedBox(height: 8),
+                  Text(
+                    context.tr.changePasswordInstruction,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey.shade600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
 
-                // --- Form Fields ---
-                Column(
-                  spacing: 16, // Requires Flutter 3.24+
-                  children: [
-                    CustomTextField(
-                      isCompact: true,
-                      controller: currentPasswordController,
-                      labelText: context.tr.oldPassword,
-                      obscureText: true,
-                      showPasswordToggle: true,
-                      validator: (v) =>
-                          v!.isEmpty ? context.tr.fieldRequired : null,
-                    ),
-                    CustomTextField(
-                      isCompact: true,
-                      controller: newPasswordController,
-                      labelText: context.tr.newPassword,
-                      obscureText: true,
-                      showPasswordToggle: true,
-                      validator: passwordValidator,
-                    ),
-                    CustomTextField(
-                      isCompact: true,
-                      controller: confirmPasswordController,
-                      labelText: context.tr.confirmPassword,
-                      obscureText: true,
-                      showPasswordToggle: true,
-                      validator: passwordConfirmValidator,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 32),
+                  // --- Form Fields ---
+                  Column(
+                    spacing: 16, // Requires Flutter 3.24+
+                    children: [
+                      CustomTextField(
+                        isCompact: true,
+                        controller: currentPasswordController,
+                        labelText: context.tr.oldPassword,
+                        obscureText: true,
+                        showPasswordToggle: true,
+                        validator: (v) =>
+                            v!.isEmpty ? context.tr.fieldRequired : null,
+                      ),
+                      CustomTextField(
+                        isCompact: true,
+                        controller: newPasswordController,
+                        labelText: context.tr.newPassword,
+                        obscureText: true,
+                        showPasswordToggle: true,
+                        validator: passwordValidator,
+                      ),
+                      CustomTextField(
+                        isCompact: true,
+                        controller: confirmPasswordController,
+                        labelText: context.tr.confirmPassword,
+                        obscureText: true,
+                        showPasswordToggle: true,
+                        validator: passwordConfirmValidator,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
 
-                // --- Action Buttons ---
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: authState.isLoading ? null : onSubmit,
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                  // --- Action Buttons ---
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: authState.isLoading ? null : onSubmit,
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: authState.isLoading
+                          ? const CircularProgressIndicator.adaptive()
+                          : Text(
+                              context.tr.updatePassword,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: authState.isLoading
+                          ? null
+                          : () => context.mayPop(),
+                      child: Text(
+                        context.tr.cancel,
+                        style: TextStyle(color: Colors.grey.shade700),
                       ),
                     ),
-                    child: authState.isLoading
-                        ? const CircularProgressIndicator.adaptive()
-                        : Text(
-                            context.tr.updatePassword,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: TextButton(
-                    onPressed: authState.isLoading
-                        ? null
-                        : () => context.mayPop(),
-                    child: Text(
-                      context.tr.cancel,
-                      style: TextStyle(color: Colors.grey.shade700),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -110,12 +110,13 @@ class SplashPage extends ConsumerWidget {
   }
 
   void onChangeTheUrl(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return EnterApiUrlDialog();
-      },
-    );
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return EnterApiUrlDialog();
+    //   },
+    // );
+    context.to(EnterApiUrlDialog());
   }
 
   /// Helper method to keep the code DRY and visually consistent
@@ -133,51 +134,53 @@ class SplashPage extends ConsumerWidget {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Lottie.asset(
-                  lottieAsset,
-                  width: 250,
-                  height: 250,
-                  fit: BoxFit.contain,
-                ),
-                const SizedBox(height: 24),
-
-                Text(
-                  message,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Colors.grey[700],
-                    fontWeight: FontWeight.w500,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    lottieAsset,
+                    width: 250,
+                    height: 250,
+                    fit: BoxFit.contain,
                   ),
-                ),
+                  const SizedBox(height: 24),
 
-                // Only show the retry button if a callback is provided
-                if (onRetry != null) ...[
-                  const SizedBox(height: 32),
-                  ElevatedButton.icon(
-                    onPressed: onRetry,
-                    icon: const Icon(Icons.refresh),
-                    label: Text(onRetryText ?? context.tr.retry),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+
+                  // Only show the retry button if a callback is provided
+                  if (onRetry != null) ...[
+                    const SizedBox(height: 32),
+                    ElevatedButton.icon(
+                      onPressed: onRetry,
+                      icon: const Icon(Icons.refresh),
+                      label: Text(onRetryText ?? context.tr.retry),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ],
+                  SizedBox(height: 10),
+                  TextButton(
+                    onPressed: () => onChangeTheUrl(context),
+                    child: Text('change api url'),
+                  ),
+                  Text(appStorage.getString(apiUrlKey) ?? ''),
                 ],
-                SizedBox(height: 10),
-                TextButton(
-                  onPressed: () => onChangeTheUrl(context),
-                  child: Text('change api url'),
-                ),
-                Text(appStorage.getString(apiUrlKey) ?? ''),
-              ],
+              ),
             ),
           ),
         ),

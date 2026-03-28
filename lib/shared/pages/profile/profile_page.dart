@@ -172,10 +172,11 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                   iconColor: Colors.red,
 
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (c) => ChangePasswordDialog(),
-                    );
+                    context.to(ChangePasswordDialog());
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (c) => ChangePasswordDialog(),
+                    // );
                   },
                 ),
                 _buildDivider(),
@@ -548,10 +549,12 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                           ),
                         ),
                         onPressed: () async {
-                          await ref
-                              .read(authRecordStateProvider.notifier)
-                              .logOut();
+                          await appStorage.clearAllAccounts();
                           out();
+                          // await ref
+                          //     .read(authRecordStateProvider.notifier)
+                          //     .logOut();
+                          // out();
                         },
                         child: Text(
                           context.tr.logout,

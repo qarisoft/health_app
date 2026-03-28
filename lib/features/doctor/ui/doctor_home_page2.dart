@@ -5,11 +5,12 @@ import 'package:health_app/features/doctor/data/requests/home.dart';
 import 'package:health_app/features/doctor/data/responses/insights.dart'
     show DoctorDashboardInsight;
 import 'package:health_app/features/doctor/data/responses/patient_response.dart';
-import 'package:health_app/features/doctor/ui/medical_record.dart';
 import 'package:health_app/features/doctor/ui/widgets/patient_card.dart';
 import 'package:health_app/features/doctor/ui/widgets/patient_page.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/single_input_dialog.dart'
+    show SingleInputDialog;
 
 import '../data/repositories/patient_repo.dart' show PatientRepository;
 import 'widgets/patient_card.dart' show PatientCard;
