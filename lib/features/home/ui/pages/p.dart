@@ -203,8 +203,8 @@ class _HomePageState extends ConsumerState<HomePage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildAddDataField(
-                  'Steps 10000',
-                  'steps',
+                  '${context.tr.steps} 10000',
+                  context.tr.steps,
                   Icons.directions_walk,
                 ),
                 _buildAddDataField(
@@ -213,25 +213,29 @@ class _HomePageState extends ConsumerState<HomePage> {
                   Icons.favorite,
                 ),
                 _buildAddDataField(
-                  'Sleep (hours) 8',
-                  'sleep',
+                  '${context.tr.sleep} (hours) 8',
+                  context.tr.sleep,
                   Icons.nightlight_round,
                 ),
-                _buildAddDataField('Water (L) 2.5', 'water', Icons.local_drink),
+                _buildAddDataField(
+                  '${context.tr.water} (L) 2.5',
+                  context.tr.water,
+                  Icons.local_drink,
+                ),
               ],
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text(context.tr.cancel),
             ),
             ElevatedButton(
               onPressed: () {
                 // Save data logic here
                 Navigator.pop(context);
               },
-              child: Text('Save'),
+              child: Text(context.tr.save),
             ),
           ],
         );
@@ -239,12 +243,18 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  Widget _buildAddDataField(String label, String key, IconData icon) {
+  Widget _buildAddDataField(
+    String label,
+    String key,
+    IconData icon, [
+    num max = 1,
+  ]) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         decoration: InputDecoration(
           labelText: label,
+
           prefixIcon: Icon(icon),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),

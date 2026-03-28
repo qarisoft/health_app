@@ -8,7 +8,6 @@ import 'package:health_app/features/home/ui/pages/medical_records_page.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/widgets/app_bar_leading.dart';
-import 'package:intl/intl.dart';
 
 // Adjust these imports to match your actual file structure
 import '../../data/providers/dashboard_summary.dart';
@@ -349,7 +348,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           ),
           const SizedBox(height: 6),
           Text(
-            DateFormat('EEEE, MMMM d, yyyy').format(DateTime.now()),
+            formatDate2(DateTime.now().toString()),
             style: const TextStyle(
               fontSize: 15,
               color: Color(0xFF8A8A8A),

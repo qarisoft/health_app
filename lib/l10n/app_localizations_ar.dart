@@ -75,6 +75,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get created => 'تاريخ الإنشاء';
 
   @override
+  String get steps => 'خطوات';
+
+  @override
+  String get water => 'ماء';
+
+  @override
+  String get sleep => 'نوم';
+
+  @override
+  String get step => 'خطوة';
+
+  @override
+  String get l => 'لتر';
+
+  @override
+  String get hours => 'ساعات';
+
+  @override
   String get na => 'غير متوفر';
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/features/home/ui/pages/p.dart';
+import 'package:health_app/shared/ex.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class HealthStatsWidget extends ConsumerStatefulWidget {
@@ -40,11 +41,11 @@ class _HealthStatsWidgetState extends ConsumerState<HealthStatsWidget> {
           // Steps
           _buildStatItem(
             icon: Icons.directions_walk,
-            title: 'Steps',
+            title: context.tr.steps,
             value: '${healthData['steps']}',
             target: 10000,
             color: Color(0xFF4A6FFF),
-            unit: 'steps',
+            unit: context.tr.step,
           ),
           SizedBox(height: 16),
 
@@ -62,22 +63,22 @@ class _HealthStatsWidgetState extends ConsumerState<HealthStatsWidget> {
           // Sleep
           _buildStatItem(
             icon: Icons.nightlight_round,
-            title: 'Sleep',
+            title: context.tr.sleep,
             value: '${healthData['sleep']}',
             target: 8,
             color: Color(0xFF9B51E0),
-            unit: 'hours',
+            unit: context.tr.hours,
           ),
           SizedBox(height: 16),
 
           // Water
           _buildStatItem(
             icon: Icons.local_drink,
-            title: 'Water',
+            title: context.tr.water,
             value: '${healthData['water']}',
             target: 2.5,
             color: Color(0xFF2D9CDB),
-            unit: 'L',
+            unit: context.tr.l,
           ),
         ],
       ),

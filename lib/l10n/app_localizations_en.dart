@@ -76,6 +76,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get created => 'Created';
 
   @override
+  String get steps => 'Steps';
+
+  @override
+  String get water => 'Water';
+
+  @override
+  String get sleep => 'Sleep';
+
+  @override
+  String get step => 'Step';
+
+  @override
+  String get l => 'L';
+
+  @override
+  String get hours => 'hours';
+
+  @override
   String get na => 'N/A';
 
   @override
