@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
+import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'di.dart';
@@ -28,7 +29,8 @@ class AllAcounts extends _$AllAcounts {
       patient: appStorage.getPatientAccount(),
       pharmacist: appStorage.getPharmacistAccount(),
     );
-    // xlog(s.toString());
+
+    xlog('AllAcounts ${s.patient?.toJson()}');
     return s;
   }
 }

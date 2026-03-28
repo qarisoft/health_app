@@ -64,14 +64,14 @@ class MedicalProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(context.tr.medicalProfile),
-        elevation: 0,
-        leading: null,
+        // elevation: 0,
+        // leading: null,
         actions: [
           TextButton(
             onPressed: () {
               context.to(UpdateProfilePage(initialData: profile));
             },
-            child: Text('edit', style: TextStyle(color: Colors.white)),
+            child: Text(context.tr.edit, style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -154,7 +154,7 @@ class ProfileHeader extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           context.tr.dob(
-            patient.dateOfBirth,
+            formatDate2(patient.dateOfBirth),
             _getGender(context, patient.gender),
           ),
           style: Theme.of(context).textTheme.titleMedium,

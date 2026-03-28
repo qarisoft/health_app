@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/core/error/app_error.dart';
+import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/di.dart';
+import 'package:health_app/features/home/ui/pages/edit_profile.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../accounts_provider.dart' show allAcountsProvider;
 import '../../data/responses/patient_full_profile.dart';
 import '../../models/models.dart'
     hide
@@ -105,6 +109,22 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
     // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: ()=>));
   }
 
+  goback2() {
+    // Navigator.of(context).popUntil((o) => o.isFirst);
+    // context.mayPop().whenComplete(() {
+    //   context.mayPop().whenComplete(() {
+    //     context.mayPop().whenComplete(() {
+    //       ref.invalidate(allAcountsProvider);
+    //     });
+    //   });
+    // });
+    ref.invalidate(allAcountsProvider);
+    ref.invalidate(patientFullProfileProvider);
+    ref.invalidateAllAuthProviders();
+    Navigator.of(context).pushReplacementNamed(AppRoutes.patientHome);
+    // Navigator.of(context).
+  }
+
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // 1. Rebuild the base PatientProfile
@@ -146,12 +166,32 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
         xlog(updatedFullProfile.toJson());
         final res = await appRepo.updatePatientFullProfile(updatedFullProfile);
         // xlog(res);
+        await res.when(
+          success: (s) async {
+            final a = await appRepo.fetchPatientProfile();
+            a.when(
+              success: (s) {
+                goback2();
+              },
+              error: (e) {
+                return;
+              },
+            );
+            // if(a){
+            //
+            // }
+
+            xlog(a);
+          },
+          error: (AppError error) async {
+            return;
+          },
+        );
 
         // ScaffoldMessenger.of(
         //   context,
         // ).showSnackBar(SnackBar(content: Text(context.tr.updateSuccessful)));
         // Navigator.pop(context);
-        goBack();
       } catch (e) {
         AppDialog().dismiss();
       }

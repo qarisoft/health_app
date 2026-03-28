@@ -390,7 +390,14 @@ class AppRepositories {
     }
   }
 
-  Future<void> fetchPatientProfile() async {}
+  Future<ErrorOr<bool>> fetchPatientProfile() async {
+    try {
+      final a = await _getPatientProfile();
+      return ErrorOr.success(data: a);
+    } catch (e) {
+      return ErrorOr.error(error: ServerError(msg: e.toString()));
+    }
+  }
 
   Future<ErrorOr<PatientFullProfile>> getPatientFullProfile() async {
     return await handleDioRequest(
@@ -420,14 +427,14 @@ class AppRepositories {
     );
   }
 
-  Future<void> _getPatientProfile() async {
+  Future<bool> _getPatientProfile() async {
     try {
       final result = await handleDioRequest(
         request: () => api.getPatientProfile(),
         fromJson: (data) => PatientProfileResponse.fromJson(data),
       );
 
-      result.when(
+      final a = await result.when(
         success: (res) async {
           final id = res.patient?.userId;
           if (id != null) {
@@ -443,25 +450,24 @@ class AppRepositories {
           if (res.success.isN() && res.patient != null) {
             final patient = res.patient!;
             //
-            // if (patient.isProfileInitialized) {
-            //   storage.sharedPreferences.setBool(
-            //     PATIENT_ACCOUNT_IS_INITIALIZED_KEY,
-            //     true,
-            //   );
-            // }
+
             final patientAccount = PatientAccount(
               patient: Patient.fromJson(patient.toJson()),
             );
             await storage.setPatientAccount(patientAccount);
           }
+          return true;
         },
-        error: (error) {
+        error: (error) async {
           debugPrint('Error fetching patient profile: $error');
+          return false;
         },
       );
+      return a;
     } catch (e) {
       debugPrint('Error fetching patient profile: $e');
     }
+    return false;
   }
 
   Future<ErrorOr<DoctorProfileResponse>> _getDoctorProfile() async {
