@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/di.dart';
 import 'package:health_app/shared/ex.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:intl/intl.dart';
 
 import '../../data/responses/patient_full_profile.dart';
@@ -96,7 +98,7 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
     }
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // 1. Rebuild the base PatientProfile
       final updatedPatient = PatientProfile(
@@ -130,13 +132,21 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
         currentMedications: _medications,
       );
 
-      // TODO: Call your provider/repo
-      // ref.read(updateFullProfileProvider(updatedFullProfile));
+      AppDialog().loading();
+      try {
+        // TODO: Call your provider/repo
+        // ref.read(updateFullProfileProvider(updatedFullProfile));
+        xlog(updatedFullProfile.toJson());
+        final res = await appRepo.updatePatientFullProfile(updatedFullProfile);
+        xlog(res);
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(context.tr.updateSuccessful)));
-      Navigator.pop(context);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.tr.updateSuccessful)));
+        Navigator.pop(context);
+      } catch (e) {
+        AppDialog().dismiss();
+      }
     }
   }
 
@@ -177,26 +187,22 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
 
             // --- Vitals ---
             _buildSectionHeader(context.tr.vitalsAndPhysical),
-            Row(
+            Column(
               children: [
-                Expanded(child: _buildBloodTypeDropdown()),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildTextField(
-                    context.tr.weight,
-                    _weightController,
-                    Icons.monitor_weight,
-                    keyboardType: TextInputType.number,
-                  ),
+                _buildBloodTypeDropdown(),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  context.tr.weight,
+                  _weightController,
+                  Icons.monitor_weight,
+                  keyboardType: TextInputType.number,
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildTextField(
-                    context.tr.height,
-                    _heightController,
-                    Icons.height,
-                    keyboardType: TextInputType.number,
-                  ),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  context.tr.height,
+                  _heightController,
+                  Icons.height,
+                  keyboardType: TextInputType.number,
                 ),
               ],
             ),
@@ -416,6 +422,7 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
       ],
     );
   }
+
   // ==========================================
   // DIALOGS FOR ADDING MEDICAL HISTORY
   // ==========================================
@@ -478,9 +485,8 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
                     ),
                   ),
                   child: Text(
-                    context
-                        .tr
-                        .saveChanges, // Or context.tr.add, whichever you prefer
+                    context.tr.saveChanges,
+                    // Or context.tr.add, whichever you prefer
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

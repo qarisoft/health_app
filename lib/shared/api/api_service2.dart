@@ -10,6 +10,7 @@ import '../ex.dart' show xlog;
 
 class ApiService {
   Dio get _dio => factory.getDio();
+
   Dio get _gDio => factory.getDio(geust: true);
   final DioFactory factory;
 
@@ -122,6 +123,13 @@ class ApiService {
 
   Future<Map<String, dynamic>> getPatientFullProfile() async {
     final response = await _dio.get('/Patient/full-profile');
+    return _handleResponse(response);
+  }
+
+  Future<Map<String, dynamic>> updatePatientFullProfile(
+    Map<String, dynamic> data,
+  ) async {
+    final response = await _dio.put('/Patient/full-profile', data: data);
     return _handleResponse(response);
   }
 

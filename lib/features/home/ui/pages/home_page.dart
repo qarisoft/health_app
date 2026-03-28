@@ -657,11 +657,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            context.tr.activePrescriptions ?? 'Active Prescription',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -687,7 +682,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 //   },
                 // );
                 context.to(PatientMedicalRecordsPage());
-                xlog('sssssssssssssssss');
+                // xlog('sssssssssssssssss');
               },
               child: Row(
                 children: [

@@ -62,7 +62,19 @@ class MedicalProfilePage extends StatelessWidget {
     final patient = profile.patient;
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.tr.medicalProfile), elevation: 0),
+      appBar: AppBar(
+        title: Text(context.tr.medicalProfile),
+        elevation: 0,
+        leading: null,
+        actions: [
+          TextButton(
+            onPressed: () {
+              context.to(UpdateProfilePage(initialData: profile));
+            },
+            child: Text('edit', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
@@ -99,12 +111,12 @@ class MedicalProfilePage extends StatelessWidget {
           const SizedBox(height: 40),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.to(UpdateProfilePage(initialData: profile));
-        },
-        child: Text('edit'),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     context.to(UpdateProfilePage(initialData: profile));
+      //   },
+      //   child: Text('edit'),
+      // ),
     );
   }
 }

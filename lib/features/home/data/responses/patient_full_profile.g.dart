@@ -73,13 +73,16 @@ PatientFullProfile _$PatientFullProfileFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$PatientFullProfileToJson(PatientFullProfile instance) =>
-    <String, dynamic>{
-      'success': instance.success,
-      'message': instance.message,
-      'patient': instance.patient,
-      'allergies': instance.allergies,
-      'surgeries': instance.surgeries,
-      'chronicDiseases': instance.chronicDiseases,
-      'currentMedications': instance.currentMedications,
-    };
+Map<String, dynamic> _$PatientFullProfileToJson(
+  PatientFullProfile instance,
+) => <String, dynamic>{
+  'success': instance.success,
+  'message': instance.message,
+  'patient': instance.patient.toJson(),
+  'allergies': instance.allergies.map((e) => e.toJson()).toList(),
+  'surgeries': instance.surgeries.map((e) => e.toJson()).toList(),
+  'chronicDiseases': instance.chronicDiseases.map((e) => e.toJson()).toList(),
+  'currentMedications': instance.currentMedications
+      .map((e) => e.toJson())
+      .toList(),
+};

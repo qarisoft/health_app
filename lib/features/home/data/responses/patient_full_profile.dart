@@ -7,7 +7,7 @@ import '../../models/models.dart';
 
 part 'patient_full_profile.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PatientProfile {
   final int id;
   final int userId;
@@ -49,7 +49,7 @@ class PatientProfile {
   Map<String, dynamic> toJson() => _$PatientProfileToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PatientFullProfile extends BaseResponse {
   final PatientProfile patient;
 

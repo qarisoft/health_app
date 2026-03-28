@@ -401,6 +401,25 @@ class AppRepositories {
     );
   }
 
+  Future<ErrorOr<Map<String, dynamic>>> updatePatientFullProfile(
+    PatientFullProfile data,
+  ) async {
+    return await handleDioRequest(
+      request: () => api.updatePatientFullProfile({
+        ...data.patient.toJson(),
+        'allergies': data.allergies.map((i) => i.toJson()).toList(),
+        'surgeries': data.surgeries.map((i) => i.toJson()).toList(),
+        'chronicDiseases': data.chronicDiseases.map((i) => i.toJson()).toList(),
+        // 'currentMedications': data.currentMedications
+        //     .map((i) => i.toJson())
+        //     .toList(),
+      }),
+      fromJson: (p1) {
+        return p1;
+      },
+    );
+  }
+
   Future<void> _getPatientProfile() async {
     try {
       final result = await handleDioRequest(
