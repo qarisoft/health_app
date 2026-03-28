@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 // Adjust these imports to match your actual file structure
 import '../../data/providers/dashboard_summary.dart';
 import '../../data/responses/dashboard_summary.dart';
+import 'a.dart';
 
 class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
@@ -146,6 +147,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
             // Horizontal Image Scroll
             _buildHorizontalPromoScroll(),
+            HealthStatsWidget(),
 
             // Show Profile Warning if not initialized
             if (data.profileStatus?.isInitialized == false)
