@@ -113,7 +113,7 @@ class _EditPharmacistProfileScreenState
                   labelText: context.tr.email,
                   prefixIcon: Icons.email_rounded,
                   keyboardType: TextInputType.emailAddress,
-                  initialValue: _emailCtrl.text,
+                  // initialValue: _emailCtrl.text,
                   readOnly: true,
                 ),
                 const SizedBox(height: 32),
