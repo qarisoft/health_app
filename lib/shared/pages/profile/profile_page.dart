@@ -535,6 +535,8 @@ class _ProfilePageBuilderState extends ConsumerState<ProfilePageBuilder> {
                     void out() {
                       ref.invalidateAllAuthProviders();
                       ref.invalidate(accountProvider);
+
+                      // ref.invalidate(patientSelectedPageIndexProvider);
                       Navigator.of(
                         context,
                       ).pushReplacementNamed(AppRoutes.splash);

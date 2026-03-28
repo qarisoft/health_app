@@ -11,6 +11,8 @@ import 'package:health_app/features/home/data/providers/dashboard_summary.dart';
 import 'package:health_app/l10n/app_localizations.dart';
 import 'package:health_app/shared/functions.dart';
 
+import '../features/home/ui/pages/p.dart' show patientSelectedPageIndexProvider;
+
 extension CacheExtension on Ref {
   /// Keeps the provider alive for a specified [duration] after the last listener is removed.
   /// If a new listener is added before the timer completes, the timer is canceled and the state is kept.
@@ -117,6 +119,7 @@ extension LogOutExt on WidgetRef {
     invalidate(accountProvider);
     invalidate(allAcountsProvider);
     invalidate(patientDashboardSummaryProvider);
+    invalidate(patientSelectedPageIndexProvider);
     // invalidate(pa);
   }
 }
