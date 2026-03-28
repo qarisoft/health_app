@@ -1,12 +1,147 @@
 {
   "@@context": "General application strings",
   "@@locale": "en",
+  "failedToLoadFromServer": "Failed to connect to the server.",
   "@actions": {
     "description": "Column header for action buttons in tables"
   },
   "@active": {
     "description": "Status value for active patients"
   },
+  "unexpectedError": "An unexpected error occurred.",
+  "medicalProfile": "Medical Profile",
+  "vitalsAndPhysical": "Vitals & Physical",
+  "genderMale": "Male",
+  "genderFemale": "Female",
+  "addAllergy": "Add Allergy",
+  "addDisease": "Add Disease",
+  "addMedication": "Add Medication",
+  "description": "Description",
+  "instructions": "Instructions",
+  "severity": "Severity",
+  "fullName": "Full Name",
+  "failedToLoadRecords": "Failed to load records",
+  "noMedicalRecordsFound": "No medical records found.",
+  "recordsWillAppearHere": "When you visit a doctor, records will appear here.",
+  "generalConsultation": "General Consultation",
+  "noDiagnosisListed": "No Diagnosis Listed",
+  "dr": "Dr.",
+  "doctorNotes": "Doctor Notes",
+  "recordId": "Record ID",
+  "created": "Created",
+  "na": "N/A",
+  "emailAddress": "Email Address",
+  "pleaseEnterValue": "Please enter a value",
+  "updateSuccessful": "Profile updated successfully!",
+  "genderOther": "Other",
+  "dob": "DOB: {date} ({gender})",
+  "lastUpdated2": "Last updated: {date}",
+  "@lastUpdated2": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@dob": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "notProvided": "Not provided",
+  "patientId2": "Patient ID: {id} • User ID: {userId}",
+  "@patientId2": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      },
+      "userId": {
+        "type": "int"
+      }
+    }
+  },
+  "profileCreated": "Profile created: {date}",
+  "@profileCreated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Unknown",
+  "blood": "Blood",
+  "weightValue": "{weight} kg",
+  "@weightValue": {
+    "placeholders": {
+      "weight": {
+        "type": "int"
+      }
+    }
+  },
+  "heightValue": "{height} cm",
+  "@heightValue": {
+    "placeholders": {
+      "height": {
+        "type": "int"
+      }
+    }
+  },
+  "notApplicable": "N/A",
+  "noAllergiesRecorded": "No allergies recorded",
+  "reaction2": "Reaction: {reaction}",
+  "@reaction": {
+    "placeholders": {
+      "reaction": {
+        "type": "String"
+      }
+    }
+  },
+  "noChronicDiseasesRecorded": "No chronic diseases recorded",
+  "diagnosed": "Diagnosed: {date}",
+  "@diagnosed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "noSurgeriesRecorded": "No surgeries recorded",
+  "hospital": "Hospital: {hospital}",
+  "@hospital": {
+    "placeholders": {
+      "hospital": {
+        "type": "String"
+      }
+    }
+  },
+  "surgeon": "Surgeon: {surgeon}",
+  "@surgeon": {
+    "placeholders": {
+      "surgeon": {
+        "type": "String"
+      }
+    }
+  },
+  "noCurrentMedications": "No current medications",
+  "medicationDosage": "{dosage} - {frequency}",
+  "@medicationDosage": {
+    "placeholders": {
+      "dosage": {
+        "type": "String"
+      },
+      "frequency": {
+        "type": "String"
+      }
+    }
+  },
+  "loadingProfileData": "Loading profile data...",
+  "oopsSomethingWentWrong": "Oops! Something went wrong.",
+  "surgeries": "surgeries",
   "@activeOnly": {
     "description": "Filter option for active patients only"
   },

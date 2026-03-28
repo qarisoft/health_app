@@ -443,17 +443,6 @@ class PersonalInfoStep extends ConsumerWidget {
 }
 
 class MedicalInfoStep extends ConsumerWidget {
-  final List<String> _bloodTypes = [
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'O+',
-    'O-',
-  ];
-
   MedicalInfoStep({super.key});
 
   @override
@@ -475,9 +464,11 @@ class MedicalInfoStep extends ConsumerWidget {
               ),
             ),
             items: List.generate(
-              _bloodTypes.length,
-              (i) =>
-                  DropdownMenuItem(value: i + 1, child: Text(_bloodTypes[i])),
+              8,
+              (i) => DropdownMenuItem(
+                value: i.next,
+                child: Text(i.next.bloodTypeString()),
+              ),
             ),
             onChanged: (v) => notifier.updateBloodType(v!),
           ),

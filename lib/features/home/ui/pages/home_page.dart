@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/features/auth/domain/models/auth_state.dart';
+import 'package:health_app/features/home/ui/pages/medical_records_page.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/functions.dart';
 import 'package:health_app/shared/widgets/app_bar_leading.dart';
@@ -676,60 +677,73 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 ),
               ],
             ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.medication, color: Colors.white),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${prescription.medicationCount} Medications',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Prescribed by Dr. ${prescription.doctorName}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (prescription.status == 0)
+            child: GestureDetector(
+              onTap: () {
+                // final res = await appRepo.getPatientMedicalRecords();
+                // xlog(res);
+                // res.whenOrNull(
+                //   success: (s) {
+                //     xlog(s);
+                //   },
+                // );
+                context.to(PatientMedicalRecordsPage());
+                xlog('sssssssssssssssss');
+              },
+              child: Row(
+                children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.orange.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(
-                      'Pending',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: const Icon(Icons.medication, color: Colors.white),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${prescription.medicationCount} Medications',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Prescribed by Dr. ${prescription.doctorName}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-              ],
+                  if (prescription.status == 0)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        'Pending',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ],
@@ -782,25 +796,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   }
 
   String _getBloodType(int typeCode) {
-    switch (typeCode) {
-      case 1:
-        return 'A+';
-      case 2:
-        return 'A-';
-      case 3:
-        return 'B+';
-      case 4:
-        return 'B-';
-      case 5:
-        return 'AB+';
-      case 6:
-        return 'AB-';
-      case 7:
-        return 'O+';
-      case 8:
-        return 'O-';
-      default:
-        return 'N/A';
-    }
+    return typeCode.bloodTypeString();
   }
 }

@@ -9,6 +9,175 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get failedToLoadFromServer => 'فشل الاتصال بالسرفر';
+
+  @override
+  String get unexpectedError => 'حدث خطأ غير متوقع.';
+
+  @override
+  String get medicalProfile => 'الملف الطبي';
+
+  @override
+  String get vitalsAndPhysical => 'العلامات الحيوية والبدنية';
+
+  @override
+  String get genderMale => 'ذكر';
+
+  @override
+  String get genderFemale => 'أنثى';
+
+  @override
+  String get addAllergy => 'إضافة حساسية';
+
+  @override
+  String get addDisease => 'إضافة مرض';
+
+  @override
+  String get addMedication => 'إضافة دواء';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get instructions => 'التعليمات';
+
+  @override
+  String get severity => 'الخطورة';
+
+  @override
+  String get fullName => 'الاسم الكامل';
+
+  @override
+  String get failedToLoadRecords => 'فشل في تحميل السجلات';
+
+  @override
+  String get noMedicalRecordsFound => 'لم يتم العثور على سجلات طبية.';
+
+  @override
+  String get recordsWillAppearHere => 'عند زيارتك للطبيب، ستظهر السجلات هنا.';
+
+  @override
+  String get generalConsultation => 'استشارة عامة';
+
+  @override
+  String get noDiagnosisListed => 'لا يوجد تشخيص مدرج';
+
+  @override
+  String get dr => 'د.';
+
+  @override
+  String get doctorNotes => 'ملاحظات الطبيب';
+
+  @override
+  String get recordId => 'رقم السجل';
+
+  @override
+  String get created => 'تاريخ الإنشاء';
+
+  @override
+  String get na => 'غير متوفر';
+
+  @override
+  String get emailAddress => 'البريد الإلكتروني';
+
+  @override
+  String get pleaseEnterValue => 'الرجاء إدخال قيمة';
+
+  @override
+  String get updateSuccessful => 'تم تحديث الملف الشخصي بنجاح!';
+
+  @override
+  String get genderOther => 'أخرى';
+
+  @override
+  String dob(String date, String gender) {
+    return 'تاريخ الميلاد: $date ($gender)';
+  }
+
+  @override
+  String lastUpdated2(String date) {
+    return 'آخر تحديث: $date';
+  }
+
+  @override
+  String get notProvided => 'غير متوفر';
+
+  @override
+  String patientId2(int id, int userId) {
+    return 'رقم المريض: $id • رقم المستخدم: $userId';
+  }
+
+  @override
+  String profileCreated(String date) {
+    return 'تم إنشاء الملف: $date';
+  }
+
+  @override
+  String get unknown => 'غير معروف';
+
+  @override
+  String get blood => 'الدم';
+
+  @override
+  String weightValue(int weight) {
+    return '$weight كجم';
+  }
+
+  @override
+  String heightValue(int height) {
+    return '$height سم';
+  }
+
+  @override
+  String get notApplicable => 'غير متاح';
+
+  @override
+  String get noAllergiesRecorded => 'لا توجد حساسية مسجلة';
+
+  @override
+  String reaction2(Object reaction) {
+    return 'التفاعل: $reaction';
+  }
+
+  @override
+  String get noChronicDiseasesRecorded => 'لا توجد أمراض مزمنة مسجلة';
+
+  @override
+  String diagnosed(String date) {
+    return 'تاريخ التشخيص: $date';
+  }
+
+  @override
+  String get noSurgeriesRecorded => 'لا توجد عمليات جراحية مسجلة';
+
+  @override
+  String hospital(String hospital) {
+    return 'المستشفى: $hospital';
+  }
+
+  @override
+  String surgeon(String surgeon) {
+    return 'الجراح: $surgeon';
+  }
+
+  @override
+  String get noCurrentMedications => 'لا توجد أدوية حالية';
+
+  @override
+  String medicationDosage(String dosage, String frequency) {
+    return '$dosage - $frequency';
+  }
+
+  @override
+  String get loadingProfileData => 'جاري تحميل بيانات الملف...';
+
+  @override
+  String get oopsSomethingWentWrong => 'عفواً! حدث خطأ ما.';
+
+  @override
+  String get surgeries => 'العمليات الجراحية';
+
+  @override
   String get aboutApp => 'عن التطبيق';
 
   @override
@@ -882,7 +1051,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quickActions => 'إجراءات سريعة';
 
   @override
-  String get reaction => 'رد الفعل';
+  String reaction(String reaction) {
+    return 'رد الفعل';
+  }
 
   @override
   String get readyToGetStarted => 'هل أنت مستعد للبدء؟';

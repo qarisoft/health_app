@@ -9,6 +9,176 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get failedToLoadFromServer => 'Failed to connect to the server.';
+
+  @override
+  String get unexpectedError => 'An unexpected error occurred.';
+
+  @override
+  String get medicalProfile => 'Medical Profile';
+
+  @override
+  String get vitalsAndPhysical => 'Vitals & Physical';
+
+  @override
+  String get genderMale => 'Male';
+
+  @override
+  String get genderFemale => 'Female';
+
+  @override
+  String get addAllergy => 'Add Allergy';
+
+  @override
+  String get addDisease => 'Add Disease';
+
+  @override
+  String get addMedication => 'Add Medication';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get instructions => 'Instructions';
+
+  @override
+  String get severity => 'Severity';
+
+  @override
+  String get fullName => 'Full Name';
+
+  @override
+  String get failedToLoadRecords => 'Failed to load records';
+
+  @override
+  String get noMedicalRecordsFound => 'No medical records found.';
+
+  @override
+  String get recordsWillAppearHere =>
+      'When you visit a doctor, records will appear here.';
+
+  @override
+  String get generalConsultation => 'General Consultation';
+
+  @override
+  String get noDiagnosisListed => 'No Diagnosis Listed';
+
+  @override
+  String get dr => 'Dr.';
+
+  @override
+  String get doctorNotes => 'Doctor Notes';
+
+  @override
+  String get recordId => 'Record ID';
+
+  @override
+  String get created => 'Created';
+
+  @override
+  String get na => 'N/A';
+
+  @override
+  String get emailAddress => 'Email Address';
+
+  @override
+  String get pleaseEnterValue => 'Please enter a value';
+
+  @override
+  String get updateSuccessful => 'Profile updated successfully!';
+
+  @override
+  String get genderOther => 'Other';
+
+  @override
+  String dob(String date, String gender) {
+    return 'DOB: $date ($gender)';
+  }
+
+  @override
+  String lastUpdated2(String date) {
+    return 'Last updated: $date';
+  }
+
+  @override
+  String get notProvided => 'Not provided';
+
+  @override
+  String patientId2(int id, int userId) {
+    return 'Patient ID: $id • User ID: $userId';
+  }
+
+  @override
+  String profileCreated(String date) {
+    return 'Profile created: $date';
+  }
+
+  @override
+  String get unknown => 'Unknown';
+
+  @override
+  String get blood => 'Blood';
+
+  @override
+  String weightValue(int weight) {
+    return '$weight kg';
+  }
+
+  @override
+  String heightValue(int height) {
+    return '$height cm';
+  }
+
+  @override
+  String get notApplicable => 'N/A';
+
+  @override
+  String get noAllergiesRecorded => 'No allergies recorded';
+
+  @override
+  String reaction2(Object reaction) {
+    return 'Reaction: $reaction';
+  }
+
+  @override
+  String get noChronicDiseasesRecorded => 'No chronic diseases recorded';
+
+  @override
+  String diagnosed(String date) {
+    return 'Diagnosed: $date';
+  }
+
+  @override
+  String get noSurgeriesRecorded => 'No surgeries recorded';
+
+  @override
+  String hospital(String hospital) {
+    return 'Hospital: $hospital';
+  }
+
+  @override
+  String surgeon(String surgeon) {
+    return 'Surgeon: $surgeon';
+  }
+
+  @override
+  String get noCurrentMedications => 'No current medications';
+
+  @override
+  String medicationDosage(String dosage, String frequency) {
+    return '$dosage - $frequency';
+  }
+
+  @override
+  String get loadingProfileData => 'Loading profile data...';
+
+  @override
+  String get oopsSomethingWentWrong => 'Oops! Something went wrong.';
+
+  @override
+  String get surgeries => 'surgeries';
+
+  @override
   String get aboutApp => 'About App';
 
   @override
@@ -885,7 +1055,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickActions => 'Quick Actions';
 
   @override
-  String get reaction => 'Reaction';
+  String reaction(String reaction) {
+    return 'Reaction';
+  }
 
   @override
   String get readyToGetStarted => 'Ready to get started?';

@@ -98,6 +98,300 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
+  /// No description provided for @failedToLoadFromServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to connect to the server.'**
+  String get failedToLoadFromServer;
+
+  /// No description provided for @unexpectedError.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred.'**
+  String get unexpectedError;
+
+  /// No description provided for @medicalProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Profile'**
+  String get medicalProfile;
+
+  /// No description provided for @vitalsAndPhysical.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitals & Physical'**
+  String get vitalsAndPhysical;
+
+  /// No description provided for @genderMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get genderMale;
+
+  /// No description provided for @genderFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get genderFemale;
+
+  /// No description provided for @addAllergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Allergy'**
+  String get addAllergy;
+
+  /// No description provided for @addDisease.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Disease'**
+  String get addDisease;
+
+  /// No description provided for @addMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Medication'**
+  String get addMedication;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructions'**
+  String get instructions;
+
+  /// No description provided for @severity.
+  ///
+  /// In en, this message translates to:
+  /// **'Severity'**
+  String get severity;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullName;
+
+  /// No description provided for @failedToLoadRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load records'**
+  String get failedToLoadRecords;
+
+  /// No description provided for @noMedicalRecordsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No medical records found.'**
+  String get noMedicalRecordsFound;
+
+  /// No description provided for @recordsWillAppearHere.
+  ///
+  /// In en, this message translates to:
+  /// **'When you visit a doctor, records will appear here.'**
+  String get recordsWillAppearHere;
+
+  /// No description provided for @generalConsultation.
+  ///
+  /// In en, this message translates to:
+  /// **'General Consultation'**
+  String get generalConsultation;
+
+  /// No description provided for @noDiagnosisListed.
+  ///
+  /// In en, this message translates to:
+  /// **'No Diagnosis Listed'**
+  String get noDiagnosisListed;
+
+  /// No description provided for @dr.
+  ///
+  /// In en, this message translates to:
+  /// **'Dr.'**
+  String get dr;
+
+  /// No description provided for @doctorNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor Notes'**
+  String get doctorNotes;
+
+  /// No description provided for @recordId.
+  ///
+  /// In en, this message translates to:
+  /// **'Record ID'**
+  String get recordId;
+
+  /// No description provided for @created.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get created;
+
+  /// No description provided for @na.
+  ///
+  /// In en, this message translates to:
+  /// **'N/A'**
+  String get na;
+
+  /// No description provided for @emailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailAddress;
+
+  /// No description provided for @pleaseEnterValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a value'**
+  String get pleaseEnterValue;
+
+  /// No description provided for @updateSuccessful.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully!'**
+  String get updateSuccessful;
+
+  /// No description provided for @genderOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get genderOther;
+
+  /// No description provided for @dob.
+  ///
+  /// In en, this message translates to:
+  /// **'DOB: {date} ({gender})'**
+  String dob(String date, String gender);
+
+  /// No description provided for @lastUpdated2.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated: {date}'**
+  String lastUpdated2(String date);
+
+  /// No description provided for @notProvided.
+  ///
+  /// In en, this message translates to:
+  /// **'Not provided'**
+  String get notProvided;
+
+  /// No description provided for @patientId2.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient ID: {id} • User ID: {userId}'**
+  String patientId2(int id, int userId);
+
+  /// No description provided for @profileCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile created: {date}'**
+  String profileCreated(String date);
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
+
+  /// No description provided for @blood.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood'**
+  String get blood;
+
+  /// No description provided for @weightValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{weight} kg'**
+  String weightValue(int weight);
+
+  /// No description provided for @heightValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{height} cm'**
+  String heightValue(int height);
+
+  /// No description provided for @notApplicable.
+  ///
+  /// In en, this message translates to:
+  /// **'N/A'**
+  String get notApplicable;
+
+  /// No description provided for @noAllergiesRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'No allergies recorded'**
+  String get noAllergiesRecorded;
+
+  /// No description provided for @reaction2.
+  ///
+  /// In en, this message translates to:
+  /// **'Reaction: {reaction}'**
+  String reaction2(Object reaction);
+
+  /// No description provided for @noChronicDiseasesRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'No chronic diseases recorded'**
+  String get noChronicDiseasesRecorded;
+
+  /// No description provided for @diagnosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnosed: {date}'**
+  String diagnosed(String date);
+
+  /// No description provided for @noSurgeriesRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'No surgeries recorded'**
+  String get noSurgeriesRecorded;
+
+  /// No description provided for @hospital.
+  ///
+  /// In en, this message translates to:
+  /// **'Hospital: {hospital}'**
+  String hospital(String hospital);
+
+  /// No description provided for @surgeon.
+  ///
+  /// In en, this message translates to:
+  /// **'Surgeon: {surgeon}'**
+  String surgeon(String surgeon);
+
+  /// No description provided for @noCurrentMedications.
+  ///
+  /// In en, this message translates to:
+  /// **'No current medications'**
+  String get noCurrentMedications;
+
+  /// No description provided for @medicationDosage.
+  ///
+  /// In en, this message translates to:
+  /// **'{dosage} - {frequency}'**
+  String medicationDosage(String dosage, String frequency);
+
+  /// No description provided for @loadingProfileData.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading profile data...'**
+  String get loadingProfileData;
+
+  /// No description provided for @oopsSomethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Oops! Something went wrong.'**
+  String get oopsSomethingWentWrong;
+
+  /// No description provided for @surgeries.
+  ///
+  /// In en, this message translates to:
+  /// **'surgeries'**
+  String get surgeries;
+
   /// No description provided for @aboutApp.
   ///
   /// In en, this message translates to:
@@ -1818,7 +2112,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Reaction'**
-  String get reaction;
+  String reaction(String reaction);
 
   /// No description provided for @readyToGetStarted.
   ///

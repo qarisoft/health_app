@@ -9,6 +9,7 @@ import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/features/home/data/providers/dashboard_summary.dart';
 import 'package:health_app/l10n/app_localizations.dart';
+import 'package:health_app/shared/functions.dart';
 
 extension CacheExtension on Ref {
   /// Keeps the provider alive for a specified [duration] after the last listener is removed.
@@ -127,5 +128,17 @@ extension UpdateAccount on Ref {
     invalidate(allAcountsProvider);
     invalidate(patientDashboardSummaryProvider);
     // invalidate(pa);
+  }
+}
+
+extension BloodTypeEx on int {
+  String bloodTypeString() {
+    return BloodType.fromValue(this).symbol;
+  }
+
+  int get next => this + 1;
+
+  BloodType bloodType() {
+    return BloodType.fromValue(this);
   }
 }

@@ -33,6 +33,8 @@ import 'package:health_app/features/pharmacist/data/responses/queue_item.dart'
 import 'package:health_app/shared/api/api_service2.dart' show ApiService;
 import 'package:health_app/shared/ex.dart';
 
+import '../../features/home/data/responses/patient_medical_records.dart';
+
 class AppRepositories {
   final ApiService api;
   final AppStorage storage;
@@ -619,10 +621,15 @@ class AppRepositories {
     );
   }
 
-  Future<ErrorOr<List<dynamic>>> getPatientMedicalRecords() async {
+  Future<ErrorOr<List<PatientMedicalRecord>>> getPatientMedicalRecords() async {
     return handleDioRequest(
       request: () => api.getPatientMedicalRecords(),
-      fromJson: (data) => data,
+      fromJson: (data) {
+        // xlog(data.runtimeType);
+        final dataRes = data as List;
+        return dataRes.map((e) => PatientMedicalRecord.fromJson(e)).toList();
+      },
+      // data.map((e) => PatientMedicalRecord.fromJson(e)).toList(),
     );
   }
 

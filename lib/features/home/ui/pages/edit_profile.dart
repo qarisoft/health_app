@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/di.dart';
+import 'package:health_app/features/home/ui/pages/update_profile_page.dart';
 import 'package:health_app/shared/ex.dart';
+import 'package:health_app/shared/functions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/error/app_error.dart'
@@ -32,14 +34,14 @@ class PatientFullProfilePage extends ConsumerWidget {
         },
         error: (AppError error) {
           return _ErrorPage(
-            message: error.msg ?? 'An unexpected error occurred.',
+            message: error.msg ?? context.tr.unexpectedError,
             onRetry: () => ref.invalidate(patientFullProfileProvider),
           );
         },
       ),
       error: (error, stackTrace) {
         return _ErrorPage(
-          message: 'Failed to connect to the server.',
+          message: context.tr.failedToLoadFromServer,
           onRetry: () => ref.invalidate(patientFullProfileProvider),
         );
       },
@@ -57,38 +59,37 @@ class MedicalProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We extract the nested patient profile for easier access
     final patient = profile.patient;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Medical Profile'), elevation: 0),
+      appBar: AppBar(title: Text(context.tr.medicalProfile), elevation: 0),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
           ProfileHeader(patient: patient),
           const SizedBox(height: 24),
 
-          const SectionTitle(title: 'Vitals & Physical'),
+          SectionTitle(title: context.tr.vitalsAndPhysical),
           VitalsGrid(patient: patient),
           const SizedBox(height: 24),
 
-          const SectionTitle(title: 'Emergency Contact'),
+          SectionTitle(title: context.tr.emergencyContact),
           EmergencyContactCard(patient: patient),
           const SizedBox(height: 24),
 
-          const SectionTitle(title: 'Allergies'),
+          SectionTitle(title: context.tr.allergies),
           AllergiesList(allergies: profile.allergies),
           const SizedBox(height: 24),
 
-          const SectionTitle(title: 'Chronic Diseases'),
+          SectionTitle(title: context.tr.chronicDiseases),
           ChronicDiseasesList(diseases: profile.chronicDiseases),
           const SizedBox(height: 24),
 
-          const SectionTitle(title: 'Surgeries'),
+          SectionTitle(title: context.tr.surgeries),
           SurgeriesList(surgeries: profile.surgeries),
           const SizedBox(height: 24),
 
-          const SectionTitle(title: 'Current Medications'),
+          SectionTitle(title: context.tr.currentMedications),
           MedicationsList(medications: profile.currentMedications),
           const SizedBox(height: 32),
 
@@ -97,6 +98,12 @@ class MedicalProfilePage extends StatelessWidget {
           ProfileMetaData(patient: patient),
           const SizedBox(height: 40),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.to(UpdateProfilePage(initialData: profile));
+        },
+        child: Text('edit'),
       ),
     );
   }
@@ -109,14 +116,14 @@ class ProfileHeader extends StatelessWidget {
 
   const ProfileHeader({super.key, required this.patient});
 
-  String _getGender(int gender) {
+  String _getGender(BuildContext context, int gender) {
     switch (gender) {
       case 1:
-        return 'Male';
+        return context.tr.genderMale;
       case 2:
-        return 'Female';
+        return context.tr.genderFemale;
       default:
-        return 'Other';
+        return context.tr.genderOther;
     }
   }
 
@@ -134,7 +141,10 @@ class ProfileHeader extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'DOB: ${patient.dateOfBirth} (${_getGender(patient.gender)})',
+          context.tr.dob(
+            patient.dateOfBirth,
+            _getGender(context, patient.gender),
+          ),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 16),
@@ -145,11 +155,11 @@ class ProfileHeader extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                _buildContactRow(Icons.email, patient.email),
+                _buildContactRow(context, Icons.email, patient.email),
                 const SizedBox(height: 12),
-                _buildContactRow(Icons.phone, patient.phoneNumber),
+                _buildContactRow(context, Icons.phone, patient.phoneNumber),
                 const SizedBox(height: 12),
-                _buildContactRow(Icons.location_on, patient.address),
+                _buildContactRow(context, Icons.location_on, patient.address),
               ],
             ),
           ),
@@ -158,14 +168,14 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildContactRow(IconData icon, String text) {
+  Widget _buildContactRow(BuildContext context, IconData icon, String text) {
     return Row(
       children: [
         Icon(icon, size: 20, color: Colors.blueGrey),
         const SizedBox(width: 12),
         Expanded(
           child: Text(
-            text.isNotEmpty ? text : 'Not provided',
+            text.isNotEmpty ? text : context.tr.notProvided,
             style: const TextStyle(fontSize: 14),
           ),
         ),
@@ -185,14 +195,14 @@ class ProfileMetaData extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Patient ID: ${patient.id} • User ID: ${patient.userId}',
+          context.tr.patientId2(patient.id, patient.userId),
           style: Theme.of(
             context,
           ).textTheme.bodySmall?.copyWith(color: Colors.grey),
         ),
         const SizedBox(height: 4),
         Text(
-          'Profile created: ${patient.createdAt}',
+          context.tr.profileCreated(patient.createdAt),
           style: Theme.of(
             context,
           ).textTheme.bodySmall?.copyWith(color: Colors.grey),
@@ -200,7 +210,7 @@ class ProfileMetaData extends StatelessWidget {
         if (patient.updatedAt.isNotEmpty) ...[
           const SizedBox(height: 4),
           Text(
-            'Last updated: ${patient.updatedAt}',
+            context.tr.lastUpdated2(patient.updatedAt),
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: Colors.grey),
@@ -211,16 +221,13 @@ class ProfileMetaData extends StatelessWidget {
   }
 }
 
-// REFACTORED: Using Row + Expanded to fix the RenderFlex overflow!
 class VitalsGrid extends StatelessWidget {
   final PatientProfile patient;
 
   const VitalsGrid({super.key, required this.patient});
 
-  String _getBloodType(int type) {
-    const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
-    if (type >= 0 && type < bloodTypes.length) return bloodTypes[type];
-    return 'Unknown';
+  String _getBloodType(BuildContext context, int type) {
+    return BloodType.fromValue(type).symbol;
   }
 
   @override
@@ -229,24 +236,24 @@ class VitalsGrid extends StatelessWidget {
       children: [
         Expanded(
           child: VitalCard(
-            title: 'Blood',
-            value: _getBloodType(patient.bloodType),
+            title: context.tr.blood,
+            value: _getBloodType(context, patient.bloodType),
             icon: Icons.bloodtype,
           ),
         ),
         const SizedBox(width: 8),
         Expanded(
           child: VitalCard(
-            title: 'Weight',
-            value: '${patient.weight} kg',
+            title: context.tr.weight,
+            value: context.tr.weightValue(patient.weight),
             icon: Icons.monitor_weight,
           ),
         ),
         const SizedBox(width: 8),
         Expanded(
           child: VitalCard(
-            title: 'Height',
-            value: '${patient.height} cm',
+            title: context.tr.height,
+            value: context.tr.heightValue(patient.height),
             icon: Icons.height,
           ),
         ),
@@ -274,7 +281,7 @@ class VitalCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Prevents overflow
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: Colors.blueAccent, size: 24),
@@ -320,10 +327,12 @@ class EmergencyContactCard extends StatelessWidget {
         title: Text(
           patient.emergencyContact.isNotEmpty
               ? patient.emergencyContact
-              : 'Not Provided',
+              : context.tr.notProvided,
         ),
         subtitle: Text(
-          patient.emergencyPhone.isNotEmpty ? patient.emergencyPhone : 'N/A',
+          patient.emergencyPhone.isNotEmpty
+              ? patient.emergencyPhone
+              : context.tr.notApplicable,
         ),
         trailing: IconButton(
           icon: const Icon(Icons.phone),
@@ -360,7 +369,7 @@ class AllergiesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (allergies.isEmpty) {
-      return const EmptyState(message: 'No allergies recorded');
+      return EmptyState(message: context.tr.noAllergiesRecorded);
     }
 
     return Column(
@@ -373,7 +382,7 @@ class AllergiesList extends StatelessWidget {
                   color: Colors.orange,
                 ),
                 title: Text(allergy.allergenName),
-                subtitle: Text('Reaction: ${allergy.reaction}'),
+                subtitle: Text(context.tr.reaction(allergy.reaction)),
                 trailing: Chip(
                   label: Text(
                     allergy.severity,
@@ -400,7 +409,7 @@ class ChronicDiseasesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (diseases.isEmpty) {
-      return const EmptyState(message: 'No chronic diseases recorded');
+      return EmptyState(message: context.tr.noChronicDiseasesRecorded);
     }
 
     return Column(
@@ -410,12 +419,13 @@ class ChronicDiseasesList extends StatelessWidget {
               child: ExpansionTile(
                 leading: const Icon(Icons.coronavirus, color: Colors.purple),
                 title: Text(disease.diseaseName),
-                subtitle: Text('Diagnosed: ${disease.diagnosisDate}'),
+                subtitle: Text(context.tr.diagnosed(disease.diagnosisDate)),
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
+                      // Note: You might want to adjust alignment based on RTL/LTR
                       child: Text(disease.description),
                     ),
                   ),
@@ -436,7 +446,7 @@ class SurgeriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (surgeries.isEmpty) {
-      return const EmptyState(message: 'No surgeries recorded');
+      return EmptyState(message: context.tr.noSurgeriesRecorded);
     }
 
     return Column(
@@ -451,14 +461,15 @@ class SurgeriesList extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment
+                          .start, // Note: Adjust alignment based on RTL/LTR
                       children: [
                         Text(
-                          'Hospital: ${surgery.hospital}',
+                          context.tr.hospital(surgery.hospital),
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 4),
-                        Text('Surgeon: ${surgery.surgeon}'),
+                        Text(context.tr.surgeon(surgery.surgeon)),
                         const SizedBox(height: 8),
                         Text(surgery.description),
                       ],
@@ -481,7 +492,7 @@ class MedicationsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (medications.isEmpty) {
-      return const EmptyState(message: 'No current medications');
+      return EmptyState(message: context.tr.noCurrentMedications);
     }
 
     return Column(
@@ -491,7 +502,9 @@ class MedicationsList extends StatelessWidget {
               child: ListTile(
                 leading: const Icon(Icons.medication, color: Colors.green),
                 title: Text(meds.medicationName),
-                subtitle: Text('${meds.dosage} - ${meds.frequency}'),
+                subtitle: Text(
+                  context.tr.medicationDosage(meds.dosage, meds.frequency),
+                ),
                 isThreeLine: true,
                 trailing: IconButton(
                   icon: const Icon(Icons.info_outline),
@@ -552,16 +565,16 @@ class _LoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Medical Profile'), elevation: 0),
-      body: const Center(
+      appBar: AppBar(title: Text(context.tr.medicalProfile), elevation: 0),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
             Text(
-              'Loading profile data...',
-              style: TextStyle(color: Colors.grey),
+              context.tr.loadingProfileData,
+              style: const TextStyle(color: Colors.grey),
             ),
           ],
         ),
@@ -579,7 +592,7 @@ class _ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Medical Profile'), elevation: 0),
+      appBar: AppBar(title: Text(context.tr.medicalProfile), elevation: 0),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -593,7 +606,7 @@ class _ErrorPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Oops! Something went wrong.',
+                context.tr.oopsSomethingWentWrong,
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -610,7 +623,7 @@ class _ErrorPage extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
-                label: const Text('Retry'),
+                label: Text(context.tr.retry),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/auth_state.dart';
+import 'package:health_app/shared/ex.dart' show AppEx, BloodTypeEx;
 import 'package:intl/intl.dart';
 
-import '../../../../../shared/ex.dart' show AppEx;
 import '../../../models/models.dart';
 import 'dialogs.dart';
 import 'p.dart';
@@ -438,18 +438,7 @@ class PersonalInfoStep extends ConsumerWidget {
 }
 
 class MedicalInfoStep extends ConsumerWidget {
-  final List<String> _bloodTypes = [
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'O+',
-    'O-',
-  ];
-
-  MedicalInfoStep({super.key});
+  const MedicalInfoStep({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -470,9 +459,11 @@ class MedicalInfoStep extends ConsumerWidget {
               ),
             ),
             items: List.generate(
-              _bloodTypes.length,
-              (i) =>
-                  DropdownMenuItem(value: i + 1, child: Text(_bloodTypes[i])),
+              8,
+              (i) => DropdownMenuItem(
+                value: i + 1,
+                child: Text(i.next.bloodTypeString()),
+              ),
             ),
             onChanged: (v) => notifier.updateBloodType(v!),
           ),
