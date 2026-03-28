@@ -31,10 +31,6 @@ class RecentPatients extends _$RecentPatients {
   }
 
   Future<void> deletePatient(dynamic id) async {
-    // Optimistic update or network request
-    // await getDio.delete('${K.doctorHomeUrl}/$id'); // Assuming API call exists
-    await Future.delayed(const Duration(milliseconds: 300));
-
     // Update local state without needing to re-fetch the entire list from the server
     state = await AsyncValue.guard(() async {
       final currentList = await future;

@@ -9,7 +9,7 @@ import 'package:health_app/features/pharmacist/data/providers/prescriptions.dart
 import 'package:health_app/features/pharmacist/data/responses/drugs_interaction.dart';
 import 'package:health_app/shared/ex.dart' show AppEx, xlog;
 // import 'package:health_app/shared/ex.dart' hide xlog;
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 import 'package:health_app/shared/widgets/dialog/single_input_dialog.dart';
 import 'package:lottie/lottie.dart';
 

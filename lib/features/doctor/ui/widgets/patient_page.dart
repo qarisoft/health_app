@@ -5,6 +5,7 @@ import 'package:health_app/features/doctor/ui/create_prescription.dart';
 
 class PatientFloatingButton extends StatefulWidget {
   const PatientFloatingButton({super.key, required this.patientId});
+
   final int patientId;
 
   @override
@@ -13,7 +14,9 @@ class PatientFloatingButton extends StatefulWidget {
 
 class _PatientFloatingButtonState extends State<PatientFloatingButton> {
   bool isExpanded = false;
+
   int get patientId => widget.patientId;
+
   void setIsNotExpanded() {
     setState(() {
       isExpanded = false;
@@ -125,6 +128,7 @@ class _PatientFloatingButtonState extends State<PatientFloatingButton> {
 
 class PatientPage extends StatelessWidget {
   const PatientPage({super.key, required this.patient});
+
   final Patient patient;
 
   @override
@@ -865,39 +869,5 @@ class PatientPage extends StatelessWidget {
       age--;
     }
     return age;
-  }
-}
-
-class Filed1 extends StatelessWidget {
-  const Filed1({super.key, required this.name, required this.value});
-  final String name;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 130,
-            child: Text(
-              name,
-              style: TextStyle(
-                color: Colors.grey.shade700,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontWeight: FontWeight.w400),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

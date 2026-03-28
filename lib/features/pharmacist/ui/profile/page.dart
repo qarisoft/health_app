@@ -13,7 +13,7 @@ import 'package:health_app/features/pharmacist/data/requests/profile.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/pages/profile/profile_page.dart';
 import 'package:health_app/shared/widgets/custom_text_field.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 
 class EditPharmacistProfileScreen extends ConsumerStatefulWidget {
   const EditPharmacistProfileScreen({super.key, required this.pharmacist});

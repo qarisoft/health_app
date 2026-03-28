@@ -12,7 +12,7 @@ import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/pages/profile/profile_page.dart'
     show ProfilePageBuilder, ProfileAccount, ProfileAvatar;
 import 'package:health_app/shared/widgets/custom_text_field.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 import 'package:lottie/lottie.dart';
 // import your Doctor model and repo here
 

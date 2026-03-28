@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:health_app/features/auth/domain/models/account.dart';
-import 'package:health_app/shared/ex.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'di.dart';
@@ -15,9 +14,6 @@ abstract class AllAcountsState with _$AllAcountsState {
     PatientAccount? patient,
     PharmacistAccount? pharmacist,
   }) = _AllAcountsState;
-
-  //   factory AllAcountsState.fromJson(Map<String, dynamic> json) =>
-  //       _$AllAcountsStateFromJson(json);
 }
 
 @riverpod
@@ -30,7 +26,6 @@ class AllAcounts extends _$AllAcounts {
       pharmacist: appStorage.getPharmacistAccount(),
     );
 
-    xlog('AllAcounts ${s.patient?.toJson()}');
     return s;
   }
 }

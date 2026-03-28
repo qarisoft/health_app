@@ -8,7 +8,7 @@ import 'package:health_app/features/pharmacist/data/requests/dispense_prescripti
 import 'package:health_app/features/pharmacist/data/responses/dispense_response.dart';
 import 'package:health_app/features/pharmacist/domain/models/prescription.dart';
 import 'package:health_app/shared/ex.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 
 class SubmitPrescriptionDialog extends ConsumerStatefulWidget {
   const SubmitPrescriptionDialog({super.key, required this.prescription});
@@ -235,7 +235,8 @@ class _SubmitPrescriptionDialogState
                   labelText: 'General Dispensing Notes',
                   alignLabelWithHint: true,
                   filled: true,
-                  fillColor: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+                  fillColor: theme.colorScheme.surfaceContainerHighest
+                      .withOpacity(0.3),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                     borderSide: BorderSide(

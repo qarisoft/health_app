@@ -13,7 +13,7 @@ import 'package:health_app/features/auth/data/responses/user/user_response.dart'
 import 'package:health_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:health_app/features/auth/ui/widgets/register_form.dart';
 import 'package:health_app/shared/ex.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 import 'package:health_app/shared/widgets/text_button.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';

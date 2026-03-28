@@ -9,7 +9,7 @@
 // import 'package:health_app/features/home/ui/pages/initialize_profile/page2.dart';
 // import 'package:health_app/features/home/ui/pages/qr.dart';
 // import 'package:health_app/shared/ex.dart';
-// import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+// import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 // import 'package:percent_indicator/percent_indicator.dart';
 //
 // import './profile.dart';

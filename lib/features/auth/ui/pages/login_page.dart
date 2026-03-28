@@ -10,7 +10,7 @@ import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:health_app/l10n/app_localizations.dart' show AppLocalizations;
 import 'package:health_app/shared/ex.dart';
 // import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 // import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 // import 'package:health_app/shared/widgets/dialog/dialog_manager.dart'
 // show DialogManager;

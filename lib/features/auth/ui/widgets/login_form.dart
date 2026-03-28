@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_app/shared/ex.dart';
+
 import '../../../../core/constants/app_layout.dart';
 import '../../../../shared/widgets/custom_button.dart';
 import '../../../../shared/widgets/custom_text_field.dart';
@@ -10,6 +11,7 @@ class LoginForm extends StatelessWidget {
   final VoidCallback onLogin;
   final bool isLoading;
   final String selectedUserType;
+
   // final Function(String s) onUserTypeChanged;
   final ValueChanged<String?> onUserTypeChanged;
 
@@ -23,45 +25,14 @@ class LoginForm extends StatelessWidget {
     required this.onUserTypeChanged,
   });
 
-  // static String patient ='patient';
-  // static String doctor ='doctor';
-  // static String admin ='admin';
-  // static String pharmacist ='pharmacist';
-
   @override
   Widget build(BuildContext context) {
     final localizations = context.tr;
-    // final userTypeItems = [
-    //   DropdownMenuItem(value: PATIENT_KEY, child: Text(localizations.patient)),
-    //   DropdownMenuItem(
-    //     value: PHARMACIST_KEY,
-    //     child: Text(localizations.pharmacist),
-    //   ),
-    //   DropdownMenuItem(value: DOCTOR_KEY, child: Text(localizations.doctor)),
-    //   DropdownMenuItem(value: ADMIN_KEY, child: Text(localizations.admin)),
-    // ];
 
     return Column(
       spacing: AppLayout.spacingMedium,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Center(
-        //   child: CustomDropdownField(
-        //     value: selectedUserType,
-        //     items: userTypeItems,
-        //     onChanged: onUserTypeChanged,
-        //     labelText: localizations.userType,
-        //     hintText: localizations.selectUserType,
-        //     prefixIcon: Icons.person,
-        //     validator: (value) {
-        //       // phoneController.
-        //       if (value == null || value.isEmpty) {
-        //         return 'Please select user type';
-        //       }
-        //       return null;
-        //     },
-        //   ),
-        // ),
         CustomTextField(
           controller: phoneController,
           labelText: localizations.idCardNumber,

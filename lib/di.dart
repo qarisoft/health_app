@@ -4,12 +4,12 @@ import 'package:health_app/core/services/storage.dart';
 import 'package:health_app/features/auth/data/usecases/login_usecase.dart'
     show LoginUsecaseImpl;
 import 'package:health_app/features/auth/domain/usecases/login_usecase.dart';
-import 'package:health_app/shared/api/api_repositories2.dart';
-import 'package:health_app/shared/api/api_service2.dart';
+import 'package:health_app/shared/api/api_repositories.dart';
+import 'package:health_app/shared/api/api_service.dart';
 import 'package:health_app/shared/api/dio_factory.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-export './shared/api/api_repositories2.dart' show AppRepositories;
+export './shared/api/api_repositories.dart' show AppRepositories;
 
 final di = GetIt.instance;
 

@@ -21,12 +21,6 @@ abstract class LocalState with _$LocalState {
   factory LocalState.en() => LocalState(code: 'en', isRtl: false);
 }
 
-// extension on LocalState {
-//   Locale locale() {
-//     return Locale(code);
-//   }
-// }
-
 @riverpod
 class Local extends _$Local {
   @override
@@ -34,13 +28,12 @@ class Local extends _$Local {
     return LocalState.ar();
   }
 
-  void setLocalArabic(){
-    state=LocalState.ar();
-
+  void setLocalArabic() {
+    state = LocalState.ar();
   }
-  void setLocalEnglish(){
 
-    state=LocalState.en();
+  void setLocalEnglish() {
+    state = LocalState.en();
   }
 
   void toggole() {

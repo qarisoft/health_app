@@ -9,7 +9,7 @@ import 'package:health_app/features/home/ui/pages/initialize_profile/page.dart';
 import 'package:health_app/features/home/ui/pages/prescriptions_page.dart';
 import 'package:health_app/features/home/ui/pages/qr.dart';
 import 'package:health_app/shared/ex.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import './profile.dart';

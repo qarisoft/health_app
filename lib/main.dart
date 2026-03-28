@@ -14,11 +14,11 @@ import 'package:health_app/features/pharmacist/ui/home/page.dart'
     as pharmacist_page;
 import 'package:health_app/l10n/app_localizations.dart';
 import 'package:health_app/shared/api/dio_factory.dart';
-import 'package:health_app/shared/ex.dart' show AppEx, xlog;
+import 'package:health_app/shared/ex.dart' show AppEx;
 import 'package:health_app/shared/providers/local/local_provider.dart';
 import 'package:health_app/shared/providers/theme/theme_provider.dart';
 import 'package:health_app/shared/server_health_provider.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 import 'package:lottie/lottie.dart';
 
 import 'core/theme/app_theme.dart';
@@ -78,7 +78,6 @@ class SplashPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isAliveAsync = ref.watch(serverHealthProvider);
-    xlog('isAlive is $isAliveAsync');
 
     return isAliveAsync.when(
       error: (e) {
@@ -86,8 +85,6 @@ class SplashPage extends ConsumerWidget {
           context: context,
           lottieAsset: AppAssets.error,
           message: e,
-          // context.tr.connectionError,
-          // onRetry: () => ref.invalidate(serverHealthProvider),
           onRetry: () => ref.read(serverHealthProvider.notifier).checkHealth(),
         );
       },
@@ -110,16 +107,9 @@ class SplashPage extends ConsumerWidget {
   }
 
   void onChangeTheUrl(BuildContext context) {
-    // showDialog(
-    //   context: context,
-    //   builder: (context) {
-    //     return EnterApiUrlDialog();
-    //   },
-    // );
     context.to(EnterApiUrlDialog());
   }
 
-  /// Helper method to keep the code DRY and visually consistent
   Widget _buildStateScreen({
     required BuildContext context,
     required String lottieAsset,
@@ -189,77 +179,12 @@ class SplashPage extends ConsumerWidget {
   }
 }
 
-// class EnterApiUrlDialog extends StatefulWidget {
-//   const EnterApiUrlDialog({super.key});
-//
-//   @override
-//   State<EnterApiUrlDialog> createState() => _EnterApiUrlDialogState();
-// }
-//
-// class _EnterApiUrlDialogState extends State<EnterApiUrlDialog> {
-//   final _controller = TextEditingController();
-//   final _key = GlobalKey<FormState>();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       content: Form(
-//         key: _key,
-//         child: Localizations.override(
-//           context: context,
-//           locale: Locale('en'),
-//
-//           child: CustomTextField(
-//             labelText: 'api url',
-//             validator: (String? s) {
-//               if (s == null || s.isEmpty) {
-//                 return 'please enter the api url';
-//               }
-//               if (!s.startsWith('http')) {
-//                 return 'https://xxx || http://xxx';
-//               }
-//               if (s.endsWith('/')) {
-//                 return 'https://xxx no / at the end';
-//               }
-//               return null;
-//             },
-//             controller: _controller,
-//           ),
-//         ),
-//       ),
-//       actions: [
-//         Consumer(
-//           builder: (context, ref, _) {
-//             return ElevatedButton(
-//               onPressed: () async {
-//                 if (_key.currentState!.validate()) {
-//                   await appStorage.setString(
-//                     apiUrlKey,
-//                     '${_controller.text}/api',
-//                   );
-//                   ref.invalidate(serverHealthProvider);
-//                   context.mayPop();
-//                 }
-//               },
-//               child: const Text('save'),
-//             );
-//           },
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 class SplashInnerPage extends ConsumerWidget {
   const SplashInnerPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(accountProvider);
-    // return const pharmacist_page.HomePage();
-    // return const doctor_app.HomePage();
-    // return const patient_app.MainPatientPage();
-    xlog('auth from splash $auth');
     return auth.when(
       initial: () => LoginPage(),
       account: (a, _) => a.when(

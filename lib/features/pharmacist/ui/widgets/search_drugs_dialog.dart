@@ -5,15 +5,11 @@ import 'package:health_app/shared/widgets/custom_text_field.dart';
 
 import '../../data/providers/search_dugs.dart' show searchDrugsProvider;
 
-// import 'package:health_app/features/doctor/data/providers/search_patient.dart';
-// import 'package:health_app/features/doctor/data/providers/search_drugs.dart';
-
 class SearchDrugsDialog extends ConsumerWidget {
   const SearchDrugsDialog({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the Freezed state from our Notifier
     final searchState = ref.watch(searchDrugsProvider);
 
     return Dialog(

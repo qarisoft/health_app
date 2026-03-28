@@ -8,11 +8,10 @@ import 'package:health_app/features/doctor/data/requests/prescription.dart';
 import 'package:health_app/features/doctor/data/responses/patient_response.dart'
     show PatientResponse;
 import 'package:health_app/features/doctor/ui/create_prescription.dart';
-import 'package:health_app/features/doctor/ui/medical_record.dart';
 import 'package:health_app/features/doctor/ui/widgets/prescreption_card.dart';
 import 'package:health_app/shared/ex.dart' show AppEx;
 import 'package:health_app/shared/ex.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 import 'package:health_app/shared/widgets/dialog/single_input_dialog.dart'
     show SingleInputDialog;
 import 'package:lottie/lottie.dart';

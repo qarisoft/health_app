@@ -4,7 +4,7 @@ import 'package:health_app/di.dart';
 import 'package:health_app/features/doctor/data/requests/medical_record.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/custom_text_field.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 
 import '../../../core/error/app_error.dart';
 import '../data/providers/medical_records.dart';

@@ -14,33 +14,23 @@ import 'package:health_app/shared/functions.dart';
 import '../features/home/ui/pages/p.dart' show patientSelectedPageIndexProvider;
 
 extension CacheExtension on Ref {
-  /// Keeps the provider alive for a specified [duration] after the last listener is removed.
-  /// If a new listener is added before the timer completes, the timer is canceled and the state is kept.
   void cacheTheState({Duration? duration, bool forever = false}) {
-    // Prevent the provider from being disposed immediately
     final link = keepAlive();
     Timer? timer;
     final Duration duration_ = duration ?? Duration(minutes: 5);
 
-    // Triggered when the last UI element stops listening to this provider
     onCancel(() {
       if (forever) return;
       timer?.cancel();
       timer = Timer(duration_, () {
-        // Timer completed without new listeners. Allow the provider to be destroyed.
         link.close();
       });
     });
 
-    // if (forever) {
-    //   return;
-    // }
-    // Triggered if a new UI element starts listening before the timer finishes
     onResume(() {
       timer?.cancel();
     });
 
-    // Triggered when the provider is completely destroyed (e.g., via ref.invalidate)
     onDispose(() {
       timer?.cancel();
     });

@@ -40,20 +40,7 @@ extension Asss on RecentPatient {
 
   BloodType get bloodType => BloodType.aNegative;
 
-  // String get email => fullName;
-  // String get nationalId => patientId;
   String get phoneNumber => fullName;
-  // _nameController.text = widget.patient!.name;
-  //     _phoneController.text = widget.patient!.phoneNumber;
-  //     _nationalIdController.text = widget.patient!.nationalId;
-  //     _emailController.text = widget.patient!.email ?? '';
-  //     _addressController.text = widget.patient!.address ?? '';
-  //     _emergencyController.text = widget.patient!.emergencyContact ?? '';
-  //     _notesController.text = widget.patient!.notes ?? '';
-  //     _selectedGender = widget.patient!.gender;
-  //     _selectedBloodType = widget.patient!.bloodType;
-  //     _selectedDate = widget.patient!.dateOfBirth;
-  //     _isActive = widget.patient!.isActive;
 }
 
 @freezed
@@ -62,7 +49,4 @@ abstract class HomeResponse with _$HomeResponse {
 
   factory HomeResponse.fromJson(Map<String, dynamic> json) =>
       _$HomeResponseFromJson(json);
-
-  // factory HomeResponse.fromApi(Map<String, dynamic> json) =>
-  // HomeResponse(json.map());
 }

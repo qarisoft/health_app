@@ -9,7 +9,7 @@ import 'package:health_app/features/doctor/ui/profile.dart';
 import 'package:health_app/features/doctor/ui/widgets/patient_card.dart';
 import 'package:health_app/features/doctor/ui/widgets/patient_page.dart';
 import 'package:health_app/shared/ex.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 
 import '../../../core/error/app_error.dart';
 import '../../../shared/widgets/dialog/single_input_dialog.dart'

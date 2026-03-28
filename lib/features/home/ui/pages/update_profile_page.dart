@@ -5,7 +5,7 @@ import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/home/ui/pages/edit_profile.dart';
 import 'package:health_app/shared/ex.dart';
-import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:health_app/shared/widgets/dialog/app_dialog.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../accounts_provider.dart' show allAcountsProvider;
