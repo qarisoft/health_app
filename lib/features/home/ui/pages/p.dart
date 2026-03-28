@@ -11,7 +11,7 @@ import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import './profile.dart';
-import 'home_page.dart';
+import 'a.dart' as a;
 import 'patient_emergency_screen.dart' show EmergenciesScreen;
 
 part 'p.g.dart';
@@ -72,8 +72,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
       // backgroundColor: Color(0xFFF8FAFD),
       body: [
-        MyHomePage(),
-        // a.HomePage(userName: 'ssss'),
+        // MyHomePage(),
+        a.MyHomePage(),
         EmergenciesScreen(),
 
         PatientPrescriptionsScreen(),
