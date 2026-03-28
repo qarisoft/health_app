@@ -98,6 +98,13 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
     }
   }
 
+  goBack() {
+    context.mayPop().whenComplete(() {
+      context.mayPop().whenComplete(context.mayPop);
+    });
+    // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: ()=>));
+  }
+
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // 1. Rebuild the base PatientProfile
@@ -138,12 +145,13 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
         // ref.read(updateFullProfileProvider(updatedFullProfile));
         xlog(updatedFullProfile.toJson());
         final res = await appRepo.updatePatientFullProfile(updatedFullProfile);
-        xlog(res);
+        // xlog(res);
 
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(context.tr.updateSuccessful)));
-        Navigator.pop(context);
+        // ScaffoldMessenger.of(
+        //   context,
+        // ).showSnackBar(SnackBar(content: Text(context.tr.updateSuccessful)));
+        // Navigator.pop(context);
+        goBack();
       } catch (e) {
         AppDialog().dismiss();
       }

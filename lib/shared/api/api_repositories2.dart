@@ -410,9 +410,9 @@ class AppRepositories {
         'allergies': data.allergies.map((i) => i.toJson()).toList(),
         'surgeries': data.surgeries.map((i) => i.toJson()).toList(),
         'chronicDiseases': data.chronicDiseases.map((i) => i.toJson()).toList(),
-        // 'currentMedications': data.currentMedications
-        //     .map((i) => i.toJson())
-        //     .toList(),
+        'currentMedications': data.currentMedications
+            .map((i) => i.toJson())
+            .toList(),
       }),
       fromJson: (p1) {
         return p1;
