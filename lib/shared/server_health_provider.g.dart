@@ -41,7 +41,7 @@ final class ServerHealthProvider
   }
 }
 
-String _$serverHealthHash() => r'a969332cfd998b04504aa504212cd69c46e49f8a';
+String _$serverHealthHash() => r'ba8c4a5bc9aedadd076d3b564e478cd3d620035a';
 
 abstract class _$ServerHealth extends $Notifier<ServerHealthState> {
   ServerHealthState build();

@@ -1,12 +1,15 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'models.freezed.dart';
 part 'models.g.dart';
+
 // part 'patient_profile.freezed.dart';
 // part 'patient_profile.g.dart';
 
 @freezed
 abstract class Allergy with _$Allergy {
   factory Allergy({
+    @Default(0) int id,
     @Default('') String allergenName,
     @Default('') String reaction,
     @Default('') String severity,
@@ -19,6 +22,7 @@ abstract class Allergy with _$Allergy {
 @freezed
 abstract class ChronicDisease with _$ChronicDisease {
   factory ChronicDisease({
+    @Default(0) int id,
     @Default('') String diseaseName,
     @Default('') String description,
     @Default('') String diagnosisDate,
@@ -31,6 +35,7 @@ abstract class ChronicDisease with _$ChronicDisease {
 @freezed
 abstract class Surgery with _$Surgery {
   factory Surgery({
+    @Default(0) int id,
     @Default('') String surgeryName,
     @Default('') String description,
     @Default('') String surgeryDate,
@@ -45,6 +50,7 @@ abstract class Surgery with _$Surgery {
 @freezed
 abstract class CurrentMedication with _$CurrentMedication {
   factory CurrentMedication({
+    @Default(0) int id,
     @Default('') String medicationName,
     @Default('') String dosage,
     @Default('') String frequency,
@@ -80,39 +86,3 @@ abstract class PatientProfile with _$PatientProfile {
   factory PatientProfile.fromJson(Map<String, dynamic> json) =>
       _$PatientProfileFromJson(json);
 }
-
-
-    // @Default('') String fullName,
-    // @Default('') String dateOfBirth,
-    // @Default(1) int gender,
-    // @Default('') String phoneNumber,
-    // @Default('') String email,
-    // @Default('') String address,
-    // @Default(1) int bloodType,
-    // @Default(0.0) double weight,
-    // @Default(0.0) double height,
-    // @Default('') String emergencyContact,
-    // @Default('') String emergencyPhone,
-
-
-    //  {
-    //      "success": true,
-    //      "message": "تم جلب ملف المريض بنجاح",
-    //      "patient": {
-    //          "id": 3132,
-    //          "userId": 3132,
-    //          "fullName": "name",
-    //          "dateOfBirth": "2006-01-08T00:00:00",
-    //          "gender": 0,
-    //          "phoneNumber": "123456789",
-    //          "email": "emaidsadsa@dsad.dsa",
-    //          "address": null,
-    //          "bloodType": null,
-    //          "weight": null,
-    //          "height": null,
-    //          "emergencyContact": null,
-    //          "emergencyPhone": null,
-    //          "createdAt": "2026-02-22T01:40:32.2608079",
-    //          "updatedAt": null
-    //     }
-    // }

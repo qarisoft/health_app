@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Allergy {
 
- String get allergenName; String get reaction; String get severity;
+ int get id; String get allergenName; String get reaction; String get severity;
 /// Create a copy of Allergy
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AllergyCopyWith<Allergy> get copyWith => _$AllergyCopyWithImpl<Allergy>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Allergy&&(identical(other.allergenName, allergenName) || other.allergenName == allergenName)&&(identical(other.reaction, reaction) || other.reaction == reaction)&&(identical(other.severity, severity) || other.severity == severity));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Allergy&&(identical(other.id, id) || other.id == id)&&(identical(other.allergenName, allergenName) || other.allergenName == allergenName)&&(identical(other.reaction, reaction) || other.reaction == reaction)&&(identical(other.severity, severity) || other.severity == severity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allergenName,reaction,severity);
+int get hashCode => Object.hash(runtimeType,id,allergenName,reaction,severity);
 
 @override
 String toString() {
-  return 'Allergy(allergenName: $allergenName, reaction: $reaction, severity: $severity)';
+  return 'Allergy(id: $id, allergenName: $allergenName, reaction: $reaction, severity: $severity)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AllergyCopyWith<$Res>  {
   factory $AllergyCopyWith(Allergy value, $Res Function(Allergy) _then) = _$AllergyCopyWithImpl;
 @useResult
 $Res call({
- String allergenName, String reaction, String severity
+ int id, String allergenName, String reaction, String severity
 });
 
 
@@ -65,9 +65,10 @@ class _$AllergyCopyWithImpl<$Res>
 
 /// Create a copy of Allergy
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? allergenName = null,Object? reaction = null,Object? severity = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? allergenName = null,Object? reaction = null,Object? severity = null,}) {
   return _then(_self.copyWith(
-allergenName: null == allergenName ? _self.allergenName : allergenName // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,allergenName: null == allergenName ? _self.allergenName : allergenName // ignore: cast_nullable_to_non_nullable
 as String,reaction: null == reaction ? _self.reaction : reaction // ignore: cast_nullable_to_non_nullable
 as String,severity: null == severity ? _self.severity : severity // ignore: cast_nullable_to_non_nullable
 as String,
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String allergenName,  String reaction,  String severity)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String allergenName,  String reaction,  String severity)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Allergy() when $default != null:
-return $default(_that.allergenName,_that.reaction,_that.severity);case _:
+return $default(_that.id,_that.allergenName,_that.reaction,_that.severity);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.allergenName,_that.reaction,_that.severity);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String allergenName,  String reaction,  String severity)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String allergenName,  String reaction,  String severity)  $default,) {final _that = this;
 switch (_that) {
 case _Allergy():
-return $default(_that.allergenName,_that.reaction,_that.severity);case _:
+return $default(_that.id,_that.allergenName,_that.reaction,_that.severity);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.allergenName,_that.reaction,_that.severity);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String allergenName,  String reaction,  String severity)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String allergenName,  String reaction,  String severity)?  $default,) {final _that = this;
 switch (_that) {
 case _Allergy() when $default != null:
-return $default(_that.allergenName,_that.reaction,_that.severity);case _:
+return $default(_that.id,_that.allergenName,_that.reaction,_that.severity);case _:
   return null;
 
 }
@@ -211,9 +212,10 @@ return $default(_that.allergenName,_that.reaction,_that.severity);case _:
 @JsonSerializable()
 
 class _Allergy implements Allergy {
-   _Allergy({this.allergenName = '', this.reaction = '', this.severity = ''});
+   _Allergy({this.id = 0, this.allergenName = '', this.reaction = '', this.severity = ''});
   factory _Allergy.fromJson(Map<String, dynamic> json) => _$AllergyFromJson(json);
 
+@override@JsonKey() final  int id;
 @override@JsonKey() final  String allergenName;
 @override@JsonKey() final  String reaction;
 @override@JsonKey() final  String severity;
@@ -231,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Allergy&&(identical(other.allergenName, allergenName) || other.allergenName == allergenName)&&(identical(other.reaction, reaction) || other.reaction == reaction)&&(identical(other.severity, severity) || other.severity == severity));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Allergy&&(identical(other.id, id) || other.id == id)&&(identical(other.allergenName, allergenName) || other.allergenName == allergenName)&&(identical(other.reaction, reaction) || other.reaction == reaction)&&(identical(other.severity, severity) || other.severity == severity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allergenName,reaction,severity);
+int get hashCode => Object.hash(runtimeType,id,allergenName,reaction,severity);
 
 @override
 String toString() {
-  return 'Allergy(allergenName: $allergenName, reaction: $reaction, severity: $severity)';
+  return 'Allergy(id: $id, allergenName: $allergenName, reaction: $reaction, severity: $severity)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$AllergyCopyWith<$Res> implements $AllergyCopyWith<$Res> {
   factory _$AllergyCopyWith(_Allergy value, $Res Function(_Allergy) _then) = __$AllergyCopyWithImpl;
 @override @useResult
 $Res call({
- String allergenName, String reaction, String severity
+ int id, String allergenName, String reaction, String severity
 });
 
 
@@ -268,9 +270,10 @@ class __$AllergyCopyWithImpl<$Res>
 
 /// Create a copy of Allergy
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? allergenName = null,Object? reaction = null,Object? severity = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? allergenName = null,Object? reaction = null,Object? severity = null,}) {
   return _then(_Allergy(
-allergenName: null == allergenName ? _self.allergenName : allergenName // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,allergenName: null == allergenName ? _self.allergenName : allergenName // ignore: cast_nullable_to_non_nullable
 as String,reaction: null == reaction ? _self.reaction : reaction // ignore: cast_nullable_to_non_nullable
 as String,severity: null == severity ? _self.severity : severity // ignore: cast_nullable_to_non_nullable
 as String,
@@ -284,7 +287,7 @@ as String,
 /// @nodoc
 mixin _$ChronicDisease {
 
- String get diseaseName; String get description; String get diagnosisDate;
+ int get id; String get diseaseName; String get description; String get diagnosisDate;
 /// Create a copy of ChronicDisease
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -297,16 +300,16 @@ $ChronicDiseaseCopyWith<ChronicDisease> get copyWith => _$ChronicDiseaseCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChronicDisease&&(identical(other.diseaseName, diseaseName) || other.diseaseName == diseaseName)&&(identical(other.description, description) || other.description == description)&&(identical(other.diagnosisDate, diagnosisDate) || other.diagnosisDate == diagnosisDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChronicDisease&&(identical(other.id, id) || other.id == id)&&(identical(other.diseaseName, diseaseName) || other.diseaseName == diseaseName)&&(identical(other.description, description) || other.description == description)&&(identical(other.diagnosisDate, diagnosisDate) || other.diagnosisDate == diagnosisDate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,diseaseName,description,diagnosisDate);
+int get hashCode => Object.hash(runtimeType,id,diseaseName,description,diagnosisDate);
 
 @override
 String toString() {
-  return 'ChronicDisease(diseaseName: $diseaseName, description: $description, diagnosisDate: $diagnosisDate)';
+  return 'ChronicDisease(id: $id, diseaseName: $diseaseName, description: $description, diagnosisDate: $diagnosisDate)';
 }
 
 
@@ -317,7 +320,7 @@ abstract mixin class $ChronicDiseaseCopyWith<$Res>  {
   factory $ChronicDiseaseCopyWith(ChronicDisease value, $Res Function(ChronicDisease) _then) = _$ChronicDiseaseCopyWithImpl;
 @useResult
 $Res call({
- String diseaseName, String description, String diagnosisDate
+ int id, String diseaseName, String description, String diagnosisDate
 });
 
 
@@ -334,9 +337,10 @@ class _$ChronicDiseaseCopyWithImpl<$Res>
 
 /// Create a copy of ChronicDisease
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? diseaseName = null,Object? description = null,Object? diagnosisDate = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? diseaseName = null,Object? description = null,Object? diagnosisDate = null,}) {
   return _then(_self.copyWith(
-diseaseName: null == diseaseName ? _self.diseaseName : diseaseName // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,diseaseName: null == diseaseName ? _self.diseaseName : diseaseName // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,diagnosisDate: null == diagnosisDate ? _self.diagnosisDate : diagnosisDate // ignore: cast_nullable_to_non_nullable
 as String,
@@ -424,10 +428,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String diseaseName,  String description,  String diagnosisDate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String diseaseName,  String description,  String diagnosisDate)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChronicDisease() when $default != null:
-return $default(_that.diseaseName,_that.description,_that.diagnosisDate);case _:
+return $default(_that.id,_that.diseaseName,_that.description,_that.diagnosisDate);case _:
   return orElse();
 
 }
@@ -445,10 +449,10 @@ return $default(_that.diseaseName,_that.description,_that.diagnosisDate);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String diseaseName,  String description,  String diagnosisDate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String diseaseName,  String description,  String diagnosisDate)  $default,) {final _that = this;
 switch (_that) {
 case _ChronicDisease():
-return $default(_that.diseaseName,_that.description,_that.diagnosisDate);case _:
+return $default(_that.id,_that.diseaseName,_that.description,_that.diagnosisDate);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -465,10 +469,10 @@ return $default(_that.diseaseName,_that.description,_that.diagnosisDate);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String diseaseName,  String description,  String diagnosisDate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String diseaseName,  String description,  String diagnosisDate)?  $default,) {final _that = this;
 switch (_that) {
 case _ChronicDisease() when $default != null:
-return $default(_that.diseaseName,_that.description,_that.diagnosisDate);case _:
+return $default(_that.id,_that.diseaseName,_that.description,_that.diagnosisDate);case _:
   return null;
 
 }
@@ -480,9 +484,10 @@ return $default(_that.diseaseName,_that.description,_that.diagnosisDate);case _:
 @JsonSerializable()
 
 class _ChronicDisease implements ChronicDisease {
-   _ChronicDisease({this.diseaseName = '', this.description = '', this.diagnosisDate = ''});
+   _ChronicDisease({this.id = 0, this.diseaseName = '', this.description = '', this.diagnosisDate = ''});
   factory _ChronicDisease.fromJson(Map<String, dynamic> json) => _$ChronicDiseaseFromJson(json);
 
+@override@JsonKey() final  int id;
 @override@JsonKey() final  String diseaseName;
 @override@JsonKey() final  String description;
 @override@JsonKey() final  String diagnosisDate;
@@ -500,16 +505,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChronicDisease&&(identical(other.diseaseName, diseaseName) || other.diseaseName == diseaseName)&&(identical(other.description, description) || other.description == description)&&(identical(other.diagnosisDate, diagnosisDate) || other.diagnosisDate == diagnosisDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChronicDisease&&(identical(other.id, id) || other.id == id)&&(identical(other.diseaseName, diseaseName) || other.diseaseName == diseaseName)&&(identical(other.description, description) || other.description == description)&&(identical(other.diagnosisDate, diagnosisDate) || other.diagnosisDate == diagnosisDate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,diseaseName,description,diagnosisDate);
+int get hashCode => Object.hash(runtimeType,id,diseaseName,description,diagnosisDate);
 
 @override
 String toString() {
-  return 'ChronicDisease(diseaseName: $diseaseName, description: $description, diagnosisDate: $diagnosisDate)';
+  return 'ChronicDisease(id: $id, diseaseName: $diseaseName, description: $description, diagnosisDate: $diagnosisDate)';
 }
 
 
@@ -520,7 +525,7 @@ abstract mixin class _$ChronicDiseaseCopyWith<$Res> implements $ChronicDiseaseCo
   factory _$ChronicDiseaseCopyWith(_ChronicDisease value, $Res Function(_ChronicDisease) _then) = __$ChronicDiseaseCopyWithImpl;
 @override @useResult
 $Res call({
- String diseaseName, String description, String diagnosisDate
+ int id, String diseaseName, String description, String diagnosisDate
 });
 
 
@@ -537,9 +542,10 @@ class __$ChronicDiseaseCopyWithImpl<$Res>
 
 /// Create a copy of ChronicDisease
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? diseaseName = null,Object? description = null,Object? diagnosisDate = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? diseaseName = null,Object? description = null,Object? diagnosisDate = null,}) {
   return _then(_ChronicDisease(
-diseaseName: null == diseaseName ? _self.diseaseName : diseaseName // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,diseaseName: null == diseaseName ? _self.diseaseName : diseaseName // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,diagnosisDate: null == diagnosisDate ? _self.diagnosisDate : diagnosisDate // ignore: cast_nullable_to_non_nullable
 as String,
@@ -553,7 +559,7 @@ as String,
 /// @nodoc
 mixin _$Surgery {
 
- String get surgeryName; String get description; String get surgeryDate; String get hospital; String get surgeon;
+ int get id; String get surgeryName; String get description; String get surgeryDate; String get hospital; String get surgeon;
 /// Create a copy of Surgery
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -566,16 +572,16 @@ $SurgeryCopyWith<Surgery> get copyWith => _$SurgeryCopyWithImpl<Surgery>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Surgery&&(identical(other.surgeryName, surgeryName) || other.surgeryName == surgeryName)&&(identical(other.description, description) || other.description == description)&&(identical(other.surgeryDate, surgeryDate) || other.surgeryDate == surgeryDate)&&(identical(other.hospital, hospital) || other.hospital == hospital)&&(identical(other.surgeon, surgeon) || other.surgeon == surgeon));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Surgery&&(identical(other.id, id) || other.id == id)&&(identical(other.surgeryName, surgeryName) || other.surgeryName == surgeryName)&&(identical(other.description, description) || other.description == description)&&(identical(other.surgeryDate, surgeryDate) || other.surgeryDate == surgeryDate)&&(identical(other.hospital, hospital) || other.hospital == hospital)&&(identical(other.surgeon, surgeon) || other.surgeon == surgeon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,surgeryName,description,surgeryDate,hospital,surgeon);
+int get hashCode => Object.hash(runtimeType,id,surgeryName,description,surgeryDate,hospital,surgeon);
 
 @override
 String toString() {
-  return 'Surgery(surgeryName: $surgeryName, description: $description, surgeryDate: $surgeryDate, hospital: $hospital, surgeon: $surgeon)';
+  return 'Surgery(id: $id, surgeryName: $surgeryName, description: $description, surgeryDate: $surgeryDate, hospital: $hospital, surgeon: $surgeon)';
 }
 
 
@@ -586,7 +592,7 @@ abstract mixin class $SurgeryCopyWith<$Res>  {
   factory $SurgeryCopyWith(Surgery value, $Res Function(Surgery) _then) = _$SurgeryCopyWithImpl;
 @useResult
 $Res call({
- String surgeryName, String description, String surgeryDate, String hospital, String surgeon
+ int id, String surgeryName, String description, String surgeryDate, String hospital, String surgeon
 });
 
 
@@ -603,9 +609,10 @@ class _$SurgeryCopyWithImpl<$Res>
 
 /// Create a copy of Surgery
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? surgeryName = null,Object? description = null,Object? surgeryDate = null,Object? hospital = null,Object? surgeon = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? surgeryName = null,Object? description = null,Object? surgeryDate = null,Object? hospital = null,Object? surgeon = null,}) {
   return _then(_self.copyWith(
-surgeryName: null == surgeryName ? _self.surgeryName : surgeryName // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,surgeryName: null == surgeryName ? _self.surgeryName : surgeryName // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,surgeryDate: null == surgeryDate ? _self.surgeryDate : surgeryDate // ignore: cast_nullable_to_non_nullable
 as String,hospital: null == hospital ? _self.hospital : hospital // ignore: cast_nullable_to_non_nullable
@@ -695,10 +702,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String surgeryName,  String description,  String surgeryDate,  String hospital,  String surgeon)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String surgeryName,  String description,  String surgeryDate,  String hospital,  String surgeon)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Surgery() when $default != null:
-return $default(_that.surgeryName,_that.description,_that.surgeryDate,_that.hospital,_that.surgeon);case _:
+return $default(_that.id,_that.surgeryName,_that.description,_that.surgeryDate,_that.hospital,_that.surgeon);case _:
   return orElse();
 
 }
@@ -716,10 +723,10 @@ return $default(_that.surgeryName,_that.description,_that.surgeryDate,_that.hosp
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String surgeryName,  String description,  String surgeryDate,  String hospital,  String surgeon)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String surgeryName,  String description,  String surgeryDate,  String hospital,  String surgeon)  $default,) {final _that = this;
 switch (_that) {
 case _Surgery():
-return $default(_that.surgeryName,_that.description,_that.surgeryDate,_that.hospital,_that.surgeon);case _:
+return $default(_that.id,_that.surgeryName,_that.description,_that.surgeryDate,_that.hospital,_that.surgeon);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -736,10 +743,10 @@ return $default(_that.surgeryName,_that.description,_that.surgeryDate,_that.hosp
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String surgeryName,  String description,  String surgeryDate,  String hospital,  String surgeon)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String surgeryName,  String description,  String surgeryDate,  String hospital,  String surgeon)?  $default,) {final _that = this;
 switch (_that) {
 case _Surgery() when $default != null:
-return $default(_that.surgeryName,_that.description,_that.surgeryDate,_that.hospital,_that.surgeon);case _:
+return $default(_that.id,_that.surgeryName,_that.description,_that.surgeryDate,_that.hospital,_that.surgeon);case _:
   return null;
 
 }
@@ -751,9 +758,10 @@ return $default(_that.surgeryName,_that.description,_that.surgeryDate,_that.hosp
 @JsonSerializable()
 
 class _Surgery implements Surgery {
-   _Surgery({this.surgeryName = '', this.description = '', this.surgeryDate = '', this.hospital = '', this.surgeon = ''});
+   _Surgery({this.id = 0, this.surgeryName = '', this.description = '', this.surgeryDate = '', this.hospital = '', this.surgeon = ''});
   factory _Surgery.fromJson(Map<String, dynamic> json) => _$SurgeryFromJson(json);
 
+@override@JsonKey() final  int id;
 @override@JsonKey() final  String surgeryName;
 @override@JsonKey() final  String description;
 @override@JsonKey() final  String surgeryDate;
@@ -773,16 +781,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Surgery&&(identical(other.surgeryName, surgeryName) || other.surgeryName == surgeryName)&&(identical(other.description, description) || other.description == description)&&(identical(other.surgeryDate, surgeryDate) || other.surgeryDate == surgeryDate)&&(identical(other.hospital, hospital) || other.hospital == hospital)&&(identical(other.surgeon, surgeon) || other.surgeon == surgeon));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Surgery&&(identical(other.id, id) || other.id == id)&&(identical(other.surgeryName, surgeryName) || other.surgeryName == surgeryName)&&(identical(other.description, description) || other.description == description)&&(identical(other.surgeryDate, surgeryDate) || other.surgeryDate == surgeryDate)&&(identical(other.hospital, hospital) || other.hospital == hospital)&&(identical(other.surgeon, surgeon) || other.surgeon == surgeon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,surgeryName,description,surgeryDate,hospital,surgeon);
+int get hashCode => Object.hash(runtimeType,id,surgeryName,description,surgeryDate,hospital,surgeon);
 
 @override
 String toString() {
-  return 'Surgery(surgeryName: $surgeryName, description: $description, surgeryDate: $surgeryDate, hospital: $hospital, surgeon: $surgeon)';
+  return 'Surgery(id: $id, surgeryName: $surgeryName, description: $description, surgeryDate: $surgeryDate, hospital: $hospital, surgeon: $surgeon)';
 }
 
 
@@ -793,7 +801,7 @@ abstract mixin class _$SurgeryCopyWith<$Res> implements $SurgeryCopyWith<$Res> {
   factory _$SurgeryCopyWith(_Surgery value, $Res Function(_Surgery) _then) = __$SurgeryCopyWithImpl;
 @override @useResult
 $Res call({
- String surgeryName, String description, String surgeryDate, String hospital, String surgeon
+ int id, String surgeryName, String description, String surgeryDate, String hospital, String surgeon
 });
 
 
@@ -810,9 +818,10 @@ class __$SurgeryCopyWithImpl<$Res>
 
 /// Create a copy of Surgery
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? surgeryName = null,Object? description = null,Object? surgeryDate = null,Object? hospital = null,Object? surgeon = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? surgeryName = null,Object? description = null,Object? surgeryDate = null,Object? hospital = null,Object? surgeon = null,}) {
   return _then(_Surgery(
-surgeryName: null == surgeryName ? _self.surgeryName : surgeryName // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,surgeryName: null == surgeryName ? _self.surgeryName : surgeryName // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,surgeryDate: null == surgeryDate ? _self.surgeryDate : surgeryDate // ignore: cast_nullable_to_non_nullable
 as String,hospital: null == hospital ? _self.hospital : hospital // ignore: cast_nullable_to_non_nullable
@@ -828,7 +837,7 @@ as String,
 /// @nodoc
 mixin _$CurrentMedication {
 
- String get medicationName; String get dosage; String get frequency; String get duration; String get instructions;
+ int get id; String get medicationName; String get dosage; String get frequency; String get duration; String get instructions;
 /// Create a copy of CurrentMedication
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -841,16 +850,16 @@ $CurrentMedicationCopyWith<CurrentMedication> get copyWith => _$CurrentMedicatio
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CurrentMedication&&(identical(other.medicationName, medicationName) || other.medicationName == medicationName)&&(identical(other.dosage, dosage) || other.dosage == dosage)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.instructions, instructions) || other.instructions == instructions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CurrentMedication&&(identical(other.id, id) || other.id == id)&&(identical(other.medicationName, medicationName) || other.medicationName == medicationName)&&(identical(other.dosage, dosage) || other.dosage == dosage)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.instructions, instructions) || other.instructions == instructions));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,medicationName,dosage,frequency,duration,instructions);
+int get hashCode => Object.hash(runtimeType,id,medicationName,dosage,frequency,duration,instructions);
 
 @override
 String toString() {
-  return 'CurrentMedication(medicationName: $medicationName, dosage: $dosage, frequency: $frequency, duration: $duration, instructions: $instructions)';
+  return 'CurrentMedication(id: $id, medicationName: $medicationName, dosage: $dosage, frequency: $frequency, duration: $duration, instructions: $instructions)';
 }
 
 
@@ -861,7 +870,7 @@ abstract mixin class $CurrentMedicationCopyWith<$Res>  {
   factory $CurrentMedicationCopyWith(CurrentMedication value, $Res Function(CurrentMedication) _then) = _$CurrentMedicationCopyWithImpl;
 @useResult
 $Res call({
- String medicationName, String dosage, String frequency, String duration, String instructions
+ int id, String medicationName, String dosage, String frequency, String duration, String instructions
 });
 
 
@@ -878,9 +887,10 @@ class _$CurrentMedicationCopyWithImpl<$Res>
 
 /// Create a copy of CurrentMedication
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? medicationName = null,Object? dosage = null,Object? frequency = null,Object? duration = null,Object? instructions = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? medicationName = null,Object? dosage = null,Object? frequency = null,Object? duration = null,Object? instructions = null,}) {
   return _then(_self.copyWith(
-medicationName: null == medicationName ? _self.medicationName : medicationName // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,medicationName: null == medicationName ? _self.medicationName : medicationName // ignore: cast_nullable_to_non_nullable
 as String,dosage: null == dosage ? _self.dosage : dosage // ignore: cast_nullable_to_non_nullable
 as String,frequency: null == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
 as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
@@ -970,10 +980,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String medicationName,  String dosage,  String frequency,  String duration,  String instructions)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String medicationName,  String dosage,  String frequency,  String duration,  String instructions)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CurrentMedication() when $default != null:
-return $default(_that.medicationName,_that.dosage,_that.frequency,_that.duration,_that.instructions);case _:
+return $default(_that.id,_that.medicationName,_that.dosage,_that.frequency,_that.duration,_that.instructions);case _:
   return orElse();
 
 }
@@ -991,10 +1001,10 @@ return $default(_that.medicationName,_that.dosage,_that.frequency,_that.duration
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String medicationName,  String dosage,  String frequency,  String duration,  String instructions)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String medicationName,  String dosage,  String frequency,  String duration,  String instructions)  $default,) {final _that = this;
 switch (_that) {
 case _CurrentMedication():
-return $default(_that.medicationName,_that.dosage,_that.frequency,_that.duration,_that.instructions);case _:
+return $default(_that.id,_that.medicationName,_that.dosage,_that.frequency,_that.duration,_that.instructions);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1011,10 +1021,10 @@ return $default(_that.medicationName,_that.dosage,_that.frequency,_that.duration
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String medicationName,  String dosage,  String frequency,  String duration,  String instructions)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String medicationName,  String dosage,  String frequency,  String duration,  String instructions)?  $default,) {final _that = this;
 switch (_that) {
 case _CurrentMedication() when $default != null:
-return $default(_that.medicationName,_that.dosage,_that.frequency,_that.duration,_that.instructions);case _:
+return $default(_that.id,_that.medicationName,_that.dosage,_that.frequency,_that.duration,_that.instructions);case _:
   return null;
 
 }
@@ -1026,9 +1036,10 @@ return $default(_that.medicationName,_that.dosage,_that.frequency,_that.duration
 @JsonSerializable()
 
 class _CurrentMedication implements CurrentMedication {
-   _CurrentMedication({this.medicationName = '', this.dosage = '', this.frequency = '', this.duration = '', this.instructions = ''});
+   _CurrentMedication({this.id = 0, this.medicationName = '', this.dosage = '', this.frequency = '', this.duration = '', this.instructions = ''});
   factory _CurrentMedication.fromJson(Map<String, dynamic> json) => _$CurrentMedicationFromJson(json);
 
+@override@JsonKey() final  int id;
 @override@JsonKey() final  String medicationName;
 @override@JsonKey() final  String dosage;
 @override@JsonKey() final  String frequency;
@@ -1048,16 +1059,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CurrentMedication&&(identical(other.medicationName, medicationName) || other.medicationName == medicationName)&&(identical(other.dosage, dosage) || other.dosage == dosage)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.instructions, instructions) || other.instructions == instructions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CurrentMedication&&(identical(other.id, id) || other.id == id)&&(identical(other.medicationName, medicationName) || other.medicationName == medicationName)&&(identical(other.dosage, dosage) || other.dosage == dosage)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.instructions, instructions) || other.instructions == instructions));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,medicationName,dosage,frequency,duration,instructions);
+int get hashCode => Object.hash(runtimeType,id,medicationName,dosage,frequency,duration,instructions);
 
 @override
 String toString() {
-  return 'CurrentMedication(medicationName: $medicationName, dosage: $dosage, frequency: $frequency, duration: $duration, instructions: $instructions)';
+  return 'CurrentMedication(id: $id, medicationName: $medicationName, dosage: $dosage, frequency: $frequency, duration: $duration, instructions: $instructions)';
 }
 
 
@@ -1068,7 +1079,7 @@ abstract mixin class _$CurrentMedicationCopyWith<$Res> implements $CurrentMedica
   factory _$CurrentMedicationCopyWith(_CurrentMedication value, $Res Function(_CurrentMedication) _then) = __$CurrentMedicationCopyWithImpl;
 @override @useResult
 $Res call({
- String medicationName, String dosage, String frequency, String duration, String instructions
+ int id, String medicationName, String dosage, String frequency, String duration, String instructions
 });
 
 
@@ -1085,9 +1096,10 @@ class __$CurrentMedicationCopyWithImpl<$Res>
 
 /// Create a copy of CurrentMedication
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? medicationName = null,Object? dosage = null,Object? frequency = null,Object? duration = null,Object? instructions = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? medicationName = null,Object? dosage = null,Object? frequency = null,Object? duration = null,Object? instructions = null,}) {
   return _then(_CurrentMedication(
-medicationName: null == medicationName ? _self.medicationName : medicationName // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,medicationName: null == medicationName ? _self.medicationName : medicationName // ignore: cast_nullable_to_non_nullable
 as String,dosage: null == dosage ? _self.dosage : dosage // ignore: cast_nullable_to_non_nullable
 as String,frequency: null == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
 as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable

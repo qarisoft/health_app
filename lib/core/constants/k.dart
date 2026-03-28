@@ -3,9 +3,9 @@
 // const bool DEV_ENV = false;
 const bool DEV_ENV = true;
 
-const version = 1087;
-const String AUTH_KEY = 'AUTH_KEY$version';
-const String AUTH_TYPE_KEY = 'AUTH_TYPE_KEY$version';
+// const version = 1087;
+// const String AUTH_KEY = 'AUTH_KEY$version';
+// const String AUTH_TYPE_KEY = 'AUTH_TYPE_KEY$version';
 const String DOCTOR_KEY = 'doctor';
 const String ADMIN_KEY = 'admin';
 const String PHARMACIST_KEY = 'pharmacist';
@@ -60,14 +60,7 @@ enum UserType {
   }
 }
 
-// const api = '192.168.43.183';
-// const api = 'http://192.168.43.183:5137';
-// const api = '192.168.1.102';
-
 class K {
-  // TODO Change this Url
-  // static const String baseUrl = "http://$api:5137/api";
-
   //
   static const String loginUrl = "/auth/login";
   static const String pingUrl = "/App_Check/ping";

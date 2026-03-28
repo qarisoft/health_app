@@ -24,6 +24,7 @@ import 'package:health_app/features/doctor/data/requests/home.dart'
     show RecentPatient;
 import 'package:health_app/features/doctor/data/responses/insights.dart';
 import 'package:health_app/features/home/data/responses/initialize_profile_response.dart';
+import 'package:health_app/features/home/data/responses/patient_full_profile.dart';
 import 'package:health_app/features/pharmacist/data/requests/profile.dart';
 import 'package:health_app/features/pharmacist/data/responses/drugs_interaction.dart';
 import 'package:health_app/features/pharmacist/data/responses/prescription.dart';
@@ -388,6 +389,15 @@ class AppRepositories {
   }
 
   Future<void> fetchPatientProfile() async {}
+
+  Future<ErrorOr<PatientFullProfile>> getPatientFullProfile() async {
+    return await handleDioRequest(
+      request: api.getPatientFullProfile,
+      fromJson: (p1) {
+        return PatientFullProfile.fromJson(p1);
+      },
+    );
+  }
 
   Future<void> _getPatientProfile() async {
     try {

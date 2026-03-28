@@ -7,12 +7,14 @@ part of 'models.dart';
 // **************************************************************************
 
 _Allergy _$AllergyFromJson(Map<String, dynamic> json) => _Allergy(
+  id: (json['id'] as num?)?.toInt() ?? 0,
   allergenName: json['allergenName'] as String? ?? '',
   reaction: json['reaction'] as String? ?? '',
   severity: json['severity'] as String? ?? '',
 );
 
 Map<String, dynamic> _$AllergyToJson(_Allergy instance) => <String, dynamic>{
+  'id': instance.id,
   'allergenName': instance.allergenName,
   'reaction': instance.reaction,
   'severity': instance.severity,
@@ -20,6 +22,7 @@ Map<String, dynamic> _$AllergyToJson(_Allergy instance) => <String, dynamic>{
 
 _ChronicDisease _$ChronicDiseaseFromJson(Map<String, dynamic> json) =>
     _ChronicDisease(
+      id: (json['id'] as num?)?.toInt() ?? 0,
       diseaseName: json['diseaseName'] as String? ?? '',
       description: json['description'] as String? ?? '',
       diagnosisDate: json['diagnosisDate'] as String? ?? '',
@@ -27,12 +30,14 @@ _ChronicDisease _$ChronicDiseaseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ChronicDiseaseToJson(_ChronicDisease instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'diseaseName': instance.diseaseName,
       'description': instance.description,
       'diagnosisDate': instance.diagnosisDate,
     };
 
 _Surgery _$SurgeryFromJson(Map<String, dynamic> json) => _Surgery(
+  id: (json['id'] as num?)?.toInt() ?? 0,
   surgeryName: json['surgeryName'] as String? ?? '',
   description: json['description'] as String? ?? '',
   surgeryDate: json['surgeryDate'] as String? ?? '',
@@ -41,6 +46,7 @@ _Surgery _$SurgeryFromJson(Map<String, dynamic> json) => _Surgery(
 );
 
 Map<String, dynamic> _$SurgeryToJson(_Surgery instance) => <String, dynamic>{
+  'id': instance.id,
   'surgeryName': instance.surgeryName,
   'description': instance.description,
   'surgeryDate': instance.surgeryDate,
@@ -50,6 +56,7 @@ Map<String, dynamic> _$SurgeryToJson(_Surgery instance) => <String, dynamic>{
 
 _CurrentMedication _$CurrentMedicationFromJson(Map<String, dynamic> json) =>
     _CurrentMedication(
+      id: (json['id'] as num?)?.toInt() ?? 0,
       medicationName: json['medicationName'] as String? ?? '',
       dosage: json['dosage'] as String? ?? '',
       frequency: json['frequency'] as String? ?? '',
@@ -59,6 +66,7 @@ _CurrentMedication _$CurrentMedicationFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CurrentMedicationToJson(_CurrentMedication instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'medicationName': instance.medicationName,
       'dosage': instance.dosage,
       'frequency': instance.frequency,

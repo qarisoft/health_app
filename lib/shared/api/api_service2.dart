@@ -120,6 +120,11 @@ class ApiService {
   // DOCTOR
   // ===============================================================
 
+  Future<Map<String, dynamic>> getPatientFullProfile() async {
+    final response = await _dio.get('/Patient/full-profile');
+    return _handleResponse(response);
+  }
+
   Future<Map<String, dynamic>> getDoctorProfile() async {
     final response = await _dio.get('/Doctor/profile');
     return _handleResponse(response);
@@ -227,7 +232,8 @@ class ApiService {
     final response = await _dio.get('/Patient/prescriptions');
     return _handleListResponse(response);
   }
-  Future<Map<String,dynamic>> getPatientDashboardSummary() async {
+
+  Future<Map<String, dynamic>> getPatientDashboardSummary() async {
     final response = await _dio.get('/Patient/dashboard-summary');
     return _handleResponse(response);
   }

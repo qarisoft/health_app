@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health_app/accounts_provider.dart';
 import 'package:health_app/auth_state.dart';
 import 'package:health_app/core/constants/k.dart';
+import 'package:health_app/core/router/app_routes.dart';
 import 'package:health_app/di.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart'
     show Doctor;
@@ -586,7 +587,8 @@ class NoAuthScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/login'),
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, AppRoutes.login),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
@@ -597,7 +599,10 @@ class NoAuthScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/register'),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, AppRoutes.login);
+                    Navigator.pushNamed(context, AppRoutes.register);
+                  },
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),

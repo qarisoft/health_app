@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_app/core/error/app_error.dart';
 import 'package:health_app/features/auth/domain/models/patient.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../di.dart' show appRepo;
 import 'p.dart';
 
 class InitializeProfilePage2 extends ConsumerStatefulWidget {
@@ -211,7 +215,15 @@ class _InitializeProfilePage2State
                 Expanded(
                   flex: 2,
                   child: ElevatedButton(
-                    onPressed: () => _handleNext(currentStep),
+                    onPressed: () async {
+                      final a = await appRepo.getPatientFullProfile();
+                      a.whenOrNull(
+                        success: (d) {
+                          xlog(jsonEncode(d.toJson()));
+                        },
+                      );
+                      // _handleNext(currentStep);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: currentStep == 1
                           ? Colors.green

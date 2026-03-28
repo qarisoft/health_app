@@ -7,7 +7,7 @@ import 'package:health_app/accounts_provider.dart';
 import '../../../../shared/ex.dart';
 import '../../../../shared/pages/profile/profile_page.dart'
     show ProfilePageBuilder, ProfileAccount;
-import 'initialize_profile/page2.dart' show InitializeProfilePage2;
+import 'edit_profile.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -29,12 +29,13 @@ class ProfilePage extends ConsumerWidget {
       ),
       onEditProfile: () {
         context.to(
-          InitializeProfilePage2(
-            onBackPressed: () {
-              ref.invalidateAllAuthProviders();
-              // context.pop();
-            },
-          ),
+          PatientFullProfilePage(),
+          // InitializeProfilePage2(
+          //   onBackPressed: () {
+          //     ref.invalidateAllAuthProviders();
+          //     // context.pop();
+          //   },
+          // ),
         );
       },
     );
