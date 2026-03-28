@@ -110,19 +110,9 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
   }
 
   goback2() {
-    // Navigator.of(context).popUntil((o) => o.isFirst);
-    // context.mayPop().whenComplete(() {
-    //   context.mayPop().whenComplete(() {
-    //     context.mayPop().whenComplete(() {
-    //       ref.invalidate(allAcountsProvider);
-    //     });
-    //   });
-    // });
     ref.invalidate(allAcountsProvider);
     ref.invalidate(patientFullProfileProvider);
-    ref.invalidateAllAuthProviders();
     Navigator.of(context).pushReplacementNamed(AppRoutes.patientHome);
-    // Navigator.of(context).
   }
 
   void _submitForm() async {

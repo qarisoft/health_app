@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'accounts_provider.dart';
+part of 'p.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,52 +9,53 @@ part of 'accounts_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(AllAcounts)
-const allAcountsProvider = AllAcountsProvider._();
+@ProviderFor(PatientSelectedPageIndex)
+const patientSelectedPageIndexProvider = PatientSelectedPageIndexProvider._();
 
-final class AllAcountsProvider
-    extends $NotifierProvider<AllAcounts, AllAcountsState> {
-  const AllAcountsProvider._()
+final class PatientSelectedPageIndexProvider
+    extends $NotifierProvider<PatientSelectedPageIndex, int> {
+  const PatientSelectedPageIndexProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'allAcountsProvider',
+        name: r'patientSelectedPageIndexProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$allAcountsHash();
+  String debugGetCreateSourceHash() => _$patientSelectedPageIndexHash();
 
   @$internal
   @override
-  AllAcounts create() => AllAcounts();
+  PatientSelectedPageIndex create() => PatientSelectedPageIndex();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AllAcountsState value) {
+  Override overrideWithValue(int value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<AllAcountsState>(value),
+      providerOverride: $SyncValueProvider<int>(value),
     );
   }
 }
 
-String _$allAcountsHash() => r'a8b9a17743792f651f62c07949038100332d83ec';
+String _$patientSelectedPageIndexHash() =>
+    r'6729f24a9474e0b2fbd2571e6374547de9e8aebf';
 
-abstract class _$AllAcounts extends $Notifier<AllAcountsState> {
-  AllAcountsState build();
+abstract class _$PatientSelectedPageIndex extends $Notifier<int> {
+  int build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AllAcountsState, AllAcountsState>;
+    final ref = this.ref as $Ref<int, int>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AllAcountsState, AllAcountsState>,
-              AllAcountsState,
+              AnyNotifier<int, int>,
+              int,
               Object?,
               Object?
             >;

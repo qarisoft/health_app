@@ -8,10 +8,13 @@ import 'package:health_app/features/home/ui/pages/prescriptions_page.dart';
 import 'package:health_app/features/home/ui/pages/qr.dart';
 import 'package:health_app/shared/ex.dart';
 import 'package:health_app/shared/widgets/dialog/app_dialog2.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import './profile.dart';
 import 'home_page.dart';
 import 'patient_emergency_screen.dart' show EmergenciesScreen;
+
+part 'p.g.dart';
 
 // medicalrec
 // emergency
@@ -48,18 +51,34 @@ class MainPatientPage extends ConsumerWidget {
 //     return InitializeProfilePage2(onBackPressed: onBackPressed);
 //   }
 // }
+// @riverpod
+// int patientSelectedPageIndex (Ref ref) {
+//   return 0;
+// }
 
-class HomePage extends StatefulWidget {
+@riverpod
+class PatientSelectedPageIndex extends _$PatientSelectedPageIndex {
+  @override
+  int build() {
+    return 0;
+  }
+
+  setPageIndex(int a) {
+    state = a;
+  }
+}
+
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   //  _HomePageState();
-  int _selectedIndex = 0;
-  final PageController _pageController = PageController();
+  // int _selectedIndex = 0;
+  // final PageController _pageController = PageController();
   Map<String, dynamic> healthData = {
     'steps': 8423,
     'calories': 420,
@@ -69,39 +88,32 @@ class _HomePageState extends State<HomePage> {
     'weight': 68.5,
   };
 
-  // Sample health data
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = ref.watch(patientSelectedPageIndexProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
-      // backgroundColor: Color(0xFFF8FAFD),
-      body: PageView(
-        controller: _pageController,
-        children: [
-          MyHomePage(),
-          EmergenciesScreen(),
 
-          PatientPrescriptionsScreen(),
-          ProfilePage(),
-        ],
-      ),
+      // backgroundColor: Color(0xFFF8FAFD),
+      body: [
+        MyHomePage(),
+        EmergenciesScreen(),
+
+        PatientPrescriptionsScreen(),
+        ProfilePage(),
+      ][selectedIndex],
 
       // Bottom Navigation Bar
-      bottomNavigationBar: _buildBottomNavBar(),
+      bottomNavigationBar: _buildBottomNavBar(selectedIndex),
 
       // Floating Action Button for Quick Add
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           AppDialog().loading(message: context.tr.loading);
-          final dio = appRepo.getDio();
-          final res0 = await dio.get('/Patient/emergency-screen');
-          xlog(res0);
+          // final dio = appRepo.getDio();
+          // final res0 = await dio.get('/Patient/emergency-screen');
+          // xlog(res0);
 
           final res = await appRepo.generateQr();
           AppDialog().dismiss();
@@ -146,7 +158,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildBottomNavBar() {
+  Widget _buildBottomNavBar(int selectedIndex) {
     return BottomAppBar(
       shape: CircularNotchedRectangle(),
       notchMargin: 8,
@@ -155,31 +167,48 @@ class _HomePageState extends State<HomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(Icons.home, context.tr.home, 0),
-            _buildNavItem(Icons.bar_chart, context.tr.emergencyPage, 1),
+            _buildNavItem(Icons.home, context.tr.home, 0, selectedIndex),
+            _buildNavItem(
+              Icons.bar_chart,
+              context.tr.emergencyPage,
+              1,
+              selectedIndex,
+            ),
             SizedBox(width: 40), // Space for FAB
-            _buildNavItem(Icons.fitness_center, context.tr.prescriptions, 2),
-            _buildNavItem(Icons.person, context.tr.profilePage, 3),
+            _buildNavItem(
+              Icons.fitness_center,
+              context.tr.prescriptions,
+              2,
+              selectedIndex,
+            ),
+            _buildNavItem(
+              Icons.person,
+              context.tr.profilePage,
+              3,
+              selectedIndex,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, int index) {
+  Widget _buildNavItem(
+    IconData icon,
+    String label,
+    int index,
+    int selectedIndex,
+  ) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _selectedIndex = index;
-        });
-        _pageController.jumpToPage(index);
+        ref.read(patientSelectedPageIndexProvider.notifier).setPageIndex(index);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             icon,
-            color: _selectedIndex == index
+            color: selectedIndex == index
                 ? Color(0xFF4A6FFF)
                 : Color(0xFF8A8A8A),
             size: 28,
@@ -189,7 +218,7 @@ class _HomePageState extends State<HomePage> {
             label,
             style: TextStyle(
               fontSize: 12,
-              color: _selectedIndex == index
+              color: selectedIndex == index
                   ? Color(0xFF4A6FFF)
                   : Color(0xFF8A8A8A),
             ),
