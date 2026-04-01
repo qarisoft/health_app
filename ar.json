@@ -1038,7 +1038,7 @@
   },
   "noPrescriptions": "لا توجد وصفات طبية",
   "noPrescriptionsDescription": "يبدو أنك لم تقم بإضافة أي وصفات طبية بعد. ابدأ بإنشاء وصفتك الأولى.",
-  "createNewPrescription": "إنشاء وصفة طبية جديدة",
+  "createNewPrescription": "بحث عن وصفة",
   "serverDownMessage": "الخادم غير متوفر حالياً. يرجى التحقق من اتصالك أو المحاولة لاحقاً.",
   "connectionError": "حدث خطأ أثناء الاتصال. يرجى التحقق من الإنترنت.",
   "connecting": "جاري الاتصال بالخادم الآمن...",
